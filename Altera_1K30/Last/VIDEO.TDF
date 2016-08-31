@@ -1,0 +1,287 @@
+
+	TITLE "Video-controller";
+
+PARAMETERS
+	(
+	MODE= "SPECTRUM"
+	);
+
+SUBDESIGN video
+	(
+	CLK42		: INPUT;
+
+	CT[5..0]	: OUTPUT;
+	CTH[5..0]	: OUTPUT;
+	CTV[8..0]	: OUTPUT;
+	CTF[6..0]	: OUTPUT;
+
+	BLANK		: OUTPUT;
+
+	START_UP	: INPUT;
+	COPY_SINC_H	: INPUT;
+	COPY_SINC_V	: INPUT;
+
+	WR			: INPUT;
+
+	VAI[19..0]	: INPUT;	-- input screen adress
+
+	VAO[15..0]	: OUTPUT;
+
+	D[7..0]		: INPUT;
+
+	VDO0[7..0]	: OUTPUT;
+	VDO1[7..0]	: OUTPUT;
+	VDO2[7..0]	: OUTPUT;
+	VDO3[7..0]	: OUTPUT;
+
+	VDM0[7..0]	: INPUT;
+	VDM1[7..0]	: INPUT;
+	VDM2[7..0]	: INPUT;
+	VDM3[7..0]	: INPUT;
+
+	V_WR[3..0]	: OUTPUT;
+	V_CS[1..0]	: OUTPUT;
+	WR_PIX		: OUTPUT;
+
+	ZX_COLOR[3..0]	: OUTPUT;
+
+	DIR_PORT[7..0]	: INPUT;
+	ZX_PORT[7..0]	: INPUT;
+%
+	bit0	- Spectrum SCREEN Switch
+	bit1	- Spectrum Adress MODE
+	bit2	- Write to Spectrum Screen OFF
+	bit3	- MODE page 0/1
+
+	bit7..5	- Border
+%
+
+	)
+VARIABLE
+
+	CT[5..0]	: DFFE;
+	CTH[5..0]	: DFFE;
+	CTV[8..0]	: DFFE;
+	CTF[6..0]	: DFF;
+
+	VXA[19..0]	: DFFE;
+
+	VXD0[7..0]	: DFFE;
+	VXD1[7..0]	: DFFE;
+	VXD2[7..0]	: DFFE;
+	VXD3[7..0]	: DFFE;
+
+	E_WR		: NODE;
+
+	BLANK		: NODE;
+	BORD		: NODE;
+	INTT_T		: NODE;
+
+	VLA[17..0]	: DFF;
+	SVA[17..0]	: NODE;
+
+	V_CS[1..0]	: DFF;
+	VCM[2..0]	: DFF;
+	TSN_W3		: DFF;
+	V_WE		: DFF;
+
+	D_PIC0[7..0]	: DFF;
+	D_PIC0_[7..0]	: NODE;
+
+	LWR_PIC		: NODE;
+	LWR_COL		: NODE;
+
+	WR_PIC		: DFF;
+	WR_COL		: DFF;
+	LD_PIC		: NODE;
+
+	BRVA[10..0]	: NODE;
+	DCOL[7..0]	: DFF;
+
+	MXWE		: NODE;
+--	MXCE		: NODE;
+
+	AX128		: NODE;
+
+	BRD[2..0]	: NODE;
+
+	ZX_COL[3..0]	: LCELL;
+
+	ZXA15		: NODE;
+	ZXS[5..0]	: NODE;
+	ZX_SCREEN	: NODE;
+	SCR128		: NODE;
+
+BEGIN
+
+	DEFAULTS
+		V_CS[].d	= VCC; V_WR[]		= VCC; TSN_W3.d		= VCC;
+		V_WE.d		= VCC; WR_COL.d		= VCC; WR_PIC.d		= VCC;
+	END DEFAULTS;
+
+	ZX_COLOR[] = ZX_COL[];
+
+--	=== Sinc-counts GENERATOR ============================================
+
+	CT[].clrn	= START_UP;
+
+	-- set CTH to 41 (29h)
+	CTH[2..1].clrn	= !COPY_SINC_H;
+	CTH[4].clrn		= !COPY_SINC_H;
+	CTH[0].prn		= !COPY_SINC_H;
+	CTH[3].prn		= !COPY_SINC_H;
+	CTH[5].prn		= !COPY_SINC_H;
+
+	-- set CTV to 0F8h
+	CTV[2..0].clrn	= !COPY_SINC_V;
+	CTV[7..3].prn	= !COPY_SINC_V;
+	CTV[8].clrn		= !COPY_SINC_V;
+
+	CT[5..0].clk	= CLK42;
+	CTH[5..0].clk	= CLK42;
+	CTV[8..0].clk	= CLK42;
+
+	CT[1..0].ena	= VCC;
+	CASE CT[2..0] IS
+		WHEN 0 => CT[2..0] = 1;
+		WHEN 1 => CT[2..0] = 2;
+		WHEN 2 => CT[2..0] = 4;
+		WHEN 3 => CT[2..0] = 4;
+		WHEN 4 => CT[2..0] = 5;
+		WHEN 5 => CT[2..0] = 6;
+		WHEN 6 => CT[2..0] = 0;
+		WHEN 7 => CT[2..0] = 0;
+	END CASE;
+
+	CT[5..3].ena	= CT1;
+	CT[5..3]		= CT[5..3]+1;
+
+	CTH[].ena		= CT1 & DFF((CT[5..2] == 14),CLK42,,);
+	CTV[].ena		= CT1 & DFF((CT[5..2] == 14 & (CTH[] == 55)),CLK42,,);
+
+	IF CTH[] == 55 THEN
+		CTH[]	= GND;
+	ELSE
+		CTH[]	= CTH[] + 1;
+	END IF;
+
+	IF CTV[] == 319 THEN
+		CTV[]	= GND;
+	ELSE
+		CTV[]	= CTV[] + 1;
+	END IF;
+
+	CTF[].clk	= CTV8;
+	CTF[]		= CTF[]+1;
+
+--	==== Video ==========================================================
+
+	ZXS[]		= ZX_PORT[5..0];	-- pages ZX Screens
+	ZX_SCREEN	= ZX_PORT6;			-- enable ZX Screen write
+	ZXA15		= ZX_PORT7;			-- ZX A15' line
+
+	SCR128		= DIR_PORT0;
+
+	WR_PIX	= LCELL(TSN_W3);
+
+	VXA[].clk  = CLK42; VXA[].ena  = !E_WR;
+	VXD0[].clk = CLK42; VXD0[].ena = !E_WR;	VXD0[] = D[];	VDO0[]	= VXD0[];
+	VXD1[].clk = CLK42; VXD1[].ena = !E_WR;	VXD1[] = D[];	VDO1[]	= VXD1[];
+	VXD2[].clk = CLK42; VXD2[].ena = !E_WR;	VXD2[] = D[];	VDO2[]	= VXD2[];
+	VXD3[].clk = CLK42; VXD3[].ena = !E_WR;	VXD3[] = D[];	VDO3[]	= VXD3[];
+
+	BRD[]		= DIR_PORT[7..5];
+
+	VCM[].clk	= CLK42;
+	TSN_W3.clk	= CLK42;
+	V_CS[].clk	= CLK42;
+	V_WE.clk	= CLK42;
+	VLA[].clk	= CLK42;
+
+	E_WR	= DFF(WR,CLK42,,START_UP);
+
+IF MODE == "SPECTRUM" GENERATE
+
+	VXA[]  = VAI[];
+
+	BLANK	= !DFF(CTH5 & !CTH4,CTH2,,!DFF(CTV7 & CTV6,CTV5,,));
+	BORD	= DFF((CTV8 or (CTV7 & CTV6) or CTH5),LWR_PIC,,);
+
+	MXWE	= DFF(((DFF(E_WR,CLK42,,) or !ZX_SCREEN) & MXWE),CLK42,,V_WE);
+
+	CASE CT[2..0] IS
+		WHEN B"110" => VCM[2..0].d = 5;
+		WHEN B"000" => VCM[2..0].d = 1;
+		WHEN B"001" => VCM[2..0].d = 4;
+		WHEN B"010" => VCM[2..0].d = 3;
+		WHEN B"100" => VCM[2..0].d = 2;
+		WHEN B"101" => VCM[2..0].d = 0;
+	END CASE;
+
+	CASE VCM[1..0] IS
+		WHEN 0 =>
+			VLA[].d	= (BRVA[7..0],VCC,VCC,VCC,VCC,VCC,BRVA[10..8],VCC,VCC);
+			V_CS[].d = (VCC,GND);
+			TSN_W3.d	= VCM2;
+		WHEN 1 =>
+			WR_PIC.d	= !VCM2;
+			WR_COL.d	= VCM2;
+
+			VLA[].d	= SVA[];
+			V_CS[].d = (VCC,GND);
+		WHEN 2,3 =>
+
+			VLA[]	= (VXA[7..0],GND,GND,VXA15,VXA[12..8],VCC,VCC);
+			V_CS[].d = (VCC,GND);
+			V_WE.d	= MXWE;
+	END CASE;
+
+	V_CS1.prn	= GND;
+	V_CS0.clrn	= GND;
+
+	SVA[17..10] = (CTV[5..3],CTH[4..0]);
+	SVA[9..8] = GND;
+	SVA[7] = SCR128;
+
+	CASE VCM2 IS
+		WHEN B"0" => % ZX-atr adress %	(SVA[6..2])	= (VCC,VCC,GND,CTV[7..6]);
+		WHEN B"1" => % ZX-pic adress %	(SVA[6..2])	= (CTV[7..6],CTV[2..0]);
+	END CASE;
+	SVA[1..0] = VCC;
+
+	VAO[]	= VLA[17..2];
+
+	WR_PIC.clk = CLK42; WR_COL.clk = CLK42;
+
+	LWR_PIC		= LCELL(WR_PIC);
+	LWR_COL		= LCELL(WR_COL);
+
+	D_PIC0[].clk	= (LWR_PIC);
+
+	IF LD_PIC THEN D_PIC0[].d = VDM0[]; ELSE D_PIC0[].d = (D_PIC0[6..0],GND); END IF;
+
+	LD_PIC		= LCELL(CT[5..3] == B"000");
+
+	DCOL[].clk	= (LWR_COL);
+	IF BORD THEN
+		DCOL[].d	= (B"00",BRD[2..0],BRD[2..0]);
+	ELSE
+		DCOL[].d	= VDM0[];
+	END IF;
+	DCOL[].clrn	= BLANK;
+
+	BRVA[7..0] = DCOL[];
+	BRVA[10..8]		= (VCC,CTF4,DFF(D_PIC0[7],CLK42,,));
+
+	CASE BRVA[9..7] IS
+		WHEN 0,1,4,7 => ZX_COL[] = (BRVA[6],BRVA[5..3]);
+		WHEN 2,3,6,5 => ZX_COL[] = (BRVA[6],BRVA[2..0]);
+	END CASE;
+
+	V_WE.prn	= LCELL(DFF(V_WE,!CLK42,,));
+
+	V_WR[]	= LCELL(V_WE) or B"1110";
+
+END GENERATE;	-- end "spectrum" mode
+
+END;

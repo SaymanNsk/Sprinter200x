@@ -1,0 +1,80 @@
+--
+--	Kempston Mouse for ZX-Spectrum		(c) 2001 Ivan Mak
+--
+
+	TITLE "Sp-Mouse";
+
+SUBDESIGN mouse2
+	(
+	MOUSE_D		: INPUT;
+	CLK			: INPUT;
+	A[15..0]	: INPUT;
+	D[7..0]		: BIDIR;
+	/IO,/RD,/WR	: INPUT;
+	MOUSE_ENA	: OUTPUT;
+	)
+VARIABLE
+
+	SUM_X[7..0]	: DFFE;
+	SUM_Y[7..0]	: DFFE;
+	CT[3..0]	: DFF;
+	RG[9..0]	: DFFE;
+	STATE[1..0]	: DFFE;
+	RGK[5..0]	: DFFE;
+	MOUSE_IMP	: NODE;
+	DDX[7..0]	: NODE;
+	DDY[7..0]	: NODE;
+	KEMPS[7..0]	: NODE;
+	MOUSE_DD	: NODE;
+
+BEGIN
+
+	CT[].clk	= CLK;
+
+	MOUSE_IMP	= MOUSE_D xor !DFF(MOUSE_D,CLK,,);
+
+	CT[].clrn	= MOUSE_IMP;
+
+	IF CT[] == 12 	THEN CT[] = GND;
+					ELSE CT[] = CT[]+1;	END IF;
+
+	RG[].clk	= CLK;
+	RG[].ena	= (CT[] == 4) or !RG0;
+	RG[].d		= ((MOUSE_D,RG[9..1]) or !RG0);
+	RG[].prn	= VCC;
+
+--	RG_PRN		= RG[0];
+
+	STATE[].ena	= !RG0;		STATE[].clk	= CLK;
+
+	STATE[].d	= (STATE0,RG7);
+
+	RGK[].clk	= CLK;
+	RGK[].ena	= (RG7 & !RG0);
+	RGK[].d		= RG[6..1];
+
+	DDX[] = (RGK[1..0],RG[6..1]);
+	DDY[] = (RGK[3..2],RG[6..1]);
+
+	SUM_X[].ena	= LCELL(!RG7 & (STATE[] == 1) & !RG0);
+	SUM_Y[].ena	= LCELL(!RG7 & (STATE[] == 2) & !RG0);
+
+	SUM_X[].clk	= CLK;
+	SUM_Y[].clk	= CLK;
+
+	SUM_X[]		= SUM_X[] + (DDX7,DDX7,DDX[]);
+	SUM_Y[]		= SUM_Y[] + (DDY7,DDY7,DDY[]);
+
+	CASE (A10,A8) IS
+		WHEN 0,2 => KEMPS[] = (B"111111",!RGK[1..0]);
+		WHEN 1 => 	KEMPS[] = SUM_X[];
+		WHEN 3 => 	KEMPS[] = SUM_Y[];
+	END CASE;
+
+	MOUSE_ENA	= (A[] == B"111XXXXX11011111") & !/IO & !/RD;
+
+	FOR i in 0 to 7 GENERATE
+		D[i] = TRI(KEMPS[i],MOUSE_ENA);
+	END GENERATE;
+
+END;

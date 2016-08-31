@@ -1,0 +1,676 @@
+
+	TITLE "Video-controller";
+
+INCLUDE "lpm_ram_dp";
+
+PARAMETERS
+	(
+	MODE = "SPRINTER",
+	MOUSE = "NO",
+	HOR_PLACE = H"50",
+	VER_PLACE = H"91"   -- 122h/2
+	);
+
+SUBDESIGN video2
+	(
+	CLK42		: INPUT;
+
+	CT[5..0]	: OUTPUT;
+	CTH[5..0]	: OUTPUT;
+	CTV[8..0]	: OUTPUT;
+	CTF[6..0]	: OUTPUT;
+
+	BLANK		: OUTPUT;
+
+	START_UP	: INPUT;
+	COPY_SINC_H	: INPUT;
+	COPY_SINC_V	: INPUT;
+
+	WR			: INPUT;
+
+	VAI[19..0]	: INPUT;	-- input screen adress
+
+	VAO[15..0]	: OUTPUT;
+
+	D[7..0]		: INPUT;
+	MDI[15..0]	: INPUT;
+
+	VDO0[7..0]	: OUTPUT;
+	VDO1[7..0]	: OUTPUT;
+	VDO2[7..0]	: OUTPUT;
+	VDO3[7..0]	: OUTPUT;
+
+	VDM0[7..0]	: INPUT;
+	VDM1[7..0]	: INPUT;
+	VDM2[7..0]	: INPUT;
+	VDM3[7..0]	: INPUT;
+
+	V_WR[3..0]	: OUTPUT;
+	V_WEN[3..0]	: OUTPUT;
+
+	V_CS[1..0]	: OUTPUT;
+	WR_PIX		: OUTPUT;
+
+--	ZX_COLOR[3..0]	: OUTPUT;
+
+	ZX_PORT[7..0]	: INPUT;
+	DIR_PORT[7..0]	: INPUT;
+
+%
+	bit0	- Spectrum SCREEN Switch
+	bit1	- Spectrum Adress MODE
+	bit2	- Write to Spectrum Screen OFF
+	bit3	- MODE page 0/1
+	bit4	- MODE on/off screen
+
+	bit7..5	- Border
+%
+
+	INTT		: OUTPUT;
+
+	DOUBLE_CAS	: INPUT;
+
+	MOUSE_X[9..0]	: INPUT;
+	MOUSE_Y[9..0]	: INPUT;
+
+
+	)
+VARIABLE
+
+	CLK84		: NODE;
+	CLK84_X		: NODE;
+	CLK84_Y		: NODE;
+
+	ZX_COLOR[3..0]	: NODE;
+
+	CT[5..0]	: DFFE;
+	CTH[5..0]	: DFFE;
+	CTV[8..0]	: DFFE;
+	CTF[6..0]	: DFF;
+
+	VXA[19..0]	: DFFE;
+
+	VXD0[7..0]	: DFFE;
+	VXD1[7..0]	: DFFE;
+	VXD2[7..0]	: DFFE;
+	VXD3[7..0]	: DFFE;
+
+	E_WR		: NODE;
+	E_WRD		: NODE;
+
+	BLANK		: NODE;
+	BORD		: NODE;
+--	INTT_T		: NODE;
+	INTTX		: NODE;
+
+	VLA[17..0]	: DFF;
+--	SVA[17..0]	: NODE;
+	SVA[17..0]	: DFF;
+--	RSVA[8..0]	: LCELL;
+	RSVA[8..0]	: NODE;
+--	RSVA[8..0]	: DFF;
+
+	V_CST[1..0]	: DFF;
+	VCM[2..0]	: DFF;
+	TSN_W3		: DFF;
+	V_WE		: DFF;
+	V_WEX		: DFF;
+
+	V_WEM		: NODE;
+	V_WEM2		: NODE;
+	V_WRM		: NODE;
+	V_WRM2		: NODE;
+
+	V_WEMM		: NODE;
+	V_WEMMM		: NODE;
+	V_WEMMN		: NODE;
+	V_WEMMO		: NODE;
+	V_WET[3..0]	: DFF;
+
+	D_PIC0[7..0]	: DFFE;
+--	D_PIC0_[7..0]	: LCELL;
+
+	D_PIC0_[7..0]	: DFFE;
+	D_PIC1_[7..0]	: DFFE;
+	D_PIC2_[7..0]	: DFFE;
+	D_PIC3_[7..0]	: DFFE;
+
+	D_PICX_[7..0]	: NODE;
+
+	LWR_PIC		: NODE;
+	LWR_COL		: NODE;
+
+	WR_PIC		: DFF;
+	WR_COL		: DFF;
+	LD_PIC		: NODE;
+
+	RBRVA[10..8]: DFF;
+	BRVA[7..0]	: DFF;
+	DCOL[7..0]	: DFFE;
+
+	MXWE		: NODE;
+--	MXCE		: NODE;
+
+	AX128		: NODE;
+
+	BRD[2..0]	: NODE;
+
+	ZX_COL[3..0]	: LCELL;
+
+	ZXA15		: NODE;
+	ZXS[5..0]	: NODE;
+	ZX_SCREEN	: NODE;
+	SCR128		: NODE;
+
+	MODE0[7..0]		: DFFE;
+	MODE1[7..0]		: DFFE;
+	MODE2[7..0]		: DFFE;
+--	MODE3[7..0]		: DFF;
+
+	WR_MODE		: DFF;
+	LWR_MODE	: NODE;
+	X_MODE[7..4]: NODE;
+	X_MODE_BOND	: NODE;
+
+--	M_CTV[2..0]	: DFF;
+--	M_CT[5..3]  : DFF;
+	M_CTV[2..0]	: LCELL;
+	M_CT[5..3]  : LCELL;
+
+	DOUBLE		: DFFE;
+
+	PIC_CLK		: NODE;
+
+	MS_X[9..0]	: DFF;
+	MS_Y[9..0]	: DFF;
+
+	MS_POINT	: NODE;
+	MS_POINT2	: NODE;
+	MS_PNT		: NODE;
+
+	MS_DAT		: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8,LPM_FILE="MOUSE.MIF");
+
+	SCR_ENA		: DFFE;
+	V_WR_[3..0]	: LCELL;
+	V_WEY[3..0]	: LCELL;
+
+	V_WE_R		: NODE;
+
+	V_CSX[3..0]	: NODE;
+
+	V_EN[3..0]	: NODE;
+
+	F_WR		: NODE;
+
+BEGIN
+
+	DEFAULTS
+		WR_MODE.d	= VCC; -- WR_MODE2.d	= VCC; -- WR_MODE2X.d	= VCC;
+		V_CST[].d	= VCC; V_WR[]		= VCC; TSN_W3.d		= VCC;
+		V_WE.d		= VCC; WR_COL.d		= VCC; WR_PIC.d		= VCC;
+		V_WET[].d	= VCC;
+	END DEFAULTS;
+
+	ZX_COLOR[] = ZX_COL[];
+
+--	=== MOUSE counters ========
+
+	MS_X[].clk	= !CT1;
+	CASE LCELL(CTH[5..2] == 12) IS
+		WHEN 0 => MS_X[] = MS_X[] + 1;
+		WHEN 1 => MS_X[] = (!MOUSE_X[9..0]);
+	END CASE;
+
+	MS_Y[].clk	= !CTH5;
+	CASE LCELL(CTV8 & !CTV5 & CTV4) IS
+		WHEN 0 => MS_Y[] = MS_Y[] + 1;
+		WHEN 1 => MS_Y[] = (GND,!MOUSE_Y[8..0]);
+	END CASE;
+
+	MS_PNT = DFF(((MS_X[] == B"100000XXXX") & (MS_Y[] == B"100000XXXX")),CLK42,,);
+
+	MS_DAT.wren 		= GND;
+	MS_DAT.data[] 		= GND;
+	MS_DAT.wraddress[]	= GND;
+	MS_DAT.wrclock		= CLK42;
+	MS_DAT.wrclken		= GND;
+	MS_DAT.rden			= VCC;
+	MS_DAT.rdaddress[]	= (MS_Y[3..0],MS_X[3..0]);
+	MS_DAT.rdclock		= CLK42;
+	MS_DAT.rdclken		= VCC;
+
+	IF MOUSE == "NO" GENERATE
+		MS_POINT	= GND;
+		MS_POINT2	= GND;
+	ELSE GENERATE
+		MS_POINT	= DFF((MS_PNT & MS_DAT.q0),CLK42,,);
+		MS_POINT2	= DFF((MS_PNT & MS_DAT.q1),CLK42,,);
+	END GENERATE;
+
+--	=== Sinc-counts GENERATOR ============================================
+
+--	CT[].clrn	= START_UP;
+
+--	(,CTH[5..0].clrn,CT[5].clrn) = !COPY_SINC_H or HOR_PLACE;
+--	(,CTH[5..0].prn ,CT[5].prn ) = !COPY_SINC_H or !HOR_PLACE;
+
+--	CTV[].clrn = !COPY_SINC_V or VER_PLACE;
+--	CTV[].prn  = !COPY_SINC_V or !VER_PLACE;
+
+	CT[5].clrn		= !COPY_SINC_H;
+
+	-- set CTH to 50 (32h)
+	CTH[0].clrn		= !COPY_SINC_H;
+	CTH[1].prn 		= !COPY_SINC_H;
+	CTH[2].clrn		= !COPY_SINC_H;
+	CTH[3].clrn		= !COPY_SINC_H;
+	CTH[4].prn 		= !COPY_SINC_H;
+	CTH[5].prn		= !COPY_SINC_H;
+
+	-- set CTV to 122h
+	CTV[0].clrn		= !COPY_SINC_V;
+	CTV[1].prn		= !COPY_SINC_V;
+	CTV[3..2].clrn	= !COPY_SINC_V;
+
+	CTV[4].clrn		= !COPY_SINC_V;
+	CTV[5].prn		= !COPY_SINC_V;
+	CTV[7..6].clrn	= !COPY_SINC_V;
+	CTV[8].prn		= !COPY_SINC_V;
+
+	CT[5..0].clk	= CLK42;
+	CTH[5..0].clk	= CLK42;
+	CTV[8..0].clk	= CLK42;
+
+	CT[2..0].ena	= VCC;
+	CASE CT[2..0] IS
+		WHEN 0 => CT[2..0] = 1;
+		WHEN 1 => CT[2..0] = 2;
+		WHEN 2 => CT[2..0] = 4;
+		WHEN 3 => CT[2..0] = 4;
+		WHEN 4 => CT[2..0] = 5;
+		WHEN 5 => CT[2..0] = 6;
+		WHEN 6 => CT[2..0] = 0;
+		WHEN 7 => CT[2..0] = 0;
+	END CASE;
+								  -- for remove sinc jitter
+--	CT[5..3].ena	= DFF(((CT0 & CT2) or (COPY_SINC_H & !CT4)),CLK42,,);
+	CT[5..3].ena	= DFF((CT0 & CT2),CLK42,,);
+	CT[5..3]		= CT[5..3]+1;
+%
+	CASE CT[4..3] IS
+		WHEN 0 => CT[5..3]	= CT[5..3]+1;
+		WHEN 1 => CT[5..3]	= CT[5..3]+1;
+		WHEN 2 => CT[5..3]	= CT[5..3]+1;
+		WHEN 3 => CT[5..3]	= CT[5..3]+1;
+	END CASE;
+%
+	CTH[].ena		= DFF(((CT[5..2] == 15) & CT0),CLK42,,);
+	CTV[].ena		= DFF(((CT[5..2] == 15) & CT0 & (CTH[] == 48)),CLK42,,);
+
+	IF CTH[] == 55 THEN
+		CTH[]	= GND;
+	ELSE
+		CTH[]	= CTH[] + 1;
+	END IF;
+
+	IF CTV[] == 319 THEN
+		CTV[]	= GND;
+	ELSE
+		CTV[]	= CTV[] + 1;
+	END IF;
+
+	CTF[].clk	= CTV8;
+	CTF[]		= CTF[]+1;
+
+--	==== Video ==========================================================
+
+	ZXS[]		= ZX_PORT[5..0];	-- pages ZX Screens
+	ZX_SCREEN	= ZX_PORT6;			-- enable ZX Screen write
+	ZXA15		= ZX_PORT7;			-- ZX A15' line
+
+	SCR128		= DIR_PORT0;
+
+--	WR_PIX	= LCELL(TSN_W3);
+	WR_PIX	= (TSN_W3);
+
+	DOUBLE.clk = CLK42; DOUBLE.ena = !E_WR; DOUBLE	= DOUBLE_CAS;
+	VXA[].clk  = CLK42; VXA[].ena  = !E_WR;
+
+	VXD0[].clk = CLK42; VXD0[].ena = !E_WRD;	VDO0[]	= VXD0[];
+	VXD1[].clk = CLK42; VXD1[].ena = !E_WRD;	VDO1[]	= VXD1[];
+	VXD2[].clk = CLK42; VXD2[].ena = !E_WRD;	VDO2[]	= VXD2[];
+	VXD3[].clk = CLK42; VXD3[].ena = !E_WRD;	VDO3[]	= VXD3[];
+
+--	VXD0[] = D[];
+--	VXD1[] = D[];
+--	VXD2[] = D[];
+--	VXD3[] = D[];
+
+	(VXD0[],VXD1[]) = MDI[];
+	(VXD2[],VXD3[]) = MDI[];
+
+	BRD[]		= DIR_PORT[7..5];
+
+	VCM[].clk	= CLK42;
+	TSN_W3.clk	= CLK42;
+	V_CST[].clk	= CLK42;
+	V_WE.clk	= CLK42;
+	V_WET[].clk	= CLK42;
+	VLA[].clk	= CLK42;
+
+	SCR_ENA.clk	= CLK42;
+	SCR_ENA.ena	= !E_WR;
+	SCR_ENA.d	= !(VAI19 or ZX_SCREEN);
+
+	E_WRD	= DFF(E_WR,CLK42,,);
+	E_WR = LCELL(WR or !(VAI19 or ZX_SCREEN) or !DFF(WR,CLK42,,));
+--	E_WR = LCELL(WR or !DFF(WR,CLK42,,));
+
+--	****************************************************
+
+IF MODE == "SPRINTER" GENERATE
+
+--	VAI[19]	- switch adress mode	1 - graf mode, 0 - spectrum mode
+
+--	MXWE	= DFF(((DFF(E_WR,CLK42,,) or SCR_ENA)  & MXWE),CLK42,,V_WE);
+	MXWE	= DFF(MXWE,CLK42,E_WR,V_WE);
+
+	IF VAI[19] THEN
+		-- in graf mode all 256k(512k) range
+		VXA[]	= VAI[];
+	ELSE
+		-- in spectrum mode 8k/16k range pages
+		VXA[]	= (GND,GND,VAI[7..0],ZXS[4..1],LCELL(ZXS0 xor ZXA15 xor VAI13),VAI[12..8]);
+	END IF;
+
+--	BORD	= DFF((MODE0[7..4] == 15),WR_PIC,,);
+--	BLANK	= DFF((BORD & MODE03 & MODE02),WR_PIC,,);
+--	INTTX 	= DFF((BORD & MODE03 & MODE02 & MODE00),WR_PIC,,);
+
+	BORD	= DFF((MODE0[7..4] == 15),LWR_COL,,);
+	BLANK	= DFF(((BORD & MODE03 & MODE02) or DIR_PORT4),LWR_COL,,);
+	INTTX 	= DFF((BORD & MODE03 & MODE02 & MODE00),LWR_COL,,);
+
+	INTT	= DFF(!(INTTX & (CTV[2..0] == 7)),CT5,,);
+
+--	INTT	= DFF((INTTX or DFF(INTTX,CT5,,)),CT5,,);
+--	INTT	= DFF(!(BLANK & (CTV[2..0] == 7)),CLK42,,MODE0[0]);
+
+	CASE CT[2..0] IS
+		WHEN B"110" => VCM[2..0].d = 5; -- 101
+		WHEN B"000" => VCM[2..0].d = 1; -- 001
+		WHEN B"001" => VCM[2..0].d = 4; -- 100
+		WHEN B"010" => VCM[2..0].d = 3; -- 011
+		WHEN B"100" => VCM[2..0].d = 2; -- 010
+		WHEN B"101" => VCM[2..0].d = 0; -- 000
+	END CASE;
+
+	CASE VCM[1..0] IS
+		WHEN 0 =>
+			VLA[].d	= (BRVA[7..0],VCC,VCC,VCC,VCC,VCC,RBRVA[10..8],GND,GND);
+			V_CST[].d = (VCC,GND);
+			V_WE.d		= VCC;
+			V_WEX.d		= VCC;
+			IF VCM2 THEN
+--				TSN_W3.d  = X_MODE5;
+				TSN_W3.d  = X_MODE_BOND;
+--				V_CST[].d = (VCC,X_MODE5);
+			ELSE
+				TSN_W3.d  = X_MODE_BOND;
+--				V_CST[].d = (VCC,X_MODE_BOND);
+			END IF;
+		WHEN 1 =>
+			WR_PIC.d	= !VCM2;
+			WR_COL.d	= VCM2;
+			VLA[].d		= SVA[];
+			V_CST[].d = (VCC,GND);
+			V_WE.d		= VCC;
+			V_WEX.d		= VCC;
+		WHEN 2 =>
+			VLA[].d		= VXA[17..0];
+			V_CST[].d 	= (!VXA18,VXA18) or MXWE;
+			V_WE.d		= MXWE;
+			V_WEX.d		= GND;
+			V_WET[].d	= MXWE or !((!VXA1 & !VXA0),(!VXA1 & VXA0),(VXA1 & !VXA0),(VXA1 & VXA0));
+		WHEN 3 =>
+			WR_PIC.d	= X_MODE5;
+			VLA[].d		= (DIR_PORT3,CTH[5..0],CT5,VCC,VCC,CTV[8..3],GND,GND);
+			WR_MODE.d	= !(CT[5..3] == B"111") & !(CT4 & CT3 & !MODE0[5]);
+			V_CST[].d 	= (VCC,GND);
+			V_WE.d		= VCC;
+			V_WEX.d		= VCC;
+	END CASE;
+
+--	choose V-RAM komplect
+
+	V_CST1.prn	= GND;
+--	V_CS0.clrn	= GND;
+	V_CST0.prn	= (LCELL(DFF(GND,!CLK42,,!V_CST0)));
+	V_CS1	= VCC;
+--	V_CS0	= LCELL(V_CST0);
+
+	V_CSX0	= LCELL(!CLK42);
+	V_CSX1	= LCELL(V_CSX0);
+	V_CSX2	= LCELL(V_CSX1 & V_CSX0);
+	V_CSX3	= LCELL(V_CSX2);
+
+--	V_CS0	= V_CSX3;
+	V_CS0	= GND;
+
+--	=====================
+
+	SVA[].clk	= CLK42;
+	SVA[9..6]	= MODE0[3..0];
+--	RSVA[].clk	= CLK42;
+	(SVA[12..10],SVA[5..0]) = RSVA[];
+
+--	M_CTV[2..0].clk	= CLK42;
+--	M_CT[5..3].clk	= CLK42;
+	M_CTV[2..0]	= (!MODE2[2] & CTV[2..0]) or MODE2[2] & (MODE2[1],CTV[2..1]);
+	M_CT[5..3]	= (!MODE2[2] & (CT[5],!CT[4..3])) or MODE2[2] & (MODE2[0],!CT[5..4]);
+
+	CASE (!VCM2,MODE0[4]) IS
+--	CASE (!VCM1,MODE0[4]) IS
+		WHEN B"X0" =>
+			--	Graf adress  --
+			RSVA[] = (M_CTV[2..0],MODE1[2..0],M_CT[5..3]);
+			SVA[17..13] = MODE1[7..3];
+
+--			SVA[12..10] = CTV[2..0];
+--			SVA[5..0]	= (MODE1[2..0],CT5,!CT[4..3]);
+		WHEN B"01" =>
+			--	ZX-atr adress  --
+			RSVA[] = (MODE2[2..0],SCR128,VCC,VCC,GND,!MODE0[7..6]);
+			SVA[17..13] = MODE2[7..3];
+
+--			SVA[12..10] = MODE2[2..0];
+--			SVA[5..0]	= (SCR128,VCC,VCC,GND,!MODE0[7..6]);
+		WHEN B"11" =>
+			--	ZX-pic adress  --
+			RSVA[] = (MODE1[2..0],SCR128,MODE0[7..6],CTV2,!CTV1,!CTV0);
+			SVA[17..13] = MODE1[7..3];
+
+--			SVA[12..10] = MODE1[2..0];
+--			SVA[5..0]	= (SCR128,MODE0[7..6],CTV2,!CTV1,!CTV0);
+	END CASE;
+
+--	X_MODE_BOND	= LCELL(LCELL(DCOL[7..4] == 15) & LCELL(DCOL[3..0] == 15) & DFF((MODE0[7] & MODE0[5] & !MODE0[4]),LWR_COL,VCC,VCC));
+	X_MODE_BOND	= GND;
+
+--	LD_PIC	= LCELL((MODE0[5] & DFF((CT[5..3] == B"000"),CLK42,,)) or (!MODE0[5] & DFF((CT[4..2] == B"000"),CLK42,,)));
+	LD_PIC	= LCELL((MODE0[5] & DFF((CT[5..3] == B"000"),CLK42,,)) or (!MODE0[5] & DFF((CT[4..2] == B"000"),CLK42,,)));
+
+--	CASE (DFF(VLA1,!CLK42,,),DFF(VLA0,!CLK42,,)) IS
+
+--	D_PIC0_[].clk	= !CLK42;
+--	D_PIC1_[].clk	= !CLK42;
+--	D_PIC2_[].clk	= !CLK42;
+--	D_PIC3_[].clk	= !CLK42;
+
+--	PIC_CLK			= LCELL(LCELL(CLK42));
+	PIC_CLK			= !CLK42;
+
+	D_PIC0_[].clk	= PIC_CLK;
+	D_PIC1_[].clk	= PIC_CLK;
+	D_PIC2_[].clk	= PIC_CLK;
+	D_PIC3_[].clk	= PIC_CLK;
+
+	D_PIC0_[] = VDM0[];
+	D_PIC1_[] = VDM1[];
+	D_PIC2_[] = VDM2[];
+	D_PIC3_[] = VDM3[];
+
+	CASE (DFF(VLA1,CLK42,,),DFF(VLA0,CLK42,,)) IS
+		WHEN 0 => D_PICX_[] = D_PIC0_[];
+		WHEN 1 => D_PICX_[] = D_PIC1_[];
+		WHEN 2 => D_PICX_[] = D_PIC2_[];
+		WHEN 3 => D_PICX_[] = D_PIC3_[];
+	END CASE;
+
+	MODE0[].ena 	= VCC;
+	MODE1[].ena 	= VCC;
+	MODE2[].ena 	= VCC;
+	MODE0[].clk		= LWR_MODE;
+	MODE1[].clk		= LWR_MODE;
+	MODE2[].clk		= LWR_MODE;
+	MODE0[].d		= VDM3[];
+	MODE1[].d		= VDM2[];
+	MODE2[].d		= VDM1[];
+	LWR_MODE		= LCELL(LCELL(WR_MODE));
+%
+	MODE0[].ena 	= LWR_MODE;
+	MODE1[].ena 	= LWR_MODE;
+	MODE2[].ena 	= LWR_MODE;
+	MODE0[].clk		= CLK42;
+	MODE1[].clk		= CLK42;
+	MODE2[].clk		= CLK42;
+	MODE0[].d		= D_PIC3_[];
+	MODE1[].d		= D_PIC2_[];
+	MODE2[].d		= D_PIC1_[];
+	LWR_MODE		= DFF(!WR_MODE,CLK42,,);
+%
+	X_MODE7	= DFF(MODE0[7],LWR_COL,,);
+	X_MODE6	= DFF(MODE0[6],LWR_COL,,);
+	X_MODE5	= DFF(MODE0[5],LWR_COL,,);
+	X_MODE4 = DFF(MODE0[4],LWR_COL,,);
+
+	VAO[]	= VLA[17..2];
+
+	WR_PIC.clk		= CLK42;
+	WR_COL.clk		= CLK42;
+	WR_MODE.clk		= CLK42;
+
+--	LWR_PIC		= LCELL(LCELL(WR_PIC));
+--	LWR_COL		= LCELL(LCELL(WR_COL));
+--	LWR_PIC		= LCELL(WR_PIC);
+--	LWR_COL		= LCELL(WR_COL);
+	LWR_PIC		= DFF(WR_PIC,CLK42,,);
+	LWR_COL		= DFF(WR_COL,CLK42,,);
+
+--	D_PIC0[].ena	= VCC;
+--	D_PIC0[].clk	= (LWR_PIC);
+	D_PIC0[].ena	= !LWR_PIC;
+	D_PIC0[].clk	= CLK42;
+
+	IF LD_PIC THEN
+--		D_PIC0[] = D_PIC0_[];
+		D_PIC0[] = D_PICX_[];
+	ELSE
+		D_PIC0[] = (D_PIC0[6..0],GND);
+	END IF;
+
+--	DCOL[].clk	= (LWR_COL);
+	DCOL[].ena	= !LWR_COL;
+	DCOL[].clk	= CLK42;
+
+	IF DFF((MODE0[7..4] == 15),WR_PIC,,) THEN
+		DCOL[].d	= (B"00",BRD[2..0],BRD[2..0]);
+	ELSE
+--		DCOL[].d	= D_PIC0_[];
+		DCOL[].d	= D_PICX_[];
+	END IF;
+
+	DCOL[].clrn	= !BLANK;
+
+	BRVA[].clk	= CLK42;
+	BRVA[].clrn	= !MS_POINT;
+	BRVA[].prn	= !MS_POINT2;
+
+--	CASE (LCELL(X_MODE4 or X_MODE5),CT2) IS
+	CASE (DFF((MODE0[4] or MODE0[5]),LWR_COL,,),CT2) IS
+		WHEN B"1X" => BRVA[7..0] = DCOL[];
+		WHEN B"01" => BRVA[7..0] = (B"0000",DCOL[7..4]);
+		WHEN B"00" => BRVA[7..0] = (B"0000",DCOL[3..0]);
+	END CASE;
+
+--	BRVA[10..8] = (x_mode4,RBRVA[9..8]);
+	RBRVA[].clk = CLK42;
+
+	CASE (BORD,X_MODE4) IS
+		WHEN B"X0" => RBRVA[10..8].d = (GND,X_MODE[7..6]);
+		WHEN B"X1" => RBRVA[10..8].d = (VCC,(CTF4 & !BLANK),D_PIC0[7]);
+	END CASE;
+
+	RBRVA[9..8].clrn = !BORD;
+	RBRVA[10].prn = !BORD;
+
+	CASE (RBRVA[9..8],BRVA7) IS
+		WHEN 0,1,4,7 => ZX_COL[] = (BRVA[6],BRVA[5..3]);
+		WHEN 2,3,6,5 => ZX_COL[] = (BRVA[6],BRVA[2..0]);
+	END CASE;
+
+--	V_WET[].prn	= LCELL(DFF(GND,!CLK42,,!V_WE));
+--	V_WE.prn	= LCELL(DFF(GND,!CLK42,,!V_WE));
+
+	V_WE_R		= DFF(GND,!CLK42,,!V_WE);
+	V_WE.prn	= V_WE_R;
+	V_WET[].prn	= V_WE_R;
+
+--	V_WR[]	= LCELL(V_WE) or !((!VXA1 & !VXA0),(!VXA1 & VXA0),(VXA1 & !VXA0),(VXA1 & VXA0));
+
+--	V_WR[]	= (V_WE) or !(
+
+	V_WEX.clk	= CLK42;
+--	V_WEX.d		= V_WE;
+--	V_WEX.prn	= (DFF(GND,CLK42,,!V_WEX));
+
+
+	V_WEMMM	= LCELL(V_WE);
+	V_WEMMN	= LCELL(V_WEMMM);
+	V_WEMMO	= LCELL(V_WEMMN);
+	V_WEMM	= LCELL(V_WEMMO);
+
+	V_WRM	= LCELL(V_WEMMN & V_WEMMM);
+	V_WRM2	= LCELL(V_WEMMN & V_WEMMM);
+
+	V_WEM	= LCELL(V_WEMMM & V_WEMMO);
+	V_WEM2	= LCELL(V_WEMMM & V_WEMMO);
+
+	V_EN3	= DFF(!(!VXA1 & (!VXA0 or DOUBLE)),CLK42,F_WR,);
+	V_EN2	= DFF(!(!VXA1 & (VXA0 or DOUBLE)) ,CLK42,F_WR,);
+	V_EN1	= DFF(!(VXA1 & (!VXA0 or DOUBLE)) ,CLK42,F_WR,);
+	V_EN0	= DFF(!(VXA1 & (VXA0 or DOUBLE))  ,CLK42,F_WR,);
+
+	F_WR	= DFF(VCC,V_WE,,);
+
+	V_WR_3	= V_WRM or V_EN3;
+	V_WR_2	= V_WRM2 or V_EN2;
+	V_WR_1	= V_WRM or V_EN1;
+	V_WR_0	= V_WRM or V_EN0;
+
+	V_WEY3	= V_WEM or V_EN3;
+	V_WEY2	= V_WEM2 or V_EN2;
+	V_WEY1	= V_WEM or V_EN1;
+	V_WEY0	= V_WEM or V_EN0;
+
+	V_WR[]	= V_WR_[];
+	V_WEN[]	= V_WEY[];
+
+	CLK84	= LCELL(CLK42 xor CLK84_X);
+	CLK84_X	= DFF(!CLK84_X,CLK84,,);
+	CLK84_Y	= CLK84;
+
+END GENERATE;	-- end "sprinter" mode
+
+
+END;

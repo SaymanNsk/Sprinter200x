@@ -1,0 +1,125 @@
+
+
+	TITLE "CONSOLE";
+
+--PARAMETERS (MODE = "FULL");
+PARAMETERS (MODE = "C80");
+
+SUBDESIGN console
+	(
+
+	CLK42		: INPUT;
+	/RESET		: INPUT;
+	DIR[3..0]	: INPUT;
+	/WR			: INPUT;
+	/READ		: INPUT;
+
+	DI[7..0]	: INPUT;
+--	DO[7..0]	: OUTPUT;
+
+	VA[15..0]	: OUTPUT;
+	VD[31..0]	: OUTPUT;
+	V_WR		: OUTPUT;
+
+	)
+VARIABLE
+
+	HOR_PL[7..0]: DFFE;
+	VER_PL[7..0]: DFFE;
+
+	HOR_L[7..0]	: DFFE;
+	HOR_R[7..0]	: DFFE;
+	VER_L[7..0]	: DFFE;
+	VER_R[7..0]	: DFFE;
+
+	MODE_[7..0]	: DFFE;
+	ATTR_[7..0]	: DFFE;
+	SYMB_[7..0]	: DFFE;
+
+	CMD_[7..0]	: DFFE;
+
+	S1			: NODE;
+	S2			: NODE;
+
+BEGIN
+
+	HOR_PL[].clk= /WR;	VER_PL[].clrn	= /RESET;
+	VER_PL[].clk= /WR;	HOR_PL[].clrn	= /RESET;
+
+	HOR_L[].clk = /WR;  HOR_L[].clrn	= /RESET;
+	HOR_R[].clk = /WR;	HOR_R[].prn		= /RESET;
+	VER_L[].clk = /WR;  VER_L[].clrn	= /RESET;
+	VER_R[].clk = /WR;  VER_R[].prn		= /RESET;
+
+	MODE_[].clk = /WR;  MODE_[].prn		= /RESET;
+	ATTR_[].clk = /WR;  ATTR_[].clrn	= /RESET;
+	SYMB_[].clk = /WR;  SYMB_[].clrn	= /RESET;
+
+	CMD_[].clk	= /WR;	CMD_[].clrn		= /RESET;
+
+	HOR_PL[].ena= LCELL((DIR[] == 0) or (DIR[] == 1));
+	VER_PL[].ena= LCELL(((DIR[] == 0) & S1) or (DIR[] == 2));
+
+	HOR_L[].ena = LCELL(DIR[] == 8);	HOR_L[] = DI[];
+	HOR_R[].ena = LCELL(DIR[] == 9);	HOR_R[] = DI[];
+	VER_L[].ena = LCELL(DIR[] == 10);   VER_L[] = DI[];
+	VER_R[].ena = LCELL(DIR[] == 11);   VER_R[] = DI[];
+
+	MODE_[].ena = LCELL(DIR[] == 12);   MODE_[] = DI[];
+	ATTR_[].ena = LCELL(DIR[] == 13);   ATTR_[] = DI[];
+	SYMB_[].ena = LCELL(DIR[] == 14);   SYMB_[] = DI[];
+
+	CMD_[].ena  = LCELL(DIR[] == 15);	CMD_[] = DI[];
+
+IF MODE == "FULL" GENERATE
+
+	S1 = LCELL(HOR_PL[] == HOR_R[]);
+	S2 = LCELL(VER_PL[] == VER_R[]);
+
+	CASE (DIR0,S1) IS
+		WHEN 0 => HOR_PL[] = HOR_PL[] + 1;
+		WHEN 1 => HOR_PL[] = HOR_L[];
+		WHEN 2,3 => HOR_PL[] = DI[];
+	END CASE;
+
+	CASE (DIR1,(S1 & S2)) IS
+		WHEN 0 => VER_PL[] = VER_PL[] + 1;
+		WHEN 1 => VER_PL[] = VER_L[];
+		WHEN 2,3 => VER_PL[] = DI[];
+	END CASE;
+
+END GENERATE;
+
+IF MODE == "C80" GENERATE
+
+	S1 = LCELL(HOR_PL[6..0] == 79);
+	S2 = LCELL(VER_PL[] == 31);
+
+	CASE (DIR0,S1) IS
+		WHEN 0 => HOR_PL[] = HOR_PL[] + 1;
+		WHEN 1 => HOR_PL[] = (HOR_PL7,B"0000000");
+		WHEN 2,3 => HOR_PL[] = DI[];
+	END CASE;
+
+	CASE (DIR1,(S1 & S2)) IS
+		WHEN 0 => VER_PL[] = VER_PL[] + 1;
+		WHEN 1 => VER_PL[] = GND;
+		WHEN 2,3 => VER_PL[] = DI[];
+	END CASE;
+
+
+END GENERATE;
+
+
+	VA[] = (HOR_PL[],VER_PL[]);
+	CASE CMD_0 IS
+		WHEN 0 => VD[] = (H"00",ATTR_[],DI[],MODE_[]);
+		WHEN 1 => VD[] = (H"00",ATTR_[],SYMB_[],MODE_[]);
+	END CASE;
+
+	V_WR	= /WR or !LCELL(DIR[] == 0);
+
+END;
+
+
+

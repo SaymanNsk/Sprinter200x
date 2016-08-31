@@ -1,0 +1,16 @@
+M: ME editor..
+   me
+0: goto BIOS
+   cd ..\BIOS
+   exit
+1: transtt3..SP2000 -> BIN
+   transtt3.com SP2_1k30.ttf SP2000_t.bin
+2: compile SP2_1K30
+   C:\MAXPLUS2\MAXPLUS2.EXE -compile SP2_1K30
+J: Update 00000000.arj
+   del *.bak
+   del *.cnf
+   del *.db?
+   arj u 00000000.arj
+d: Удалить файлы *.bak
+   del *.bak

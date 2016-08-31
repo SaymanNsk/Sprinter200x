@@ -1,0 +1,1217 @@
+
+	TITLE "Main";
+
+PARAMETERS
+	(
+	UPDATE	= 1,			-- 1 for UPDATE sheet
+	MODE 	= "SPRINTER",	--	or MODE = "SPECTRUM"
+	NMI_ON	= "OFF",		-- "ON" - for use NMI
+	SCREEN_OFF = "NOT_USE"	-- "USE" - for use screen on/off
+	);
+
+INCLUDE "lpm_ram_dp";
+INCLUDE "kbd";
+INCLUDE "video";
+INCLUDE "video2";
+
+INCLUDE	"dcp";
+INCLUDE	"dcp2";
+
+INCLUDE "acceler";
+INCLUDE "ay";
+INCLUDE "mouse";
+
+SUBDESIGN SP2_1K30
+	(
+	TG42		: INPUT;
+	CLKZ1		: OUTPUT;
+
+	/WAIT		: BIDIR;
+	/RESET		: BIDIR;
+	/M1			: INPUT;
+	/RF			: INPUT;
+	/IO			: INPUT;
+	/WR			: INPUT;
+	/RD			: INPUT;
+	/HALT		: INPUT;
+	/MR			: INPUT;
+	A[15..0]	: INPUT;
+	D[7..0]		: BIDIR;
+
+	CS_ROM		: OUTPUT;
+	CS_CASH		: OUTPUT;
+	RA[17..14]	: OUTPUT;
+
+	V_CS[1..0]	: OUTPUT;
+	VA[15..0]	: OUTPUT;
+	V_WR[3..0]	: OUTPUT;
+	VD3[7..0]	: BIDIR;
+	VD2[7..0]	: BIDIR;
+	VD1[7..0]	: BIDIR;
+	VD0[7..0]	: BIDIR;
+
+	WR_COL		: OUTPUT;
+
+	DAC_DATA	: OUTPUT;
+	DAC_WS		: OUTPUT;
+	DAC_BCK		: OUTPUT;
+
+	MD[15..0]	: BIDIR;
+	MA[14..0]	: OUTPUT;
+	RAS_[1..0]	: OUTPUT;
+	CAS_[3..0]	: OUTPUT;
+	/WE			: OUTPUT;
+
+	XACS		: OUTPUT;	-- ROM_WE
+	XA[3..0]	: BIDIR;
+	SXA			: OUTPUT;
+
+	RDXA		: OUTPUT;
+	WR_AWG		: OUTPUT;
+	RD_KMPS		: OUTPUT;
+	WR_DWG		: OUTPUT;
+
+
+
+	)
+VARIABLE
+
+	MS			: MOUSE;
+	KEYS		: KBD;
+	SVIDEO		: VIDEO2 WITH (MODE=MODE);
+
+	DECODE		: DCP WITH (UPDATE=UPDATE);
+--	DECODE		: DCP2;
+
+	ACC			: ACCELER;
+	AY3			: AY;
+
+	CBL			: lpm_ram_dp WITH (lpm_width=16,lpm_widthad=8);
+
+	CT[5..0]	: NODE;
+	CTH[5..0]	: NODE;
+	CTV[8..0]	: NODE;
+	CTF[6..0]	: NODE;
+
+	CLK42		: NODE;
+
+	DD[7..0]	: NODE;
+	D_OUT		: NODE;
+	RD_RAM		: NODE;
+
+	MCA[1..0]	: NODE;
+
+	DVD3[7..0]	: NODE;
+	DVD2[7..0]	: NODE;
+	DVD1[7..0]	: NODE;
+	DVD0[7..0]	: NODE;
+
+	DMD[15..0]	: NODE;
+	DMDX[7..0]	: NODE;
+
+	COPY_SINC_H	: NODE;
+	COPY_SINC_V	: NODE;
+
+	START_UP	: NODE;
+
+	BLANK		: NODE;
+
+--	WGA[1..0]	: NODE; -- to MA[1..0]  / WR_AWG^
+--	FDD_C[2..0]	: NODE; -- to MA[4..2]  / WR_AWG^
+--	HDD_C[3..0]	: NODE; -- to MA[8..5]  / WR_AWG^
+--	HD_A[2..0]	: NODE; -- to MA[11..9] / WR_AWG^
+	NMI_X		: NODE; -- to MA12      / WR_AWG^
+	INT_X		: NODE; -- to MA13      / WR_AWG^
+	TURBO		: NODE; -- to MA14      / WR_AWG^
+	KBD_CX		: NODE; -- to XA0       / WR_AWG^
+	KBD_DX		: NODE; -- to XA1       / WR_AWG^
+	TAPE_OUT	: NODE; -- to XA2       / WR_AWG^
+
+	KBD_CC		: NODE;	-- from XA0 / SXA=0 / RD_XA=0
+	KBD_DD		: NODE;	-- from XA1 / SXA=0 / RD_XA=0
+	TAPE_IN		: NODE; -- from XA2 / SXA=0 / RD_XA=0
+	MOUSE_D		: NODE; -- from XA3 / SXA=0 / RD_XA=0
+
+	FDD_CH		: NODE; -- from XA0 / SXA=1 / RD_XA=0
+	FDD_W		: NODE; -- from XA1 / SXA=1 / RD_XA=0
+	SINC_1		: NODE; -- from XA2 / SXA=1 / RD_XA=0
+	SINC_2		: NODE; -- from XA3 / SXA=1 / RD_XA=0
+	SINC_1M		: NODE;
+	SINC_2M		: NODE;
+
+	WR_TM9		: NODE;
+
+--	====================
+	TEST_SWITCH	: NODE;
+
+	T_SIGNAL	: NODE;
+--	TEST_1		: LCELL;
+--	KTA[7..0]	: LCELL;
+--	KTD[7..0]	: DFF;
+--	KTT			: LCELL;
+
+	K_DATA[10..0]	: NODE;
+	KEY_D[10..0]	: DFF;
+	KEY_WRITE	: NODE;
+	KD[7..0]	: DFF;
+	K_XOR		: NODE;
+	NEXT_K		: NODE;
+
+	RED[7..0]	: NODE;
+	GREEN[7..0]	: NODE;
+	BLUE[7..0]	: NODE;
+
+	BORDER[7..0]	: DFFE;
+	KBD_BLK		: NODE;
+
+	DOS			: NODE;
+	DOS_		: NODE;
+
+	MDR[7..0]	: NODE;
+	DCPP[7..0]	: NODE;
+
+	MDP[7..0]	: DFFE;
+--	MDP[7..0]	: LCELL;
+
+	PDD[7..0]	: LCELL;
+	WR_PORT		: NODE;
+
+	RGMOD[7..0]	: DFFE;
+
+	HDDR[7..0]	: DFFE;
+
+	GLISSER		: NODE;
+	BLK_MR		: NODE;
+	VIDEO_PG	: NODE;
+
+	AUDIO_CH	: NODE;
+
+	CBL_MODE		: NODE;
+	CBL_STEREO		: NODE;
+	CBL_MODE16		: NODE;
+	CBL_INT_ENA		: NODE;
+	CBL_INT			: NODE;
+	CBL_WR			: NODE;
+	CBL_XX[7..0]	: DFFE;
+	CBL_CNT[7..0]	: DFF;
+	CBL_CTX[4..0]	: DFFE;
+	CBL_WA[7..0]	: DFFE;
+	CBL_WAE			: NODE;
+	CBL_IND			: NODE;
+
+	CBL_TAB[4..0]	: LCELL;
+
+	CBL_R[15..0]	: DFFE;
+	CBD[7..0]		: DFFE;
+
+	AUDIO_R[15..0]	: DFFE;
+
+
+	/WAIT_ALL	: NODE;
+
+	BLK_MEM     : NODE;
+
+	SYS_ENA		: NODE;
+	SYS_ENA2	: NODE;
+
+	/SYS		: NODE;
+	SYS_PG		: NODE;
+
+	CS_ISA		: NODE;
+
+	ISA_CASH	: NODE;
+	ISA_A[3..0]	: NODE;
+
+	PRE_ISA		: NODE;
+	PRE_ROM		: NODE;
+	PRE_CASH	: NODE;
+
+	WAIT_ORIG	: NODE;
+	WAIT_ROM 	: NODE;
+	WAIT_ROMX	: NODE;
+	WT_R[2..0]	: DFF;
+
+--	BLK_WAIT	: NODE;
+
+	ISA_A20		: NODE;
+	CASH_ON		: NODE;
+	BLK_MWR2	: NODE;
+
+	ROM_RG[7..0]: DFFE;
+	ROM_WRITE_MODE	: NODE;
+
+	AY_CHS[15..0]	: DFFE;
+
+	SOFT_RESET	: NODE;
+	SOFT_RES[1..0]	: DFF;
+
+	AY_FULL[10..0]	: DFF;
+
+	ALL_MODE[7..0]	: DFFE;
+
+	DOUBLE_CAS		: NODE;
+
+	XACS		: DFF;
+
+	KEMPS[7..0]	: LCELL;
+
+	KEY/KEMS[7..0]	: LCELL;
+	AY/PORTS[7..0]	: LCELL;
+
+	V_WRXX[3..0]: LCELL;
+	V_WRX[3..0]	: LCELL;
+--	V_WRX[3..0]	: NODE;
+
+	KEY_IO		: NODE;
+
+	/IOWR		: NODE;
+	/IORD		: NODE;
+
+	RASX_[1..0]	: NODE;
+	CASX_[3..0]	: NODE;
+	CASXE[1..0]	: NODE;
+	CAS_A		: NODE;
+
+--	ISA_CELL[1..0]	: LCELL;
+
+	T_RDXA		: NODE;
+
+	/WE_OUT		: NODE;
+
+	SINC_HOLD[8..0]	: DFF;
+
+	HOLD[7..0]	: DFFE;
+
+	CS_ROMT		: NODE;
+	CS_CASHT    : NODE;
+
+	ISA_PORT[7..0]	: DFFE;
+
+BEGIN
+
+	CLK42		= TG42;
+
+--	/RESET	= TRI(GND,!DFF((KEYS.kb_reset & START_UP & SOFT_RESET),CLK42,,));
+	-- start_up from SOFT_RESET
+	/RESET	= TRI(GND,!DFF((KEYS.kb_reset & SOFT_RESET),CLK42,,));
+
+--	SOFT_RES[].prn	= DFF((!DECODE.BLK_R or /WR or !(DECODE.PAGE[7..0] == H"A0")),CLK42,,);
+
+	SOFT_RES[].clk	= !CT4;
+	CASE SOFT_RES[] IS
+		WHEN 0,1 => SOFT_RES[] = GND;
+		WHEN 2	 => SOFT_RES[] = 1;
+		WHEN 3	 => SOFT_RES[] = 2;
+	END CASE;
+	SOFT_RESET = (SOFT_RES[] == 0);	-- when no_Z - RESET!
+
+--	===== Spectrum-Ports ===================
+
+	/IOWR			= DFF((/WR or /IO),CLK42,,!/IO);
+	/IORD			= DFF((/RD or /IO),CLK42,,!/IO);
+
+	BORDER[].clk	= /IOWR;
+	BORDER[].ena	= DFF((DCPP[] == B"1100X010"),CLK42,,); -- C2/C8
+	BORDER[].d		= D[];
+
+--	===== keyboard =========================
+
+	KEYS.int_ena	= ALL_MODE0;	-- int in all keys
+	KEYS.ena		= !ALL_MODE0;	-- ZX-Keyboard
+
+	KEYS.clk42	= CLK42;
+	KEYS.clk_k	= DFF(CTH5,CLK42,,);
+	KEYS.kbd_cc	= KBD_CC or !KBD_BLK;
+	KEYS.kbd_dd	= KBD_DD;
+
+	KD[].clk	= CLK42;
+	NEXT_K	= TFF(VCC,KEY_WRITE,,);
+
+	CASE (NEXT_K) IS
+		WHEN 0 => KD[] = H"ED";
+		WHEN 1 => KD[] = (B"00000",CTF[6..4]);
+	END CASE;
+
+	K_XOR	= !(KD7 xor KD6 xor KD5 xor KD4 xor KD3 xor KD2 xor KD1 xor KD0);
+	K_DATA[]	= (VCC,K_XOR,KD[],GND);
+
+	KEY_D[].clk		= KBD_CC;
+	KEY_D[].d		= (GND,KEY_D[10..1]);
+
+	FOR i in 0 to 10 GENERATE
+		KEY_D[i].prn		= K_DATA[i] or KEY_WRITE;
+	END GENERATE;
+	KEY_D[].clrn	= /RESET;
+
+	KEY_WRITE		= DFF((!DFF(CTF1,CLK42,,) or CTF1),CLK42,,);
+
+--	KBD_DX		= KEY_D0;
+--	KBD_BLK		= DFF(VCC,CTV7,KEY_WRITE,);
+
+	KBD_BLK		= VCC;
+	KBD_DX		= GND;
+
+--	========================================
+--	== Data Paths ==========================
+--	========================================
+
+	MDP[].clk	= DECODE./IOMM;
+
+	CASE (DECODE.TYPE[0],(DECODE.HDD_FLIP & DECODE.HDD_DATA)) IS
+		WHEN B"00" => MDP[] = MD[7..0];
+		WHEN B"01" => MDP[] = HDDR[7..0];
+		WHEN B"1X" => MDP[] = MD[15..8];
+	END CASE;
+
+--	HDDR[].clk	= DECODE./IOM;
+
+	HDDR[].clk	= LCELL(/WR & (/RD or DECODE./IOMM));
+	HDDR[].ena  = (DECODE.HDD_DATA & !DECODE./IOM);
+
+	CASE DFF(/WR,DECODE.RAS,,) IS
+		WHEN 0 => HDDR[].d = D[];
+		WHEN 1 => HDDR[].d = MD[15..8];
+	END CASE;
+%
+	CASE (DECODE.MC_END & DECODE.HDD_FLIP) IS
+		WHEN 0 => DMDX[] = (ACC.MDO[7..0]);
+		WHEN 1 => DMDX[] = (HDDR[]);
+	END CASE;
+%
+	DMDX[] = (ACC.MDO[7..0]);
+
+	ACC.HDDR[] 		= HDDR[];
+	ACC.HDD_FLIP	= DECODE.HDD_FLIP;
+
+	CASE DECODE.TYPE0 IS
+		WHEN 0 =>
+			KEY/KEMS[] = (LCELL((KEYS.kbo5 & !CBL_MODE) or (CBL_IND & CBL_MODE)),TAPE_IN,LCELL(CBL_MODE & CTV8),KEYS.kbo[4..0]);
+			AY/PORTS[] = DECODE.DO[];
+		WHEN 1 =>
+			KEY/KEMS[] = KEMPS[];
+			AY/PORTS[] = AY3.DO[];
+	END CASE;
+
+	CASE DECODE.TYPE[2..1] IS
+		WHEN B"11" => PDD[] = MDP[];
+		WHEN B"10" => PDD[] = KEY/KEMS[];
+		WHEN B"01" => PDD[] = AY/PORTS[];
+		WHEN B"00" => PDD[] = VCC;
+	END CASE;
+
+	CASE /IO IS
+		WHEN 1 => DD[] = ACC.DO[];
+		WHEN 0 => DD[] = PDD[];
+	END CASE;
+
+--	D_OUT = !(/IO or /RD or LCELL((DCPP[7..4] == 0) or (DCPP[7..4] == 3))) or RD_RAM;
+	D_OUT = !(/IORD or LCELL((DCPP[7..4] == 0) or (DCPP[7..4] == 3))) or RD_RAM;
+
+	V_WRXX[] = !SVIDEO.V_WEN[];
+
+  	V_WRX3 = !SVIDEO.V_WEN3;
+  	V_WRX2 = !SVIDEO.V_WEN2;
+  	V_WRX1 = !SVIDEO.V_WEN1;
+  	V_WRX0 = !SVIDEO.V_WEN0;
+
+	FOR i IN 0 TO 7 GENERATE
+		D[i]	= TRI(DD[i],D_OUT);
+		VD3[i]	= TRI(DVD3[i],V_WRX3);
+		VD2[i]	= TRI(DVD2[i],V_WRX2);
+		VD1[i]	= TRI(DVD1[i],V_WRX1);
+		VD0[i]	= TRI(DVD0[i],V_WRX0);
+		MD[i]	= TRI(DMDX[i],!/WE_OUT or WR_PORT);
+		MD[i+8]	= TRI(ACC.MDO[i+8],!/WE_OUT or WR_PORT);
+--		MD[i+8]	= TRI(DMDY[i],!/WE or WR_PORT);
+	END GENERATE;
+
+--	========================================
+--	========================================
+--	========================================
+--	========================================
+%
+IF MODE == "SPECTRUM" GENERATE
+
+	TEST_SWITCH = TFF((!KEYS.kb_sh & !KEYS.kb_ctrl),KEYS.kb_F12,,);
+
+	CASE TEST_SWITCH IS
+		WHEN 0 =>
+			KEYS./rf	= /RF;
+			KEYS./io	= /IO;
+			KEYS.a[15..8]	= A[15..8];
+			KEYS./iom	= /IO;
+
+		WHEN 1 =>
+
+			KEYS./rf	= DFF((CT4 or CT5),CT2,,);
+			KEYS./io	= DFF((CT4 or !CT5),CT2,,);
+			KEYS.a[15..8]	= !KTA[];
+			KEYS./iom	= DFF((CT4 or !CT5),CT2,,);
+
+	END CASE;
+
+	CASE TEST_SWITCH IS
+		WHEN 0 =>
+			RED[]	= (SVIDEO.zx_color1 & (VCC,SVIDEO.zx_color3,B"000000"));
+			GREEN[]	= (SVIDEO.zx_color2 & (VCC,SVIDEO.zx_color3,B"000000"));
+			BLUE[]	= (SVIDEO.zx_color0 & (VCC,SVIDEO.zx_color3,B"000000"));
+		WHEN 1 =>
+			RED[]	= (CTH[4..0],CT[5..3]) & CTV[4] & BLANK & T_SIGNAL or TEST_1;
+			GREEN[]	= (CTH[4..0],CT[5..3]) & CTV[5] & BLANK & T_SIGNAL or TEST_1;
+			BLUE[]	= (CTH[4..0],CT[5..3]) & CTV[6] & BLANK & T_SIGNAL or TEST_1;
+	END CASE;
+
+	DVD0[]		= SVIDEO.vdo0[];
+	DVD3[]		= RED[];
+	DVD2[]		= GREEN[];
+	DVD1[]		= BLUE[];
+
+	V_WR0		= SVIDEO.v_wr0;
+	V_WR[3..1]	= WR_COL;
+
+	DECODE.TURBO_HAND	= VCC;
+
+--	===== TEST CODES ============================================
+
+	KTD[].clk	= DFF((CT4 or !CT5),CT2,,);
+	KTD[] = KEYS.kbo[];
+
+	KTA0 = (CTV[5..3] == 0);
+	KTA1 = (CTV[5..3] == 1);
+	KTA2 = (CTV[5..3] == 2);
+	KTA3 = (CTV[5..3] == 3);
+	KTA4 = (CTV[5..3] == 4);
+	KTA5 = (CTV[5..3] == 5);
+	KTA6 = (CTV[5..3] == 6);
+	KTA7 = (CTV[5..3] == 7);
+
+	CASE CTH[2..0] IS
+		WHEN 0 => KTT = KTD0;
+		WHEN 1 => KTT = KTD1;
+		WHEN 2 => KTT = KTD2;
+		WHEN 3 => KTT = KTD3;
+		WHEN 4 => KTT = KTD4;
+		WHEN 5 => KTT = KTD5;
+		WHEN 6 => KTT = KTD6;
+		WHEN 7 => KTT = KTD7;
+	END CASE;
+
+	T_SIGNAL	= DFF(((!CTH5 or TAPE_IN) & (CTH5 or MOUSE_D) & KBD_CC),CLK42,,);
+
+	CASE (CTH[5..3],CTV[8..6]) IS
+		WHEN B"1XXXXX" => TEST_1 = GND;
+		WHEN B"XXX100" => TEST_1 = GND;
+		WHEN B"XXXX11" => TEST_1 = GND;
+		WHEN B"000000" => TEST_1 = TFF(VCC,KEYS.kb_ctrl,,);
+		WHEN B"001000" => TEST_1 = GND;
+		WHEN B"010000" => TEST_1 = GND;
+		WHEN B"011000" => TEST_1 = KTT;
+		WHEN B"000001" => TEST_1 = TFF(VCC,KEYS.kb_alt,,);
+		WHEN B"001001" => TEST_1 = GND;
+		WHEN B"010001" => TEST_1 = GND;
+		WHEN B"011001" => TEST_1 = GND;
+		WHEN B"000010" => TEST_1 = TFF(VCC,KEYS.kb_sh,,);
+		WHEN B"001010" => TEST_1 = GND;
+		WHEN B"010010" => TEST_1 = GND;
+		WHEN B"011010" => TEST_1 = GND;
+	END CASE;
+
+ELSE GENERATE
+%
+	TEST_SWITCH 	= TFF((!KEYS.kb_sh & !KEYS.kb_ctrl & !KEYS.kb_alt),KEYS.kb_F12,,/RESET);
+
+	DECODE.TURBO_HAND	= TEST_SWITCH;
+
+	KEY_IO		= DFFE((/IO or !/M1),CLK42,,,(CT1 & CT2));
+	KEYS./rf	= DFFE((CT2 or !KEY_IO),CLK42,,,CT0);
+	KEYS./iom	= KEY_IO;
+	KEYS./io	= KEY_IO;
+	KEYS./m1	= VCC;
+
+	KEYS.a[15..8]	= A[15..8];
+
+	DVD0[]		= SVIDEO.vdo0[];
+	DVD1[]		= SVIDEO.vdo1[];
+	DVD2[]		= SVIDEO.vdo2[];
+	DVD3[]		= SVIDEO.vdo3[];
+
+	V_WR[3..0]	= SVIDEO.V_WR[];
+%
+END GENERATE;
+%
+--	=====================================================
+--	=====================================================
+
+	SYS_ENA = (!/SYS or ROM_RG4) or
+				(A[15..4] == B"001111111111") or
+				(A[15..4] == B"00000000000X");
+
+--	SYS_ENA2	= DFFE(SYS_ENA,/MR,,,/RF) & DFF((A[7..0] == B"0X111100"),CLK42,,);
+	SYS_ENA2	= DFF((A[7..0] == B"0X111100"),CLK42,,);
+
+	ISA_PORT[].clk	= /IOWR;
+	ISA_PORT[].d	= D[];
+	ISA_PORT[].ena	= DECODE.BLK_R & DFF((DCPP[] == B"1111XXXX"),CLK42,,);
+
+IF (UPDATE == 1) GENERATE
+
+	WAIT_ORIG		= LCELL(/MR or CT5 or ALL_MODE2 or
+						LCELL((!(DECODE.V_RAM & (A14 & A15)) & !(A14 & !A15)) or TURBO));
+
+
+	SOFT_RES[].prn	= !DFF(DFF((LCELL(DECODE.BLK_R & A14 & A15) &
+								LCELL(DECODE.PAGE[7..4] == H"A")),CLK42,,),(/WR or /MR),/RESET,);
+
+	-- /SYS=0 - system ROM on
+	/SYS	= DFFE(!A6,/IOWR,/RESET,,SYS_ENA2);
+
+	-- SYS_PG - system ROM0/ROM1 switch
+	SYS_PG	= DFFE(D0,/IOWR,/RESET,!ROM_RG4,(SYS_ENA2 & !D1));
+
+	-- 0 - write A20 for ISA
+	ISA_A20	= (/IOWR or !DFF((DCPP[] == B"00011011"),CLK42,,)); 	-- 1B
+--	ISA_A20	= VCC;
+
+	-- 1 - CASHE on  IN A,(0FBh/07Bh)
+--	CASH_ON	= DFFE(A7,/IORD,/RESET,,DFF((DCPP[] == H"88"),CLK42,,));-- 88
+	CASH_ON	= DFFE(A7,/IORD,/RESET,,DFF((A[7..0] == B"X1111011"),CLK42,,));
+
+	-- 0 - CS_ISA
+
+	PRE_ISA		= LCELL(!LCELL(ISA_PORT[] == B"1101XXXX") or !DECODE.BLK_R or !A14 or !A15);
+	PRE_ROM		= LCELL(/SYS or A14 or A15 or CASH_ON);
+	PRE_CASH	= LCELL(A14 or A15 or !CASH_ON);
+
+--	BLK_WAIT	= LCELL(LCELL(PRE_CASH or !PRE_ROM) or (/RD & /WR) or /MR);
+
+	WAIT_ROMX	= LCELL(CS_ROM & CS_ISA);
+	WAIT_ROM	= (WAIT_ROMX or DFF((WT_R[] == 0),CLK42,!WAIT_ROMX,));
+	WT_R[].clk	= CLK42;
+	CASE (WAIT_ROMX,WT_R[]) IS
+		WHEN 0 		 => WT_R[] = 0;
+		WHEN B"0001" => WT_R[] = WT_R[] - 1;
+		WHEN B"001X" => WT_R[] = WT_R[] - 1;
+		WHEN B"01XX" => WT_R[] = WT_R[] - 1;
+		WHEN B"1XXX" => WT_R[] = 4;
+	END CASE;
+
+	CS_ISA	 = DFF((!/RF or PRE_ISA),!/MR,,LCELL(CS_ISA or !/MR));
+	CS_ROMT	 = DFF((!/RF or PRE_ROM or !PRE_CASH),!/MR,,LCELL(CS_ROMT or !/MR));
+	CS_CASHT = DFF((!/RF or !PRE_ROM or PRE_CASH),!/MR,,LCELL(CS_CASHT or !/MR));
+
+	CS_ROM	= CS_ROMT;
+
+	CS_CASH	= CS_CASHT & CS_ISA & ISA_A20;
+
+--	CS_ROM	= LCELL(LCELL(PRE_ROM or !PRE_CASH) or (/RD & /WR) or /MR);
+
+--	CS_CASH	= LCELL(LCELL(PRE_CASH or !PRE_ROM) or (/RD & /WR) or /MR) &
+--				   CS_ISA & ISA_A20;
+
+	CASE (PRE_ROM,PRE_CASH) IS
+		WHEN B"00" => ISA_A[] = B"1000";			-- error -> ISA
+		WHEN B"01" => ISA_A[] = ((ROM_RG3 xor !SYS_PG),ROM_RG[2..0]); -- ROM_ADRESS
+		WHEN B"10" => ISA_A[] = (B"01",ROM_RG[1..0]); -- CASHE_ADRESS
+		WHEN B"11" => ISA_A[] = (!PRE_ISA,GND,ISA_PORT[2..1]); 	-- for ISA_A20
+	END CASE;
+	RA[] 		= ISA_A[3..0];
+
+	XACS.clk	= !(/MR or /WR);
+	XACS.d		= (!ROM_RG4 or A14 or A15);
+	XACS.prn	= (XACS or (!/MR & ROM_RG4));
+
+--	XACS.clk	= CLK42;
+--	XACS		= (WAIT_ROM or /WR or A14 or A15);
+--	XACS.prn	= !/MR & ROM_RG4;
+
+	BLK_MEM		= LCELL(!PRE_ROM or !PRE_CASH or !PRE_ISA);
+
+	RD_RAM		= !(/MR or /RD or BLK_MEM);
+
+	BLK_MWR2	= DECODE.RAM or BLK_MEM;
+
+	DECODE.BLK_MEM	= BLK_MEM;
+
+	ROM_RG[].clk	= /IOWR;
+	ROM_RG[].d		= D[];
+	ROM_RG[].ena	= DFF((DCPP[] == H"8F"),CLK42,,) or
+						(!/SYS & DFF((A[7..0] == B"01011100"),CLK42,,)); -- 5C
+	ROM_RG[].clrn	= /RESET;
+
+ELSE GENERATE
+
+	SOFT_RES[].prn	= DFF((!DFF(DECODE.BLK_R,CLK42,,) or /WR or !(DECODE.PAGE[7..4] == H"A")),CLK42,,!/MR);
+
+	WT_R[].clk	= GND;
+	WT_R[] = 0;
+
+	WAIT_ROM		= VCC;
+
+	DECODE.BLK_MEM	= GND;
+
+	BLK_MWR2	= DECODE.BLK_R;
+
+	XACS.clk	= CLK42;
+	CASE ROM_WRITE_MODE IS
+		WHEN 0 =>
+				CS_ROM  = ROM_RG[4] or !/RF or LCELL(DECODE.CS_ROM or /RD or (DECODE.BLK_R & !LCELL(DECODE.PAGE[7..4] == 14)));
+				XACS 	= VCC;
+		WHEN 1 =>
+				CS_ROM  = /MR or !/RF or DFF((/RD & /WR),CLK42,,);
+--				XACS = /MR or DFF((/WR or DECODE.MC_END),!CLK42,,);
+				XACS 	= /MR or DFF(/WR or !DFF(/WR,!CT2,,!/WR),!CT2,,!/WR);
+	END CASE;
+
+--	CS_CASH = !DECODE.BLK_R or !(DECODE.PAGE[7..4] == 15);
+
+--	CS for CASHE & ISA-Slots
+
+	CS_CASH = (DFF(!(DECODE.PAGE[7..4] == B"11X1"),CLK42,,DECODE.BLK_R) &
+
+--	CS for ISA_A20 signal
+
+			LCELL(DECODE./IOM or /WR or !(DCPP[] == B"00011011")) -- 1B
+
+			);
+
+--	Switcher for ISA/CASHE adress
+
+	ISA_CASH = LCELL(DECODE.BLK_R & (DECODE.PAGE[7..4] == B"11X1")) or !/IOWR;
+
+	CASE /IO IS
+		WHEN 0 => 	ISA_A[3..2] = B"00"; 			 -- for Write to A20 port
+					ISA_A[1..0] = DECODE.PAGE[1..0]; -- ANY
+
+		WHEN 1 =>
+--					ISA_A[3..2] = B"10"; 			 -- for ISA Slots
+					ISA_A[3..2] = (!DECODE.PAGE5,DECODE.PAGE5);
+
+--					ISA_A[1..0] = DECODE.PAGE[1..0]; -- ISA select
+					ISA_A[1..0] = (DECODE.PAGE2,DECODE.PAGE1); -- ISA select
+	END CASE;
+
+	RD_RAM	= !(DECODE.CS_RAM or /RD or DECODE.BLK_R);
+
+	CASE ROM_WRITE_MODE IS
+	  WHEN 0 =>
+		CASE (ISA_CASH,DECODE.RAM) IS
+			WHEN 0 => RA[]	= (B"01",A[15..14]); -- for CASHE in RAM
+			WHEN 1 => RA[]	= DECODE.RA[];		-- ROM Adresses
+			WHEN 2,3 => RA[] = ISA_A[3..0];		-- CASHE & ISA
+		END CASE;
+	  WHEN 1 =>
+		RA[] = ROM_RG[3..0];
+	END CASE;
+	ROM_WRITE_MODE	= DFF((ROM_RG[4] & !(A14 or A14)),CLK42,,);
+
+	ROM_RG[].clk	= /IOWR;
+	ROM_RG[].d		= D[];
+	ROM_RG[].ena	= DFF((DCPP[] == H"8F"),CLK42,,);
+	ROM_RG[].clrn	= /RESET;
+
+END GENERATE;
+
+
+--	=====================================================
+--	=====================================================
+
+	RD_KMPS		= DECODE./IOM or /RD or !(DECODE.TYPE[] == 7);
+
+--	WR_PORT		= !(/IO or DFF(!DECODE.MC_END,CLK42,,) or /WR) or !(DECODE.WR_DWG or /IO or /WR);
+
+	WR_PORT		= (!(/IO or /WR) & LCELL(DFF(DECODE.MC_TYPE,CLK42,,)));
+
+--	WR_PORT		= DFF((!(/IO or /WR) & DECODE.MC_TYPE),CLK42,,);
+
+	WR_DWG		= DECODE.WR_DWG;
+
+--	(NMI_X,KBD_CX)	= GND;
+	(KBD_CX)	= GND;
+
+	IF (NMI_ON == "ON") GENERATE
+		NMI_X		= (!KEYS.kb_f12 & KEYS.kb_alt);
+	ELSE GENERATE
+		NMI_X		= GND;
+	END GENERATE;
+
+--	TFF(KEYS.kb_ctrl,KEYS.kb_f12,,);
+
+--	INT_X		= !DFF(GND,CTV8,,((/IO or /M1) & DFF(!INT_X,CTH3,,)));
+
+--	INT_X		= !DFF(GND,SVIDEO.INTT,,((/IO or /M1) & DFF(!INT_X,CTH3,,)));
+
+--	INT_X		= !DFF(GND,(SVIDEO.INTT & KEYS.int),,((/IO or /M1) & DFF(!INT_X,CTH3,,)));
+	INT_X		= !DFF(GND,(SVIDEO.INTT & KEYS.int),,((/IO or /M1) & DFF(DFF(!INT_X,CTH2,,),CTH2,,)))
+					or !CBL_INT;
+
+	TAPE_OUT	= LCELL(BORDER3);
+
+--	***************************************
+
+--	RDXA		= LCELL(DECODE.RD_KP11);
+--	T_RDXA		= DFF(GND,DECODE.RD_KP11,,DFF((T_RDXA),CLK42,,));
+
+--	WR_TM9		= !DFF(VCC,!CLK42,DECODE.WR_TM9,);
+--	WR_TM9		= LCELL(DFF(DECODE.RD_KP11,CLK42,,));
+
+--	RDXA		= LCELL(CT2 or DFFE(!CT2,!CLK42,,,CT1));
+
+	RDXA		= DFF(!((CT[2..0] == B"11X") or (CT[2..0] == 0)),CLK42,,);
+
+--	T_RDXA		= CT2;
+	T_RDXA		= LCELL(RDXA);
+
+--	WR_TM9		= DFF(CT2,!CLK42,,);
+	WR_TM9		= LCELL(CT2);
+
+
+--	SXA			= TFF(VCC,T_RDXA,,);
+--	SXA			= DFF((CT3 xor (CT2 & CT1)),CLK42,,);
+	SXA			= DFF((CT3 xor CT2),CLK42,,);
+
+--	WR_AWG		= LCELL(LCELL(DECODE.WR_AWG));
+--	WR_AWG		= LCELL(DECODE.WR_AWG);
+	WR_AWG		= DECODE.WR_AWG;
+
+--	WR_AWG		= DFF(DECODE.WR_AWG,CLK42,,);
+
+--	SXA			= DFF(DECODE.KP11_MIX,CLK42,,);
+
+	XA0			= TRI(KBD_CX,WR_TM9);
+	XA1			= TRI(KBD_DX,WR_TM9);
+	XA2			= TRI(TAPE_OUT,WR_TM9);
+	XA3			= TRI(GND,GND);
+
+	KBD_DD		= DFFE(XA1,T_RDXA,,,!SXA);
+	KBD_CC		= DFFE(XA0,T_RDXA,,,!SXA);
+	TAPE_IN		= DFFE(XA2,T_RDXA,,,!SXA);
+	MOUSE_D     = DFFE(XA3,T_RDXA,,,!SXA);
+
+	FDD_CH		= DFFE(XA1,T_RDXA,,,SXA);
+	FDD_W	    = DFFE(XA0,T_RDXA,,,SXA);
+	SINC_1      = DFFE(XA2,T_RDXA,DECODE./RES,,SXA);
+	SINC_2      = DFFE(XA3,T_RDXA,DECODE./RES,,SXA);
+
+	SINC_HOLD[3..0].clk	= CT4;
+	SINC_HOLD[8..4].clk = CTH5;
+
+	SINC_1M = DFF(!(SINC_HOLD[3..0] == 15),CLK42,,);
+
+	CASE !SINC_1 IS
+		WHEN 0 => SINC_HOLD[3..0] = HOLD[3..0];
+		WHEN 1 => SINC_HOLD[3..0] = (SINC_HOLD[3..0] + 1) or !SINC_1M;
+	END CASE;
+
+	SINC_2M = DFF(!(SINC_HOLD[8..4] == B"1111X"),CLK42,,);
+
+--	CASE DFF((SINC_2 & DFF(SINC_2,CTV0,,)),CLK42,,) IS
+
+	CASE SINC_2 IS
+		WHEN 1 => SINC_HOLD[8..4] = (HOLD[7..4],GND);
+		WHEN 0 => SINC_HOLD[8..4] = (SINC_HOLD[8..4] + 1) or !SINC_2M;
+	END CASE;
+
+	COPY_SINC_H	= DFF((!SINC_1M & DFF(SINC_1M,CLK42,,)),CLK42,,);
+	COPY_SINC_V	= DFF((!SINC_2M & DFF(SINC_2M,CLK42,,)),CLK42,,);
+
+--	COPY_SINC_H	= DFF(DFF(!SINC_1 & DFF(SINC_1,!CLK42,,),!CLK42,,),CLK42,,);
+--	COPY_SINC_V	= DFF(DFF(!SINC_2 & DFF(SINC_2,!CLK42,,),!CLK42,,),CLK42,,);
+
+--	START_UP	= DFFE(DFFE(DFFE(VCC,CLK42,,,COPY_SINC_H),CLK42,,,COPY_SINC_V),CLK42,,,COPY_SINC_V);
+	START_UP	= DFFE(DFFE(DFFE(VCC,CLK42,,,COPY_SINC_H),CLK42,,,COPY_SINC_H),CLK42,,,COPY_SINC_H);
+
+	HOLD[].clk	= /IOWR;
+	HOLD[].ena	= DFF((DCPP[] == B"11001011"),CLK42,,);	-- CB
+	HOLD[].d	= D[];
+
+	HOLD[2..0].prn  = DECODE./RES;
+	HOLD[3].clrn	= DECODE./RES;
+	HOLD[6..4].prn  = DECODE./RES;
+	HOLD[7].clrn	= DECODE./RES;
+
+--	=====================================================
+--	===== DCP ===========================================
+--	=====================================================
+
+	DOS_	= (!((DECODE.PN4Q & A13 & A12) & (A[11..8] == B"1101")) & DOS) or (A14 or A15);
+	DOS		= DFF(DOS_,!(/M1 or /MR),,/RESET);
+	DECODE.DOS	= DOS;
+
+	DECODE.REFRESH	= CT4;
+
+	DCPP[] = DECODE.DCPP[];
+
+	DECODE.CLK42	= CLK42;
+	DECODE./RESET	= /RESET;
+
+	DECODE.ACC_ON	= ACC.ACC_ON;
+
+	DECODE.CT[2..0]	= CT[2..0];
+
+	RASX_[1..0]	= (LCELL(DECODE.RAS),LCELL(DECODE.RAS));
+
+	RAS_[]	= RASX_[];
+
+	MCA[]	= DECODE.MCA[1..0];
+
+	DOUBLE_CAS	= ACC.DOUBLE_CAS;
+
+	CAS_A	= LCELL(DECODE.CAS);
+--	CAS_A	= (DECODE.CAS);
+
+	CASXE0	= LCELL((MCA0 == 0) or ((MCA0 == 1) & DOUBLE_CAS));
+	CASXE1	= LCELL((MCA0 == 1) or ((MCA0 == 0) & DOUBLE_CAS));
+
+	CASX_0	= LCELL(CAS_A or !((!MCA1 & CASXE0) or DECODE.MC_TYPE));
+	CASX_1	= LCELL(CAS_A or !((!MCA1 & CASXE1) or DECODE.MC_TYPE));
+	CASX_2	= LCELL(CAS_A or !(( MCA1 & CASXE0) or DECODE.MC_TYPE));
+	CASX_3	= LCELL(CAS_A or !(( MCA1 & CASXE1) or DECODE.MC_TYPE));
+
+	CAS_[]	= CASX_[];
+
+--	/WE		= DFFE((/WE_OUT or DECODE.RAS),CLK42,,/RESET,);
+	/WE		= DFFE((/WE_OUT or DECODE.RAS),CLK42,,/RESET,);
+
+--	/WE		= LCELL(DFFE((/WE_OUT or DECODE.RAS),CLK42,,/RESET,));
+--	/WE		= LCELL(/WE_OUT or CAS_A);
+
+	/WE_OUT	= LCELL(DECODE.MC_WRITE or BLK_MR or BLK_MWR2);
+
+	DECODE.DOUBLE_CAS	= DOUBLE_CAS;
+--	DECODE.A[15..0]	= A[];
+	DECODE.A[15..0]	= ACC.AO[];
+	DECODE.DI[7..0]	= D[];
+
+	MA[11..0]		= DECODE.MA[11..0];
+	MA[14..12]		= (!TURBO,INT_X,NMI_X);
+
+	CLKZ1			= DECODE.CLK_Z80;
+
+	TURBO			= DECODE.TURBO;
+
+	DECODE./IO		= /IO;
+	DECODE./RD		= /RD;
+	DECODE./WR		= /WR;
+	DECODE./MR		= /MR;
+	DECODE./RF		= /RF;
+	DECODE./M1		= /M1;
+
+	/WAIT_ALL		= (DECODE./WAIT & WAIT_ROM & WAIT_ORIG);
+
+--	/WAIT			= TRI(DECODE./WAIT,LCELL(!(DECODE./WAIT & DFF(DECODE./WAIT,CLK42,,))));
+
+	/WAIT			= TRI(/WAIT_ALL,LCELL(!/WAIT_ALL));
+
+	DECODE.TEST_R	= TFF(KEYS.kb_ctrl,KEYS.kb_f12,,);
+
+--	DECODE.MD[7..0]	= ACC.MD[];
+	DECODE.MD[7..0]	= ACC.DO[];
+
+--	=====================================================
+--	== Accelerator ======================================
+--	=====================================================
+
+	ACC.ACC_ENA	= ALL_MODE0;
+
+	ACC.CLK42	= CLK42;
+	ACC./RESET	= /RESET;
+	ACC.CT[2..0]= CT[2..0];
+	ACC.CLK_Z80	= DECODE.CLK_Z80;
+
+	ACC.RAS		= DECODE.RAS;
+	ACC.CAS		= DECODE.CAS;
+
+	DECODE.CONTINUE = ACC.CONTINUE;
+--	DECODE.CONTINUE	= VCC;
+
+	ACC.MC_END	= DECODE.MC_END;
+	ACC.MC_BEGIN= DECODE.MC_BEGIN;
+	ACC.MC_TYPE	= DECODE.MC_TYPE;
+	ACC.MC_WRITE= DECODE.MC_WRITE;
+--	ACC.MCA[]	= DECODE.MCA[];
+
+	ACC.AI[15..0]	= A[];
+	ACC.DI[7..0]	= D[];
+
+	ACC./IO		= /IO;
+	ACC./RD		= /RD;
+	ACC./WR		= /WR;
+	ACC./MR		= /MR;
+	ACC./RF		= /RF;
+	ACC./M1		= /M1;
+	ACC./IOM	= DECODE./IOM;
+
+	ACC.DCP[7..0]	= DCPP[];
+
+	ACC.MDI[15..0]	= MD[];
+
+--	ACC.MDO[15..0];
+
+--	=====================================================
+--	===== Graf-Mode =====================================
+--	=====================================================
+
+	RGMOD[].clk	= /IOWR;
+	RGMOD[].ena	= DFF((DCPP[] == B"1100X101"),CLK42,,);
+--					(DCPP[] == B"1100X101");
+	RGMOD[].d	= D[];
+	RGMOD[].clrn= /RESET;
+
+	DECODE.G_LINE[] = (GND,GND,ACC.G_LINE[7..0]);
+
+--	=====================================================
+--	===== VIDEO =========================================
+--	=====================================================
+
+	VIDEO_PG	= LCELL(DECODE.PAGE[7..4] == B"0101");
+	BLK_MR		= LCELL((VIDEO_PG &
+					(DECODE.PAGE2 or (DECODE.PAGE3 & ACC.GLISSER))));
+
+	GLISSER		= LCELL(ACC.GLISSER & DECODE.PAGE[3] & VIDEO_PG);
+
+	SVIDEO.clk42	= CLK42;
+
+	CT[5..0]	= SVIDEO.ct[5..0];
+	CTH[5..0]	= SVIDEO.cth[5..0];
+	CTV[8..0]	= SVIDEO.ctv[8..0];
+	CTF[6..0]	= SVIDEO.ctf[6..0];
+
+	BLANK		= SVIDEO.blank;
+
+	SVIDEO.start_up = VCC;
+	SVIDEO.copy_sinc_h = COPY_SINC_H;
+	SVIDEO.copy_sinc_v = COPY_SINC_V;
+
+--	SVIDEO.wr		= (DECODE.MC_WRITE or DECODE.CAS or GLISSER);
+--	SVIDEO.wr		= DFF((DECODE.MC_WRITE or GLISSER or DECODE.RAS),CLK42,,/RESET);
+	SVIDEO.wr		= DFF((DECODE.MC_WRITE or GLISSER or DECODE.CAS),!CLK42,,/RESET);
+
+--	SVIDEO.vai[]	= (DECODE.GA[],A[9..0]);
+	SVIDEO.vai[]	= (DECODE.GA[],ACC.AO[9..0]);
+
+	VA[]		= SVIDEO.vao[];
+
+	SVIDEO.D[]	= D[];
+	SVIDEO.MDI[] = ACC.MDO[];
+	SVIDEO.DOUBLE_CAS	= DOUBLE_CAS;
+
+	SVIDEO.VDM0[7..0]	= VD0[];
+	SVIDEO.VDM1[7..0]	= VD1[];
+	SVIDEO.VDM2[7..0]	= VD2[];
+	SVIDEO.VDM3[7..0]	= VD3[];
+
+	V_CS[1..0]	= SVIDEO.v_cs[];
+	WR_COL		= SVIDEO.WR_PIX;
+
+--	ZX_COLOR[3..0]
+
+	SVIDEO.ZX_PORT[5..0]	= (ACC.G_LINE[5..0]);
+	SVIDEO.ZX_PORT[7..6]	= (DECODE.SP_SA,LCELL(DECODE.SP_SCR & !(A13 & !ACC.G_LINE7) & !ACC.G_LINE6));
+
+	SVIDEO.DIR_PORT[0]		= DECODE.SCR128;
+
+	SVIDEO.DIR_PORT[3]		= RGMOD0;
+
+	IF (SCREEN_OFF == "USE") GENERATE
+		SVIDEO.DIR_PORT[4]		= RGMOD1;	-- 1 screen off, 0 - screen on
+	ELSE GENERATE
+		SVIDEO.DIR_PORT[4]		= GND;		-- 1 screen off, 0 - screen on
+	END GENERATE;
+
+	SVIDEO.DIR_PORT[2..1]	= GND;
+	SVIDEO.DIR_PORT[7..5]	= BORDER[2..0];
+--	SVIDEO.DIR_PORT[7..5]	= MS.OUT_X[7..5];
+
+	SVIDEO.MOUSE_X[]		= MS.OUT_X[];
+	SVIDEO.MOUSE_Y[]		= MS.OUT_Y[];
+
+%
+	bit0	- Spectrum SCREEN Switch
+	bit1	- Spectrum Adress MODE
+	bit2	- Write to Spectrum Screen OFF
+
+	bit7..5	- Border
+%
+
+--  =====================================================
+
+	ALL_MODE[7..0].clk	= /IOWR;
+	ALL_MODE[7..0].ena	= DFF((DCPP[] == B"11000011"),CLK42,,);	-- C3
+	ALL_MODE[].d		= D[];
+	ALL_MODE[].prn		= /RESET;
+
+--	=====================================================
+--	=== AUDIO OUT =======================================
+--	=====================================================
+
+	DAC_DATA	= DFFE(DFF(AUDIO_R15,CT2,,),!CT2,,,);
+
+--	DAC_DATA	= DFF(AUDIO_R15,CLK42,,);
+--	DAC_DATA	= AUDIO_R15;
+
+	DAC_WS		= DFF(CTH1,CLK42,,);
+	DAC_BCK		= DFF(CT2,CLK42,,);
+
+	AUDIO_R[15..0].clk	= CLK42;
+	AUDIO_R[15..0].ena	= !CT2 & DFF(CT2,CLK42,,);
+
+	AUDIO_CH = DFF(((CTH0,CT[5..3]) == 15),CT2,,);
+
+	IF AUDIO_CH THEN
+		AUDIO_R[15..0].d = AY_CHS[15..0];
+	ELSE
+		AUDIO_R[15..0].d = (AUDIO_R[14..0],GND);
+	END IF;
+
+--	====== COVOX ==========
+
+	CBL_MODE		= CBL_XX7;
+	CBL_STEREO		= CBL_XX6;
+	CBL_MODE16		= CBL_XX5;
+	CBL_INT_ENA		= CBL_XX4;
+
+	CBL_INT			= DFF(GND,!CBL_CNT6,,(CBL_INT_ENA & (/IO or /M1)));
+
+	CBL_XX[].clk	= /IOWR;
+	CBL_XX[].ena	= DFF((DCPP[] == B"10001001"),CLK42,,);	-- 89
+	CBL_XX[]		= D[];
+
+	CBL_CTX[].clk	= !CTH1;
+	CBL_CNT[].clk	= !CTH1;
+
+	CASE CBL_XX[3..0] IS
+		WHEN 0 => CBL_TAB[] = 13; -- 16khz  -- mono/stereo
+		WHEN 1 => CBL_TAB[] = 9;  -- 22khz  -- mono/stereo
+		WHEN 2 => CBL_TAB[] = 0;  -- reserved
+		WHEN 3 => CBL_TAB[] = 0;  -- reserved
+		WHEN 4 => CBL_TAB[] = 0;  -- reserved
+		WHEN 5 => CBL_TAB[] = 0;  -- reserved
+		WHEN 6 => CBL_TAB[] = 0;  -- reserved
+		WHEN 7 => CBL_TAB[] = 0;  -- reserved
+
+		WHEN 8 => CBL_TAB[] = 27; -- 7.8125  KHz -- mono/stereo 8/16 bit
+		WHEN 9 => CBL_TAB[] = 19; -- 10.9375 KHz -- mono/stereo 8/16 bit
+		WHEN 10=> CBL_TAB[] = 13; -- 15.625  KHz -- mono/stereo 8/16 bit
+		WHEN 11=> CBL_TAB[] = 9;  -- 21.875  KHz -- mono/stereo 8/16 bit
+		WHEN 12=> CBL_TAB[] = 6;  -- 31.25   KHz -- mono/stereo 8/16 bit
+		WHEN 13=> CBL_TAB[] = 4;  -- 43.75   KHz -- mono/stereo 8/16 bit
+		WHEN 14=> CBL_TAB[] = 3;  -- 54.6875 KHz -- mono/stereo 8/16 bit
+		WHEN 15=> CBL_TAB[] = 1;  -- 109.375 KHz -- mono/stereo 8/16 bit
+--		WHEN 15=> CBL_TAB[] = 0;  -- (218.75)KHz -- stereo 110 only
+	END CASE;
+
+	IF (CBL_CTX[] == 0) THEN
+		CBL_CTX[].d	= CBL_TAB[];
+	ELSE
+		CBL_CTX[].d	= CBL_CTX[] - 1;
+	END IF;
+
+	CASE (CBL_STEREO,LCELL(CBL_CTX[] == 0)) IS
+		WHEN 0,2 => CBL_CNT[].d	= CBL_CNT[];
+		WHEN 1 => CBL_CNT[].d	= CBL_CNT[]+1;
+		WHEN 3 => CBL_CNT[].d	= CBL_CNT[]+2;
+	END CASE;
+
+	CBL_CNT[].clrn	= CBL_MODE;
+
+	CBL_IND			= CBL_CNT7 xor CBL_WA7;
+
+--	CBL_WR			= DFF((DCPP[] == B"10001000"),CLK42,,) & !/IOWR; -- 88
+
+	CBL_WR	= (DFF((DCPP[] == B"10001000"),CLK42,,) & !/IOWR) or
+		  (DFF((DECODE.PAGE[7..0] == B"11111101"),CLK42,(CBL_INT_ENA & ACC.ACC_DIR1),) &
+	  		!DFF((DECODE.MC_WRITE or DECODE.CAS),CLK42,,/RESET));
+
+
+	CBL_WAE			= CBL_MODE16 & DFF(!CBL_WAE,!CBL_WR,,CBL_INT);
+
+	CBL_WA[].clk	= !CBL_WR;
+	CBL_WA[].ena	= !CBL_WAE;
+
+	CBL_WA[7].clrn	= CBL_MODE & CBL_INT_ENA & (CBL_INT or !CBL_CNT7);
+	CBL_WA[7].prn	= (CBL_INT or CBL_CNT7);
+
+	CBL_WA[6..0].clrn	= CBL_MODE & CBL_INT_ENA & CBL_INT;
+
+	CBL_WA[].d		= CBL_WA[] + 1;
+
+	CBD[].clk		= !CBL_WR;
+	CBD[].ena		= CBL_WAE;
+--	CBD[].d			= D[];
+	CBD[].d			= ACC.MDO[7..0];
+	CBD[].clrn		= CBL_MODE16;
+
+	CBL.wren 		= (CBL_WR & !CBL_WAE);
+
+--	CBL.data[] 		= ((D7 xor CBL_MODE16),D[6..0],CBD[]);
+	CBL.data[] 		= ((ACC.MDO15 xor CBL_MODE16),ACC.MDO[14..8],CBD[]);
+
+	CBL.wraddress[] = ((!A[15..8]) & !CBL_INT_ENA) xor CBL_WA[];
+
+	CBL.wrclock		= CLK42;
+	CBL.wrclken		= VCC;
+	CBL.rden		= VCC;
+	CBL.rdaddress[] = (CBL_CNT[7..1],LCELL((CBL_CNT0 & !CBL_STEREO) or (AUDIO_CH & CBL_STEREO)));
+	CBL.rdclock		= CLK42;
+	CBL.rdclken		= VCC;
+
+	CBL_R[].ena = DFF((CBL_MODE or (CBL_WR)),CLK42,,);
+
+	CBL_R[].CLK			= CLK42;
+	CBL_R[15].prn		= /RESET;
+	CBL_R[14..0].clrn	= /RESET;
+	CASE CBL_MODE IS
+		WHEN 0 => CBL_R[] = (D[7..0],B"00000000");
+		WHEN 1 => CBL_R[] = CBL.q[];
+	END CASE;
+
+--	====== AY-3-8910 ========
+
+	AY3.CLK42		= CLK42;
+
+	AY3./RESET		= /RESET;
+	AY3.AY_T[8..0]	= (CTH[2..0],CT[5..0]);
+
+	AY3.AY_D_WR		= DFF((DECODE./IOM or /WR) or !DFF((DCPP[] == H"91"),CLK42,,),CLK42,,);
+	AY3.AY_A_WR		= DFF((DECODE./IOM or /WR) or !DFF((DCPP[] == H"90"),CLK42,,),CLK42,,);
+
+	AY3.D[7..0]		= D[];
+	AY3.BEEPER		= BORDER4;
+
+--	AY3.DO[7..0]		: OUTPUT;
+
+--	AY3.AY_CH_A[3..0]	: OUTPUT;
+--	AY3.AY_CH_B[3..0]	: OUTPUT;
+--	AY3.AY_CH_C[3..0]	: OUTPUT;
+
+	AY_FULL[].clk = CLK42;
+
+--	AY_CHS[].clk	= !CTH0;
+	AY_CHS[].clk	= !DFF((CTH1 & (CTH0 or !CT5)),CLK42,,);
+	AY_CHS[].ena	= VCC;
+
+--	AY_FULL[] = (GND,AY_CH_L[]) + (GND,AY_CH_R[]);
+
+	CASE DFF(CTH0,CLK42,,) IS
+		WHEN 0 => AY_FULL[] = (AY3.AY_CH_L[],GND);
+		WHEN 1 => AY_FULL[] = (AY3.AY_CH_R[],GND);
+	END CASE;
+
+--	AY_CHS[].d		= (((GND,AY_FULL[]) + (VCC,CBL.q[15..5])),B"0000");
+
+--	AY_CHS[].d		= (((GND,AY_FULL[]) + (VCC,CBL.q[15..8],B"000")),B"0000");
+	AY_CHS[].d		= (((GND,AY_FULL[]) + (VCC,CBL_R[15..5])),CBL_R[4..1]);
+
+--	===== MOUSE =========================
+
+	MS.clk		= DFF(CTH5,CLK42,,);
+	MS.mouse_d	= MOUSE_D;
+
+	CASE (A10,A8) IS
+		WHEN 0,2 => KEMPS[] = (B"111111",!MS.OUT_K0,!MS.OUT_K1);
+		WHEN 1 => 	KEMPS[] = (MS.OUT_X[7..0]);
+		WHEN 3 => 	KEMPS[] = !(MS.OUT_Y[7..0]);
+	END CASE;
+
+END;
+

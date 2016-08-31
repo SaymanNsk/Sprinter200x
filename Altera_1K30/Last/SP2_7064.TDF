@@ -1,0 +1,470 @@
+
+TITLE "SINC_controller";
+
+PARAMETERS
+	(
+	G_MODE	= 1,	-- 1 on LCELL, 0 - on EXP
+
+	NUM		= "NO",
+	NUMBER1 = B"00100000X",	-- 0 - sinc
+	NUMBER2 = B"00110111X",	-- 7
+	NUMBER3 = B"01001101X",	-- D
+	NUMBER4 = B"01010010X",	-- 2
+	NUMBER5 = B"00100000X",	--
+	NUMBER6 = B"00100000X",	--
+	NUMBER7 = B"00100000X" 	--
+	);
+
+SUBDESIGN SP2_7064
+	(
+
+	TG42_IN		: INPUT;
+	TG42_OUT	: OUTPUT;
+	TG42_BUF	: OUTPUT;
+	CLKZZ		: BIDIR;
+	CLK14		: OUTPUT;
+
+	AUD			: OUTPUT;	-- clk for timers
+	BEEP		: OUTPUT;
+
+	CMOS_DRD	: OUTPUT;
+	CMOS_AS		: OUTPUT;
+	CMOS_DWR	: OUTPUT;
+
+	WR_PDOS		: OUTPUT;
+	WD			: INPUT;
+	WSTB		: INPUT;
+	SR,SL		: INPUT;
+	RSTB		: INPUT;
+	TR43		: INPUT;
+	CLK_WG		: OUTPUT;
+	FDAT		: OUTPUT;
+	QDAT		: OUTPUT;
+	RDAT		: INPUT;
+	/WG_WR		: OUTPUT;
+	/WG_RD		: OUTPUT;
+	STE			: INPUT;
+	DENS_X		: OUTPUT;
+	WDAT		: OUTPUT;
+
+
+--	XA[2..0]	: BIDIR;
+	XA[2..0]	: INPUT;
+	XACS		: INPUT;
+--	SINC_1		: OUTPUT;
+	SINC_1		: BIDIR;
+	SINC_2		: BIDIR;
+
+	HDD_C[3..0]	: INPUT;
+	FDD_C[2..0]	: INPUT;
+
+	HD_DIR		: OUTPUT;
+	HD_CS		: OUTPUT;
+
+	/CONF_X		: BIDIR;
+	10K_CLK		: OUTPUT;
+	WR_CNF		: INPUT;
+	10K_D0		: OUTPUT;
+	D0			: INPUT;
+
+	VGA_IN		: INPUT;
+--	WR_COL		: INPUT;
+	SINC_V		: OUTPUT;
+	SINC_H		: OUTPUT;
+	SINC		: OUTPUT;
+	SINC_IN		: INPUT;
+
+	XHD_RES		: OUTPUT;
+	XHD_WR		: OUTPUT;
+	XHD_RD		: OUTPUT;
+
+	XHD1_CS[2..1]	: OUTPUT;
+	XHD2_CS[2..1]	: OUTPUT;
+	XHR_RDY		: INPUT;
+
+	EPM_RES		: INPUT;
+	PW_GOOD		: INPUT;
+
+	GND65		: INPUT;
+	GND33		: INPUT;
+
+	)
+VARIABLE
+
+	XCT[2..0]	: DFF;
+	CNF_ON		: NODE;
+	CNF_OFF		: NODE;
+
+	CLK42		: NODE;
+
+	CT[3..0]	: DFF;
+	CTH[5..0]	: DFF;
+	CTV[8..0]	: DFFE;
+
+	SINC_HT		: DFF;
+	SINC_VT		: DFFE;
+
+	TURBING		: NODE;
+	FDD_1440	: NODE;
+	NFDD_1440	: NODE;
+
+	CT_WG		: NODE;
+	CT_WG1		: NODE;
+
+	STWG[2..0]	: DFF;
+	CLK_PRC		: NODE;
+	WGR[4..0]	: DFF;
+	RDAT_X		: NODE;
+
+	REG_P[2..0]	: DFF;
+
+	/RESET		: NODE;
+
+
+	S144,S720	: NODE;
+
+	SHDD1,SHDD2	: NODE;
+	THDD		: NODE;
+	NTHDD		: NODE;
+
+	NO_HDD		: NODE;
+
+	S320,S312	: NODE;
+	T320		: NODE;
+	NT320		: NODE;
+
+	SOFT_RESET	: NODE;
+	SOFT_RESET2	: NODE;
+
+	HDD_CLK		: NODE;
+
+	LR_T[1..0]	: DFF;
+
+	EXP_X		: NODE;
+	EXP_Y       : NODE;
+
+	CTV8M		: DFF;
+
+	CTV8C		: NODE;
+
+	FN_NUM		: NODE;
+
+BEGIN
+
+	/RESET		= DFF((EPM_RES & XHD_RES),!CT3,SOFT_RESET,);
+
+--	/RESET		= (EXP(!EPM_RES & EXP(EXP(EXP(EPM_RES)))) & SOFT_RESET);
+
+	EXP_X		= EXP(TG42_IN);
+	EXP_Y       = EXP(TG42_IN);
+
+	IF (G_MODE == 0) GENERATE
+		TG42_OUT	= LCELL(EXP_X);
+	ELSE GENERATE
+		TG42_OUT	= LCELL(TG42_BUF);
+	END GENERATE;
+
+	TG42_BUF	= LCELL(!TG42_IN);
+
+	CLK42		= TG42_IN;
+
+--	CT[].clk	= CLK14;
+	CT[].clk	= XCT1;
+	CT[] = CT[] + 1;
+
+--	=== horizontal sinc =====
+
+	CTH[].clk	= !CT3;
+	SINC_HT.clk = !CT3;
+
+	IF !((CTH[] == B"XXXX11") & SINC_HT) THEN
+		CTH[]	= CTH[] + 1;
+	ELSE
+		CTH[]	= GND;
+	END IF;
+
+--	SINC_1		= CTH5;
+	SINC_1		= TRI(CTH5,VCC);
+	SINC_2		= TRI(CTV8,VCC);
+
+	SINC_HT.d	= (CTH[] == B"1101XX");
+
+	SINC_H		= SINC_HT;
+
+--  === vertical sinc =======
+
+--	CTV[].clk	= !CT3;
+--	SINC_VT.clk	= !CT3;
+
+	CTV[].clk	= SINC_HT;
+	SINC_VT.clk	= SINC_HT;
+
+	CTV8M.clk	= SINC_HT;
+
+--	CTV[].ena	= (CTH[] == B"110111");
+--	SINC_VT.ena	= (CTH[] == B"110111");
+	CTV[].ena	= VCC;
+	SINC_VT.ena	= VCC;
+
+--	IF (CTV[] == B"100111111") THEN
+
+	IF (NUM == "YES") GENERATE
+
+		FN_NUM =(
+				(CTV[8..0] == NUMBER1) or
+				(CTV[8..0] == NUMBER2) or
+				(CTV[8..0] == NUMBER3) or
+				(CTV[8..0] == NUMBER4) or
+				(CTV[8..0] == NUMBER5) or
+				(CTV[8..0] == NUMBER6) or
+				(CTV[8..0] == NUMBER7)
+				) & !NO_HDD;
+
+	ELSE GENERATE
+
+		FN_NUM = GND;
+
+	END GENERATE;
+
+
+	IF EXP((CTV[] == B"XXXXXXX11") & SINC_VT) THEN
+
+		(CTV[8..0]) = ((CTV[8..0]) + 1) xor (CTV8M,B"00000000");
+		CTV8M = FN_NUM;
+
+	ELSE
+		CTV[7..0] = GND;
+		CTV8M = GND;
+		CTV8 = GND;
+	END IF;
+
+	SINC_VT.d	= ((CTV[8..0] == B"1001111XX") or ((CTV[8..0] == B"1001101XX")) & NT320);
+
+	SINC_V		= SINC_VT;
+
+	SINC		= SINC_V xor SINC_H;
+
+--  =============================
+
+--  =========================================
+--	divide by 6
+
+	XCT[].clk	= (TG42_IN xor !XCT1);
+	XCT[].d		= XCT[] + 1;
+
+--	CLKZZ = 14 MHz
+
+	CLKZZ		= TRI(XCT1,CNF_OFF);
+	CLK14		= DFF(!CLK14,XCT0,,);
+
+--	test exists
+
+--	CNF_OFF = EXP(CNF_ON & /RESET);
+--	CNF_ON	= EXP(CNF_OFF & XACS);
+
+	CNF_OFF = DFF(GND,GND,XACS,/RESET);
+	CNF_ON	= !CNF_OFF;
+
+--	=========================================
+
+--	========	FDD controller	==================
+
+	TURBING		= EXP(EXP(TURBING & !WSTB & !RSTB) & !STE & NFDD_1440);
+--	TURBING		= GND;
+
+	CT_WG		= TFF(VCC,(XCT1 xor (CT_WG & TURBING)),,);
+
+	STWG[].clk	= (CT_WG xor STWG2);
+	STWG[].d	= STWG[] + 1;
+
+	CLK_WG		= STWG2;
+
+--	CLK_PRC		= STWG0;
+	CLK_PRC		= CT_WG;
+
+	CT_WG1		= EXP(EXP(XCT1 & FDD_1440) & EXP(CT0 & NFDD_1440));
+
+	WGR[].clk	= CT_WG1;
+
+	IF !FDAT THEN
+		TABLE WGR[3..0] => WGR[3..0].d;
+			0 => 4; 1 => 5; 2 => 4; 3 => 5;
+			4 => 6; 5 => 7; 6 => 8; 7 => 8;
+			8 => 9; 9 => 9; 10 => 10; 11 => 11;
+		   12 => 12; 13 => 13; 14 => 14; 15 => 15;
+		END TABLE;
+		WGR4.d	= WGR4;
+	ELSE
+		IF WGR[3..0] == 0 THEN
+			WGR[3..0].d		= 3;
+			WGR4.d			= WGR4;
+		ELSE
+			WGR[].d			= WGR[] + 1;
+		END IF;
+	END IF;
+
+	QDAT	= WGR4;
+	RDAT_X	= EXP(EXP(RDAT_X & EXP(!RDAT & !CT_WG1)) & EXP(RDAT & !CT_WG1));
+--	FDAT	= DFF((RDAT_X or !DFF(RDAT_X,CT_WG1,,)),CT_WG1,,);
+	FDAT	= DFF((RDAT_X or EXP(DFF(RDAT_X,CT_WG1,,))),CT_WG1,,);
+--	==========================================================
+--	now not complete!
+
+	AUD		= CT3;
+	BEEP	= GND;
+
+--	/CONF_X	= TRI(GND,!/RESET);
+
+	/CONF_X	= OPNDRN(/RESET);
+
+--	10K_CLK		= WR_CNF;	-- now not protect!
+
+	10K_CLK		= DFF((WR_CNF & CNF_OFF) or ((HDD_C0 or FDD_C2) & CNF_ON),CLK42,,);
+
+	10K_D0		= DFFE(D0,10K_CLK,S720,(S144 & /RESET),CNF_OFF);
+
+	DENS_X		= VCC;
+
+--	=== now NOT PRECOMP! =====
+
+--	WDAT		= WD;
+
+	WDAT = REG_P2;
+
+	REG_P[].clk	= !CLK_PRC;
+
+--	CASE WD IS
+--		WHEN 1 => REG_P[].d	= (GND,SL,!(SL or SR),SR);
+--		WHEN 0 => REG_P[].d = (EXP(EXP(REG_P2)),REG_P[1..0],GND);
+--	END CASE;
+
+--	CASE (DFF(WD,CLK_WG,,),DFF((SL & TR43),CLK_WG,,),DFF((SR & TR43),CLK_WG,,)) IS
+
+	LR_T[].clk	= STWG2;
+--	LR_T[].clk	= CLK_WG;
+
+	LR_T[].d	= ((WD & !(SL & TR43)),(WD & !(SR & TR43)));
+
+	CASE LR_T[] IS
+		WHEN 0 => REG_P[1..0] = (REG_P[1..0] - 1) & EXP(REG_P[1..0] == 0);
+						REG_P[2] = EXP(EXP(REG_P[1..0] == 1));
+--						REG_P[2] = (REG_P[1..0] == 1);
+		WHEN 1 => REG_P[1..0] = 1; REG_P[2] = GND;
+		WHEN 2 => REG_P[1..0] = 3; REG_P[2] = GND;
+		WHEN 3 => REG_P[1..0] = 2; REG_P[2] = GND;
+	END CASE;
+%
+	CASE (WD,DFF((SL & TR43),CLK_WG,,),DFF((SR & TR43),CLK_WG,,)) IS
+		WHEN B"0XX" => REG_P[1..0] = (REG_P[1..0] - 1) & EXP(REG_P[1..0] == 0);
+		WHEN B"100" => REG_P[1..0] = 2;
+		WHEN B"110" => REG_P[1..0] = 1;
+		WHEN B"101" => REG_P[1..0] = 3;
+		WHEN B"111" => REG_P[1..0] = 2;
+	END CASE;
+%
+
+%
+	CASE WD IS
+		WHEN 0 => REG_P[3] = EXP(EXP(REG_P[1..0] == 1));
+		WHEN 1 => REG_P[3] = GND;
+	END CASE;
+%
+
+--	=== Port Controls ====================================
+%
+	FDD_C0	- 0 - WG93	/ 1 - kmps/ p_dos
+	FDD_C1	- 0 - write / 1 - read
+	FDD_C2	- 0 - no	/ 1 - CS_WG/ strobe
+
+	HDD_C0	- strobe
+	HDD_C[2..1] = 00 - SYS_FN, 01 - SYS_FN, 10 - HDD1/2, 11 - CMOS
+	HDD_C3	- 0 - HD_CS1,  1 HD_CS3 / 0 CMOS_DAT,  1 - CMOS_ADR
+
+	HDD_C[3..0] = 0001, FDD_C[2..1] = 00; -> FDD_C0 = 1/0 -> set 1.44/720
+	HDD_C[3..0] = 1001, FDD_C[2..1] = 00; -> FDD_C0 = 1/0 -> set 320/312 lines
+	HDD_C[3..0] = 0011, FDD_C[2..1] = 00; -> FDD_C0 = 1/0 -> set HDD1/HDD2
+	HDD_C[3..0] = 1011, FDD_C[2..1] = 00; -> FDD_C0 = 0 -> soft_reset!
+	HDD_C[3..0] = X101, FDD_C[2..1] = XX; -> HDD1/2 rd/wr
+
+%
+
+	SOFT_RESET	= !((HDD_C[] == B"1011") & (FDD_C[] == B"000"));
+	SOFT_RESET2	= !((HDD_C[] == B"1011") & (FDD_C[] == B"001"));
+
+--	FDD switch
+
+--	NFDD_1440	= EXP(FDD_1440 & S720 & /RESET);
+--	FDD_1440	= EXP(NFDD_1440 & S144);
+	FDD_1440	= 10K_D0;
+	NFDD_1440	= !10K_D0;
+
+	S144		= EXP((HDD_C[] == B"0001") & (FDD_C[] == B"001"));
+	S720		= EXP((HDD_C[] == B"0001") & (FDD_C[] == B"000"));
+
+--	Screen Switch
+
+	T320		= EXP(NT320 & S320 & /RESET);
+	NT320		= EXP(T320 & S312);
+
+	S312		= EXP((HDD_C[] == B"1001") & (FDD_C[] == B"001"));
+	S320		= EXP((HDD_C[] == B"1001") & (FDD_C[] == B"000"));
+
+--	HDD Switch
+
+--	THDD		= EXP(NTHDD & SHDD2 & /RESET);
+--	NTHDD		= EXP(THDD & SHDD1);
+
+	THDD		= EXP(NTHDD & NO_HDD & SHDD2 & /RESET & SOFT_RESET2);
+	NTHDD		= EXP(THDD  & NO_HDD & SHDD1 & /RESET & SOFT_RESET2);
+	NO_HDD		= EXP(NTHDD & THDD   & SHDD1 & SHDD2);
+
+	SHDD2		= EXP((HDD_C[] == B"0011") & (FDD_C[] == B"001"));
+	SHDD1		= EXP((HDD_C[] == B"0011") & (FDD_C[] == B"000"));
+
+--	Control signals
+
+	WR_PDOS		= DFF(!((HDD_C[] == 0) & (FDD_C[] == B"X01")),HDD_CLK,,FDD_C2);
+	/WG_WR		= DFF(!((HDD_C[] == 0) & (FDD_C[] == B"X00")),HDD_CLK,,FDD_C2);
+	/WG_RD		= DFF(!((HDD_C[] == 0) & (FDD_C[] == B"X10")),HDD_CLK,,FDD_C2);
+
+	CMOS_DWR	= DFF(!((HDD_C[] == B"1110") & (FDD_C[] == B"X01")),HDD_CLK,,FDD_C2);
+	CMOS_AS		=!DFF(!((HDD_C[] == B"0110") & (FDD_C[] == B"X01")),HDD_CLK,,FDD_C2);
+	CMOS_DRD	= DFF(!((HDD_C[] == B"1110") & (FDD_C[] == B"X10")),HDD_CLK,,FDD_C2);
+
+--	HD_DIR		= !HDD_C1; -- ????????????
+	HD_DIR		= XHD_RD;
+
+--	HD_CS		= GND;
+	HD_CS		= CTV8M;
+
+--	HD_CS		= !/RESET;
+
+--	XHD_RES		= VCC;
+
+	XHD_RES		= DFF(PW_GOOD,SINC_V,,);
+
+--	XHD_WR		= DFF((!(HDD_C[] == B"X101") or  FDD_C1),CLK42,,);
+--	XHD_RD		= DFF((!(HDD_C[] == B"X101") or !FDD_C1),CLK42,,);
+
+--	HDD_CLK		= EXP(EXP(HDD_C0));
+	HDD_CLK		= 10K_CLK;
+
+--	XHD_WR		= DFF((!(HDD_C[] == B"X101") or  FDD_C1 or !HDD_CLK),CLK42,,HDD_C0);
+--	XHD_RD		= DFF((!(HDD_C[] == B"X101") or !FDD_C1 or !HDD_CLK),CLK42,,HDD_C0);
+	XHD_WR		= DFF((!(HDD_C[] == B"X101") or  FDD_C1),HDD_CLK,,HDD_C0);
+	XHD_RD		= DFF((!(HDD_C[] == B"X101") or !FDD_C1),HDD_CLK,,HDD_C0);
+
+--	XHD1_CS1 = DFF(!((HDD_C[] == B"010X") & NTHDD),CLK42,,);
+--	XHD1_CS2 = DFF(!((HDD_C[] == B"110X") & NTHDD),CLK42,,);
+
+--	XHD2_CS1 = DFF(!((HDD_C[] == B"010X") &  THDD),CLK42,,);
+--	XHD2_CS2 = DFF(!((HDD_C[] == B"110X") &  THDD),CLK42,,);
+
+	XHD1_CS1 = DFF((!(HDD_C[] == B"010X") or  THDD),CLK42,,);
+	XHD1_CS2 = DFF((!(HDD_C[] == B"110X") or  THDD),CLK42,,);
+
+	XHD2_CS1 = DFF((!(HDD_C[] == B"010X") or NTHDD),CLK42,,);
+	XHD2_CS2 = DFF((!(HDD_C[] == B"110X") or NTHDD),CLK42,,);
+
+END;
+

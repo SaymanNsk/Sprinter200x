@@ -1,0 +1,180 @@
+
+	TITLE "ZX-Keyboard";
+
+INCLUDE "lpm_ram_dq";
+
+SUBDESIGN kbd
+	(
+	CLK42		: INPUT;	-- full sinc 42MHz
+	CLK_K		: INPUT;	-- sinc input 15KHz
+	KBD_CC		: INPUT;	-- sinc KBD
+	KBD_DD		: INPUT;	-- data KBD
+
+	/RF			: INPUT;	-- /rfsh
+	/IO			: INPUT;	-- /iorq
+	/IOM		: INPUT;
+	/M1			: INPUT;
+
+	A[15..8]	: INPUT;
+
+	KBO[7..0]	: OUTPUT;	-- output
+
+	KB_RESET	: OUTPUT;
+
+	KB_F12		: OUTPUT;
+	KB_CTRL		: OUTPUT;
+	KB_ALT		: OUTPUT;
+	KB_SH		: OUTPUT;
+
+	ENA			: INPUT;
+	INT_ENA		: INPUT;
+	INT			: OUTPUT;
+	)
+VARIABLE
+
+	KB_CT[2..0]		: DFF;
+	KB_D[10..0]		: DFF;
+	KB_OFF			: DFFE;
+
+	KB_EXT			: DFF;
+	KB_ALT			: DFF;
+	KB_CTRL			: DFF;
+	KB_SH			: DFF;
+
+	KB_CTRL_X		: NODE;
+	KB_ALT_X		: NODE;
+	KB_SH_X			: NODE;
+	KB_XXX			: NODE;
+	KB_RESET		: DFF;
+	RXA[1..0]		: DFFE;
+
+	K_CLK			: NODE;
+	KA[15..0]		: NODE;
+	KB_MA[2..0]		: DFF;
+	KB_MXA			: NODE;
+	KDCA[2..0]		: LCELL;
+
+	KDD[7..0]		: DFF;
+	KBD[5..0]		: DFF;
+	KD[7..0]		: NODE;
+	KDX[5..0]		: DFF;
+	KDXX[5..0]		: DFF;
+	WR_KBD			: NODE;
+	KB_OFL			: NODE;
+
+BEGIN
+
+	INT		= DFF((KB_CT[] == 0),CLK42,,INT_ENA);
+
+--	KB_CT[].clk	= DFF(CLK_K,CLK42,,);
+	KB_CT[].clk	= CLK_K;
+	KB_CT[].prn	= DFF(KBD_CC,CLK42,,);
+
+	CASE KB_CT[] IS
+		WHEN 0 => KB_CT[].d	= GND;
+		WHEN 1,2,3,4,5,6,7 => KB_CT[].d	= KB_CT[] - 1;
+	END CASE;
+
+	KB_D[].clk	= DFF(!KBD_CC,CLK42,,);
+	KB_D[].d	= (KBD_DD,KB_D[10..1]);
+
+	KB_OFF.ena	= !KB_EXT;
+	KB_OFF.clk	= DFF((KB_CT[] == 0),CLK42,,);
+	KB_OFF.d	= KB_D[] == B"XX11110000X";
+
+	KB_EXT.clk	= DFF((KB_CT[] == 1),CLK42,,);
+	KB_EXT.d	= KB_D[] == B"XX11100000X";
+
+	KB_CTRL.clk	= !KB_CT2;
+	KB_ALT.clk	= !KB_CT2;
+	KB_SH.clk	= !KB_CT2;
+
+	KB_CTRL_X	= LCELL(KB_D[] == B"XXXXX1X100X");
+	KB_ALT_X	= LCELL(KB_D[] == B"XXXXX1X001X");
+	KB_SH_X		= LCELL(KB_D[] == B"XX0X01X0XXX") &
+			   CASCADE((KB_D[] == B"XXX1XX1X01X") or (KB_D[] == B"XXX0XX0X10X"));
+	KB_XXX		= LCELL(KB_D[] == B"XX000X0XXXX");
+
+	CASE KB_OFF IS
+		WHEN 0 =>
+			KB_CTRL.d	= (KB_CTRL_X & KB_XXX) or KB_CTRL;
+			KB_ALT.d	= (KB_ALT_X  & KB_XXX) or KB_ALT;
+			KB_SH.d		= (KB_SH_X) or KB_SH;
+		WHEN 1 =>
+			KB_CTRL.d	= !(KB_CTRL_X & KB_XXX) & KB_CTRL;
+			KB_ALT.d	= !(KB_ALT_X  & KB_XXX) & KB_ALT;
+			KB_SH.d		= !(KB_SH_X) & KB_SH;
+	END CASE;
+
+	KB_F12	= DFF(!((KB_XXX & LCELL(KB_D[] == B"XXXXX0X111X")) & !KB_OFF),
+					!KB_CT2,,!(KB_CT[] == 1));
+
+	KB_RESET.clk	= !KB_CT2;
+	KB_RESET.d		= !(KB_ALT_X & (KB_D[] == B"XX011X0XXXX") & !KB_OFF & KB_CTRL & KB_ALT);
+	KB_RESET.prn	= !DFF((KB_CT[] == 1),CLK42,,);
+
+	K_CLK	= DFF(/RF,CLK42,,);
+
+	RXA[].ena	= VCC;
+	RXA[].clk	= K_CLK;
+
+	CASE DFF((!(KB_CT[] == B"01X") & (RXA[] == 0)),CLK42,,) IS
+		WHEN B"1" => RXA[] = GND;
+		WHEN B"0" => RXA[] = (RXA0,!RXA1);
+	END CASE;
+
+	CASE (DFF((/IO & (RXA[] == 0),CLK42,,)),LCELL(KDD7 & KDD6)) IS
+		WHEN B"0X" => KA[15..8]	= (B"101",KDCA[],B"11");
+		WHEN B"10" => KA[15..8]	= (B"110000",KDD7,KDD6);
+		WHEN B"11" => KA[15..8]	= KB_D[8..1];
+	END CASE;
+
+	KB_MA[].clk	= CLK42;
+	KB_MA[].d	= KB_MA[] + 1;
+	KB_MA[].clrn = !DFF(/IO,CLK42,,);
+
+	KB_MXA	= DFF((		(((KB_MA[] == 7) & A15) or ((KB_MA[] == 6) & A14))
+					or	(((KB_MA[] == 5) & A13) or ((KB_MA[] == 4) & A12))
+					or	(((KB_MA[] == 3) & A11) or ((KB_MA[] == 2) & A10))
+					or	(((KB_MA[] == 1) & A9 ) or ((KB_MA[] == 0) & A8 ))),CLK42,,);
+
+	IF !DFF(/IO,CLK42,,) THEN
+		KDCA[]	= KB_MA[];
+	ELSE
+		KDCA[]	= KDD[5..3];
+	END IF;
+
+	KDD[].clk		= RXA0;
+	KDD[].d			= KD[];
+	KDD[7..6].prn	= !KB_CT2;
+
+	KDXX[].clk		= RXA0;
+	KDXX[].d		= !((KD[2..0] == 5),(KD[2..0] == 4),
+						(KD[2..0] == 3),(KD[2..0] == 2),
+						(KD[2..0] == 1),(KD[2..0] == 0));
+
+	KDX[].clk		= RXA1;
+
+	CASE KB_OFF IS
+		WHEN B"0" => KDX[].d	= (KD[5..0] & KDXX[]);
+		WHEN B"1" => KDX[].d	= (KD[5..0] or !KDXX[]);
+	END CASE;
+
+--	==============================
+
+	WR_KBD	= K_CLK or !DFF((KB_CT[] == 2),CLK42,,) or !(RXA[] == 3);
+
+	KD[] = lpm_ram_dq((B"11",KDX[5..0]),KA[15..8],!WR_KBD,CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="KBD_INI2.MIF",
+		lpm_outdata="UNREGISTERED");
+
+	KBD[].clk	= CLK42;
+	KBD[].prn	= DFF(VCC,KB_MA2,(!/IO & ENA),);
+
+--	KBD[].prn	= DFF(!/IOM,CLK42,,);
+	KBD[].d		= KBD[] & (KD[5..0] or KB_MXA);
+
+	KBO[]		= (VCC,VCC,KBD[]);
+
+END;
+

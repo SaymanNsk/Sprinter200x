@@ -1,0 +1,750 @@
+
+	TITLE "DCP";
+
+PARAMETERS
+	(
+	UPDATE = 1
+	);
+
+INCLUDE "lpm_ram_dp";
+-- INCLUDE "DC_PORT2";
+
+SUBDESIGN dcp
+	(
+	CLK42		: INPUT;
+	/RESET		: INPUT;
+
+	/RES		: OUTPUT;
+
+	CT[2..0]	: INPUT;
+
+	CONTINUE	: INPUT;
+	RAS			: OUTPUT;
+	CAS			: OUTPUT;
+	MC_END		: OUTPUT;
+	MC_BEGIN	: OUTPUT;
+	MC_TYPE		: OUTPUT;
+	MC_WRITE	: OUTPUT;
+
+	A[15..0]	: INPUT;
+	DI[7..0]	: INPUT;
+	DO[7..0]	: OUTPUT;
+	MA[11..0]	: OUTPUT;
+	MCA[1..0]	: OUTPUT;
+
+	TURBO_HAND	: INPUT;
+	CLK_Z80		: OUTPUT;
+	TURBO		: OUTPUT;
+
+	/IO			: INPUT;
+	/RD			: INPUT;
+	/WR			: INPUT;
+	/MR			: INPUT;
+	/RF			: INPUT;
+	/M1			: INPUT;
+
+	/WAIT		: OUTPUT;
+	/IOM		: OUTPUT;
+	/IOMM		: OUTPUT;
+
+	MD[7..0]	: INPUT;
+	RA[17..14]	: OUTPUT;
+	PAGE[11..0]	: OUTPUT;
+
+	TYPE[3..0]	: OUTPUT;
+
+	CS_ROM		: OUTPUT;
+	CS_RAM		: OUTPUT;
+	V_RAM		: OUTPUT;
+	PORT		: OUTPUT;
+--	DOS			: OUTPUT;
+	DOS			: INPUT;
+
+	WR_DWG		: OUTPUT;
+
+	WR_TM9		: OUTPUT;
+	WR_AWG		: OUTPUT;
+	RD_KP11		: OUTPUT;
+	KP11_MIX	: OUTPUT;
+
+	REFRESH		: INPUT;
+
+	G_LINE[9..0]: INPUT;
+	GA[9..0]	: OUTPUT;
+	GRAF		: OUTPUT;
+
+	SP_SCR		: OUTPUT;
+	SP_SA		: OUTPUT;
+	SCR128		: OUTPUT;
+
+	TEST_R		: INPUT;
+
+	HDD_DATA	: OUTPUT;
+	HDD_FLIP	: OUTPUT;
+	RAM			: OUTPUT;
+	BLK_R		: OUTPUT;
+
+	PN4Q		: OUTPUT;
+
+	ACC_ON		: INPUT;	-- asselerator state - 1 - present
+
+	DCPP[7..0]	: OUTPUT;
+
+	DOUBLE_CAS	: INPUT;
+
+	BLK_MEM		: INPUT;
+
+	)
+VARIABLE
+
+	CLK21		: NODE;
+
+--	DC			: DC_PORT2;
+
+	CLK84		: NODE;
+	CLK42X		: NODE;
+
+	CTZ[1..0]	: DFF;
+
+--	CT[2..0]	: DFF;
+
+	MEM			: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8,LPM_FILE="DCP.MIF");
+
+	D[7..0]		: NODE;
+	ADR8_MEM	: NODE;
+	MEM_D[15..0]: NODE;
+	MEM_WR		: NODE;
+
+	DCP_CX		: NODE;
+	SC_LCELL	: NODE;
+
+	PG3[5..0]	: NODE;
+	PG0[5..0]	: NODE;
+	MPGS[7..0]	: LCELL;
+	PGS[7..0]	: DFF;
+--	PGS[7..0]	: NODE;
+
+	PN[7..0]	: DFFE;
+	SC[7..0]	: DFFE;
+	SYS			: DFFE;
+	CNF[7..0]	: DFFE;
+	AROM16		: DFFE;
+	TB_SW		: DFFE;
+
+	CASH_ON		: NODE;
+	NMI_ENA		: NODE;
+
+	DD[7..0]	: DFFE;
+	STARTING	: NODE;
+
+--	DOS_		: NODE;
+--	DOS			: NODE;
+--	DOS_ON_		: NODE;
+
+	MC_RQ		: NODE;
+	MC_END		: DFFE;
+	MC_BEGIN	: DFFE;
+	MC_TYPE		: DFFE;
+	MC_WRITE	: DFFE;
+	RAS			: DFFE;
+	CAS			: DFFE;
+
+	MA_[11..0]	: DFFE;
+	MCA[1..0]	: DFFE;
+
+	/IOM		: DFFE;
+	/IOMM		: DFFE;
+	/IOMX		: DFFE;
+	/IOMY		: DFFE;
+
+	WT_CT[3..0]	: DFFE;
+	W_TAB[3..0]	: LCELL;
+	HDD_W[3..0]	: NODE;
+	/IO_WAIT	: NODE;
+	/MR_WAIT	: NODE;
+
+	MEM_RW		: NODE;
+	IO_RW		: NODE;
+	IO_RWM		: NODE;
+
+	MA_CT[1..0]	: DFFE;
+
+	WR_TM9		: DFFE;
+	RD_KP11		: DFFE;
+
+	/RES		: NODE;
+
+	RFT			: DFF;
+	RFC			: DFFE;
+
+	GRAF		: DFFE;
+	GRAF_X		: NODE;
+	GA[9..0]	: LCELL;
+
+	SP_SCR		: LCELL;
+	SP_SA		: LCELL;
+
+	HDD_FLIP	: DFFE;
+	/IOMZ		: DFFE;
+
+	HDD_DATA	: NODE;
+	HDD_ENA		: NODE;
+
+	BLK_C		: NODE;
+	/CASH		: NODE;
+
+	DCPP[7..0]	: DFFE;
+
+	PORTS_X		: NODE;
+
+	NO_IO_WAIT	: NODE;
+
+	DCP_RES		: NODE;
+
+	HDD_A[3..0]	: DFF;
+
+	X_ADR[11..0]: LCELL;
+	X_MA_[11..0]: LCELL;
+
+	WR_AWGX		: NODE;
+
+	/IOWR		: NODE;
+
+	RA[17..14]	: LCELL;
+
+--	SPR_[1..0]	: NODE;
+	SPR_[1..0]	: LCELL;
+
+	SYS_ENA		: NODE;
+
+BEGIN
+
+%
+	DC.CLK42	= CLK42;
+	DC./RESET	= /RESET;
+
+	DC.A[15..0]	= A[15..0];
+
+	DC./IO		= /IO;
+	DC./WR		= /WR;
+	DC./M1		= /M1;
+
+--	DC./IOM;
+--	DC./IOMM;
+--	DC.DCP[7..0];
+
+	DC.DOS		= DOS;
+	DC.CNF[1..0]= CNF[4..3];
+
+	DC.SYS		= SYS;
+
+--	DC.PORT_X;
+%
+
+
+--	==============================================================
+%
+	CT[].clk	= CLK42;
+
+	IF CT1 THEN
+		CT[1..0] 	= GND;
+		CT2			= !CT2;
+	ELSE
+		CT[1..0]	= CT[1..0]+1;
+		CT2			= CT2;
+	END IF;
+%
+
+	/RES	= DFFE(VCC,CLK42,,,CT0);
+--	==============================================================
+
+--	TURBO	= DFFE((TB_SW & TURBO_HAND),CLK42,,/RESET,CLK_Z80);
+	TURBO	= DFF(DFFE((TB_SW & TURBO_HAND),CLK_Z80,,/RESET,!/RF),CLK42,,);
+
+	CLK84	= CLK42 xor LCELL(CLK42X);
+	CLK42X	= DFF(!CLK42X,CLK84,,);
+
+	CTZ[].clk	= CLK84 xor CTZ1;
+	CTZ[]	= CTZ[]+1;
+
+--	CLK_Z80	= CTZ1;
+
+--	CLK_Z80	= DFF((!CLK21 & TURBO) or (TFF((CT2 & CT1),CLK42,,) & !TURBO),!CLK42,,);
+--	CLK_Z80	= DFF((CLK21 & TURBO) or (TFF((CT2 & CT1),CLK42,,) & !TURBO),!CLK42,,);
+
+	CLK_Z80	= DFF((CLK21 & TURBO) or (TFF((!CT2 & CT1),CLK42,,) & !TURBO),!CLK42,,);
+--	CLK_Z80	= DFF((!CLK21 & TURBO) or (TFF((!CT2 & CT1),CLK42,,) & !TURBO),!CLK42,,);
+
+--	==============================================================
+	CLK21	= DFF((!CT0 xor CT2),CLK42,,);
+--	=== Adress Multiplexer =======================================
+
+	MA_[].clk	= CLK42;
+--	MA_[].ena	= (CT2 xor CT0);
+	MA_[].ena	= CLK21;
+
+	WR_TM9.clk	= CLK42;
+--	WR_TM9.ena	= (CT2 xor CT0);
+	WR_TM9.ena	= CLK21;
+	WR_TM9.prn	= /RES;
+
+	RD_KP11.clk	= !CLK42;
+--	RD_KP11.ena	= (CT2 xor CT0);
+	RD_KP11.ena	= CLK21;
+	RD_KP11.prn	= /RES;
+	RD_KP11.d	= !(MA_CT[] == 0);
+
+--	WR_AWGX		= DFF((WR_TM9 or CLK21),!CLK42,,);
+	WR_AWGX		= DFF(GND,!WR_TM9,,DFF(WR_AWGX,CLK42,,));
+
+--	WR_TM9	= (!MA_CT1 or (!IO_RW & !PORTS_X));
+	WR_TM9	= (!MA_CT1 or (!/IO & !PORTS_X));
+
+	WR_AWG		= WR_AWGX;
+
+	KP11_MIX	= TFF(VCC,RD_KP11,,);
+
+	WR_DWG		= !MC_BEGIN;
+--	WR_DWG		= DFF(!MC_BEGIN,CLK42,,);
+--	WR_DWG		= LCELL(!MC_BEGIN);
+
+--	MA_CT[].ena	= (CT2 xor CT0);
+	MA_CT[].ena	= CLK21;
+	MA_CT[].clk	= CLK42;
+
+	IF !LCELL(CT2 & !CT1) THEN
+		MA_CT[] = MA_CT[]+1;
+	ELSE
+		MA_CT[] = GND;
+	END IF;
+
+%
+	MA_[11..0]	bit0 - WG_A5
+				bit1 - WG_A6
+				bit2 - MUX_KP11, 0 - WG,CMOS	1 - KMPS,TM9
+				bit3 - RD/WR	 0 - WRITE		1 - READ
+				bit4 - CS_WG93 or WR_TM9
+				bit5 - HDD/CMOS strobe
+				bit7,6	- 	00 - not
+							01 - ????
+							10 - HDD1/2
+							11 - CMOS
+				bit8 - HDD CS1/CS3 or CMOS data/adr
+				bit9,10,11 - HDD_A[2..0]
+%
+	CASE A[15..14] IS
+		WHEN 0 => SP_SCR = GND;		SP_SA = GND;
+		WHEN 1 => SP_SCR = !GRAF;	SP_SA = GND;
+		WHEN 2 => SP_SCR = GND;		SP_SA = PG3[1];
+		WHEN 3 => SP_SCR = !GRAF & LCELL(PG3[] == B"1101X1"); SP_SA = PG3[1];
+	END CASE;
+
+	CASE GRAF IS
+		WHEN 0 => GA[] = (GND,GND,MEM.q[3..0],A[13..10]);
+--		WHEN 1 => GA[] = (VCC,(G_LINE[8..0] + (B"00000",A[13..10])));
+		WHEN 1 => GA[] = (VCC,G_LINE[8..0]);
+	END CASE;
+
+	CASE (IO_RW,MA_CT0) IS
+		WHEN 0 => X_ADR[] = (GND,CNF4,PN5,DOS,/WR,A15,A14,A[6..5],A13,A7,A[2]);
+		WHEN 1 => X_ADR[] = (GND,GND,CNF[4..3],B"01000000");
+		WHEN 2 => X_ADR[] = (GND,GA3,GA[1..0],A[9..2]);
+		WHEN 3 => X_ADR[] = (GND,GND,GA[3..2],MEM.q[7..4],GA[7..4]);
+	END CASE;
+
+	CASE IO_RW IS
+		WHEN 0 => X_MA_[] = (HDD_A[2..0],MEM.q[8..6],((MEM.q[5..4]) & (!/IOMZ,!/IOMY)),/WR,MEM.q2,A[6..5]);
+		WHEN 1 => X_MA_[] = (HDD_A[2..0],B"00000",/WR,VCC,A[6..5]);
+	END CASE;
+%
+	CASE MA_CT1 IS
+--		WHEN 0 => MA_[] = X_ADR[];
+		WHEN 0 => MA_[] = (GND,X_ADR[10..0]);
+		WHEN 1 => MA_[] = (HDD_A[2..0],X_MA_[8..4],/WR,X_MA_[3],A[6..5]);
+	END CASE;
+%
+
+	CASE (IO_RW,MA_CT1) IS
+		WHEN B"00" =>
+			MA_[] 	= (X_ADR[11..0]);
+		WHEN B"01" =>
+			MA_[] 	= (HDD_A[2..0],MEM.q[8..6],((MEM.q[5..4]) & (!/IOMZ,!/IOMY)),/WR,MEM.q2,A[6..5]);
+		WHEN B"10" =>
+			MA_[] 	= (X_ADR[11..0]);
+		WHEN B"11" =>
+			MA_[] 	= (HDD_A[2..0],B"00000",/WR,VCC,A[6..5]);
+	END CASE;
+
+	MA[]	= MA_[];
+
+	MCA[].ena	= CT2 & CT1;
+	MCA[].clk	= CLK42;
+	MCA[]		= A[1..0];	-- adress for CAS
+
+	HDD_A[].clk	= CLK42;
+	CASE (A[14],A[2..0]) IS
+		WHEN 0 => HDD_A[] = 0;
+		WHEN 1 => HDD_A[] = 1;
+		WHEN 2 => HDD_A[] = 2;
+		WHEN 3 => HDD_A[] = 3;
+		WHEN 4 => HDD_A[] = 4;
+		WHEN 5 => HDD_A[] = 5;
+		WHEN 6 => HDD_A[] = 0;
+		WHEN 7 => HDD_A[] = 0;
+		WHEN 8 => HDD_A[] = 0;
+		WHEN 9 => HDD_A[] = 0;
+		WHEN 10 => HDD_A[] = 6;
+		WHEN 11 => HDD_A[] = 7;
+		WHEN 12 => HDD_A[] = 14;
+		WHEN 13 => HDD_A[] = 15;
+		WHEN 14 => HDD_A[] = 0;
+		WHEN 15 => HDD_A[] = 0;
+	END CASE;
+
+
+--	=== Memory Sinchronizer ======================================
+
+
+%          RF | MEM | RF
+		____  |     |   _______
+/MR		    \__________/
+			  |     |
+		 _____|     |   _______
+MC_BEGIN      \________/
+			  |		|__
+MC_END  ____________/  \_______
+		______      |__________
+MC_TYPE       \_____/
+			  |     |
+RAS		__    _    ___    __
+		  \__/|\__/ | \__/
+		    ____    _    __
+CAS		\__/  | \__/|\__/
+			  |		|
+
+%
+
+--	MC_RQ		= DFF(((/MR & DFF(/IO,CLK42,,)) or (/RD & /WR)),CLK42,,);
+
+--	MC_RQ		= DFF(((/MR & DFFE(GND,!CLK42,,!/IO,CT0)) or (/RD & /WR)),!CLK42,,);
+
+--	MC_RQ		= DFF((((/MR or !/RF) & DFF(/IO,CLK42,,/M1)) or (/RD & /WR)),CLK42,,);
+
+--	MC_RQ		= DFF((((/MR or !/RF) & IO_RW) or (/RD & /WR)),CLK42,,);
+
+--	MC_RQ		= DFF(((MEM_RW & IO_RW) or (/RD & /WR)),CLK42,,);
+
+	MC_RQ		= DFF(((MEM_RW & DFF(DFF(IO_RW,CLK42,,!/IO),CLK42,,!/IO)) or (/RD & /WR)),!CLK42,,);
+
+	MC_BEGIN.clk= CLK42;
+	MC_BEGIN.ena= CT1 & CT2;
+	MC_BEGIN.d	= MC_RQ;
+	MC_BEGIN.prn= !(/MR & /IO);
+
+	MC_END.clk	= CLK42;
+	MC_END.d	= VCC;
+	MC_END.ena	= (CT0 & CT2) & !MC_BEGIN & CONTINUE & !BLK_C;
+	MC_END.clrn	= !(/MR & /IO);
+
+	MC_TYPE.clk	= CLK42;
+	MC_TYPE.ena	= CT1 & CT2;
+	MC_TYPE.d	= MC_RQ or MC_END;
+	MC_TYPE.prn	= /RES;
+
+	MC_WRITE.clk= CLK42;
+	MC_WRITE.ena= CT1 & CT2;
+	MC_WRITE.d	= MC_RQ or CS_RAM or /WR or MC_END;
+	MC_WRITE.prn= /RES;
+
+	RFT.clk		= REFRESH;
+	RFT.d		= GND;
+	RFT.prn		= RFC;
+--	RFT.prn		= VCC;
+
+	RFC.clk		= CLK42;
+	RFC.d		= !MC_RQ or RFT;
+--	RFC.d		= !MC_RQ;
+	RFC.ena		= CT1 & CT2;
+
+	RAS.ena		= (!(CT1 or (CT0 xor MC_TYPE))) & (!MC_TYPE or !RFC);
+	CAS.ena		= (!(CT1 or (CT0 xor !MC_TYPE))) & (!MC_TYPE or !RFC);
+--	RAS.ena		= (!(CT1 or (CT0 xor MC_TYPE)));
+--	CAS.ena		= (!(CT1 or (CT0 xor !MC_TYPE)));
+
+	RAS.clk		= CLK42;	CAS.clk		= CLK42;
+	RAS.d		= CT2;      CAS.d		= CT2 or BLK_C;
+
+	RAS.prn		= /RES;
+	CAS.prn		= /RES;
+--	CAS.prn		= !BLK_C;
+
+--	/MR_WAIT	= (MEM_RW or /CASH or DFF(MC_END,CLK42,!/MR,)) or (!TURBO & !ACC_ON);
+--	/MR_WAIT	= MC_END or LCELL(MEM_RW or /CASH or (!TURBO & !ACC_ON));
+
+	/MR_WAIT	= LCELL(MC_END or MEM_RW or /CASH or (!TURBO & !ACC_ON));
+
+--	MEM_RW		= LCELL(/MR or !/RF);
+
+	-- anti gluk!
+	MEM_RW		= DFF((!/RF or BLK_MEM),!/MR,,LCELL(MEM_RW or !/MR));
+	IO_RWM		= DFF(!/M1,!/IO,,LCELL(IO_RW or !/IO));
+
+	IO_RW		= DFF(/IO,CLK42,,/M1);
+
+	/IOMM.clk	= CLK42;
+--	/IOMM.ena	= CT0 xor CT2;
+	/IOMM.ena	= CLK21;
+	/IOMM.d		= IO_RW or !MC_END or DFF((WT_CT[] == 0),CLK42,,);
+	/IOMM.prn	= /RES;
+
+	/IOMX.clk	= CLK42;
+--	/IOMX.ena	= CT0 xor CT2;
+	/IOMX.ena	= CLK21;
+	/IOMX.d		= /IOMM;
+	/IOMX.prn	= /RES;
+
+	/IOMY.clk	= CLK42;
+--	/IOMY.ena	= CT0 xor CT2;
+	/IOMY.ena	= CLK21;
+	/IOMY.d		= /IOMX or !MC_END or DFF((WT_CT[] == B"000X"),CLK42,,);
+--	/IOMY.prn	= /RES;
+	/IOMY.prn	= PORTS_X;
+
+	PORTS_X		= DFF(((DCPP[7..4] == B"0010") or (DCPP[7..4] == B"0001")),CLK42,,);
+
+	/IOMZ.clk	= CLK42;
+--	/IOMZ.ena	= CT0 xor CT2;
+	/IOMZ.ena	= CLK21;
+	/IOMZ.d 	= (A8 xor /RD) or /IOMX or !MC_END or DFF((WT_CT[] == B"000X"),CLK42,,);
+	/IOMZ.prn	= PORTS_X;
+
+	HDD_DATA	= DFF((HDD_ENA & DFF((MEM.q[11..8] == 0),CLK42,,) & PORTS_X),CLK42,,);
+	HDD_ENA		= (MEM.q[7..5] == B"101");
+
+	HDD_FLIP.clk	= /IOM;
+	HDD_FLIP.ena	= HDD_ENA & DFF((DCPP[] == B"0010XXXX"),CLK42,,);
+	HDD_FLIP.d		= !HDD_FLIP & (MEM.q[11..8] == 0);
+	HDD_FLIP.clrn	= /RESET & DFF(GND,!DOUBLE_CAS,,HDD_FLIP);
+
+	/IOM.clk	= CLK42;
+--	/IOM.ena	= CT0 xor CT2;
+	/IOM.ena	= CLK21;
+	/IOM.d		= (/IOMX & /IOM);
+	/IOM.prn	= !/IO & /M1;
+
+--	/IO_WAIT	= LCELL(/IO or !/M1 or DFF(DFFE((WT_CT[] == 0),CLK42,,,CLK21),CLK42,,NO_IO_WAIT));
+
+	/IO_WAIT	= LCELL(IO_RWM or DFF(DFFE((WT_CT[] == 0),CLK42,,,CLK21),CLK42,,NO_IO_WAIT));
+
+	NO_IO_WAIT	= !DFF(((A[7..0] == B"111XX1XX") & !TURBO & DOS),CLK42,,);
+--	NO_IO_WAIT	= TURBO;
+
+	WT_CT[].clk	= CLK42;
+--	WT_CT[].ena	= (CT2 xor CT0);
+	WT_CT[].ena	= CLK21;
+--	WT_CT[].ena	= CT1;
+	WT_CT[].prn	= MC_END;
+
+	CASE (/IOM,DFF((WT_CT[] == 0),CLK42,,)) IS
+		WHEN B"1X" => WT_CT[].d	= W_TAB[];
+		WHEN B"00" => WT_CT[].d	= WT_CT[]-1;
+		WHEN B"01" => WT_CT[].d	= GND;
+	END CASE;
+
+	CASE (TURBO,MEM.q[14..12]) IS
+		WHEN 0 => W_TAB[] = 2;  WHEN  8 => W_TAB[] = 2;
+		WHEN 1 => W_TAB[] = 2;  WHEN  9 => W_TAB[] = 2;
+		WHEN 2 => W_TAB[] = 1;  WHEN 10 => W_TAB[] = 4;
+		WHEN 3 => W_TAB[] = 1;  WHEN 11 => W_TAB[] = 4;
+		WHEN 4 => W_TAB[] = 1;  WHEN 12 => W_TAB[] = 7;
+		WHEN 5 => W_TAB[] = 2;  WHEN 13 => W_TAB[] = 7;
+--		WHEN 6 => W_TAB[] = 10; WHEN 14 => W_TAB[] = 10;
+		WHEN 6 => W_TAB[] = 7;  WHEN 14 => W_TAB[] = 7;
+--		WHEN 6 => W_TAB[] = 13; WHEN 14 => W_TAB[] = 13;
+		WHEN 7 => W_TAB[] = 10; WHEN 15 => W_TAB[] = 10;
+	END CASE;
+
+	CASE LCELL(MEM.q[11..8] == 0) IS
+		WHEN 0 => HDD_W[] = 10;	-- registers wait
+		WHEN 1 => HDD_W[] = 4;  -- datas wait
+	END CASE;
+
+	/WAIT		= (/IO_WAIT & /MR_WAIT);
+
+
+--	=== Other Devicese CASHE, ISA, ROM... ===
+
+	V_RAM			= PN2;	-- for ORIGINAL Waits
+
+IF UPDATE == 1 GENERATE
+	-- all ROM/RAM switches in main .tdf
+	BLK_R	= SC4;
+	-- all cashes in main .tdf
+	/CASH 	= GND;
+	-- cashe dir in main .tdf
+	CASH_ON = GND;
+ELSE GENERATE
+	-- for blk wait
+	/CASH = DFF((MEM.q[7..4] == 15),!CLK42,BLK_R,);
+--	when BLK_R = 1 => Other Devices stay Active!
+	BLK_R = DFF(  (LCELL((MEM.q7 & MEM.q6 & RAM) or
+				   (MEM.q7 & LCELL(A14 & A15 & SC4))) &
+				   !DFF(DFF(MC_RQ,CLK42,,!/MR),CLK42,,!/MR)),!CLK42,!/MR,);
+	CASH_ON		= DFFE(A7,(/IO or /RD),/RESET,,DFF((DCPP[] == H"88"),CLK42,,));
+END GENERATE;
+
+	RAM	= !LCELL(A14 or A15 or (SC0 & SYS));
+
+	CS_ROM	= LCELL(/MR or !RAM or !/RF);
+	CS_RAM	= LCELL(/MR or  RAM or !/RF);
+
+-- ==============================================
+
+--	graf screen enable for pages
+
+	GRAF_X		= LCELL(MEM.q[7..4] == B"0101");
+
+	GRAF.clk	= CLK42;
+	GRAF.ena	= (CT0 & CT2);
+	GRAF.d 		= GRAF_X;
+
+	BLK_C 		= LCELL((GRAF_X xor GRAF) & !MC_TYPE);
+
+-----------------------------------------
+
+	SCR128		= PN3;
+
+	D[]			= DI[];
+	-- when not IO - reset DCPP!
+
+	DCP_RES		= DFF((STARTING & !/IO & /M1),CLK42,,);
+
+	DCPP[].clk	= CLK42;
+	DCPP[].ena	= !DFF(MC_END,CLK42,,);
+	DCPP[].clrn	= MC_END & DCP_RES;	-- not in/out when START
+	DCPP[].d	= MD[];
+
+--	DD[].clk	= !CLK42;
+--	DD[].ena	= !DFF(MC_END,!CLK42,,);
+
+	DD[].clk	= CLK42;
+	DD[].ena	= !DFF(MC_END,CLK42,,);
+	DD[].clrn	= MC_END & DCP_RES;
+
+	CASE LCELL(MD[7..4] == 15) IS
+		WHEN 0 => DD[].d = MD[];
+		WHEN 1 => DD[].d = (VCC,VCC,PG3[]);
+	END CASE;
+
+--	=== Port Decoder =============================================
+
+	DCP_CX		= (DCPP[] == B"1100XXXX");
+	SYS_ENA		= DFF((DCP_CX & (DCPP[] == B"XXXXX110")),CLK42,,);
+
+--	/IOWR		= DFF((/WR or /IO),CLK42,,!/IO);
+	/IOWR		= LCELL(/IO or /WR or !/M1);
+
+    CNF[].ena 	= SYS_ENA; CNF[].d  = (DI[] & DI2) or (CNF[] & !DI2);
+	AROM16.ena 	= SYS_ENA; AROM16.d = (DI0 & !DI1) or (AROM16 & DI1);
+	TB_SW.ena 	= SYS_ENA; TB_SW.d  = (DI0 &  DI1) or (TB_SW & !DI1);
+	SYS.ena 	= SYS_ENA; SYS.d    = !A6;
+
+	SC[].ena 	= DFF((DCP_CX & (DCPP[] == B"XXXXX000")),CLK42,,)	;SC[].d   = DI[];
+	PN[].ena 	= DFF((DCP_CX & (DCPP[] == B"XXXXX001")),CLK42,,)	;PN[].d	  = DI[];
+
+	TB_SW.clk	= /IOWR;
+	AROM16.clk	= /IOWR;
+	PN[].clk	= /IOWR;
+	SC[].clk	= /IOWR;
+	SYS.clk		= /IOWR;
+	CNF[].clk	= /IOWR;
+
+	AROM16.clrn		= /RESET;
+	TB_SW.prn		= /RESET;
+	SYS.clrn		= /RESET;
+	CNF[].clrn		= /RESET;
+
+	SC[].clrn		= /RESET & !CNF6;	-- Scorpion-OFF
+
+	PN[5..0].clrn	= /RESET & !CNF5;	-- reset PN5
+	PN[7..5].clrn	= /RESET & CNF7;	-- set Pentagon-512
+
+	PN4Q	= PN4;
+
+--	====================================
+
+--	********** Pages decoder ***********
+
+--	====================================
+
+	PG3[]		= (!PN7,VCC,LCELL((SC4 & !CNF7) or (CNF7 & PN6)),PN[2..0]);
+
+--	SC0,SC1,SYS,DOS,PN4,AROM16,CASH_ON,NMI_ENA
+	PG0[]		= (VCC,GND,
+				  LCELL(SC0 or !SYS or CASH_ON or !NMI_ENA),
+				  LCELL(((AROM16 & !(SC0 & SYS)) or (CASH_ON & NMI_ENA))),
+				  LCELL((SPR_1 & SC_LCELL) or !SYS or !NMI_ENA),
+				  LCELL((SPR_0 & SC_LCELL) or !SYS or !NMI_ENA));
+
+--	SC_LCELL	= LCELL(!(SC0 & SYS) & !CASH_ON);
+	SC_LCELL	= (!(SC0 & SYS) & !CASH_ON);
+
+	NMI_ENA		= VCC;
+
+	SPR_[]	= !SC1 & (DOS,(PN4 or !DOS));	-- expansion/dos/basic128/basic48
+
+	CASE (TEST_R,SYS) IS
+		WHEN B"X0" => RA[] = (!AROM16,B"000");		-- system 0/1
+		WHEN B"01" => RA[] = (!AROM16,GND,SPR_[]);	-- expansion/dos/basic
+		WHEN B"11" => RA[] = (B"001",SPR_0);		-- test
+	END CASE;
+
+--	====================================
+
+	CASE A[15..14] IS
+		WHEN 0 => MPGS[5..0] = PG0[];
+		WHEN 1 => MPGS[5..0] = B"101001"; 	%H"E9"%
+		WHEN 2 => MPGS[5..0] = B"101010"; 	%H"EA"%
+		WHEN 3 => MPGS[5..0] = PG3[];
+	END CASE;
+	MPGS[7..6]	= VCC;
+
+--	STARTING = DFF(GND,VCC,/RESET,(/IO or /RD));
+	STARTING = LCELL(/RESET & (STARTING or !(/IO or /RD)));
+
+	PGS[].clk	= !CLK42;
+	CASE (LCELL(/IO & !(A14 & A15 & !STARTING)),MC_END) IS
+		WHEN B"1X" => PGS[]	= (VCC,VCC,MPGS[5..0]);
+		WHEN B"01" => PGS[] = DD[];
+		WHEN B"00" => PGS[] = GND;
+	END CASE;
+
+	MEM_WR	= DFFE((DCPP[7] & DCPP[6] & STARTING & DFF(DFF((MC_END & !/WR),CLK42,,),CLK42,,)),CLK42,!/IO,,CT1);
+
+	ADR8_MEM	= GND;
+
+	CASE ADR8_MEM IS
+		WHEN 1 => MEM_D[]	= (DI[],MEM.q[7..0]);	DO[] = MEM.q[15..8];
+		WHEN 0 => MEM_D[]	= (MEM.q[15..8],DI[]);	DO[] = MEM.q[7..0];
+	END CASE;
+
+	MEM.wren 		= MEM_WR;
+	MEM.data[] 		= MEM_D[];
+	MEM.wraddress[] = PGS[];
+	MEM.wrclock		= CLK42;
+	MEM.wrclken		= VCC;
+	MEM.rden		= VCC;
+	MEM.rdaddress[] = PGS[];
+	MEM.rdclock		= CLK42;
+	MEM.rdclken		= VCC;
+--					= MEM.q[];
+
+	PAGE[]			= MEM.q[11..0];
+	TYPE[]			= MEM.q[15..12];
+
+
+	PORT			= !(MEM.q[15..12] == 0) or /IO or (/RD & /WR);
+
+END;
+
+

@@ -1,0 +1,368 @@
+
+	TITLE "AY-3-8910";
+
+include "lpm_ram_dq";
+include "lpm_add_sub";
+
+SUBDESIGN ay
+	(
+	/RESET			: INPUT;
+	CLK42			: INPUT;	-- такты 42
+	AY_T[8..0]		: INPUT;	-- внешний счетчик тактов
+
+	AY_D_WR			: INPUT;
+	AY_A_WR			: INPUT;
+
+	D[7..0]			: INPUT;
+	DO[7..0]		: OUTPUT;
+
+	AY_CH_A[3..0]	: OUTPUT;
+	AY_CH_B[3..0]	: OUTPUT;
+	AY_CH_C[3..0]	: OUTPUT;
+
+	AY_CH_L[9..0]	: OUTPUT;
+	AY_CH_R[9..0]	: OUTPUT;
+
+	AY_CH_VAL		: OUTPUT;	-- chanels data valid
+	BEEPER			: INPUT;
+
+	)
+VARIABLE
+
+	BD[7..0]		: DFFE;
+	BWR				: DFFE;
+	AWR				: DFFE;
+
+	AY_DI[7..0]		: NODE;
+	AY_DO[7..0]		: NODE;
+
+	AY_F_RES		: NODE;
+	AY_F_R1			: NODE;
+
+	AY_ADR[7..0]	: DFF;
+	AY_AAX[1..0]	: DFF;
+
+	AY_X_[5..0] 	: DFFE;
+	AY_GF[3..0] 	: DFFE;
+
+	AY_OUT[3..1]	: DFFE;
+	AY_OUTS[3..1]	: NODE;
+
+	AY_CLK1			: NODE;
+	AY_SH[16..0]	: DFFE;
+	AY_AA[3..0]		: DFF;
+	AY_SH_Q			: NODE;
+
+	AY_ABLK			: NODE;
+	AY_BBLK         : NODE;
+	AY_AINV         : NODE;
+	AY_BINV         : NODE;
+
+	AY_ADRX[7..0]	: NODE;
+	AY_CCC[8..0]	: DFF;
+	AY_AX[7..0]		: NODE;
+	AY_C			: DFFE;
+	AY_CX			: DFFE;
+	AY_CXX			: DFFE;
+	AY_WR			: NODE;
+	AY_VA[3..0]		: DFFE;
+	AY_VAR			: DFFE;
+	AY_VX			: DFFE;
+
+	AY_DAT_WR		: DFF;
+	AY_DAT[7..0]	: DFFE;
+
+	AY_DQ1[3..0]	: DFFE;
+	AY_DQ2[3..0]	: DFFE;
+	AY_DQ3[3..0]	: DFFE;
+
+	AY_DQX[3..0]	: DFFE;
+	AY_OUTSX		: NODE;
+	AY_CH_MIX		: DFF;
+
+	AY_AMP[3..0]	: DFF;
+
+	AY_DD[7..0]		: DFFE;
+
+	AY_CH_A[3..0]	: DFF;
+	AY_CH_B[3..0]   : DFF;
+	AY_CH_C[3..0]   : DFF;
+
+	AY_CH_CS[8..0]	: DFF;
+	AY_CH_LX[10..0]	: DFFE;
+	AY_CH_RX[10..0]	: DFFE;
+
+--	AY_CH_L[9..0]	: DFF;
+--	AY_CH_R[9..0]	: DFF;
+
+	AY_CH_DIR[7..0]	: DFFE;
+
+	AY_OUTS1X		: NODE;
+	AY_OUTS2X       : NODE;
+	AY_OUTS3X       : NODE;
+
+	AY_OUTS1Y       : NODE;
+--	AY_OUTS2Y       : NODE;
+	AY_OUTS3Y       : NODE;
+
+BEGIN
+
+--	====== AY8910 III version =========
+
+	BD[].clk	= CLK42;
+	AWR.clk		= CLK42;
+	BWR.clk		= CLK42;
+
+	BD[].ena	= AY_CCC1;
+	BWR.ena		= AY_CCC1;
+	AWR.ena		= AY_CCC1;
+
+	BD[7..5].clrn = !((AY_ADR[3..0] == B"00X1") or -- ch 1,2
+					  (AY_ADR[3..0] == B"0101") or -- ch 3
+					  (AY_ADR[3..0] == B"0110")    -- ch shum
+					 );
+	BD4.clrn	  = !((AY_ADR[3..0] == B"00X1") or -- ch 1,2
+				  	  (AY_ADR[3..0] == B"0101")    -- ch 3
+					 );
+
+	BD[]		= D[];
+
+	AWR			= AY_A_WR;
+--	BWR			= (AY_D_WR or !(AY_ADR[5..4] == 0));
+	BWR			= AY_D_WR;
+
+	AY_CH_DIR[].clk	= AY_D_WR;
+	AY_CH_DIR[].ena	= (AY_ADR[] == B"XXX10000");
+	AY_CH_DIR[].d	= D[];
+	AY_CH_DIR[].clrn= /RESET;
+
+	AY_CCC[].clk	= CLK42;
+	AY_CCC[8..0].d	= AY_T[];
+
+	(AY_AAX[].clk,AY_ADR[].clk)	= AY_A_WR;
+	AY_ADR[].d		= D[];
+
+	-- Write to 0D register
+	AY_AAX0.d	= (D[3..0] == B"1101");
+	-- Write to AMP registers 08,09,0A
+	AY_AAX1.d	= (D[3..0] == B"1000") or (D[3..0] == B"1001") or (D[3..0] == B"1010");
+
+	-- reset signal for form generator
+--	AY_F_RES	= DFF(VCC,DFF((!((AY_DO[7..5] == B"111") & AY_CCC1 & !AY_DO0) or AY_F_RES),CLK42,,),LCELL(!(AY_AAX0 or (AY_AAX1 & BD4)) or BWR),);
+
+--	AY_F_R1		= DFF((!(AY_AAX0 or (AY_AAX1)) or BWR),CLK42,,);
+	AY_F_R1		= DFF((!AY_AAX0 or BWR),CLK42,,);
+	AY_F_RES	= DFF(DFF(VCC,AY_CCC7,AY_F_R1,),AY_CCC7,AY_F_R1,);
+
+	AY_X_[].prn	= VCC;
+
+--  	AY_GF[3..0].clrn = /RESET;
+--  	AY_GF[3..0].clk	 = AY_D_WR;
+--		AY_GF[3..0].ena = AY_ADR[] == B"XXXX1101";
+--		AY_GF[3..0].d  = D[3..0];
+
+	AY_DAT_WR.clk	= CLK42;
+
+	CASE AY_CCC[1..0] IS
+		WHEN B"00" =>
+			AY_AX[]		= (VCC,GND,AY_CCC[7..2]);	-- CMD adress
+			AY_WR		= GND;
+			AY_DI[]		= AY_DAT[];
+
+			AY_DAT_WR	= VCC;
+
+		WHEN B"01" =>
+			AY_AX[]		= (B"0000",AY_ADR[3..0]);
+			AY_WR		= !BWR;
+			AY_DI[]		= BD[];
+
+			AY_DAT_WR	= VCC;
+
+		WHEN B"1X" =>
+			AY_AX[] 	= (GND,GND,GND,AY_DO[4..0]);
+			AY_DAT_WR	= AY_DO6;
+			AY_WR		= !LCELL(!(AY_DO[7..5] == B"010") &
+								!((AY_DO[7..5] == B"110") & AY_CXX));
+--								!((AY_DO[7..5] == B"110") & AY_CX));
+			AY_DI[]		= AY_DAT[];
+	END CASE;
+
+	AY_DD[].clk	= CLK42;
+	AY_DD[].ena	= !AY_CCC1 & !AY_CCC0;
+	AY_DD[]	= AY_DO[];
+
+	AY_DO[] = lpm_ram_dq(AY_DI[],AY_AX[],AY_WR,CLK42,CLK42)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="AY.MIF");
+
+--	AY_CX.prn	= !DFF((((AY_DO[7..5] == B"00X") & AY_CCC1) & (!AY_DO5 or AY_C)),CLK42,,);
+	AY_CX.prn	= !DFF(((AY_DO[7..5] == B"000") & AY_CCC1),CLK42,,);
+	AY_CXX.prn	= !DFF(((AY_DO[7..5] == B"000") & AY_CCC1),CLK42,,);
+	AY_C.prn	= VCC;
+
+	AY_CX.clk	= CLK42;
+	AY_CXX.clk	= CLK42;
+	(AY_CXX.ena,AY_CX.ena)	= DFF((((AY_DO[7..5] == B"010") or (AY_DO[7..5] == B"111")) & AY_CCC1),CLK42,,);
+
+	IF DFF(((AY_DO[7..5] == B"010")),CLK42,,) THEN
+		AY_CX = (LCELL(AY_DAT[] == 0) & AY_CX);
+--		AY_CXX = (LCELL(AY_DAT[] == 0) & AY_CXX);
+--		AY_CX  = (LCELL(AY_DAT[] == 0) & AY_CX) or (AY_C & DFF(AY_DO0,CLK42,,));
+		AY_CXX = (LCELL(AY_DAT[] == 0) & AY_CXX) or (AY_C & DFF(AY_DO0,CLK42,,));
+	ELSE
+		AY_CXX = DFF(((!/RESET & AY_DO0) or (!AY_F_RES & !AY_DO0)),CLK42,,);
+		AY_CX  = DFF(((!/RESET & AY_DO0) or (!AY_F_RES & !AY_DO0)),CLK42,,);
+	END IF;
+
+	(AY_C.clk,AY_DAT[].clk)	= CLK42;
+	(AY_C.ena,AY_DAT[].ena)	= !DFF(AY_DAT_WR,CLK42,,);
+	(AY_C,AY_DAT[])	= (GND,AY_DO[]) - (B"00000000",DFF((DFF(!AY_DO5,CLK42,,) or (AY_C & DFF(AY_DO7,CLK42,,))),CLK42,,));
+
+	AY_OUT[].clk = CLK42;
+
+	AY_AMP[].clk = CLK42;
+	AY_AMP[] 	 = ((AY_DAT[3..0] or AY_DAT[4]) & (AY_AA[] or !AY_DAT[4]));
+
+	AY_DQ1[].clk = CLK42;
+	AY_OUTS1 	 = DFF(((AY_DO[7..0] == B"011XX001") & AY_CCC1),CLK42,,);
+	AY_OUT1.ena	 = AY_OUTS1;
+	AY_OUT1 	 = AY_CX xor AY_OUT1;
+	AY_DQ1[].ena = AY_OUTS1;
+	AY_DQ1[]	 = AY_AMP[] & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+
+	AY_DQ2[].clk = CLK42;
+	AY_OUTS2 	 = DFF(((AY_DO[7..0] == B"011XX010") & AY_CCC1),CLK42,,);
+	AY_OUT2.ena	 = AY_OUTS2;
+	AY_OUT2 	 = AY_CX xor AY_OUT2;
+	AY_DQ2[].ena = AY_OUTS2;
+	AY_DQ2[] 	 = AY_AMP[] & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+
+	AY_DQ3[].clk = CLK42;
+	AY_OUTS3 	 = DFF(((AY_DO[7..0] == B"011XX011") & AY_CCC1),CLK42,,);
+	AY_OUT3.ena	 = AY_OUTS3;
+	AY_OUT3 	 = AY_CX xor AY_OUT3;
+	AY_DQ3[].ena = AY_OUTS3;
+	AY_DQ3[] 	 = AY_AMP[] & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+
+	AY_OUTSX	 = DFF((((AY_DO[7..0] == B"011XX01X") or
+				   	 (AY_DO[7..0] == B"011XX0X1")) & AY_CCC1),CLK42,,);
+	AY_DQX[].clk = CLK42;
+	AY_DQX[].ena = AY_OUTSX;
+	AY_DQX[]	 = AY_AMP[] & AY_CH_MIX;
+
+	AY_DQX[].clrn = !AY_SH_Q;
+	AY_DQX[].prn = (B"0010") or !DFF((AY_SH_Q & BEEPER),CLK42,,);
+
+	AY_CH_MIX.clk = CLK42;
+	CASE AY_DO[1..0] IS
+		WHEN 0,1 => AY_CH_MIX = LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+		WHEN 2 => AY_CH_MIX = LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+		WHEN 3 => AY_CH_MIX = LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+	END CASE;
+
+	AY_SH_Q		= DFF(((AY_DO[7..0] == B"011XX100") & AY_CCC1),CLK42,,);
+
+	AY_SH[].clk	 = CLK42;
+	AY_SH[].prn  = /RESET;
+	AY_SH[].ena	 = AY_SH_Q & AY_CXX;
+	AY_SH[] 	 = ((AY_SH3 xor AY_SH0),AY_SH[16..1]);
+
+	AY_VAR.clk	= CLK42;
+	AY_VX.clk	= CLK42;
+	AY_VA[].clk	= CLK42;
+
+	(AY_VAR.clrn,AY_VA[].clrn) = AY_F_RES;
+	AY_VX.clrn	= AY_F_RES;
+
+	(AY_VX.ena,AY_VA[].ena,AY_VAR.ena) = DFF(((AY_DO[7..0] == B"011XX101") & AY_CCC1 & !AY_BBLK & AY_CX),CLK42,,);
+	(AY_VX,AY_VA[],AY_VAR) = (AY_VX,AY_VA[],AY_VAR) + 1;
+
+	AY_X_[].clk	= CLK42;
+	AY_X_[].ena = DFF(((AY_DO[7..0] == B"011XX110") & AY_CCC1),CLK42,,);
+	AY_X_[] 	= AY_DAT[5..0];
+
+	AY_GF[].clk	= CLK42;
+	AY_GF[].ena	= DFF(((AY_DO[7..0] == B"011XX111") & AY_CCC1),CLK42,,);
+	AY_GF[]		= AY_DAT[3..0];
+
+	-- block count when 1-st period end
+	AY_BBLK		= DFF((AY_VX & (AY_GF0 or !AY_GF3)),CLK42,,); -- VA_COUNT_STOP
+
+	-- set ALL ZERO when 1-st period end
+	AY_ABLK		= DFF((!AY_GF3 & AY_VX),CLK42,,);
+
+	-- inverse 2-nd-s periods
+	AY_BINV		= DFF((AY_VX & ((AY_GF[] == B"1X10") or (AY_GF == B"1X01"))),CLK42,,);
+
+	-- inverse ALL
+	AY_AINV		= AY_GF2;
+
+	AY_AA[].clrn= VCC;
+	AY_AA[].clk	= CLK42;
+	AY_AA[].d	= (AY_VA[] xor AY_BINV xor !AY_AINV) & !AY_ABLK;
+
+%
+	AY_AA[].clrn= VCC;
+	AY_AA[].prn	= GND;
+	AY_AA[].clk	= CLK42;
+	AY_AA[]		= VCC;
+%
+
+	AY_CH_A[3..0].clk = AY_CCC7;
+	AY_CH_B[3..0].clk = AY_CCC7;
+	AY_CH_C[3..0].clk = AY_CCC7;
+
+	AY_CH_A[3..0] = AY_DQ1[3..0];
+	AY_CH_B[3..0] = AY_DQ2[3..0];
+	AY_CH_C[3..0] = AY_DQ3[3..0];
+
+	DO[7..0]	= AY_DD[];
+
+	AY_CH_CS[].clk	= CLK42;
+	CASE AY_DQX[] IS
+		WHEN 15 => AY_CH_CS[] = 360 ;
+		WHEN 14 => AY_CH_CS[] = 255 ;
+		WHEN 13 => AY_CH_CS[] = 180 ;
+		WHEN 12 => AY_CH_CS[] = 127 ;
+		WHEN 11 => AY_CH_CS[] = 90  ;
+		WHEN 10 => AY_CH_CS[] = 64  ;
+		WHEN 9  => AY_CH_CS[] = 45  ;
+		WHEN 8  => AY_CH_CS[] = 32  ;
+		WHEN 7  => AY_CH_CS[] = 22  ;
+		WHEN 6  => AY_CH_CS[] = 16  ;
+		WHEN 5  => AY_CH_CS[] = 11  ;
+		WHEN 4  => AY_CH_CS[] = 8   ;
+		WHEN 3  => AY_CH_CS[] = 6   ;
+		WHEN 2  => AY_CH_CS[] = 4   ;
+		WHEN 1  => AY_CH_CS[] = 2   ;
+		WHEN 0  => AY_CH_CS[] = 0   ;
+	END CASE;
+
+	AY_OUTS1X = DFF(AY_OUTS1,CLK42,,);
+	AY_OUTS2X = DFF((AY_OUTS2 or AY_SH_Q),CLK42,,);
+	AY_OUTS3X = DFF(AY_OUTS3,CLK42,,);
+
+	AY_OUTS1Y = DFF(AY_OUTS1 or AY_OUTS1X,CLK42,,);
+--	AY_OUTS2Y = DFF(AY_OUTS2 or AY_OUTS2X,CLK42,,);
+	AY_OUTS3Y = DFF(AY_OUTS3 or AY_OUTS3X,CLK42,,);
+
+	(AY_CH_LX[].clrn,AY_CH_RX[].clrn)	= !DFF((AY_CCC[7..2] == 0),CLK42,,);
+
+	(AY_CH_LX[],,) = LPM_ADD_SUB (,AY_CH_LX[],(B"00",AY_CH_CS[]),,,,)
+					WITH(LPM_WIDTH=11,LPM_REPRESENTATION="UNSIGNED");
+	(AY_CH_RX[],,) = LPM_ADD_SUB (,AY_CH_RX[],(B"00",AY_CH_CS[]),,,,)
+					WITH (LPM_WIDTH=11,LPM_REPRESENTATION="UNSIGNED");
+
+	AY_CH_LX[].clk	= CLK42;
+	AY_CH_RX[].clk	= CLK42;
+	AY_CH_LX[].ena = DFF(DFF((AY_OUTS1 or AY_OUTS1Y or AY_OUTS2X or AY_OUTS2),CLK42,,),CLK42,,);
+	AY_CH_RX[].ena = DFF(DFF((AY_OUTS3 or AY_OUTS3Y or AY_OUTS2X or AY_OUTS2),CLK42,,),CLK42,,);
+
+	AY_CH_VAL	= DFF((AY_CCC[7..2] == B"111100"),CLK42,,);
+
+--	AY_CH_L[].clk = AY_CH_VAL;
+--	AY_CH_R[].clk = AY_CH_VAL;
+	AY_CH_L[] = AY_CH_LX[10..1];
+	AY_CH_R[] = AY_CH_RX[10..1];
+
+END;
+

@@ -1,0 +1,3584 @@
+
+	TITLE "Sprinter_97";
+
+---------Sprinter-II--------------------------------------
+%
+CONSTANT NEWS		= 0;
+CONSTANT TURBO_MODE = 21;	-- 14 - 14MHz ; 21 - 21MHz ; 28 - 28MHZ
+CONSTANT SOUND_CARD = 0;	-- 0 - OFF ; 1 - ON
+
+CONSTANT KEYBOARD	= B"00";	-- 0 - OFF ; 1 - ONLY RESET ; 2 - SPEC ; 3 - SCAN
+CONSTANT VIDEO		= 1;	-- 0 - Spectrum 48k ; 1 - Sprinter-97
+CONSTANT COVOX		= 8;	-- 0 - COVOX - OFF ; 4..8 BITS
+CONSTANT ACCELERAT	= 1;	-- 0 - not present ; 1 - simple ; 2 - Gigaccelerator
+CONSTANT PORT_1F	= 0;	-- 0 - not correct ; 1 - correct
+CONSTANT PORT_FF	= 0;
+CONSTANT ISD_KBD	= 0;
+CONSTANT CONFIGS	= 1;
+CONSTANT F12_TURBO	= 0;
+CONSTANT CASH_RAM   = 0;
+CONSTANT MODEM		= 0;
+CONSTANT SCREEN		= 0;
+CONSTANT MODE640	= 1;
+CONSTANT ACCELER_FN = 1;
+CONSTANT ACC_DECODE = 0;
+
+CONSTANT SPRINTER	= 0;
+
+CONSTANT COVOX_MODE = B"00";
+
+CONSTANT AY_3_8910	= 0;
+CONSTANT AY_STEREO	= 0;
+
+CONSTANT NMI_USE	= 0;
+
+CONSTANT NO_SPEC_SCR= 0;
+CONSTANT S128_OFF	= 0;
+CONSTANT PENTAGON512= 0;
+CONSTANT READRESS	= 0;
+
+CONSTANT MULT		= 0;
+
+CONSTANT MAGIC		= 0;
+CONSTANT BITPLANES	= 0;	-- 0 - no bitplanes ; 1 - yes bitplanes
+
+CONSTANT FORTH_CPU	= 0;
+CONSTANT STACK_W	= 6;
+CONSTANT STACK_N	= 4;
+%
+---------Sprinter-I-------------------------------------------
+% CONSTANT NEWS		= 0;
+CONSTANT TURBO_MODE = 21;	-- (not USED!) 14 - 14MHz ; 21 - 21MHz ; 28 - 28MHZ
+CONSTANT SOUND_CARD = 0;	-- 0 - OFF ; 1 - ON
+
+CONSTANT KEYBOARD	= B"10";	-- 0 - OFF ; 1 - ONLY RESET ; 2 - SPEC ; 3 - SCAN
+CONSTANT VIDEO		= 1;	-- 0 - Spectrum 48k ; 1 - Sprinter-97
+CONSTANT COVOX		= 8;	-- 0 - COVOX - OFF ; 4..8 BITS
+CONSTANT ACCELERAT	= 0;	-- 0 - not present ; 1 - simple ; 2 - Gigaccelerator
+CONSTANT PORT_1F	= 1;	-- 0 - not correct ; 1 - correct
+CONSTANT PORT_FF	= 0;
+CONSTANT ISD_KBD	= 1;
+CONSTANT CONFIGS	= 1;
+CONSTANT F12_TURBO	= 1;
+CONSTANT CASH_RAM   = 1;
+CONSTANT MODEM		= 0;
+CONSTANT SCREEN		= 0;	-- screen for video
+CONSTANT MODE640	= 0;
+CONSTANT ACCELER_FN = 0;
+CONSTANT ACC_DECODE = 0;
+
+CONSTANT SPRINTER	= 0;
+
+CONSTANT COVOX_MODE = B"00"; -- 00 register on EAB; 11 - registr on LCELL;
+							 -- 01 4 chanels;		10 - COVOX-Blaster
+CONSTANT AY_3_8910	= 0;
+CONSTANT AY_STEREO	= 0;
+
+CONSTANT NMI_USE	= 0;
+
+CONSTANT NO_SPEC_SCR= 0;
+CONSTANT S128_OFF	= 0;
+CONSTANT PENTAGON512= 1;
+CONSTANT READRESS	= 0;
+
+CONSTANT MULT		= 0;
+
+CONSTANT MAGIC		= 0;
+CONSTANT BITPLANES	= 0;	-- 0 - no bitplanes ; 1 - yes bitplanes
+
+CONSTANT FORTH_CPU	= 0;
+CONSTANT STACK_W	= 6;
+CONSTANT STACK_N	= 4;
+%
+---------Sprinter-AY-------------------------------------------
+ CONSTANT NEWS		= 0;
+CONSTANT TURBO_MODE = 21;	-- (not USED!) 14 - 14MHz ; 21 - 21MHz ; 28 - 28MHZ
+CONSTANT SOUND_CARD = 0;	-- 0 - OFF ; 1 - ON
+
+CONSTANT KEYBOARD	= B"10";	-- 0 - OFF ; 1 - ONLY RESET ; 2 - SPEC ; 3 - SCAN
+CONSTANT VIDEO		= 0;	-- 0 - Spectrum 48k ; 1 - Sprinter-97
+CONSTANT COVOX		= 0;	-- 0 - COVOX - OFF ; 4..8 BITS
+CONSTANT ACCELERAT	= 0;	-- 0 - not present ; 1 - simple ; 2 - Gigaccelerator
+CONSTANT PORT_1F	= 1;	-- 0 - not correct ; 1 - correct
+CONSTANT PORT_FF	= 0;
+CONSTANT ISD_KBD	= 1;
+CONSTANT CONFIGS	= 1;
+CONSTANT F12_TURBO	= 1;
+CONSTANT CASH_RAM   = 0;
+CONSTANT MODEM		= 0;
+CONSTANT SCREEN		= 0;	-- screen for video
+CONSTANT MODE640	= 0;
+CONSTANT ACCELER_FN = 0;
+CONSTANT ACC_DECODE = 0;
+
+CONSTANT SPRINTER	= 0;
+
+CONSTANT COVOX_MODE = B"00"; -- 00 register on EAB; 11 - registr on LCELL;
+							 -- 01 4 chanels;		10 - COVOX-Blaster
+CONSTANT AY_3_8910	= 3;
+CONSTANT AY_STEREO	= 0;
+
+CONSTANT NMI_USE	= 0;
+
+CONSTANT NO_SPEC_SCR= 0;
+CONSTANT S128_OFF	= 0;
+CONSTANT PENTAGON512= 0;
+CONSTANT READRESS	= 0;
+
+CONSTANT MULT		= 0;
+
+CONSTANT MAGIC		= 0;
+CONSTANT BITPLANES	= 0;	-- 0 - no bitplanes ; 1 - yes bitplanes
+
+CONSTANT FORTH_CPU	= 0;
+CONSTANT STACK_W	= 6;
+CONSTANT STACK_N	= 4;
+------------Sprinter-GAME-------------------
+%
+CONSTANT NEWS		= 0;
+CONSTANT TURBO_MODE = 21;	-- 14 - 14MHz ; 21 - 21MHz ; 28 - 28MHZ
+CONSTANT SOUND_CARD = 0;	-- 0 - OFF ; 1 - ON
+
+CONSTANT KEYBOARD	= B"00";	-- 0 - OFF ; 1 - ONLY RESET ; 2 - SPEC ; 3 - SCAN
+CONSTANT VIDEO		= 1;	-- 0 - Spectrum 48k ; 1 - Sprinter-97
+CONSTANT COVOX		= 8;	-- 0 - COVOX - OFF ; 4..8 BITS
+CONSTANT ACCELERAT	= 1;	-- 0 - not present ; 1 - simple ; 2 - Gigaccelerator
+CONSTANT PORT_1F	= 0;	-- 0 - not correct ; 1 - correct
+CONSTANT PORT_FF	= 0;
+CONSTANT ISD_KBD	= 0;
+CONSTANT CONFIGS	= 1;
+CONSTANT F12_TURBO	= 0;
+CONSTANT CASH_RAM   = 1;
+CONSTANT MODEM		= 0;
+CONSTANT SCREEN		= 0;	-- screen for DEMO-VIDEO
+CONSTANT MODE640	= 0;
+CONSTANT ACCELER_FN = 1;
+CONSTANT ACC_DECODE = 0;
+
+CONSTANT SPRINTER	= 0;
+
+CONSTANT COVOX_MODE = B"10";
+
+CONSTANT AY_3_8910	= 0;
+CONSTANT AY_STEREO	= 0;
+
+CONSTANT NMI_USE	= 0;
+
+CONSTANT NO_SPEC_SCR= 0;
+CONSTANT S128_OFF	= 0;
+CONSTANT PENTAGON512= 0;
+CONSTANT READRESS	= 0;
+
+CONSTANT MULT		= 0;
+
+CONSTANT MAGIC		= 0;
+CONSTANT BITPLANES	= 0;	-- 0 - no bitplanes ; 1 - yes bitplanes
+
+CONSTANT FORTH_CPU	= 0;
+CONSTANT STACK_W	= 6;
+CONSTANT STACK_N	= 4;	%
+------------Sprinter-DOOM-------------------
+%
+CONSTANT NEWS		= 0;
+CONSTANT TURBO_MODE = 21;	-- 14 - 14MHz ; 21 - 21MHz ; 28 - 28MHZ
+CONSTANT SOUND_CARD = 0;	-- 0 - OFF ; 1 - ON
+
+CONSTANT KEYBOARD	= B"00";	-- 0 - OFF ; 1 - ONLY RESET ; 2 - SPEC ; 3 - SCAN
+CONSTANT VIDEO		= 1;	-- 0 - Spectrum 48k ; 1 - Sprinter-97
+CONSTANT COVOX		= 8;	-- 0 - COVOX - OFF ; 4..8 BITS
+CONSTANT ACCELERAT	= 3;	-- 0 - not present ; 1 - simple ; 2 - Gigaccelerator
+CONSTANT PORT_1F	= 0;	-- 0 - not correct ; 1 - correct
+CONSTANT PORT_FF	= 0;
+CONSTANT ISD_KBD	= 0;
+CONSTANT CONFIGS	= 0;
+CONSTANT F12_TURBO	= 0;
+CONSTANT CASH_RAM   = 1;
+CONSTANT MODEM		= 0;
+CONSTANT SCREEN		= 0;	-- screen for DEMO-VIDEO
+CONSTANT MODE640	= 0;
+CONSTANT ACCELER_FN = 1;
+CONSTANT ACC_DECODE = 0;
+
+CONSTANT SPRINTER	= 0;
+
+CONSTANT COVOX_MODE = B"10";
+
+CONSTANT AY_3_8910	= 0;
+CONSTANT AY_STEREO	= 0;
+
+CONSTANT NMI_USE	= 0;
+
+CONSTANT NO_SPEC_SCR= 0;
+CONSTANT S128_OFF	= 1;
+CONSTANT PENTAGON512= 0;
+CONSTANT READRESS	= 0;
+
+CONSTANT MULT		= 0;
+
+CONSTANT MAGIC		= 0;
+CONSTANT BITPLANES	= 0;	-- 0 - no bitplanes ; 1 - yes bitplanes
+
+CONSTANT FORTH_CPU	= 0;
+CONSTANT STACK_W	= 6;
+CONSTANT STACK_N	= 4;
+%
+--------------------------------------------
+
+INCLUDE "lpm_ram_dq";
+INCLUDE "lpm_add_sub";
+-- INCLUDE "kbd";
+-- INCLUDE "74181";
+
+SUBDESIGN sprint08
+	(
+	TG42		: INPUT;
+	SINC		: OUTPUT;
+
+	A[15..0]	: BIDIR;
+	D[7..0]		: BIDIR;
+	/MR,/IO,
+	/WR,/RD,
+	/M1,/RF		: INPUT;
+
+	XA[2..0]	: OUTPUT;
+	XACS		: OUTPUT;
+
+	/WAIT		: BIDIR;
+	/INT		: BIDIR;
+	/NMI		: BIDIR;
+	/RESET		: BIDIR;
+	CLKZ1		: OUTPUT;
+
+	MXA[10..0]	: OUTPUT;
+--	MXA[10..0]	: BIDIR;
+	MD[7..0]	: BIDIR;
+	RAS_[1..0]	: OUTPUT;
+	CAS_[3..0]	: OUTPUT;
+	/WE			: OUTPUT;
+
+	V_CS[1..0]	: OUTPUT;
+	V_WR[3..0]	: OUTPUT;
+	VA[15..0]	: OUTPUT;
+	VD0[7..0]	: BIDIR;
+	VD1[7..0]	: BIDIR;
+	VD2[7..0]	: BIDIR;
+	VD3[7..0]	: BIDIR;
+
+	CLK_PIX		: OUTPUT;
+
+	SINC_H		: OUTPUT;
+
+	MS_MOUSE	: INPUT;
+
+	SND_R[1..0]	: OUTPUT;
+	SND_L[1..0]	: OUTPUT;
+	TURBO_LED	: OUTPUT;
+
+	TAPE_IN		: INPUT;
+	TAPE_OUT	: OUTPUT;
+	BEEPER		: OUTPUT;
+
+	KBD_CLK		: BIDIR;
+	KBD_DAT		: BIDIR;
+
+	)
+VARIABLE
+--	SND_L[2..0]	: NODE;
+--	SND_R[2..0]	: NODE;
+	SINC		: NODE;
+--	TAPE_IN		: NODE;
+	KBD_CC,
+	KBD_DD		: NODE;
+
+	CLK42X		: NODE;
+	CLK84		: NODE;
+	CLK42		: NODE;
+	CT[5..0]	: DFF;
+
+	DCP[7..0]	: DFF;
+	DD[7..0]	: DFF;
+
+	FIN[3..0]	: NODE;
+	MA[10..0]	: NODE;
+	RAS			: NODE;
+	CAS			: NODE;
+	DOS			: NODE;
+	S128		: NODE;
+	E128		: NODE;
+	SCR128		: NODE;
+	XC[3..0]	: NODE;
+
+	SC[7..0]	: DFFE;
+	PN[7..0]	: DFFE;
+	SYS			: DFFE;
+	AROM16		: DFFE;
+	TB_SW		: DFFE;
+	BRD[7..0]	: DFFE;
+
+	DOS_		: NODE;
+	DOS_ON_		: NODE;
+
+	CTH[5..0]	: DFF;
+	CTV[8..0]	: DFF;
+	CTF[4..0]	: DFF;
+--	SINC_H		: NODE;
+	SINC_V		: NODE;
+	BLANK		: NODE;
+	BORD		: NODE;
+
+	TSN_W3		: DFF;
+	VCM[2..0]	: DFF;
+
+	V_CS[1..0]	: DFF;
+	V_WR[3..0]	: NODE;
+	VLA[17..0]	: DFF;
+	VLAM[17..0]	: NODE;
+	VLAB[17..0]	: NODE;
+	VXA[17..0]	: DFF;
+--	VXA[17..0]	: NODE;
+	SVA[17..0]	: NODE;
+	V_WE		: DFF;
+
+	MODE0[7..0]		: DFF;
+	MODE1[7..0]		: DFF;
+	MODE2[7..0]		: DFFE;
+--	MODE3[7..0]		: DFF;
+	WR_MODE		: DFF;
+	WR_MODE2	: DFF;
+	WR_MODE2X	: DFF;
+
+	DPIC			: DFF;
+	DCOL[7..0]		: DFF;
+
+	D_PIC0[7..0]	: DFF;
+--	D_PIC1[7..0]	: DFF;
+--	D_PIC2[7..0]	: DFF;
+--	D_PIC3[7..0]	: DFF;
+	D_PIC0_[7..0]	: NODE;
+--	D_PIC1_[7..0]	: NODE;
+--	D_PIC2_[7..0]	: NODE;
+--	D_PIC3_[7..0]	: NODE;
+
+--	D_COL0[7..0]	: DFF;
+--	D_COL1[7..0]	: DFF;
+--	D_COL2[7..0]	: DFF;
+
+	LD_PIC		: NODE;
+	WR_PIC		: DFF;
+	WR_COL		: DFF;
+
+	WR_KBD		: NODE;
+
+--	TURBO		: DFF;
+	TURBO		: NODE;
+
+	MC			: NODE;
+	MC1			: NODE;
+	SD[7..0]	: NODE;
+--	SD_[7..0]	: NODE;
+
+	ROM			: NODE;
+--	AR[3..0]	: NODE;
+	AR[3..0]	: NODE;
+	PGA[7..0]	: NODE;
+
+--	STEP,RDAT,
+--	SINCIN,
+--	TBS_IN		: NODE;
+--	RSTB,WSTB,SL,SR			: NODE;
+--	FOUT[7..0]	: DFF;
+
+	RGMOD[7..0]	: DFFE;
+	RGACC[7..0]	: DFF;
+
+--	VDX_[15..0]	: NODE;
+
+	MXVDD[7..0]	: NODE;
+	MXVD[7..0]	: DFF;
+	MXWE		: NODE;
+	MXCE		: NODE;
+
+	BRVA[10..0]	: NODE;
+
+	X_MODE[7..4]: NODE;
+
+	KB_D[10..0]	: DFF;
+	KB_OFF		: DFF;
+	KB_CT[2..0]	: DFF;
+	KB_CTRL		: DFF;
+	KB_ALT		: DFF;
+	KB_SH		: DFF;
+	KB_EXT		: DFF;
+	KB_RESET	: DFF;
+
+	PGS[7..0]	: NODE;
+	MPGS[7..0]	: NODE;
+	WR_PG		: NODE;
+	/IOM,/IOM1	: NODE;
+	CNF[7..0]	: DFFE;
+	D_RD		: NODE;
+	KD[7..0]	: NODE;
+	KBD[5..0]	: DFF;
+	KA[15..8]	: NODE;
+	KDD[7..0]	: DFF;
+	KDX[5..0]	: DFF;
+	K_CLK		: NODE;
+
+	RXA[1..0]	: DFF;
+
+--	RCCM[3..0]	: DFF;
+	MC_START	: DFF;
+	MC_END		: NODE;
+	LMC_END		: NODE;
+
+	BLK_R		: NODE;
+	/IORD,/IOWR	: NODE;
+
+
+	IO_WAIT		: NODE;
+	SC128		: NODE;
+	KDCA[2..0]	: NODE;
+	LWR_PIC		: NODE;
+	LWR_COL		: NODE;
+	LWR_MODE	: NODE;
+	LWR_MODE2	: NODE;
+	INTT		: NODE;
+
+	SND_D[7..0]	: NODE;
+	SND_I[7..0]	: NODE;
+	SND_A[7..0]	: NODE;
+	SND_RR[7..0]	: DFF;
+	SND_WR		: NODE;
+	SND_C		: DFF;
+	SND_TEST	: DFF;
+	SND_OUT[7..0]	: DFF;
+	SND_OUTL[7..0]	: DFF;
+	SND_AMP[9..0]	: DFF;
+	SND_AA[7..0]	: DFF;
+	SND_A_LD	: NODE;
+
+	WR_AMP		: DFF;
+	WR_AA		: DFF;
+	WE_SND		: DFF;
+	SND_OUTX	: DFF;
+	CTH3X		: DFF;
+	SND_SHL			: NODE;
+	SND_SHR			: NODE;
+
+--	COV_SINC		: NODE;
+
+	COV_DFF[7..0]	: DFFE;
+
+	COV[7..0]		: NODE;
+	COV_WR			: NODE;
+	COV_ADR[7..0]	: NODE;
+	COV_CT[10..0]	: DFF;
+	COV_BL[10..0]	: DFF;
+	COV_BL_X[2..0]	: NODE;
+
+	STARTING		: NODE;
+
+	E_CAS_[3..0]	: NODE;
+
+	RA[21..0]		: NODE;
+
+	KB_CTRL_X		: NODE;
+	KB_ALT_X		: NODE;
+	KB_SH_X			: NODE;
+	KB_XXX			: NODE;
+
+	V_WAIT			: NODE;
+
+	X_MODE_BOND		: NODE;
+
+	ACC_CNT[7..0]	: DFF;
+--	AA[13..0]		: NODE;
+	AA[15..0]		: DFF;
+	ACC_MODE[2..0]	: DFF;
+	START_ACC		: NODE;
+	ACC_END			: DFF;
+	CB_CMD			: DFF;
+	ED_CMD			: DFF;
+	PRF_CMD			: DFF;
+	ID_CMD			: DFF;
+	IN_OUT_CMD		: DFF;
+	CORRECT_1F		: NODE;
+
+	RFC				: NODE;
+
+	AY_ADR[7..0]	: DFF;
+	AY_D_WR			: NODE;
+	AY_AAX[7..0]	: DFF;
+
+	AY_F1[11..0]	: DFF;
+	AY_F2[11..0]	: DFF;
+	AY_F3[11..0]	: DFF;
+	AY_X_[5..0] 	: DFFE;
+
+	AY_S1[4..0] 	: DFF;
+	AY_A1[4..0] 	: DFF;
+	AY_A2[4..0] 	: DFF;
+	AY_A3[4..0] 	: DFF;
+	AY_GO[15..0]	: DFF;
+%
+	AY_S1[4..0] 	: LATCH;
+	AY_A1[4..0] 	: LATCH;
+	AY_A2[4..0] 	: LATCH;
+	AY_A3[4..0] 	: LATCH;
+	AY_GO[15..0]	: LATCH;
+%
+	AY_GF[3..0] 	: DFF;
+
+	AY_C1[11..0]	: DFF;
+	AY_C2[11..0]	: DFF;
+	AY_C3[11..0]	: DFF;
+	AY_C4[4..0] 	: DFF;
+	AY_C5[19..0]	: DFF;
+	AY_OUT[3..1]	: DFF;
+	AY_OUTS[3..1]	: NODE;
+	AY_Q			: NODE;
+
+	AY_Q1[3..0]		: NODE;
+	AY_Q2[3..0]		: NODE;
+	AY_Q3[3..0]		: NODE;
+	AY_CLK1			: NODE;
+	AY_SH[7..0]		: DFFE;
+	AY_SHR			: DFFE;
+	AY_AA[3..0]		: DFF;
+
+	AY_ABLK			: NODE;
+	AY_BBLK         : NODE;
+	AY_AINV         : NODE;
+	AY_BINV         : NODE;
+	AY_F_RES		: NODE;
+
+	AY_ADRX[7..0]	: NODE;
+	AY_CCC[8..0]	: DFF;
+	AY_DO[7..0]		: NODE;
+	AY_DI[7..0]		: NODE;
+	AY_AX[7..0]		: NODE;
+	AY_C			: DFFE;
+	AY_CX			: DFFE;
+--	AY_WR			: DFF;
+	AY_WR			: NODE;
+	AY_CH_WR		: DFF;
+	AY_DRD			: DFF;
+	AY_VA[3..0]		: DFFE;
+	AY_VAR			: DFFE;
+	AY_XX[5..0]		: DFFE;
+	AY_XXM[5..0]	: DFFE;
+
+	AY_DAT_WR		: DFFE;
+	AY_DAT[7..0]	: DFFE;
+
+--	AY_DQ1[3..0]	: DFFE;
+--	AY_DQ2[3..0]	: DFFE;
+--	AY_DQ3[3..0]	: DFFE;
+
+	AY_AMP[3..0]	: DFF;
+
+	AY_DD[7..0]		: DFFE;
+
+	KB_MAGIC		: DFF;
+	KB_MA[2..0]		: DFF;
+	KB_MXA			: NODE;
+	SC_PGS			: NODE;
+	RASX			: NODE;
+	CTRX			: NODE;
+	/WE1			: NODE;
+	FN_ACC[2..0]	: DFF;
+	MC_SYCLE		: NODE;
+	KB_F12			: NODE;
+	INTT_T			: NODE;
+	GLISSER			: NODE;
+
+	SINC_HH			: NODE;
+	SINC_VV			: NODE;
+
+	AGR[7..0]		: DFFE;
+	DC_CAS[1..0]	: NODE;
+
+	DCP_CX			: NODE;
+	RBRVA[10..8]	: DFF;
+
+	ACC_RAM[7..0]	: NODE;
+
+	/WAITT			: NODE;
+	AX128			: NODE;
+
+	GR_Y[7..0]		: NODE;
+
+	ASS_DIR[7..0]	: NODE;
+
+	XMD[7..0]		: NODE;
+	XXMD[7..0]		: NODE;
+
+	PG_SCR			: NODE;
+	PRF_CMDX		: NODE;
+
+	CASH_ON			: NODE;
+	AAA[15..14]		: NODE;
+	COV_AR[7..6]	: NODE;
+	V_SINC			: NODE;
+
+	SC_LCELL		: NODE;
+	PG_SCR1			: NODE;
+
+	KDXX[5..0]		: DFF;
+
+	A4_ZERO			: NODE;
+
+	XAGR[7..0]		: DFF;
+	AAGR[9..0]		: DFF;
+	XCNT[7..0]		: DFF;
+	RETI			: DFF;
+	ACC_BLK			: DFF;
+
+	MUL[31..0]		: DFF;
+	PORT_NMI		: NODE;
+	NMI_ENA			: NODE;
+	RETN			: DFF;
+	KBDR[2..0]		: DFFE;
+
+	SC0_X			: NODE;
+
+	% FORTH_PROCESSOR %
+
+	ALU[15..0]		: NODE;
+	STDO[15..0]		: NODE;
+	STDO_[15..0]	: NODE;
+	FDR_[15..0]		: NODE;
+
+--	AC4,AC8,AC12	: NODE;
+	C_ALU			: NODE;
+
+	FDI[15..0]		: NODE;
+	FDO[15..0]		: NODE;
+	STA[7..0]		: NODE;
+
+	FDR[15..0]		: DFF;
+	FCMD[15..0]		: DFF;
+	CMD_X			: NODE;
+
+
+	F_ST_[STACK_W-1..0]		: NODE;
+	F_ST_X[STACK_W-1..0]	: NODE;
+	F_ST_Y[STACK_W-1..0]	: NODE;
+	F_ST0[STACK_W-1..0]		: DFF;
+	F_ST1[STACK_W-1..0]		: DFF;
+	F_ST2[STACK_W-1..0]		: DFF;
+	F_ST3[STACK_W-1..0]		: DFF;
+	ZERO[STACK_W-1..0]		: NODE;
+
+	F_CLK			: DFF;
+	FP_CLK			: NODE;
+
+	WE_MEM			: NODE;
+
+--	IMR[3..0]	: DFF;
+
+	CXX				: DFF;
+%
+	CXXX[4..0]		: NODE;
+	CXX				: NODE;
+%
+BEGIN
+	DEFAULTS
+		SND_R[]		= GND; SND_L[]	= GND; XC[2..0]	= VCC; XC3		= GND;
+		V_CS[].d	= VCC; V_WR[]	= VCC; TSN_W3.d= VCC; V_WE.d	= VCC;
+	 	WR_COL.d	= VCC; WR_PIC.d	= VCC; WR_MODE.d= VCC; FIN[]	= VCC;
+		D_RD		= GND; WR_KBD	= VCC; SND_WR	= GND; WR_AMP.d	= VCC;
+		WR_AA.d		= VCC; WE_SND.d	= VCC; WR_MODE2.d= VCC;
+		ACC_END		= VCC; KDD[].prn= VCC; WR_MODE2X.d	= VCC;
+		F_CLK.d		= VCC;
+--		AY_WR.d		= VCC;
+		AY_CH_WR.d = VCC; AY_DRD.d = VCC;
+		AY_C.prn	= VCC;
+
+	END DEFAULTS;
+
+	FOR i IN 0 TO 3  GENERATE A[i] = TRI(GND,GND); END GENERATE;
+	FOR i IN 5 TO 15 GENERATE A[i] = TRI(GND,GND); END GENERATE;
+	A[4] = TRI (GND,A4_ZERO);
+--	A4_ZERO	= (READRESS == 1) & !/IO & (A[7..5] == B"000") & CASCADE (A[3..0] == B"1111");
+	A4_ZERO	= GND;
+
+	CLK42		= TG42;
+
+	XA[] = XC[2..0]; XACS = XC3;
+
+IF AY_3_8910 == 0 THEN
+	IF SPRINTER	== 0 THEN
+		CASE (AAA15,AAA14) IS
+			WHEN 0 => MPGS[6..0] = (VCC,VCC,GND,AR[]);
+			WHEN 1 => MPGS[6..0] = B"1101001"; %H"E9"%
+			WHEN 2 => MPGS[6..0] = B"1101010"; %H"EA"%
+--			WHEN 3 => MPGS[4..0] = (VCC,SC4,PN[2..0]);
+			WHEN 3 => MPGS[6..0] = (!PN7,!PN6,VCC,SC4,PN[2..0]);
+		END CASE;
+		MPGS[7] = VCC;
+	ELSE
+		CASE (AAA15,AAA14) IS
+			WHEN 0 => MPGS[4..0] = (GND,AR[]);
+			WHEN 1 => MPGS[4..0] = B"01001"; %H"E9"%
+			WHEN 2 => MPGS[4..0] = B"01010"; %H"EA"%
+			WHEN 3 => MPGS[4..0] = B"10000"; %H"F0"%
+		END CASE;
+		MPGS[7..5] = VCC;
+	END IF;
+ELSE
+	CASE (A15,A14) IS
+		WHEN 0 => MPGS[6..0] = (VCC,VCC,GND,AR[]);
+		WHEN 1 => MPGS[6..0] = B"1101001"; %H"E9"%
+		WHEN 2 => MPGS[6..0] = B"1101010"; %H"EA"%
+		WHEN 3 => MPGS[6..0] = (!PN7,!PN6,VCC,SC4,PN[2..0]);
+	END CASE;
+	MPGS[7] = VCC;
+END IF;
+
+	SC_LCELL = LCELL(!SC1 & !(SC0 & SYS) & !CASH_ON);
+
+	AR[]	= ( LCELL(SC0 or !SYS or CASH_ON or !NMI_ENA),
+				LCELL(((AROM16 & !(SC0 & SYS)) or (CASH_ON & NMI_ENA))),
+				LCELL((DOS & SC_LCELL) or !SYS or !NMI_ENA),
+				LCELL(((S128 or !DOS) & SC_LCELL) or !SYS or !NMI_ENA));
+
+	STARTING = !(A14 & A15 & !DFF(GND,VCC,/RESET,(/IO or /RD)));
+
+	CASE (LCELL(/IO & STARTING),MC_END) IS
+		WHEN B"1X" => PGS[]	= MPGS[];
+		WHEN B"01" => PGS[] = DCP[];
+		WHEN B"00" => PGS[] = GND;
+	END CASE;
+
+IF SPRINTER == 1 THEN
+	PGA[]	= lpm_ram_dq(D[7..0],PGS[7..0],WR_PG,!CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="PGA_INI4.MIF",
+		lpm_adress_control="UNREGISTERED",lpm_indata="UNREGISTERED",lpm_outdata="UNREGISTERED");
+--	PGA[]	= lpm_ram_dq(D[7..0],PGS[7..0],WR_PG,!CLK42,)
+--		WITH (lpm_width=8,lpm_widthad=8,lpm_file="PGA_INI5.MIF",
+--		lpm_adress_control="UNREGISTERED",lpm_indata="UNREGISTERED",lpm_outdata="UNREGISTERED");
+ELSE
+	PGA[]	= lpm_ram_dq(D[7..0],PGS[7..0],WR_PG,!CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="PGA_INI4.MIF",
+		lpm_adress_control="UNREGISTERED",lpm_indata="UNREGISTERED",lpm_outdata="UNREGISTERED");
+END IF;
+
+	BLK_R	= LCELL(!/MR & /RF & LCELL((PGA7 & PGA6 & ROM) or (PGA7 & SC_PGS)));
+
+	SC_PGS	= LCELL(A14 & A15 & SC4);
+
+--	IF SPRINTER == 1 THEN
+--		ROM		= GND;
+--	ELSE
+		ROM		= !LCELL(A14 or A15 or (SC0 & SYS & NMI_ENA));
+--	END IF;
+
+	IF CASH_RAM == 1 THEN
+		CASH_ON		= DFF(A7,(/IORD or !(DCP[] == H"88")),/RESET,);
+	ELSE
+		CASH_ON		= GND;
+	END IF;
+
+	SC0_X = LCELL(SC0 & SYS);
+
+--	IF DFF((/MR & /IO),!(MC_SYCLE or RAS),,!(/MR & /IO)) THEN
+	IF DFF((/MR & /IO),CLK42,,!(/MR & /IO)) THEN
+--	IF (/MR & /IO) THEN
+		XC[2..0]	= 6;
+	ELSE
+		XC[2..0]	= PGA[6..4];
+	END IF;
+
+--	XC3	= LCELL(BLK_R or LCELL(!/IOM1 & !DCP7 & !DCP6 & PGA7)) & !(/MR & /IO) & /RF;
+--	XC3	= (BLK_R or DFF((!/IOM1 & !DCP7 & !DCP6 & PGA7),!CT2,!/IO,)) & !(/MR & /IO);
+	XC3	= (BLK_R or DFF((!/IOM1 & !DCP7 & !DCP6 & PGA7),!CT2,!/IO,));
+
+--	IF BLK_R THEN XC[3] = /RF; END IF;
+--	IF LCELL(!/IOM1 & !DCP7) THEN XC[3] = PGA[7] & /RF; END IF;
+
+--	IF (!/IOM1 & !DCP7) THEN XC[3] = PGA[7] & /RF; END IF;
+
+	WR_PG	= !(/IOWR or !(DCP[] == B"11XXXXXX"));
+
+	PRF_CMD.clk		= /M1 or /MR;
+--	PRF_CMD.d		= (D[] == H"CB") or (D[] == H"DD") or (D[] == H"ED") or (D[] == H"FD");
+
+	PRF_CMDX  = CASCADE((D[] == B"XX00X01X") or
+					  	(D[] == B"XX01X10X") or
+					  	(D[] == B"XX10X10X") or
+					  	(D[] == B"XX11X10X"));
+
+	PRF_CMD.d		= (D[] == B"11XX1XX1") & PRF_CMDX;
+
+--	RETI comand
+
+	ED_CMD.clk		= /M1 or /MR;
+	ED_CMD.d		= (D[] == H"ED");
+
+	RETI.clk		= /M1 or /MR;
+	RETI.d			= ED_CMD & (D[] == H"4D");
+
+--	"1" on the RETI triger is the end of interupt sycle.
+
+	RETN.clk	= /M1 or /MR;
+	RETN.d		= ED_CMD & (D[] == H"45");
+
+--	The end of NMI sycle.
+
+	ACC_BLK.clk		= /M1;
+	ACC_BLK.d		= (/IO & ACC_BLK) or (!ACC_BLK & RETI);
+	ACC_BLK.prn		= /RESET;
+
+%
+	IMR[].clk		= /M1 or /MR;
+
+	IF ED_CMD & (D[] == B"0101X110") THEN
+		IMR0.d = D3;
+	ELSE
+		IMR0.d = IMR0;
+	END IF;
+
+	IF ED_CMD & (D[] == B"X1X1X110") THEN
+		IMR1.d	= D5;
+		IMR2.d	= D7;
+		IMR3.d	= A0;
+	ELSE
+		IMR[3..1] = IMR[3..1];
+	END IF;
+%
+	CB_CMD.clk		= /M1 or /MR;
+	ID_CMD.clk		= /M1 or /MR;
+	CB_CMD.d		= (D[] == H"CB");
+	ID_CMD.d		= (D[] == B"11X11101");
+
+	IN_OUT_CMD.clk	= /M1 or /MR;
+	IN_OUT_CMD.d	= (D[] == B"1101X011") & !PRF_CMD;
+	IN_OUT_CMD.clrn	= /IO;
+
+	CORRECT_1F		= LCELL(IN_OUT_CMD & (DD[] == H"1F") & !/MR & !/RD);
+	DD[4..3].clrn		= !CORRECT_1F or (PORT_1F == 0) or !(READRESS == 0);
+	DCP[4..3].clrn		= !CORRECT_1F or (PORT_1F == 0) or !(READRESS == 0);
+
+-- IF MULT == 1 THEN
+
+
+	MUL[23..16].clk	= /WR or /MR or !A0;
+	(MUL[31..24].clk,MUL[15..0].clk) = CLK42;
+
+	MUL[23..16].d	= D[];
+
+	IF /WR THEN
+
+		MUL[31..24].d = MUL[31..24] + 1;
+
+		IF MUL15 THEN
+			MUL[15..0].d = (MUL[14..0],0) + (B"00000000",MUL[23..16]);
+		ELSE
+			MUL[15..0].d = (MUL[14..0],0);
+		END IF;
+
+	ELSE
+
+		MUL[31..24].d = 0;
+		MUL[15..0].d  = (D[],B"00000000");
+
+	END IF;
+
+-- END IF;
+
+--	============= ACCELERATOR ============
+
+IF !(ACCELERAT == 0) THEN
+IF (ACCELERAT == 1) THEN
+
+	RGACC[].clk		= (/MR or !/M1 or (/RD & /WR)) or !ASS_DIR3;
+	RGACC[].d 		= D[];
+
+	AGR[].ena = VCC;
+	AGR[].clk	= (START_ACC or (!ASS_DIR4 or RAS)) &
+					CASCADE((/IOWR or !DCP_CX) or !(DCP[] == B"XXXXX100"));
+
+	CASE !START_ACC IS
+		WHEN 1 => AGR[].d	= AGR[] + 1;
+		WHEN 0 => AGR[].d = D[];
+	END CASE;
+
+--	IF !START_ACC THEN AGR[].d	= AGR[] + 1; ELSE AGR[].d = D[]; END IF;
+
+	AGR[].clrn	= /RESET;
+
+	ACC_CNT[].clk	= !CT2;
+
+	ACC_END.clk	= (RAS or START_ACC);
+	ACC_END.prn		= /M1;
+
+	ACC_END.d	= (ACC_CNT[] == 1) or !ASS_DIR2;
+	CASE START_ACC IS
+		WHEN 1 => ACC_CNT[].d = RGACC[];
+		WHEN 0 => ACC_CNT[].d = ACC_CNT[] - 1;
+	END CASE;
+
+	FN_ACC[].clk	= /M1 or /MR;
+	FN_ACC[].d		= D7 & !D6 & !PRF_CMD & !(D[5..3]);
+	FN_ACC[].clrn	= (ACCELER_FN == 1);
+
+	CASE FN_ACC[1..0] IS
+		WHEN 0 =>
+			XMD[] = MD[];					% BE %
+		WHEN 1 =>
+			XMD[] = MD[] or ACC_RAM[];		% B6 %
+		WHEN 2 =>
+			XMD[] = MD[] xor ACC_RAM[];		% AE %
+		WHEN 3 =>
+			XMD[] = MD[] & ACC_RAM[];		% A6 %
+	END CASE;
+
+	CXX.clk	= !CT2;
+	CXX.clrn = !START_ACC;
+
+--	IF !FN_ACC2 THEN
+		(XXMD[],CXX) = (XMD[],CXX);
+--	ELSE
+--		(XXMD[],CXX) = ((GND,MD[]) + (GND,ACC_RAM[]));
+--	END IF;
+
+	ACC_MODE[].clk	= (/M1 or /MR);
+
+%
+		   !LCELL(((D[] == B"XXX00X00") or
+		   (D[] == B"XXX01X01") or
+		   (D[] == B"XXX10X10") or
+		   (D[] == B"XXX11X11"))
+		   & CASCADE((D[] == B"010XX0XX") or (D[] == B"011XX1XX")));
+
+	ACC_MODE[].d	= D[2..0];
+%
+	CASE  (LCELL(((D[] == B"XXX00X00") or
+		  	   (D[] == B"XXX01X01") or
+			   (D[] == B"XXX10X10") or
+			   (D[] == B"XXX11X11"))
+		   & CASCADE((D[] == B"010XX0XX") or (D[] == B"011XX1XX"))),
+			!PRF_CMD) IS
+
+		WHEN 3 =>	  ACC_MODE[].d	= D[2..0];
+		WHEN 2,1,0 => ACC_MODE[].d	= ACC_MODE[];
+
+	END CASE;
+
+%
+	IF	LCELL(
+		(
+		LCELL(((D[] == B"XXX00X00") or
+			   (D[] == B"XXX01X01") or
+			   (D[] == B"XXX10X10") or
+			   (D[] == B"XXX11X11"))
+		   & CASCADE((D[] == B"010XX0XX") or (D[] == B"011XX1XX")))
+%
+--		   (D[] == B"01000000")	% LD B,B %
+--		or (D[] == B"01001001") % LD C,C % % fill by constant %
+--		or (D[] == B"01010010") % LD D,D % % load count accelerator %
+--		or (D[] == B"01011011") % LD E,E % % fill by constant VERTICAL %
+--		or (D[] == B"01100100") % LD H,H % % set graf line %
+--		or (D[] == B"01101101") % LD L,L % % copy line %
+--		or (D[] == B"01110110") % HALT   %
+--		or (D[] == B"01111111") % LD A,A % % copy line VERTICAL %
+%		)
+		& !PRF_CMD
+		)
+	THEN
+		ACC_MODE[].d	= D[2..0];
+	ELSE
+		ACC_MODE[].d	= ACC_MODE[];
+	END IF;
+%
+	ACC_MODE[].clrn	= /RESET;
+%
+	ASS_DIR0 = !((ACC_MODE[] == 0) or (ACC_MODE[] == 6));
+	ASS_DIR1 = ACC_MODE0 & ACC_MODE2;
+	ASS_DIR2 = ACC_MODE0;
+	ASS_DIR3 = ACC_MODE[] == 2;
+	ASS_DIR4 = ACC_MODE[] == B"X11";
+	ASS_DIR5 = ACC_MODE[] == B"X01";
+	ASS_DIR[7..6] = GND;
+%
+--      CASE (!ACC_BLK,ACC_MODE[]) IS
+	CASE ACC_MODE[] IS
+		WHEN 0 => ASS_DIR[] = B"00000000";
+		WHEN 1 => ASS_DIR[] = B"00100101";
+		WHEN 2 => ASS_DIR[] = B"00001001";
+		WHEN 3 => ASS_DIR[] = B"00010101";
+		WHEN 4 => ASS_DIR[] = B"01100111";
+		WHEN 5 => ASS_DIR[] = B"00100111";
+		WHEN 6 => ASS_DIR[] = B"00000001";
+		WHEN 7 => ASS_DIR[] = B"00010111";
+--              WHEN 8,9,10,11,12,13,14,15 => ASS_DIR[] = B"00000000";
+	END CASE;
+
+--	START_ACC = LCELL(/MR or !/M1 or LCELL(/RD & /WR) or LCELL(!ASS_DIR0 or MC_SYCLE));
+--	START_ACC = LCELL(/MR or !/M1 or (/RD & /WR) or (!ASS_DIR0 or MC_SYCLE));
+	START_ACC = !LCELL(NMI_ENA & !(/MR or !/M1 or (/RD & /WR)) & (!(!ASS_DIR0 or MC_SYCLE)));
+
+	ACC_RAM[7..0] = lpm_ram_dq(XXMD[],ACC_CNT[],(!/RD & !START_ACC & (CT2 & CT0)),CLK42,)
+--	ACC_RAM[7..0] = lpm_ram_dq(XMD[],ACC_CNT[],(!/RD & !START_ACC),LCELL(CLK42),)
+			WITH (lpm_width=8,lpm_widthad=8,lpm_outdata="UNREGISTERED");
+
+	CASE ASS_DIR1 IS
+		WHEN 1 => MXVDD[] = ACC_RAM[];
+		WHEN 0 => MXVDD[] = D[];
+	END CASE;
+
+--	IF ASS_DIR1 THEN MXVDD[] = ACC_RAM[]; ELSE MXVDD[]	= D[]; END IF;
+%
+	AA[7..0].clk	= !(/MR & /IO) & (!ASS_DIR5 or RAS);
+	AA[15..8].clk	= !(/MR & /IO) & (!ASS_DIR5 or !AA7);
+
+	CASE START_ACC IS
+		WHEN 1 => AA[].d = (GND,GND,A[13..0]);
+		WHEN 0 => AA[7..0].d	= AA[7..0] + 1;
+		          AA[15..8].d	= AA[15..8] + 1;
+	END CASE;
+
+%
+	AA[].clk	= !(/MR & /IO) & (!ASS_DIR5 or RAS);
+	CASE START_ACC IS
+		WHEN 1 => AA[].d = (GND,GND,A[13..0]);
+		WHEN 0 => AA[].d	= AA[] + 1;
+	END CASE;
+
+--	IF START_ACC THEN AA[].d = (GND,GND,A[13..0]); ELSE AA[].d	= AA[] + 1; END IF;
+
+	AAA[] = A[15..14] + AA[15..14];
+
+--	MXVD[].d	= MXVDD[];
+
+	MXVD[].clk	= V_SINC;
+	MXVD[].d	= (LCELL(MXVDD7),LCELL(MXVDD6),LCELL(MXVDD5),LCELL(MXVDD4),
+				  LCELL(MXVDD3),LCELL(MXVDD2),LCELL(MXVDD1),LCELL(MXVDD0));
+
+ELSE
+--		ACCELERATOR = 3
+
+	RGACC[].clk		= (/MR or !/M1 or (/RD & /WR)) or !ASS_DIR3;
+	RGACC[].d 		= D[];
+
+	AGR[].ena	= VCC;
+	AGR[].clk	= (START_ACC or (!ASS_DIR4 or RAS)) &
+					((/IOWR or !DCP_CX) or !(DCP[] == B"XXXXX100"));
+
+	(AAGR[].clk,XCNT[].clk,XAGR[].clk)	= (START_ACC or (!ASS_DIR1 or CAS)) &
+					((/IOWR or !DCP_CX) or !(DCP[] == B"XXXXX111"));
+
+	CASE !START_ACC IS
+		WHEN 1 => AGR[].d	= AGR[] + 1;
+		WHEN 0 => AGR[].d = D[];
+	END CASE;
+
+	AGR[].clrn	= /RESET;
+
+	ACC_CNT[].clk	= !CT2;
+
+	ACC_END.clk	= (RAS or START_ACC);
+	ACC_END.prn		= /M1;
+
+	ACC_END.d	= (ACC_CNT[] == 1) or !ASS_DIR2;
+
+--	(XCNT[].clrn,XAGR[].clrn)	= /M1;
+
+	CASE !START_ACC IS
+		WHEN 1 => AAGR[].d	= AAGR[];
+				  (XCNT[].d,XAGR[].d) = (XCNT[],XAGR[]) + (B"000000",AAGR[]);
+		WHEN 0 => AAGR[].d = (A9,A8,D[]);
+				  (XCNT[].d,XAGR[].d) = (B"00",A[15..10],B"00000000");
+	END CASE;
+
+	CASE START_ACC IS
+		WHEN 1 => ACC_CNT[].d = RGACC[];
+		WHEN 0 => ACC_CNT[].d = ACC_CNT[] - 1;
+	END CASE;
+
+	XMD[] = MD[];
+
+	ACC_MODE[].clk	= (/M1 or /MR);
+
+	CASE  (LCELL(((D[] == B"XXX00X00") or
+		  	   (D[] == B"XXX01X01") or
+			   (D[] == B"XXX10X10") or
+			   (D[] == B"XXX11X11"))
+		   & CASCADE((D[] == B"010XX0XX") or (D[] == B"011XX1XX"))),
+			!PRF_CMD) IS
+
+		WHEN 3 =>	  ACC_MODE[].d	= D[2..0];
+		WHEN 2,1,0 => ACC_MODE[].d	= ACC_MODE[];
+
+	END CASE;
+
+	ACC_MODE[].clrn	= /RESET;
+
+	CASE ACC_MODE[] IS
+		WHEN 0 => ASS_DIR[] = B"00000000";
+		WHEN 1 => ASS_DIR[] = B"00100101";
+		WHEN 2 => ASS_DIR[] = B"00001001";
+		WHEN 3 => ASS_DIR[] = B"00010101";
+		WHEN 4 => ASS_DIR[] = B"00000001";
+		WHEN 5 => ASS_DIR[] = B"00100111";
+		WHEN 6 => ASS_DIR[] = B"00000000";
+		WHEN 7 => ASS_DIR[] = B"00010111";
+	END CASE;
+
+	START_ACC = !LCELL(NMI_ENA & ACC_BLK & !(/MR or !/M1 or (/RD & /WR)) & (!(!ASS_DIR0 or MC_SYCLE)));
+
+	ACC_RAM[7..0] = lpm_ram_dq(XMD[],XCNT[],(!/RD & !START_ACC & ASS_DIR1),CAS,)
+			WITH (lpm_width=8,lpm_widthad=8,lpm_outdata="UNREGISTERED");
+
+	CASE ASS_DIR1 IS
+		WHEN 1 => MXVDD[] = ACC_RAM[];
+		WHEN 0 => MXVDD[] = D[];
+	END CASE;
+
+	AA[].clk	= !(/MR & /IO) & (!ASS_DIR5 or RAS);
+	CASE START_ACC IS
+		WHEN 1 => AA[].d = (GND,GND,A[13..0]);
+		WHEN 0 => AA[].d	= AA[] + 1;
+	END CASE;
+
+	AAA[] = A[15..14] + AA[15..14];
+
+	MXVD[].clk	= V_SINC;
+	MXVD[].d	= (LCELL(MXVDD7),LCELL(MXVDD6),LCELL(MXVDD5),LCELL(MXVDD4),
+				  LCELL(MXVDD3),LCELL(MXVDD2),LCELL(MXVDD1),LCELL(MXVDD0));
+
+END IF;
+ELSE
+
+
+	AGR[].ena	= (DCP[] == B"XXXXX100");
+	AGR[].clk	= /IOWR or !DCP_CX;
+	AGR[].d = D[];
+
+	AGR[].clrn	= /RESET & (AY_3_8910 == 0);
+
+	START_ACC	= VCC;
+	ACC_END.prn	= GND;
+	AA[].clk	= !(/MR & /IO);
+
+	AA[].d	= A[];
+	AAA[]	= A[15..14];
+
+	MXVDD[]		= D[];
+
+--	MXVD[].d	= MXVDD[];
+
+	MXVD[].clk	= V_SINC;
+
+% IF AY_3_8910 == 0 THEN
+
+ELSE %
+--	MXVD[].d	= (LCELL(MXVDD7),LCELL(MXVDD6),LCELL(MXVDD5),LCELL(MXVDD4),
+--				  LCELL(MXVDD3),LCELL(MXVDD2),LCELL(MXVDD1),LCELL(MXVDD0));
+	MXVD[].d	= D[];
+-- END IF;
+
+END IF;
+
+--	=====================================================
+
+	IF !START_ACC & ASS_DIR6 & (ACC_DECODE == 1) THEN
+		GR_Y[] = ACC_RAM[];
+	ELSE
+		GR_Y[] = AGR[7..0];
+	END IF;
+
+IF (SCREEN == 1) THEN
+	PG_SCR1 = (PGA[] == B"0101XXXX") or (PGA[] == B"1010XXXX");
+ELSE
+	PG_SCR1 = PG_SCR;
+END IF;
+
+
+
+IF AY_3_8910 == 0 THEN
+
+IF NEWS == 1 THEN
+
+	PG_SCR = lcell(PGA[] == B"0101XXXX");
+
+	RA[21..18] = PGA[7..4];
+
+	CASE (/IO,PG_SCR) IS
+		WHEN B"0X" =>
+			RA[17..0] = (PGA[3..0],CNF4,CNF3,GND,DOS,/WR,A15,A14,AA6,AA5,AA13,AA7,AA2,AA1,AA0);
+		WHEN B"10" =>
+			RA[17..0] = (PGA[3..0],AA[13..0]);
+		WHEN B"11" =>
+			RA[17..0] = (AA[9..0],GR_Y[]);
+	END CASE;
+
+
+%
+	IF /IO THEN
+		IF PG_SCR THEN
+			RA[17..0] = (AA[9..0],GR_Y[]);
+		ELSE
+			RA[17..0] = (PGA[3..0],AA[13..0]);
+		END IF;
+	ELSE
+		RA[17..0] = (PGA[3..0],CNF4,CNF3,GND,DOS,/WR,A15,A14,AA6,AA5,AA13,AA7,AA2,AA1,AA0);
+	END IF;
+%
+
+ELSE
+
+	PG_SCR = lcell(PGA[] == B"0101XXXX");
+
+	RA[21..18] = PGA[7..4];
+
+	RA[6..5] = AA[6..5]; RA[2..0] = AA[2..0];
+
+	CASE (/IO,PG_SCR) IS
+		WHEN B"0X" =>
+			(RA[17..7],RA[4..3]) = (PGA[3..0],CNF4,CNF3,GND,DOS,/WR,A15,A14,AA13,AA7);
+		WHEN B"10" =>
+			(RA[17..7],RA[4..3]) = (PGA[3..0],AA[13..7],AA[4..3]);
+		WHEN B"11" =>
+			(RA[17..7],RA[4..3]) = (GR_Y[],AA[9..7],AA[4..3]);
+	END CASE;
+%
+	IF /IO THEN
+		IF PG_SCR THEN
+			RA[17..10] = (GR_Y[]);
+		ELSE
+			RA[17..10] = (PGA[3..0],AA[13..10]);
+		END IF;
+		RA[9..0] = AA[9..0];
+	ELSE
+		RA[17..0] = (PGA[3..0],CNF4,CNF3,GND,DOS,/WR,A15,A14,AA6,AA5,AA13,AA7,AA2,AA1,AA0);
+	END IF;
+%
+
+END IF;
+
+ELSE
+
+	PG_SCR = GND;
+	RA[21..14] = PGA[7..0];
+	RA[6..5] = AA[6..5]; RA[2..0] = AA[2..0];
+
+	CASE /IO IS
+		WHEN 1 => (RA[13..7],RA4,RA3) = (AA[13..7],AA4,AA3);
+		WHEN 0 => (RA[13..7],RA4,RA3) = (CNF4,CNF3,GND,DOS,/WR,A15,A14,AA13,AA7);
+	END CASE;
+
+END IF;
+
+	IF DFF(RAS,CLK42,!(BLK_R or MC_END),) THEN
+		MA[] = (RA17,RA[9..0]);
+	ELSE
+		MA[] = (RA[17..14],RA[21..18],RA[13..12],RA17);
+	END IF;
+
+	DC_CAS[] = RA[11..10];
+
+--	=====================================================
+
+	KBDR[].clk	= /IOWR or !DCP_CX;
+	AROM16.clk	= /IOWR or !DCP_CX;
+	SYS.clk		= /IOWR or !DCP_CX;
+	TB_SW.clk	= /IOWR or !DCP_CX;
+	CNF[].clk	= /IOWR or !DCP_CX;
+	SC[].clk	= /IOWR or !DCP_CX;
+	PN[].clk	= /IOWR or !DCP_CX;
+	BRD[].clk	= /IOWR or !DCP_CX;
+	RGMOD[].clk	= /IOWR or !DCP_CX;
+
+
+	KBDR[].ena = (DCP[] == B"XXXXX110"); KBDR[] = D[7..5];
+
+	BRD[].ena = (DCP[] == B"XXXXX010"); BRD[].d = D[];
+
+	RGMOD[].ena = (DCP[] == B"XXXXX101"); RGMOD[].d = D[];
+
+
+	DCP_CX	= LCELL(DCP[] == B"1100XXXX");
+	AROM16.ena = ((DCP[] == B"XXXXX110") & !D1); AROM16.d= D0;
+	SYS.ena = (DCP[] == B"XXXXX110"); SYS.d   = !A6;
+	TB_SW.ena = ((DCP[] == B"XXXXX110") & D1 ); TB_SW.d = D0;
+    CNF[].ena = ((DCP[] == B"XXXXX110") & D2 ); CNF[].d = D[];
+	SC[].ena = (DCP[] == B"XXXXX000"); SC[].d = D[];
+	PN[5..0].ena = ((DCP[] == B"XXXXX001") & !E128) or (DCP[] == B"XXXX1001");
+	PN[7..6].ena = (DCP[] == B"XXXX1001"); PN[].d = D[];
+
+%
+
+	IF ((DCP[] == B"XXXXX110") & !D1) THEN AROM16.d= D0;  ELSE AROM16.d= AROM16; END IF;
+	IF ((DCP[] == B"XXXXX110")      ) THEN SYS.d   = !A6; ELSE SYS.d   = SYS   ; END IF;
+	IF ((DCP[] == B"XXXXX110") & D1 ) THEN TB_SW.d = D0;  ELSE TB_SW.d = TB_SW ; END IF;
+    IF ((DCP[] == B"XXXXX110") & D2 ) THEN CNF[].d = D[]; ELSE CNF[].d = CNF[] ; END IF;
+
+	IF (DCP[] == B"XXXXX110") THEN KBDR[] = D[7..5]; ELSE KBDR[] = KBDR[]; END IF;
+
+	IF (DCP[] == B"XXXXX000") THEN SC[].d = D[];  ELSE SC[].d	=  SC[]; END IF;
+
+	IF (DCP[] == B"XXXXX010") THEN BRD[].d = D[]; ELSE BRD[].d= BRD[]; END IF;
+	IF (DCP[] == B"XXXXX101") THEN RGMOD[].d = D[]; ELSE RGMOD[].d = RGMOD[]; END IF;
+
+--	IF (DCP[] == B"XXXXX001") THEN PN[].d = D[];  ELSE PN[].d	=  PN[]; END IF;
+
+	IF ((DCP[] == B"XXXXX001") & !E128) or (DCP[] == B"XXXX1001")
+		THEN PN[5..0].d = D[5..0];  ELSE PN[5..0].d	=  PN[5..0]; END IF;
+
+	IF (DCP[] == B"XXXX1001") THEN PN[7..6].d = D[7..6];  ELSE PN[7..6].d = PN[7..6]; END IF;
+%
+
+
+--	AGR[].clrn	= /RESET;
+--	CNF[].clrn	= /RESET;
+--	SC[].clrn	= /RESET;
+--	SYS.clrn	= /RESET;
+--	AROM16.clrn	= /RESET;
+
+--	TB_SW.clrn	= /RESET or !TBS_IN;
+--	TB_SW.prn	= /RESET or TBS_IN;
+
+	IF KEYBOARD != 0 THEN
+		KBDR[].clrn	= GND;
+	ELSE
+		KBDR[].clrn	= /RESET;
+	END IF;
+
+	TB_SW.clrn	= VCC;
+	TB_SW.prn	= /RESET;
+	SYS.clrn	= /RESET;
+	SYS.prn		= VCC;
+	AROM16.clrn	= /RESET;
+	CNF[].clrn	= /RESET & (CONFIGS == 1);
+	SC[].clrn	= /RESET;
+
+IF S128_OFF == 0 THEN
+	PN6.clrn	= /RESET & (PENTAGON512 == 1);
+	PN7.clrn	= /RESET & (PENTAGON512 == 1);
+	PN[5..0].clrn	= /RESET;
+	SCR128	= PN3;
+	S128	= PN4;
+	E128	= PN5;
+ELSE
+	PN[].clrn = GND;
+	SCR128	= GND;
+	S128	= VCC;
+	E128	= GND;
+END IF;
+
+--	DOS_	= (!(LCELL(S128 & A13 & A12) & LCELL(A[11..8] == B"1101")) & DOS) or LCELL(A14 or A15);
+	DOS_	= (!((S128 & A13 & A12) & (A[11..8] == B"1101")) & DOS) or (A14 or A15);
+
+	IF SPRINTER == 1 THEN
+		DOS		= VCC;
+		DOS_ON_	= VCC;
+	ELSE
+		DOS		= DFF(DOS_,!(/M1 or /MR),,/RESET);
+		DOS_ON_	= DFF((DOS or !DFF(DOS,RAS,,)),RAS,,);
+	--	DOS_ON_	= VCC;
+	END IF;
+
+	CASE (/IO,DCP7) IS
+		WHEN B"1X" =>
+
+			IF ((ASS_DIR6 & !LCELL(START_ACC)) & MULT) THEN
+--			IF ASS_DIR6 THEN
+				SD[] = (MUL[15..8] & A0) or (MUL[7..0] & !A0);
+			ELSE
+				SD[] = DD[];
+			END IF;
+
+		WHEN B"01" =>
+			SD[] = PGA[];
+		WHEN B"00" =>
+			IF (KEYBOARD != 2) THEN
+				SD[] = KD[];
+			ELSE
+				IF DCP4 & (AY_3_8910 == 3) THEN
+					SD[] = AY_DD[];
+				ELSE
+					IF DCP5 & (PORT_FF == 1) THEN
+						SD[] = (BRVA[7..0]);
+					ELSE
+						IF (ISD_KBD == 1) THEN
+							SD[] = (KBD5,TAPE_IN,VCC,KBD[4..0]);
+						ELSE
+							SD[] = (KD5,TAPE_IN,VCC,KD[4..0]);
+						END IF;
+					END IF;
+				END IF;
+			END IF;
+	END CASE;
+
+	D_RD	= !(/IORD or (DCP[7..6] == 0)) or !(DFF(/RD,!(CAS or BLK_R or !RFC),,!/MR));
+
+	FOR i IN 0 TO 7 GENERATE
+		D[i]	= TRI (SD[i],D_RD);
+		MD[i]	= TRI (MXVDD[i],!/WE);
+
+%
+		VD0[i]	= TRI (MXVDD[i],!V_WR0);
+		VD1[i]	= TRI (MXVDD[i],!V_WR1);
+		VD2[i]	= TRI (MXVDD[i],!V_WR2);
+		VD3[i]	= TRI (MXVDD[i],!V_WR3);
+%
+--		IF FORTH_CPU == 1 THEN
+%
+		VD0[i]	= TRI (FDO[i],!V_WR0);
+		VD1[i]	= TRI (FDO[i+8],!V_WR1);
+		VD2[i]	= TRI (FDO[i],!V_WR2);
+		VD3[i]	= TRI (FDO[i+8],!V_WR3);
+%
+--		ELSE
+
+		VD0[i]	= TRI (MXVD[i],!V_WR0);
+		VD1[i]	= TRI (MXVD[i],!V_WR1);
+		VD2[i]	= TRI (MXVD[i],!V_WR2);
+		VD3[i]	= TRI (MXVD[i],!V_WR3);
+
+--		END IF;
+	END GENERATE;
+
+	MXA[]	= MA[];
+
+--	=============  IN-OUT PINS  ==================
+
+	TURBO_LED	= !TURBO;
+
+	CLK_PIX		= LCELL(TSN_W3);
+
+	CASE CT[5..4] IS
+		WHEN B"00" => BEEPER = GND;
+		WHEN B"01" => BEEPER = BRD4;
+		WHEN B"10" => BEEPER = BRD4;
+		WHEN B"11" => BEEPER = VCC;
+	END CASE;
+
+IF (MODEM == 1) THEN
+
+	CASE CT[5..3] IS
+		WHEN B"000" => TAPE_OUT = GND;
+		WHEN B"001" => TAPE_OUT = BRD5;
+		WHEN B"01X" => TAPE_OUT = BRD5;
+		WHEN B"10X" => TAPE_OUT = BRD5;
+		WHEN B"110" => TAPE_OUT = BRD3;
+		WHEN B"111" => TAPE_OUT = VCC;
+	END CASE;
+
+ELSE
+	TAPE_OUT	= BRD3;
+END IF;
+
+	KBD_CC	= DFF(KBD_CLK,CTH2,,);
+	KBD_DD	= DFF(KBD_DAT,CTH2,,);
+
+	KBD_CLK = TRI(!KBDR2,KBDR0);
+	KBD_DAT	= TRI(!KBDR1,KBDR0);
+
+--	==============  RESET & INT  ====================
+
+	/RESET  = OPNDRN(DFF(VCC,CTV0,KB_RESET,));
+
+IF !(VIDEO == 0) THEN
+	IF KEYBOARD == 3 THEN
+		INTT	= DFF((INTT & !/INT),(INTT_T xor (KB_CT[] == 1)),,((/IO or /M1)));
+	ELSE
+		IF (ACCELERAT == 0) THEN
+			INTT	= DFF((INTT & !/INT),INTT_T,,((/IO or /M1) & CTH5));
+		ELSE
+			INTT	= DFF((INTT & !/INT),INTT_T,,(/IO or /M1));
+		END IF;
+	END IF;
+ELSE
+	INTT	= DFF(GND,DFF(SINC_V,CT5,,),,((/IO or /M1) & CTH5));
+END IF;
+
+	/INT	= OPNDRN(INTT);
+	/NMI	= OPNDRN(PORT_NMI);
+
+IF NMI_USE == 1 THEN
+--	PORT_NMI	= DFF(!(DCP[] == B"1011XXXX"),!/IOM1,,(!/WAITT & NMI_ENA));
+	PORT_NMI	= DFF((KB_MAGIC or PRF_CMD),!(/RF or /MR),,DFF(PORT_NMI,CLKZ1,/RESET,));
+	NMI_ENA		= DFF(DFF(GND,PORT_NMI,,RETN),!/M1,,/RESET);
+ELSE
+	PORT_NMI = VCC;
+	NMI_ENA	= VCC;
+END IF;
+
+--	/NMI	= OPNDRN(INTT);
+--	/NMIT	= DFF(KB_MAGIC,(/MR or /M1 or !(A14 or A15)),,DOS);
+
+--	=============  TURBO MODE  ======================
+
+	IF (F12_TURBO == 1) THEN
+		TURBO		= DFF((TB_SW & TFF(!KB_CTRL,KB_F12,,/RESET)),/M1,,);
+	ELSE
+		IF (ACCELERAT == 0) THEN
+			TURBO		= DFF(TB_SW,/M1,,);
+		ELSE
+			TURBO		= VCC;
+		END IF;
+	END IF;
+
+--	CTRX	= LCELL(CT1 & !CT2);
+
+	CTRX	= CT0 xor CT2;
+
+	CLKZ1	= DFF(((CTRX & TURBO) or (CT3 & !TURBO)),CLK42,,);
+
+--=====================================================
+
+	/IOM	= DFF(!/M1,CT0,,!/IO);
+	/IOM1	= DFF(!(MC_END & /M1),CT2,,!/IO);
+--	/IOM1	= DFF((!(MC_END & /M1) or IO_WAIT),CT2,,!/IO);
+
+	/IOWR	= (/IOM1 or /WR);
+	/IORD	= (/IOM1 or /RD);
+--	/IOWR	= DFF(!(MC_END & /M1 & !/WR),CT2,,!/IO);
+--	/IORD	= DFF(!(MC_END & /M1 & !/RD),CT2,,!/IO);
+
+--	===============  SIMM DISPATCHER  =================
+
+	MC		= ((/MR & /IOM) or LMC_END);
+--	MC		= ((/MR & (/IO or !/M1)) or MC_END);
+
+	/WAITT	= (IO_WAIT & V_WAIT);
+
+	/WAIT = OPNDRN(/WAITT);
+
+--	MC1		= DFF((MC or DFF((/WR & /RD),CLK42,,)),CLK42,,!MC_END);
+	MC1		= DFF(((/MR & /IOM) or (/WR & /RD)),!CLK42,,!MC_END);
+
+	MC_END	= DFF((MC_END or (DOS_ON_ & !MC_START & ACC_END)),CAS,!(/MR & /IO),);
+
+--	MC_END	= DFF((MC_END or (DOS_ON_ & !MC_START & ACC_END)),LCELL(RAS),!(/MR & /IO),);
+
+--	IO_WAIT = /IO or !/M1 or (LMC_END & DFF(!(DCP[7..6] == 0) or DFF(DFF(VCC,CT2,!/IOM1,),CT2,!/IOM1,),CT2,!/IOM1,));
+	IO_WAIT = /IO or !/M1 or (!TURBO & START_ACC) or (LMC_END & DFF(!(DCP[7..6] == 0) or DFF(DFF(VCC,CT2,!/IOM1,),CT2,!/IOM1,),CT2,!/IOM1,));
+	V_WAIT	= (/MR or MC_END or (!TURBO & START_ACC) or
+--			DFF(((PGA[7..4] == 15) or (PGA[7..4] == 10)),CLKZ1,BLK_R,));
+--			DFF(((PGA[7..4] == 15) or (PGA[7..4] == 10)),CLK42,BLK_R,));
+			DFF(((PGA[7..4] == 15)),CLK42,BLK_R,));
+
+	MC_START.clk	= !CT2;
+	MC_START.d		= MC1;
+	MC_START.prn	= !(/MR & /IO);
+
+	MC_SYCLE	= DFF((MC1 or BLK_R),!CT2,,);
+
+--	RAS	= DFF(((MC_SYCLE or CT2) & (DFF(CAS,CLK42,,) or /RF or !(MC_SYCLE))),CLK42,,);
+--	CAS = DFF(((MC_SYCLE or RAS) & (!RAS or /RF or !MC_SYCLE)),CLK42,,);
+
+	RAS	= DFF(CT2,CLK42,,);
+	RASX = DFF(RAS,CLK42,,);
+--	CAS = DFF(RASX,!CLK42,,);
+	CAS = DFF((!CT2 xor CT1),!CLK42,,);
+
+--	CAS = DFF(((CT2 or CT0) & (CAS or !CT0)),CLK42,,);
+
+--	RAS	= DFF(((MC_SYCLE or CT2) & (CAS or !MC_SYCLE)),CLK42,,);
+--	CAS = DFF(((MC_SYCLE or RAS) & (CT2 or !MC_SYCLE)),CLK42,,);
+
+	RFC	= !MC_SYCLE;
+
+	IF (AY_3_8910 != 0) THEN
+		/WE		= /WE1;
+		/WE1	= (/WR or /MR or MC_SYCLE or ROM);
+	ELSE
+		/WE		= /WE1 or ROM or (PG_SCR & PGA2);
+		/WE1	= (/WR or /MR or MC_SYCLE or GLISSER);
+		GLISSER	= ((MXVDD[] == H"FF") & (PG_SCR & PGA3));
+	END IF;
+
+--	E_CAS_0 = LCELL(!(DC_CAS[] == 0) or BLK_R);
+--	E_CAS_1 = LCELL(!(DC_CAS[] == 1) or BLK_R);
+--	E_CAS_2 = LCELL(!(DC_CAS[] == 3) or BLK_R);
+--	E_CAS_3 = LCELL(!(DC_CAS[] == 2) or BLK_R);
+
+	E_CAS_0 = DFF((!(DC_CAS[] == 0) or BLK_R),!RAS,,);
+	E_CAS_1 = DFF((!(DC_CAS[] == 1) or BLK_R),!RAS,,);
+	E_CAS_2 = DFF((!(DC_CAS[] == 3) or BLK_R),!RAS,,);
+	E_CAS_3 = DFF((!(DC_CAS[] == 2) or BLK_R),!RAS,,);
+
+--	CAS_[]	= LCELL(CAS & DFF(CAS,!CLK42,,)) or (E_CAS_[] & RFC);
+
+--	CAS_0	= DFF((CAS or (E_CAS_0 & RFC)),!CLK42,,);
+--	CAS_1	= DFF((CAS or (E_CAS_1 & RFC)),!CLK42,,);
+--	CAS_2	= DFF((CAS or (E_CAS_2 & RFC)),!CLK42,,);
+--	CAS_3	= DFF((CAS or (E_CAS_3 & RFC)),!CLK42,,);
+
+	CAS_0	= ((CAS or E_CAS_0 or MC_SYCLE) & (RAS or !MC_SYCLE));
+	CAS_1	= ((CAS or E_CAS_1 or MC_SYCLE) & (RAS or !MC_SYCLE));
+	CAS_2	= ((CAS or E_CAS_2 or MC_SYCLE) & (RAS or !MC_SYCLE));
+	CAS_3	= ((CAS or E_CAS_3 or MC_SYCLE) & (RAS or !MC_SYCLE));
+
+	RAS_[]	= (RAS or MC_SYCLE) & (CAS or !MC_SYCLE);
+
+	LMC_END		= DFF(MC_END,CLK42,,);
+--	LMC_END		= DFF(MC_END,!CLK42,,);
+	DCP[].clk	= (LMC_END);
+	DD[].clk	= (LMC_END);
+
+IF (PENTAGON512 == 1) THEN
+	CASE (LCELL(MD[7..4] == 15),/IO) IS
+		WHEN 0,1,3 => DCP[].d	= MD[]; DD[].d	= MD[];
+		WHEN 2 => DCP[].d = (VCC,!PN7,!PN6,VCC,SC4,PN[2..0]); DD[].d	= (VCC,!PN7,!PN6,VCC,SC4,PN[2..0]);
+	END CASE;
+ELSE
+	CASE (LCELL(MD[7..4] == 15),/IO) IS
+		WHEN 0,1,3 => DCP[].d	= MD[]; DD[].d	= MD[];
+		WHEN 2 => DCP[].d = (B"1111",SC4,PN[2..0]); DD[].d	= (B"1111",SC4,PN[2..0]);
+	END CASE;
+END IF;
+%
+	IF ((LCELL(MD[7..4] == 15) & !/IO) & (SPRINTER == 0)) THEN
+		DCP[].d	= (MD[7..4],SC4,PN[2..0]);
+		DD[].d	= (MD[7..4],SC4,PN[2..0]);
+	ELSE
+		DCP[].d	= MD[];
+		DD[].d	= MD[];
+	END IF;
+%
+--	=================  COUNTERS  =================
+
+	CT[].clk	= CLK42;
+
+	CT[1..0].d	= (CT0,!(CT1 or CT0));
+	CASE CT1 IS
+		WHEN 1 => CT[5..2].d		= CT[5..2] + 1;
+		WHEN 0 => CT[5..2].d		= CT[5..2];
+	END CASE;
+
+	CTH[2..0].clk	= !CT5;
+	CTH[2..0].d		= CTH[2..0] + 1;
+
+	CTH[5..3].clk	= !CTH2;
+
+	CASE CTH[5..3] IS
+		WHEN B"110" => CTH[5..3].d = CTH[5..3] + 2;
+		WHEN B"0XX",B"10X",B"111" => CTH[5..3].d = CTH[5..3] + 1;
+	END CASE;
+
+	CTH3X.clk		= !CT5;
+	IF CTH[2..0] == 7 THEN
+		CTH3X.d = !CTH3X;
+	ELSE
+		CTH3X.d = CTH3X;
+	END IF;
+
+	CTV[2..0].clk	= SINC_HH;
+	CTV[2..0].d		= CTV[2..0] + 1;
+
+	CTV[8..3].clk	= !CTV2;
+
+IF !(VIDEO == 0) THEN
+
+	CASE MODE0[1] IS
+		WHEN 1 => CTV[8..3].d	= GND;
+		WHEN 0 => CTV[8..3].d	= CTV[8..3] + 1;
+	END CASE;
+
+	CTF[].clk		= !CTV8;
+	CTF[].d			= CTF[] + 1;
+
+ELSE
+
+	IF (CTV[8..3] == B"1XX111") THEN
+		CTV[8..3].d	= GND;
+	ELSE
+		CTV[8..3].d	= CTV[8..3] + 1;
+	END IF;
+
+	CTF[].clk		= !CTV8;
+	CTF[].d			= CTF[] + 1;
+
+END IF;
+
+--	=================  VIDEO ====================
+
+	VXA[].clk	= V_SINC;
+
+IF (VIDEO == 0) THEN
+--	=================  VIDEO Spectrum-48k ====================
+
+IF FORTH_CPU == 1 THEN
+	V_SINC		= DFF(DFF(F_CLK,CLK42,,),CLK42,,);
+ELSE
+	V_SINC		= RAS;
+END IF;
+
+	--            Sinc
+	--      Blank ____  Blank
+	--  Scr  ____/    \_________  Scr
+	--  ____/                   \____
+	--      |  4 |  4 |  8      |
+
+--	SINC_HH	= DFF(CTH5 & !CTH4,CTH2,,);
+--	SINC_H	= DFF((SINC_HH & !CTH3 & !CTH4),!CTH2,,);
+--	SINC_V	= DFF(SINC_VV,CTV4,!CTV8,);
+
+	SINC_HH	= DFF(CTH[] == B"1001XX",CTH1,,);
+	SINC_H	= DFF(SINC_HH,!CTH1,,);
+	SINC_V	= (CTV[] == B"X11110XXX");
+
+	SINC_VV	= DFF(CTV7 & CTV6,CTV5,,);
+	BLANK	= DFF(CTH5 & !CTH4,CTH2,,!SINC_VV);
+
+	SINC	= DFF((!SINC_V xor SINC_H),CT5,,);
+--	SINC	= (!SINC_V xor SINC_H);
+
+	BORD	= DFF((CTV8 or (CTV7 & CTV6) or CTH5),LWR_PIC,,);
+
+--	BLANK	= DFF(CTH5 & !CTH4,CTH2,,!DFF(CTV7 & CTV6,CTV5,,));
+%
+	CASE CT[2..0] IS
+		WHEN B"001" => VCM[2..0].d = 0;
+		WHEN B"010" => VCM[2..0].d = 1;
+		WHEN B"100" => VCM[2..0].d = 2;
+		WHEN B"101" => VCM[2..0].d = 4;
+		WHEN B"110" => VCM[2..0].d = 5;
+		WHEN B"000" => VCM[2..0].d = 6;
+	END CASE;
+%
+	VCM[].clk	= CLK42;
+	TSN_W3.clk	= CLK42;
+	V_CS[].clk	= CLK42;
+	V_WE.clk	= CLK42;
+	VLA[].clk	= CLK42;
+
+IF FORTH_CPU == 1 THEN
+	MXWE	= DFF(WE_MEM,V_SINC,,V_WE);
+	MXCE	= GND;
+
+ELSE
+	MXWE	= DFF((MXCE or /WE1),V_SINC,,V_WE);
+
+	MXCE	= (AGR6 or !A14 or (A13 & !AGR7) or (A15 & !((PN[7..6] == B"00") & (PN[2..0] == B"1X1") & !SC4)));
+END IF;
+
+	CASE CT[2..0] IS
+		WHEN B"110" => VCM[2..0].d = 5;
+		WHEN B"000" => VCM[2..0].d = 1;
+		WHEN B"001" => VCM[2..0].d = 4;
+		WHEN B"010" => VCM[2..0].d = 3;
+		WHEN B"100" => VCM[2..0].d = 2;
+		WHEN B"101" => VCM[2..0].d = 0;
+	END CASE;
+
+	CASE VCM[1..0] IS
+		WHEN 0 =>
+			VLA[].d	= (BRVA[7..0],VCC,VCC,VCC,VCC,VCC,BRVA[10..8],VCC,VCC);
+--			VLA[].d	= (VCC,VCC,VCC,VCC,VLAB[13..0]);
+			V_CS[].d = (VCC,GND);
+			TSN_W3.d	= VCM2;
+		WHEN 1,3 =>
+			WR_PIC.d	= !VCM2;
+			WR_COL.d	= VCM2;
+			VLA[].d	= SVA[];
+			V_CS[].d = (VCC,GND);
+		WHEN 2 =>
+--			VLA[].d	= VXA[];
+
+			IF FORTH_CPU == 1 THEN
+				VLA[] = (STDO[7..0],STDO[15..8],VCC,VCC);
+			ELSE
+				VLA[]	= (AA[7..0],GND,GND,AX128,AA[12..8],VCC,VCC);
+			END IF;
+			F_CLK.d	= GND;
+
+			V_CS[].d = (VCC,GND);
+			V_WE.d	= MXWE;
+	END CASE;
+	V_CS1.prn	= GND;
+	V_CS0.clrn	= GND;
+
+	AX128	= LCELL(A15 & PN1);
+
+--	VXA[]	= (B"00",A[7..0],A[10..8],AX128,A12,A11,VCC,VCC);
+
+IF FORTH_CPU == 1 THEN
+	VXA[] = (STDO[7..0],STDO[15..8],VCC,VCC);
+ELSE
+	VXA[]	= (AA[7..0],GND,GND,AX128,AA[12..8],VCC,VCC);
+END IF;
+
+--	VLAB[]  = (B"1111",BRVA[7..3],VCC,BRVA[10..9],BRVA[2..0],BRVA8,GND,GND);
+	VLAB[]  = (B"1111111",BRVA[10..0]);
+
+--	SVA[] = (B"00",CTV[5..3],CTH[4..0],CTV[2..0],SC128,CTV[7..6],GND,GND);
+--	SVA[] = (B"00",CTV[5..3],CTH[4..0],GND,CTV[7..6],SC128,VCC,VCC,GND,GND);
+
+	SVA[17..10] = (CTV[5..3],CTH[4..0]);
+	SVA[9..8] = GND;
+	SVA[7] = SC128;
+	CASE VCM2 IS
+		WHEN B"0" => % ZX-atr adress %	(SVA[6..2])	= (VCC,VCC,GND,CTV[7..6]);
+		WHEN B"1" => % ZX-pic adress %	(SVA[6..2])	= (CTV[7..6],CTV[2..0]);
+	END CASE;
+
+	SVA[1..0] = VCC;
+
+	SC128	= SCR128;
+
+	VA[]	= VLA[17..2];
+
+	WR_PIC.clk = CLK42; WR_COL.clk = CLK42; WR_MODE.clk = CLK42;
+
+	LWR_PIC		= LCELL(WR_PIC);
+	LWR_COL		= LCELL(WR_COL);
+--	LWR_PIC		= DFF(WR_PIC,!CLK42,,);
+--	LWR_COL		= DFF(WR_COL,!CLK42,,);
+
+	D_PIC0[].clk	= (LWR_PIC);
+
+--	IF LD_PIC THEN D_PIC0[].d = D_PIC0_[]; ELSE D_PIC0[].d = (D_PIC0[6..0],D_PIC0_[0]); END IF;
+	IF LD_PIC THEN D_PIC0[].d = VD0[]; ELSE D_PIC0[].d = (D_PIC0[6..0],VD0[0]); END IF;
+
+	DPIC.clk	= CLK42;
+	DPIC.d		= D_PIC0[7];
+
+	LD_PIC		= LCELL(CT[5..3] == B"000");
+
+--	DCOL[].d	= VD0[];
+
+	DCOL[].clk	= (LWR_COL);
+	IF BORD THEN
+		DCOL[].d	= (B"00",BRD[2..0],BRD[2..0]);
+--		DCOL[].d	= (B"00",AY_OUT[3..1],AY_OUT[3..1]);
+--		DCOL[].d	= (B"00",(AY_CX & B"111111"));
+	ELSE
+		DCOL[].d	= VD0[];
+	END IF;
+	DCOL[].clrn	= !BLANK;
+
+	BRVA[7..0] = DCOL[];
+	BRVA[10..8]		= (VCC,CTF4,DPIC);
+
+--	CASE BLANK IS
+--		WHEN B"0" =>
+--			BRVA[10..8]		= (VCC,CTF4,DPIC);
+--		WHEN B"1" =>
+--			BRVA[10..8]		= (VCC,GND,GND);
+--	END CASE;
+
+--	CASE (BLANK,BORD) IS
+--		WHEN B"00" =>
+--			BRVA[7..0]	= DCOL[];
+--		WHEN B"01" =>
+--			BRVA[7..0]	= (B"00",BRD[2..0],BRD[2..0]);
+--		WHEN B"1X" =>
+--			BRVA[7..0]	= GND;
+--	END CASE;
+
+	V_WE.prn	= DFF(V_WE,!CLK42,,);
+
+--	V_WE.prn	= LCELL(V_WE or CLK42);
+
+--	V_WR[]	= (V_WE) or !((!VXA1 & !VXA0),(!VXA1 & VXA0),(VXA1 & !VXA0),(VXA1 & VXA0));
+IF FORTH_CPU == 1 THEN
+	V_WR[]	= (V_WE) OR !LCELL(/RESET);
+ELSE
+	V_WR[]	= LCELL(V_WE) or B"1110";
+END IF;
+--
+ELSE
+IF VIDEO == 1 THEN
+
+--	=================  VIDEO Sprinter-97  ====================
+
+IF (SCREEN == 1) THEN
+	V_SINC		= !PG_SCR1 or /WAITT or /MR or !/M1;
+ELSE
+	V_SINC		= RAS;
+END IF;
+
+	SINC_H	= DFF(CTH[] == B"1011XX",CTH0,,);
+	SINC_HH	= SINC_H;
+--	SINC_V	= DFF(CTV[] == B"1XX010XXX",!CTH5,,);
+	SINC_V	= LCELL(CTV[] == B"1XX010XXX");
+	SINC	= !SINC_V xor SINC_H;
+--	BORD	= DFF((MODE0[4] & MODE0[3]),TSN_W3,,);
+--	BLANK	= DFF((MODE0[4] & MODE0[3] & MODE0[2]),TSN_W3,,);
+
+--	BORD	= DFF((MODE0[4] & MODE0[3]),WR_PIC,,);
+	BORD	= DFF((MODE0[7..4] == 15),WR_PIC,,);
+
+	BLANK	= DFF((BORD & MODE03 & MODE02),WR_PIC,,);
+	INTT_T	= DFF(!(BLANK & (CTV[2..0] == 7)),CT5,,MODE0[0]);
+
+	VCM[].clk	= CLK42;
+	TSN_W3.clk	= CLK42;
+	V_CS[].clk	= CLK42;
+	V_WE.clk	= CLK42;
+	VLA[].clk	= CLK42;
+
+	CASE CT[2..0] IS
+		WHEN B"110" => VCM[2..0].d = 5;
+		WHEN B"000" => VCM[2..0].d = 1;
+		WHEN B"001" => VCM[2..0].d = 4;
+		WHEN B"010" => VCM[2..0].d = 3;
+		WHEN B"100" => VCM[2..0].d = 2;
+		WHEN B"101" => VCM[2..0].d = 0;
+	END CASE;
+
+	CASE VCM[1..0] IS
+		WHEN 0 =>
+			VLA[].d	= (BRVA[7..0],VCC,VCC,VCC,VCC,VCC,BRVA[10..8],VCC,VCC);
+			V_CS[].d = (VCC,GND);
+		--	TSN_W3.d = ((X_MODE5 or VCM2) & (X_MODE_BOND or !VCM2));
+			IF VCM2 THEN
+				TSN_W3.d = X_MODE5;
+			ELSE
+				TSN_W3.d = X_MODE_BOND;
+			END IF;
+			WR_MODE2.d	= !MODE0[4] or VCM2;
+		WHEN 1 =>
+			WR_PIC.d	= !VCM2;
+			WR_COL.d	= VCM2;
+			VLA[].d	= SVA[];
+			V_CS[].d = (VCC,GND);
+		WHEN 2 =>
+			VLA[].d	= VXA[];
+			V_CS[].d = (VCC,GND);
+			V_WE.d	= MXWE;
+		WHEN 3 =>
+			WR_PIC.d	= X_MODE5;
+			VLA[].d	= (VLAM[]);
+			WR_MODE.d	= !(CT[5..3] == B"111") & !(CT4 & CT3 & !MODE0[5]);
+			WR_MODE2.d	= !(CT[5..3] == B"111") & !(CT4 & CT3 & !MODE0[5]);
+			V_CS[].d = (VCC,GND);
+	END CASE;
+	V_CS1.prn	= GND;
+	V_CS0.clrn	= GND;
+
+IF NEWS == 1 THEN
+
+--	VXA[] = RA[17..0];
+
+IF NO_SPEC_SCR == 1 THEN
+
+--	VXA[]	= RA[17..0];
+
+	MXCE	= !PG_SCR1;
+	VXA[] = (AA[9..0],GR_Y[]);
+
+ELSE
+
+	VXA[] = RA[17..0];
+
+	IF PG_SCR THEN
+		MXCE	= GND;
+	ELSE
+		MXCE	= LCELL(AGR6 or !AAA14 or (AA13 & !AGR7) or (AAA15 & !((PN[2..0] == B"1X1") & !SC4)));
+	END IF;
+
+END IF;
+
+ELSE
+
+IF NO_SPEC_SCR == 1 THEN
+	VXA[]	= (GR_Y[],RA[9..0]);
+	MXCE	= !PG_SCR1;
+ELSE
+	IF (PG_SCR1) THEN
+		VXA[]	= (RA[17..0]);
+		MXCE	= GND;
+	ELSE
+		VXA[]	= (RA[7..0],AGR[4..1],LCELL(MPGS1 xor AGR0 xor RA13),RA[12..8]);
+		MXCE	= LCELL(AGR6 or !AAA14 or (AA13 & !AGR7) or (AAA15 & !((PN[2..0] == B"1X1") & !SC4)));
+	END IF;
+END IF;
+END IF;
+
+
+IF (SCREEN == 1) THEN
+	MXWE	= DFF(!PG_SCR1,V_SINC,,V_WE);
+ELSE
+	MXWE	= DFF((MXCE or /WE1),V_SINC,,V_WE);
+END IF;
+
+--	SVA[14..10] = MODE1[4..0];
+--	SVA[9..6] = MODE0[3..0];
+	SVA[9..6]	= MODE0[3..0];
+	SVA[17..13] = MODE1[7..3];
+
+	CASE (VCM2,MODE0[4]) IS
+		WHEN B"X0" =>
+			--	Graf adress  --
+			SVA[12..10] = CTV[2..0];
+			SVA[5..0]	= (MODE1[2..0],CT5,!CT[4..3]);
+		WHEN B"01" =>
+			--	ZX-atr adress  --
+			SVA[12..10] = MODE1[2..0];
+			SVA[5..0]	= (SCR128,VCC,VCC,GND,!MODE0[7..6]);
+		WHEN B"11" =>
+			--	ZX-pic adress  --
+			SVA[12..10] = MODE1[2..0];
+			SVA[5..0]	= (SCR128,MODE0[7..6],CTV2,!CTV1,!CTV0);
+	END CASE;
+
+	VLAM[]	= (RGMOD0,CTH[5..0],CT5,VCC,VCC,CTV[8..3],GND,GND);
+
+	VLAB[]  = (B"1111111",BRVA[10..0]);
+
+	IF !(ACCELERAT == 0) THEN
+		X_MODE_BOND = GND;
+	ELSE
+		X_MODE_BOND	= DFF(LCELL(DCOL[7..4] == 15) & LCELL(DCOL[3..0] == 15) &
+				DFF((MODE0[7] & MODE0[5] & !MODE0[4]),LWR_COL,,));
+	END IF;
+
+	LD_PIC	= LCELL((MODE0[5] & (CT[5..3] == B"000")) or (!MODE0[5] & (CT[4..2] == B"000")));
+%
+END IF;
+%
+	CASE (DFF(VLA1,!CLK42,,),DFF(VLA0,!CLK42,,)) IS
+		WHEN 0 => D_PIC0_[] = VD0[];
+		WHEN 1 => D_PIC0_[] = VD1[];
+		WHEN 2 => D_PIC0_[] = VD2[];
+		WHEN 3 => D_PIC0_[] = VD3[];
+	END CASE;
+
+	MODE0[].clk		= LWR_MODE;
+	MODE1[].clk		= LWR_MODE;
+	MODE2[].clk		= LWR_MODE;
+
+	MODE0[].d		= VD3[];
+--	MODE1[].d		= VD2[];
+
+	WR_MODE2X.d		= LWR_MODE;
+	WR_MODE2X.clk	= WR_MODE2;
+
+	MODE2[].ena = DFF(VCM1,CLK42,,);
+	MODE2[].d		= VD1[];
+
+	IF DFF(VCM1,CLK42,,) THEN
+		MODE1[].d		= VD2[];
+	ELSE
+		MODE1[].d		= MODE2[];
+	END IF;
+
+	X_MODE7	= DFF(MODE0[7],LWR_COL,,);
+	X_MODE6	= DFF(MODE0[6],LWR_COL,,);
+	X_MODE5	= DFF(MODE0[5],LWR_COL,,);
+	X_MODE4 = DFF(MODE0[4],LWR_COL,,);
+
+	VA[]	= VLA[17..2];
+
+	WR_PIC.clk		= CLK42;
+	WR_COL.clk		= CLK42;
+	WR_MODE.clk		= CLK42;
+	WR_MODE2.clk	= CLK42;
+
+--	LWR_MODE	= (DFF(WR_MODE,!CLK42,,));
+--	LWR_MODE	= LCELL(LCELL(WR_MODE));
+
+	LWR_MODE2	= LCELL(WR_MODE2);
+	LWR_MODE	= LCELL(WR_MODE);
+
+	LWR_PIC		= DFF(WR_PIC,!CLK42,,);
+	LWR_COL		= DFF(WR_COL,!CLK42,,);
+
+	D_PIC0[].clk	= (LWR_PIC);
+
+	IF LD_PIC THEN
+		D_PIC0[].d	= D_PIC0_[];
+	ELSE
+		D_PIC0[].d	= (D_PIC0[6..0],D_PIC0_[0]);
+	END IF;
+
+	DPIC.clk	= !CLK42;
+	DPIC.d		= D_PIC0[7];
+
+	DCOL[].clk	= (LWR_COL);
+
+	IF LCELL(MODE0[7..4] == 15) THEN
+		DCOL[].d	= (B"00",BRD[2..0],BRD[2..0]);
+	ELSE
+		DCOL[].d	= D_PIC0_[];
+	END IF;
+
+	DCOL[].clrn	= !BLANK;
+
+IF MODE640 THEN
+	CASE (LCELL(X_MODE4 or X_MODE5),CT2) IS
+		WHEN B"1X" => BRVA[7..0] = DCOL[];
+		WHEN B"01" => BRVA[7..0] = (B"0000",DCOL[7..4]);
+		WHEN B"00" => BRVA[7..0] = (B"0000",DCOL[3..0]);
+	END CASE;
+ELSE
+	BRVA[7..0] = DCOL[];
+END IF;
+
+	BRVA[10..8] = (x_mode4,RBRVA[9..8]);
+
+	RBRVA[].clk = CLK42;
+
+	CASE (BORD,X_MODE4) IS
+		WHEN B"X0" => RBRVA[10..8].d = (GND,X_MODE[7..6]);
+		WHEN B"X1" => RBRVA[10..8].d = (VCC,(CTF4 & !BLANK),D_PIC0[7]);
+	END CASE;
+%
+	CASE (CURS_MCX,X_MODE4) IS
+		WHEN B"00" => RBRVA[10..8].d = (GND,X_MODE[7..6]);
+		WHEN B"01" => RBRVA[10..8].d = (VCC,CTF4,D_PIC0[7]);
+		WHEN B"1X" => RBRVA[10..8].d = (VCC,CURS_PIX[]);
+	END CASE;
+%
+	RBRVA[9..8].clrn = !BORD;
+	RBRVA[10].prn = !BORD;
+
+	V_WE.prn	= DFF(V_WE,!CLK42,,);
+
+	V_WR[]	= (V_WE) or !((!VXA1 & !VXA0),(!VXA1 & VXA0),(VXA1 & !VXA0),(VXA1 & VXA0));
+
+ELSE
+
+--	=================  VIDEO-2 Sprinter-98 ! ====================
+	V_SINC	= DFF((/MR or ((!PG_SCR1 or /RD) & /WR)),CLK42,,);
+
+	SINC_H	= DFF(CTH[] == B"1011XX",CTH0,,);
+	SINC_HH	= SINC_H;
+--	SINC_V	= DFF(CTV[] == B"1XX010XXX",!CTH5,,);
+	SINC_V	= LCELL(CTV[] == B"1XX010XXX");
+	SINC	= !SINC_V xor SINC_H;
+--	BORD	= DFF((MODE0[4] & MODE0[3]),TSN_W3,,);
+--	BLANK	= DFF((MODE0[4] & MODE0[3] & MODE0[2]),TSN_W3,,);
+
+--	BORD	= DFF((MODE0[4] & MODE0[3]),WR_PIC,,);
+
+	BORD	= DFF((MODE0[7..4] == 15),WR_PIC,,);
+
+	BLANK	= DFF((BORD & MODE0[2]),WR_PIC,,);
+	INTT_T	= DFF(!(BLANK & (CTV[2..0] == 7)),CT5,,MODE0[0]);
+
+	VCM[].clk	= CLK42;
+	TSN_W3.clk	= CLK42;
+	V_CS[].clk	= CLK42;
+	V_WE.clk	= CLK42;
+	VLA[].clk	= CLK42;
+
+	CASE CT[2..0] IS
+		WHEN B"110" => VCM[2..0].d = 5;
+		WHEN B"000" => VCM[2..0].d = 1;
+		WHEN B"001" => VCM[2..0].d = 4;
+	--	WHEN B"010" => VCM[2..0].d = 2;
+	--	WHEN B"100" => VCM[2..0].d = 3;
+		WHEN B"010" => VCM[2..0].d = 3;
+		WHEN B"100" => VCM[2..0].d = 2;
+		WHEN B"101" => VCM[2..0].d = 0;
+	END CASE;
+
+	CASE VCM[1..0] IS
+		WHEN 0 =>
+			VLA[].d	= (VCC,VCC,VCC,VCC,VLAB[13..0]);
+			V_CS[].d = (VCC,GND);
+		--	TSN_W3.d = ((X_MODE5 or VCM2) & (X_MODE_BOND or !VCM2));
+			IF VCM2 THEN
+				TSN_W3.d = X_MODE5;
+			ELSE
+				TSN_W3.d = X_MODE_BOND;
+			END IF;
+		WHEN 1 =>
+			WR_PIC.d	= !VCM2;
+			WR_COL.d	= VCM2;
+			VLA[].d	= SVA[];
+			V_CS[].d = (VCC,GND);
+		WHEN 2 =>
+			VLA[].d	= VXA[];
+			V_CS[].d = (VCC,GND);
+			V_WE.d	= MXWE;
+		WHEN 3 =>
+			WR_PIC.d	= X_MODE5;
+			VLA[].d	= (VCC,GND,VCC,VCC,VLAM[13..0]);
+			WR_MODE.d	= !(CT[5..3] == B"111");
+			V_CS[].d = (VCC,GND);
+	END CASE;
+	V_CS1.prn	= GND;
+	V_CS0.clrn	= GND;
+
+	IF (PG_SCR or PG_SCR1) THEN
+--		VXA[]	= (RA[9..6],RA[17..13],RA[5..3],RA[12..10],RA[2..0]);
+		VXA[]	= (AA[9..6],GR_Y[7..3],AA[5..3],GR_Y[2..0],AA[2..0]);
+		MXCE	= GND;
+	ELSE
+		VXA[]	= (AGR[4..1],RA[7..0],RA[10..8],lcell(MPGS1 xor AGR0 xor RA13),RA12,RA11);
+--		MXCE	= VCC;
+		MXCE	= LCELL(AGR6 or !AAA14 or (AA13 & !AGR7) or (AAA15 & !((PN[2..0] == B"1X1") & !SC4)));
+	END IF;
+
+--	MXWE	= DFF((MXCE or /WE1),V_SINC,,V_WE);
+	MXWE	= DFF(MXCE,V_SINC,,V_WE);
+
+	SVA[17..6] = (MODE0[3..0],MODE1[7..0]);
+	SVA2		= SC128;
+
+	CASE (VCM2,MODE0[4]) IS
+		WHEN B"X0" =>
+			--	Graf adress  --
+			(SVA[5..3],SVA[1..0])	= (CTV[2..0],!CT[4..3]);
+		WHEN B"01" =>
+			--	ZX-atr adress  --
+			(SVA[5..3],SVA[1..0])	= (GND,MODE0[7..6],GND,GND);
+		WHEN B"11" =>
+			--	ZX-pic adress  --
+			(SVA[5..3],SVA[1..0])	= (CTV[2..0],!MODE0[7..6]);
+	END CASE;
+
+	CASE (MODE0[4],MODE0[5]) IS
+		WHEN 0 => SC128 = CT5;
+		WHEN 1 => SC128 = CT5;
+		WHEN 2 => SC128 = CT5;
+		WHEN 3 => SC128 = SCR128;
+	END CASE;
+
+--	SC128 = ((MODE0[5] & SCR128) or (!MODE0[5] & CT5));
+
+	VLAM[]	= (B"1011",CTV[4..3],CTH[5..0],CTV[7..5],!RGMOD0,GND,GND);
+	VLAB[]  = (B"1111",BRVA[7..3],VCC,BRVA[10..9],BRVA[2..0],BRVA8,GND,GND);
+
+	IF !(ACCELERAT == 0) THEN
+		X_MODE_BOND = GND;
+	ELSE
+		X_MODE_BOND	= DFF(LCELL(DCOL[7..4] == 15) & LCELL(DCOL[3..0] == 15) & DFF((MODE0[7] & MODE0[5] & !MODE0[4]),LWR_COL,,));
+	END IF;
+
+	LD_PIC	= LCELL((MODE0[5] & (CT[5..3] == B"000")) or (!MODE0[5] & (CT[4..2] == B"000")));
+%
+END IF;
+%
+	CASE (DFF(VLA1,!CLK42,,),DFF(VLA0,!CLK42,,)) IS
+		WHEN 0 => D_PIC0_[] = VD0[];
+		WHEN 1 => D_PIC0_[] = VD1[];
+		WHEN 2 => D_PIC0_[] = VD2[];
+		WHEN 3 => D_PIC0_[] = VD3[];
+	END CASE;
+
+--	IF DFF(VLA1,!CLK42,,) THEN D_PIC0_[] = VDX_[15..8]; ELSE D_PIC0_[] = VDX_[7..0]; END IF;
+--	IF DFF(VLA0,!CLK42,,) THEN VDX_[] = (VD3[],VD1[]); ELSE VDX_[] = (VD2[],VD0[]); END IF;
+
+--	(MODE0[].d,MODE1[].d) = VDX_[];
+
+--	IF DFF(VLA0,!CLK42,,) THEN
+	IF !CTV8 THEN
+		MODE0[].d		= VD3[];
+		MODE1[].d		= VD1[];
+	ELSE
+		MODE0[].d		= VD2[];
+		MODE1[].d		= VD0[];
+	END IF;
+
+	MODE0[].clk		= LWR_MODE;
+	MODE1[].clk		= LWR_MODE;
+
+	X_MODE7	= DFF(MODE0[7],LWR_COL,,);
+	X_MODE6	= DFF(MODE0[6],LWR_COL,,);
+	X_MODE5	= DFF(MODE0[5],LWR_COL,,);
+	X_MODE4 = DFF(MODE0[4],LWR_COL,,);
+
+	VA[]	= VLA[17..2];
+
+	WR_PIC.clk		= CLK42;
+	WR_COL.clk		= CLK42;
+	WR_MODE.clk		= CLK42;
+
+--	LWR_MODE	= (DFF(WR_MODE,!CLK42,,));
+--	LWR_MODE	= LCELL(LCELL(WR_MODE));
+	LWR_MODE	= LCELL(WR_MODE);
+
+--	LWR_PIC		= LCELL(WR_PIC);
+	LWR_PIC		= DFF(WR_PIC,!CLK42,,);
+	LWR_COL		= DFF(WR_COL,!CLK42,,);
+
+	D_PIC0[].clk	= (LWR_PIC);
+
+	IF LD_PIC THEN
+		D_PIC0[].d	= D_PIC0_[];
+	ELSE
+		D_PIC0[].d	= (D_PIC0[6..0],D_PIC0_[0]);
+	END IF;
+
+	DPIC.clk	= !CLK42;
+	DPIC.d		= D_PIC0[7];
+
+	DCOL[].clk	= (LWR_COL);
+
+	IF LCELL(MODE0[4] & MODE0[3]) THEN
+		DCOL[].d	= (B"00",BRD[2..0],BRD[2..0]);
+	ELSE
+		DCOL[].d	= D_PIC0_[];
+	END IF;
+
+	DCOL[].clrn	= !BLANK;
+
+--	BRVA[7..0] = DCOL[];
+
+IF MODE640 THEN
+	CASE (LCELL(MODE0[4] or MODE0[5]),CT2) IS
+		WHEN B"1X" => BRVA[7..0] = DCOL[];
+		WHEN B"01" => BRVA[7..0] = (B"0000",DCOL[7..4]);
+		WHEN B"00" => BRVA[7..0] = (B"0000",DCOL[3..0]);
+	END CASE;
+ELSE
+	BRVA[7..0] = DCOL[];
+END IF;
+
+
+	BRVA[10..8] = (x_mode[4],RBRVA[9..8]);
+
+	RBRVA[].clk = CLK42;
+
+	CASE (BORD,X_MODE[4]) IS
+		WHEN B"X0" => RBRVA[10..8].d = (GND,X_MODE[7..6]);
+	--	WHEN B"01" => RBRVA[10..8].d = (VCC,CTF4,DPIC);
+		WHEN B"X1" => RBRVA[10..8].d = (VCC,CTF4,D_PIC0[7]);
+	--	WHEN B"1X" => RBRVA[10..8].d = (VCC,GND,GND);
+	END CASE;
+	RBRVA[9..8].clrn = !BORD;
+	RBRVA[10].prn = !BORD;
+
+	V_WE.prn	= DFF(V_WE,!CLK42,,);
+
+	V_WR[]	= (V_WE) or !((!VXA1 & !VXA0),(!VXA1 & VXA0),(VXA1 & !VXA0),(VXA1 & VXA0));
+
+END IF;
+END IF;
+
+--	===========  KEYBOARD  =======================
+
+
+
+CASE KEYBOARD IS
+WHEN 0 =>
+	KB_RESET.prn	= GND;
+	KB_F12			= GND;
+	IF (COVOX_MODE == B"10") THEN
+		KD[] = (COV_AR7,VCC,CTV8,B"11111");
+	ELSE
+		KD[] = VCC;
+	END IF;
+
+WHEN 1 =>
+
+
+	KB_CT[].clk	= CTV0;
+	KB_CT[].prn	= KBD_CC;
+	KB_CT[].clrn = !KBDR0;
+
+	CASE KB_CT[] IS
+		WHEN 0 => KB_CT[].d	= GND;
+		WHEN 1,2,3,4,5,6,7 => KB_CT[].d	= KB_CT[] - 1;
+	END CASE;
+
+	KB_D[].clk	= KBD_CC;
+	KB_D[].d	= (KBD_DD,KB_D[10..1]);
+
+	KB_OFF.clk	= (KB_CT[] == 0);
+
+	IF KB_EXT THEN
+		KB_OFF.d	= KB_OFF;
+	ELSE
+		KB_OFF.d	= KB_D[] == B"XX11110000X";
+	END IF;
+
+	KB_EXT.clk	= (KB_CT[] == 1);
+	KB_EXT.d	= KB_D[] == B"XX11100000X";
+
+	KB_CTRL.clk	= (KB_CT[] == 3);
+	KB_ALT.clk	= (KB_CT[] == 3);
+	KB_SH.clk	= (KB_CT[] == 3);
+
+	KB_CTRL_X	= LCELL(KB_D[] == B"XXXXX1X100X");
+	KB_ALT_X	= LCELL(KB_D[] == B"XXXXX1X001X");
+--	KB_SH_X		= LCELL(KB_D[] == B"XX00010010X") or (KB_D[] == B"XX01011001X");
+
+	KB_SH_X		= LCELL(KB_D[] == B"XX0X01X0XXX") &
+			   CASCADE((KB_D[] == B"XXX1XX1X01X") or (KB_D[] == B"XXX0XX0X10X"));
+	KB_XXX		= LCELL(KB_D[] == B"XX000X0XXXX");
+
+	CASE KB_OFF IS
+		WHEN 0 =>
+			KB_CTRL.d	= (KB_CTRL_X & KB_XXX) or KB_CTRL;
+			KB_ALT.d	= (KB_ALT_X  & KB_XXX) or KB_ALT;
+			KB_SH.d		= (KB_SH_X) or KB_SH;
+		WHEN 1 =>
+			KB_CTRL.d	= !(KB_CTRL_X & KB_XXX) & KB_CTRL;
+			KB_ALT.d	= !(KB_ALT_X  & KB_XXX) & KB_ALT;
+			KB_SH.d		= !(KB_SH_X) & KB_SH;
+	END CASE;
+
+	KB_F12		= DFF(!((KB_XXX & (KB_D[] == B"XXXXX0X111X")) & !KB_OFF),(KB_CT[] == 3),,!(KB_CT[] == 1));
+
+	KB_RESET.clk	= (KB_CT[] == 3);
+	KB_RESET.d		= !(KB_ALT_X & (KB_D[] == B"XX011X0XXXX") & !KB_OFF & KB_CTRL & KB_ALT);
+	KB_RESET.prn	= !(KB_CT[] == 1);
+
+	KB_MAGIC.clk	= KB_F12;
+	KB_MAGIC.d		= !KB_CTRL;
+	KB_MAGIC.prn	= PORT_NMI;
+--	KB_MAGIC.prn	= DOS;
+
+	KD[] = VCC;
+%
+	(KD[],KB_RESET,KB_F12,KB_CTRL,KB_EXT,KB_SH) =
+		kbd (/RESET,CLK42,CTH5,KB_CC,KB_DD,/RF,/IO,A[15..8]);
+%
+WHEN 2 =>
+
+	KB_CT[].clk	= CTH5;
+	KB_CT[].prn	= KBD_CC;
+	KB_CT[].clrn = !KBDR0;
+
+	CASE KB_CT[] IS
+		WHEN 0 => KB_CT[].d	= GND;
+		WHEN 1,2,3,4,5,6,7 => KB_CT[].d	= KB_CT[] - 1;
+	END CASE;
+
+	KB_D[].clk	= KBD_CC;
+	KB_D[].d	= (KBD_DD,KB_D[10..1]);
+
+	KB_OFF.clk	= (KB_CT[] == 0);
+
+	CASE KB_EXT IS
+		WHEN 1 => KB_OFF.d	= KB_OFF;
+		WHEN 0 => KB_OFF.d	= KB_D[] == B"XX11110000X";
+	END CASE;
+
+	KB_EXT.clk	= (KB_CT[] == 1);
+	KB_EXT.d	= KB_D[] == B"XX11100000X";
+
+--	KB_CTRL.clk	= (KB_CT[] == 3);
+--	KB_ALT.clk	= (KB_CT[] == 3);
+--	KB_SH.clk	= (KB_CT[] == 3);
+	KB_CTRL.clk	= !KB_CT2;
+	KB_ALT.clk	= !KB_CT2;
+	KB_SH.clk	= !KB_CT2;
+
+	KB_CTRL_X	= LCELL(KB_D[] == B"XXXXX1X100X");
+	KB_ALT_X	= LCELL(KB_D[] == B"XXXXX1X001X");
+--	KB_SH_X		= LCELL(KB_D[] == B"XX00010010X") or (KB_D[] == B"XX01011001X");
+
+	KB_SH_X		= LCELL(KB_D[] == B"XX0X01X0XXX") &
+			   CASCADE((KB_D[] == B"XXX1XX1X01X") or (KB_D[] == B"XXX0XX0X10X"));
+	KB_XXX		= LCELL(KB_D[] == B"XX000X0XXXX");
+
+	CASE KB_OFF IS
+		WHEN 0 =>
+			KB_CTRL.d	= (KB_CTRL_X & KB_XXX) or KB_CTRL;
+			KB_ALT.d	= (KB_ALT_X  & KB_XXX) or KB_ALT;
+			KB_SH.d		= (KB_SH_X) or KB_SH;
+		WHEN 1 =>
+			KB_CTRL.d	= !(KB_CTRL_X & KB_XXX) & KB_CTRL;
+			KB_ALT.d	= !(KB_ALT_X  & KB_XXX) & KB_ALT;
+			KB_SH.d		= !(KB_SH_X) & KB_SH;
+	END CASE;
+
+--	KB_F12		= DFF(!((KB_XXX & (KB_D[] == B"XXXXX0X111X")) & !KB_OFF),(KB_CT[] == 3),,!(KB_CT[] == 1));
+	KB_F12		= DFF(!((KB_XXX & LCELL(KB_D[] == B"XXXXX0X111X")) & !KB_OFF),!KB_CT2,,!(KB_CT[] == 1));
+
+--	KB_RESET.clk	= (KB_CT[] == 3);
+	KB_RESET.clk	= !KB_CT2;
+	KB_RESET.d		= !(KB_ALT_X & (KB_D[] == B"XX011X0XXXX") & !KB_OFF & KB_CTRL & KB_ALT);
+	KB_RESET.prn	= !(KB_CT[] == 1);
+
+	KB_MAGIC.clk	= KB_F12;
+	KB_MAGIC.d		= !KB_CTRL;
+	KB_MAGIC.prn	= DOS;
+
+	K_CLK		= DFF(/RF,CLK42,,);
+
+	RXA[].clk	= K_CLK;
+
+--	CASE (LCELL(KB_CT[] == B"01X"),RXA[]) IS
+--		WHEN B"000" => RXA[] = B"00";
+--		WHEN B"001" => RXA[] = (RXA0,!RXA1);
+--		WHEN B"01X" => RXA[] = (RXA0,!RXA1);
+--		WHEN B"1XX" => RXA[] = (RXA0,!RXA1);
+--	END CASE;
+
+	CASE LCELL(!(KB_CT[] == B"01X") & (RXA[] == 0)) IS
+		WHEN B"1" => RXA[] = GND;
+		WHEN B"0" => RXA[] = (RXA0,!RXA1);
+	END CASE;
+
+%
+	IF !(KB_CT[] == 2) & (RXA[] == 0) THEN
+		RXA[].d		= GND;
+	ELSE
+		RXA[].d		= (RXA0,!RXA1);
+	END IF;
+%
+	CASE (LCELL(/IO & (RXA[] == 0)),LCELL(KDD7 & KDD6)) IS
+		WHEN B"0X" => KA[15..8]	= (B"101",KDCA[],B"11");
+		WHEN B"10" => KA[15..8]	= (B"110000",KDD7,KDD6);
+		WHEN B"11" => KA[15..8]	= KB_D[8..1];
+	END CASE;
+
+	KB_MA[].clk	= CLK42;
+	KB_MA[].d	= KB_MA[] + 1;
+	KB_MA[].clrn = !/IO;
+
+	KB_MXA	= DFF((		(((KB_MA[] == 7) & A15) or ((KB_MA[] == 6) & A14))
+					or	(((KB_MA[] == 5) & A13) or ((KB_MA[] == 4) & A12))
+					or	(((KB_MA[] == 3) & A11) or ((KB_MA[] == 2) & A10))
+					or	(((KB_MA[] == 1) & A9 ) or ((KB_MA[] == 0) & A8 ))),CLK42,,);
+
+	IF !/IO THEN
+		IF ISD_KBD == 1 THEN
+			KDCA[]	= KB_MA[];
+		ELSE
+			KDCA0	= !LCELL(A15 & A13 & A11 & A9);
+			KDCA1	= !LCELL(A15 & A14 & A11 & A10);
+			KDCA2	= !LCELL(A15 & A14 & A13 & A12);
+		END IF;
+	ELSE
+		KDCA[]	= KDD[5..3];
+	END IF;
+
+	KDD[].clk	= RXA0;
+	KDD[].d		= KD[];
+	KDD[7..6].prn	= !KB_CT2;
+
+	KDXX[].clk	= RXA0;
+	KDXX[].d	= !((KD[2..0] == 5),(KD[2..0] == 4),
+				(KD[2..0] == 3),(KD[2..0] == 2),
+				(KD[2..0] == 1),(KD[2..0] == 0));
+
+	KDX[].clk		= RXA1;
+
+	CASE KB_OFF IS
+		WHEN B"0" => KDX[].d	= (KD[5..0] & KDXX[]);
+		WHEN B"1" => KDX[].d	= (KD[5..0] or !KDXX[]);
+	END CASE;
+
+--	==============================
+
+	WR_KBD	= K_CLK or !LCELL(KB_CT[] == 2) or !(RXA[] == 3);
+--	WR_KBD	= K_CLK or !(RXA[] == 3) or LCELL(!(KDD[7..6] == 3) & (KB_CT0 xor KB_OFF));
+
+	KD[] = lpm_ram_dq((B"11",KDX[5..0]),KA[15..8],!WR_KBD,CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="KBD_INI2.MIF",
+		lpm_outdata="UNREGISTERED");
+
+	KBD[].clk	= CLK42;
+--	KBD[].prn	= DFF(!/IOM,CLK42,,);
+	KBD[].prn	= DFF(VCC,KB_MA2,,!/IO);
+	KBD[].d		= KBD[] & (KD[5..0] or KB_MXA);
+
+WHEN 3 =>
+
+	K_CLK		= DFF(/RF,CLK42,,);
+
+--	KB_CT[].clk	= CTV0;
+	KB_CT[].clk	= !CTH5;
+	KB_CT[].prn	= KBD_CC;
+	KB_CT[].clrn = !KBDR0;
+
+	IF (KB_CT[] == 0) THEN
+		KB_CT[].d	= GND;
+	ELSE
+		KB_CT[].d	= KB_CT[] - 1;
+	END IF;
+
+	KB_D[].clk	= KBD_CC;
+	KB_D[].d	= (KBD_DD,KB_D[10..1]);
+
+	KB_OFF.clk	= (KB_CT[] == 0);
+	IF KB_EXT THEN
+		KB_OFF.d	= KB_OFF;
+	ELSE
+		KB_OFF.d	= KB_D[] == B"XX11110000X";
+	END IF;
+
+	KB_EXT.clk	= (KB_CT[] == 1);
+	KB_EXT.d	= KB_D[] == B"XX11100000X";
+
+	KB_CTRL.clk	= (KB_CT[] == 3);
+	KB_ALT.clk	= (KB_CT[] == 3);
+	KB_SH.clk	= (KB_CT[] == 3);
+
+	KB_CTRL_X	= (KB_D[] == B"XXXXX1X100X");
+	KB_ALT_X	= (KB_D[] == B"XXXXX1X001X");
+	KB_SH_X		= (KB_D[] == B"XX00010010X") or (KB_D[] == B"XX01011001X");
+	KB_XXX		= (KB_D[] == B"XX000X0XXXX");
+
+	CASE KB_OFF IS
+		WHEN 0 =>
+			KB_CTRL.d	= (KB_CTRL_X & KB_XXX) or KB_CTRL;
+			KB_ALT.d	= (KB_ALT_X  & KB_XXX) or KB_ALT;
+			KB_SH.d		= (KB_SH_X) or KB_SH;
+		WHEN 1 =>
+			KB_CTRL.d	= !(KB_CTRL_X & KB_XXX) & KB_CTRL;
+			KB_ALT.d	= !(KB_ALT_X  & KB_XXX) & KB_ALT;
+			KB_SH.d		= !(KB_SH_X) & KB_SH;
+	END CASE;
+
+	KB_F12		= DFF(!((KB_XXX & (KB_D[] == B"XXXXX0X111X")) & !KB_OFF),(KB_CT[] == 3),,!(KB_CT[] == 1));
+
+	KB_RESET.clk	= (KB_CT[] == 3);
+	KB_RESET.d		= !(KB_ALT_X & (KB_D[] == B"XX011X0XXXX") & !KB_OFF & KB_CTRL & KB_ALT);
+--	KB_RESET.prn	= !(KB_CT[] == 1);
+	KB_RESET.prn	= GND;
+
+	KB_MAGIC.clk	= KB_F12;
+	KB_MAGIC.d		= !KB_CTRL;
+	KB_MAGIC.prn	= DOS;
+
+--	KDD[].clk	= DFF((KB_CT[] == 2),K_CLK,,);
+
+--	KDD[].clk	= (KB_CT[] == 2);
+	(KDX[].clk,KDD[].clk)	= DFF((KB_CT[] == 1),K_CLK,,);
+	KDD[].d					= KB_D[8..1];
+	KDX[].d					= (VCC,!KB_EXT,!KB_OFF,!KB_ALT,!KB_CTRL,!KB_SH);
+
+	IF (COVOX_MODE != B"10") THEN
+		KD[] = KDD[];
+	ELSE
+		KD[] = (COV_AR7,VCC,CTV8,B"11",!KB_ALT,!KB_CTRL,!KB_SH);
+--		KD[] = (COV_AR7,B"1111111");
+	END IF;
+
+	KDD[].prn = DFF(GND,(/IORD or !(DCP[7..4] == B"010X")),/RESET,/MR);
+
+END CASE;
+
+%
+
+	*......  *......  *****..  ***.***
+	***....  ***....  ****...  ...*...
+	*****..  *..**..  ****...  ...*...
+	*******  *....**  *****..  ...*...
+	*****..  *...*..  *..***.  ...*...
+	*****..  ***.*..  ....***  ...*...
+	*..***.  *..*.*.  .....*.  ...*...
+	....**.  ....**.  .......  ***.***
+
+%
+
+%
+IF HARD_CURSOR THEN
+
+	CURS_SINC	= DFF((VCM[1..0] != 1),!CLK42,,);
+	CURS_MD[].clk	= CURS_SINC;
+
+	IF !LD_PIC & SINC_H THEN
+		CURS_MD[].d	= (CURS_MD[7..0],D_PIC0_[7..0]);
+	ELSE
+		CURS_MD[15..8] = (CURS_MD[14..8],CURS_MD[15]);
+		CURS_MD[7..0] = (CURS_MD[6..0],CURS_MD[7]);
+	END IF;
+
+	CURS_MC.clk	= CURS_SINC;
+	IF CURS_MD[15] & CURS_MD[7] THEN
+		CURS_MC = MODE3[0] & !CURS_MC;
+	ELSE
+		CURS_MC = CURS_MC;
+	END IF;
+
+	CURS_PIX[]	= (CURS_MD[15],CURS_MD[7]);
+	CURS_MCX	= CURS_MC & (CURS_MD[15] or CURS_MD[7]);
+
+END IF;
+%
+
+--	=======================================
+IF	SOUND_CARD THEN
+--	============ SOUND CARD ===============
+--	SND_WR.clk	= CLK42;
+	SND_RR[].clk	= !CT1;
+	SND_C.clk	= !CT1;
+	CASE CT[5..2] IS
+		WHEN B"0X00" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,GND,CTH3X,CTH[2..0],CT[5..4]);
+			SND_RR[].d	= SND_D[];
+			SND_C.d		= SND_C;
+		WHEN B"0X01" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,VCC,CTH3X,CTH[2..0],CT[5..4]);
+			(SND_C.d,SND_RR[].d)	= (GND,SND_D[]) + (GND,SND_RR[]) + (B"00000000",SND_C);
+		WHEN B"XX10" =>
+			SND_I[]	= D[];
+			SND_A[]	= A[7..0];
+			SND_WR	= !(/MR or /WR or A15 or A14 or !CT1);
+			SND_RR[].d	= SND_RR[];
+			SND_C.d		= SND_C;
+		WHEN B"0X11" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,VCC,CTH3X,CTH[2..0],CT[5..4]);
+			SND_RR[].d	= SND_RR[];
+			SND_WR		= CT1;
+			SND_C.d		= SND_C;
+		WHEN B"1000" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,GND,CTH3X,CTH[2..0],CT[5..4]);
+			SND_RR[].d	= SND_D[];
+			SND_C.d		= SND_C;
+		WHEN B"1001" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,VCC,CTH3X,CTH[2..0],CT[5..4]);
+			(SND_C.d,SND_RR[].d)	= (GND,SND_D[]) + (GND,SND_RR[]) + (B"00000000",SND_C);
+		WHEN B"1011" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,VCC,CTH3X,CTH[2..0],CT[5..4]);
+			SND_RR[].d	= SND_RR[];
+			SND_WR		= CT1;
+			SND_C.d		= GND;
+
+		WHEN B"1100" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,GND,CTH3X,CTH[2..0],CT[5..4]);
+--			SND_RR[].d	= (SND_RR[7..4],SND_D[3..0]);
+			SND_RR[].d	= SND_RR[];
+			SND_C.d		= SND_C;
+		WHEN B"1101" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,GND,CTH3X,CTH[2..0],CT[5..4]);
+--			SND_A[]	= (VCC,SND_RR[2..0],SND_RR[7..4]);
+			SND_RR[].d	= SND_RR[];
+			SND_C.d		= SND_C;
+		WHEN B"1111" =>
+			SND_I[] = SND_RR[];
+			SND_A[]	= (GND,VCC,CTH3X,CTH[2..0],CT[5..4]);
+--			SND_A[]	= (VCC,SND_RR[2..0],SND_RR[7..4]);
+			SND_RR[].d	= SND_RR[];
+			SND_C.d		= GND;
+			WR_AA.d		= GND;
+	END CASE;
+
+	WE_SND.clk		= CLK42;
+	WE_SND.prn		= WE_SND or CLK42;
+
+	WR_AMP.clk		= CLK42;
+	WR_AA.clk		= CLK42;
+
+	SND_AA[7..4].clk	= LCELL(WR_AA & SND_SHR);
+	SND_AA[3..0].clk	= LCELL(WR_AA & SND_SHL);
+
+	IF !DFF(WR_AA,!CLK42,,) THEN
+		SND_AA[].d	= SND_D[];
+	ELSE
+		SND_AA[7..4].d	= (SND_AA[7..4] + 1);
+		SND_AA[3..0].d	= (SND_AA[3..0] + 1);
+	END IF;
+
+	SND_SHL	= LCELL(SND_AA3 or !(CT5 xor CT4) or CLK42);
+	SND_SHR = LCELL(SND_AA7 or !(CT5 xor CT4) or CLK42);
+
+	SND_AMP[].clk	= LCELL(WR_AMP & SND_SHR);
+
+	IF !DFF(WR_AMP,!CLK42,,) THEN
+		SND_AMP[].d	= (VD3[],GND,GND) - 512;
+	ELSE
+		SND_AMP[].d = (SND_AMP9,SND_AMP[9..1]) + (SND_AMP9,SND_AMP9,SND_AMP[9..2]);
+	END IF;
+
+	SND_A_LD	= LCELL(CT[5..3] == B"110");
+
+	SND_OUTX.clk	= (CLK42 xor SND_OUTX);
+	SND_OUTX.d		= !SND_OUTX;
+--	SND_OUT[].clk	= (CLK42 xor SND_OUTX);
+--	SND_OUTL[].clk	= (CLK42 xor SND_OUTX);
+	SND_OUT[].clk	= (CLK42);
+	SND_OUTL[].clk	= (CLK42);
+
+	IF !(WR_AMP) THEN
+		SND_OUT[].d	= (VCC,GND,GND,!SND_AMP9,SND_AMP[8..5]);
+--		SND_OUT[].d	= (VCC,GND,GND,GND,GND,SND_AMP[7..5]);
+	ELSE
+		SND_OUT[].d	= SND_OUT[] - 1;
+	END IF;
+
+	IF !(WR_AMP) THEN
+		SND_OUTL[].d	= (VCC,GND,GND,SND_AMP[4..0]);
+--		SND_OUTL[].d	= (VCC,GND,GND,SND_AMP[4..0]);
+	ELSE
+		SND_OUTL[].d	= SND_OUTL[] - 1;
+	END IF;
+
+	SND_L0			= SND_OUT7;
+	SND_L1			= SND_OUTL7;
+	SND_R0			= SND_OUT7;
+	SND_R1			= SND_OUTL7;
+
+	SND_TEST.clk	= CLK42;
+	SND_TEST.d		= SND_OUT4;
+	SND_TEST.clrn	= GND;
+
+	SND_D[] = lpm_ram_dq(SND_I[],SND_A[],SND_WR,CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="SND_INI.MIF",lpm_outdata="UNREGISTERED");
+ELSE
+
+IF (AY_3_8910 != 0) THEN
+IF (AY_3_8910 == 1) THEN
+
+	AY_CLK1	= LCELL(CTH1);
+--	AY_ADR[].clk	= (/IOWR or !(DCP[] == H"90"));
+--	AY_AAX[].clk	= (/IOWR or !(DCP[] == H"90"));
+--	AY_D_WR	= (/IOWR or !(DCP[] == H"91"));
+
+	(AY_ADR[].clk,AY_AAX[].clk)	= DFF(!(DCP[] == H"90"),!/IOWR,,!/IO);
+
+	AY_ADR[].d		= D[];
+	AY_AAX[].d		= ((D2 & D3),(!D2 & D3),(D2 & !D3),(!D2 & !D3),(D0 & D1),(!D0 & D1),(D0 & !D1),(!D0 & !D1));
+
+	AY_D_WR = DFF(!(DCP[] == H"91"),!/IOWR,,!/IO);
+
+  	AY_F1[7..0].clk	 = AY_D_WR;
+  	AY_F1[11..8].clk = AY_D_WR;
+  	AY_F2[7..0].clk	 = AY_D_WR;
+  	AY_F2[11..8].clk = AY_D_WR;
+  	AY_F3[7..0].clk	 = AY_D_WR;
+  	AY_F3[11..8].clk = AY_D_WR;
+  	AY_S1[4..0].clk	 = AY_D_WR;
+  	AY_X_[5..0].clk	 = AY_D_WR;
+  	AY_A1[4..0].clk	 = AY_D_WR;
+  	AY_A2[4..0].clk	 = AY_D_WR;
+  	AY_A3[4..0].clk	 = AY_D_WR;
+  	AY_GO[7..0].clk	 = AY_D_WR;
+  	AY_GO[15..8].clk = AY_D_WR;
+  	AY_GF[3..0].clk	 = AY_D_WR;
+
+  	IF (AY_AAX0 & AY_AAX4) THEN AY_F1[7..0].d  = D[];	  ELSE AY_F1[7..0].d  = AY_F1[7..0]  ; END IF;
+  	IF (AY_AAX1 & AY_AAX4) THEN AY_F1[11..8].d = D[3..0]; ELSE AY_F1[11..8].d = AY_F1[11..8] ; END IF;
+  	IF (AY_AAX2 & AY_AAX4) THEN AY_F2[7..0].d  = D[];     ELSE AY_F2[7..0].d  = AY_F2[7..0]  ; END IF;
+  	IF (AY_AAX3 & AY_AAX4) THEN AY_F2[11..8].d = D[3..0]; ELSE AY_F2[11..8].d = AY_F2[11..8] ; END IF;
+  	IF (AY_AAX0 & AY_AAX5) THEN AY_F3[7..0].d  = D[];     ELSE AY_F3[7..0].d  = AY_F3[7..0]  ; END IF;
+  	IF (AY_AAX1 & AY_AAX5) THEN AY_F3[11..8].d = D[3..0]; ELSE AY_F3[11..8].d = AY_F3[11..8] ; END IF;
+  	IF (AY_AAX2 & AY_AAX5) THEN AY_S1[4..0].d  = D[4..0]; ELSE AY_S1[4..0].d  = AY_S1[4..0]  ; END IF;
+  	IF (AY_AAX3 & AY_AAX5) THEN AY_X_[5..0].d  = D[5..0]; ELSE AY_X_[5..0].d  = AY_X_[5..0]  ; END IF;
+  	IF (AY_AAX0 & AY_AAX6) THEN AY_A1[4..0].d  = D[4..0]; ELSE AY_A1[4..0].d  = AY_A1[4..0]  ; END IF;
+  	IF (AY_AAX1 & AY_AAX6) THEN AY_A2[4..0].d  = D[4..0]; ELSE AY_A2[4..0].d  = AY_A2[4..0]  ; END IF;
+  	IF (AY_AAX2 & AY_AAX6) THEN AY_A3[4..0].d  = D[4..0]; ELSE AY_A3[4..0].d  = AY_A3[4..0]  ; END IF;
+  	IF (AY_AAX3 & AY_AAX6) THEN AY_GO[7..0].d  = D[];     ELSE AY_GO[7..0].d  = AY_GO[7..0]  ; END IF;
+  	IF (AY_AAX0 & AY_AAX7) THEN AY_GO[15..8].d = D[];     ELSE AY_GO[15..8].d = AY_GO[15..8] ; END IF;
+  	IF (AY_AAX1 & AY_AAX7) THEN AY_GF[3..0].d  = D[3..0]; ELSE AY_GF[3..0].d  = AY_GF[3..0]  ; END IF;
+%
+  	AY_F1[7..0].clk	 = DFF((AY_AAX0 & AY_AAX4),!AY_D_WR,,!/IO);
+  	AY_F1[11..8].clk = DFF((AY_AAX1 & AY_AAX4),!AY_D_WR,,!/IO);
+  	AY_F2[7..0].clk	 = DFF((AY_AAX2 & AY_AAX4),!AY_D_WR,,!/IO);
+  	AY_F2[11..8].clk = DFF((AY_AAX3 & AY_AAX4),!AY_D_WR,,!/IO);
+  	AY_F3[7..0].clk	 = DFF((AY_AAX0 & AY_AAX5),!AY_D_WR,,!/IO);
+  	AY_F3[11..8].clk = DFF((AY_AAX1 & AY_AAX5),!AY_D_WR,,!/IO);
+  	AY_S1[4..0].clk	 = DFF((AY_AAX2 & AY_AAX5),!AY_D_WR,,!/IO);
+  	AY_X_[5..0].clk	 = DFF((AY_AAX3 & AY_AAX5),!AY_D_WR,,!/IO);
+  	AY_A1[4..0].clk	 = DFF((AY_AAX0 & AY_AAX6),!AY_D_WR,,!/IO);
+  	AY_A2[4..0].clk	 = DFF((AY_AAX1 & AY_AAX6),!AY_D_WR,,!/IO);
+  	AY_A3[4..0].clk	 = DFF((AY_AAX2 & AY_AAX6),!AY_D_WR,,!/IO);
+  	AY_GO[7..0].clk	 = DFF((AY_AAX3 & AY_AAX6),!AY_D_WR,,!/IO);
+  	AY_GO[15..8].clk = DFF((AY_AAX0 & AY_AAX7),!AY_D_WR,,!/IO);
+  	AY_GF[3..0].clk	 = DFF((AY_AAX1 & AY_AAX7),!AY_D_WR,,!/IO);
+
+  	AY_F1[7..0].d  = D[];
+  	AY_F1[11..8].d = D[3..0];
+  	AY_F2[7..0].d  = D[];
+  	AY_F2[11..8].d = D[3..0];
+  	AY_F3[7..0].d  = D[];
+  	AY_F3[11..8].d = D[3..0];
+  	AY_S1[4..0].d  = D[4..0];
+  	AY_X_[5..0].d  = D[5..0];
+  	AY_A1[4..0].d  = D[4..0];
+  	AY_A2[4..0].d  = D[4..0];
+  	AY_A3[4..0].d  = D[4..0];
+  	AY_GO[7..0].d  = D[];
+  	AY_GO[15..8].d = D[];
+  	AY_GF[3..0].d  = D[3..0];
+%
+	AY_C1[].clk	= AY_CLK1;
+	AY_C2[].clk	= AY_CLK1;
+	AY_C3[].clk	= AY_CLK1;
+	AY_C4[].clk	= AY_CLK1;
+
+--	AY_C5[].clk	= AY_CLK1;
+	AY_C5[].clk	= CTF1;
+
+	AY_OUT[].clk= AY_CLK1;
+	AY_SH[].clk	= AY_CLK1;
+--	AY_SH[].clk	= CTH2;
+	AY_X_[].prn	= /RESET;
+
+	IF LCELL(AY_C1[] == 1) THEN  AY_C1[].d	= AY_F1[]; AY_OUT1 = !AY_OUT1;
+		ELSE AY_C1[].d	= AY_C1[] - 1; AY_OUT1 = AY_OUT1; END IF;
+
+	IF LCELL(AY_C2[] == 1) THEN  AY_C2[].d	= AY_F2[]; AY_OUT2 = !AY_OUT2;
+		ELSE AY_C2[].d	= AY_C2[] - 1; AY_OUT2 = AY_OUT2; END IF;
+
+	IF LCELL(AY_C3[] == 1) THEN  AY_C3[].d	= AY_F3[]; AY_OUT3 = !AY_OUT3;
+		ELSE AY_C3[].d	= AY_C3[] - 1; AY_OUT3 = AY_OUT3; END IF;
+
+	IF LCELL((AY_C4[] == 1) or (AY_C4[] == 0)) THEN  AY_C4[].d	= AY_S1[]; AY_SH[] = ((!AY_SH0 xor AY_SH1 xor A0),AY_SH[7..1]);
+		ELSE AY_C4[].d	= AY_C4[] - 1; AY_SH[] = AY_SH[]; END IF;
+
+	AY_F_RES	= LCELL(!(AY_AAX1 & AY_AAX7) or AY_D_WR);
+
+--	AY_F_RES	= DFF(!(AY_AAX1 & AY_AAX7),!AY_D_WR,,!/IO);
+
+	(AY_C5[19..1].clrn,AY_C5[0].prn)	= AY_F_RES;
+
+	IF LCELL(AY_C5[15..0] == 1)
+		THEN	AY_C5[15..0].d	= AY_GO[];
+--				AY_C5[19..16]	= AY_C5[19..16]+1;
+		ELSE	AY_C5[15..0].d	= AY_C5[15..0] - 1;
+--				AY_C5[19..16]	= AY_C5[19..16];
+	END IF;
+
+	AY_C5[19..16] = AY_C5[19..16] + 1;
+
+	AY_ABLK		= DFF(!AY_GF3,!AY_C19,AY_F_RES,);
+
+	AY_BBLK		= DFF(AY_GF0,!AY_C19,AY_F_RES,);
+	AY_AINV		= AY_GF2;
+	AY_BINV		= DFF((AY_GF1 & (AY_GF0 or !AY_BINV)),!AY_C19,AY_F_RES,);
+
+--	AY_AA[].clrn= AY_ABLK;
+	AY_AA[].clk	= AY_CLK1;
+	AY_AA[].clrn	= VCC;
+
+	AY_AA[].d	= !((AY_C5[19..16] or AY_BBLK) xor AY_BINV xor AY_AINV);
+
+--	AY_AA[].d	= !(AY_C5[19..16] or AY_BBLK);
+--	AY_AA[]		= B"1111";
+
+--	AY_Q1[3..0] = ((AY_A1[3..0] or AY_A1[4]) & (AY_AA[] or !AY_A1[4])) & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+--	AY_Q2[3..0] = ((AY_A2[3..0] or AY_A2[4]) & (AY_AA[] or !AY_A2[4])) & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+--	AY_Q3[3..0] = ((AY_A3[3..0] or AY_A3[4]) & (AY_AA[] or !AY_A3[4])) & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+
+  	AY_Q1[3..0] = ((AY_A1[3..0] or AY_A1[4])) & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+  	AY_Q2[3..0] = ((AY_A2[3..0] or AY_A2[4])) & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+  	AY_Q3[3..0] = ((AY_A3[3..0] or AY_A3[4])) & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+
+IF AY_STEREO == 1 THEN
+	SND_L0	= (CTH[1..0],CT[5..2]) > ((GND,AY_Q1[],GND) + (GND,!BRD4,AY_Q2[]));
+	SND_L1	= GND;
+	SND_R0	= (CTH[1..0],CT[5..2]) > ((GND,AY_Q3[],GND) + (GND,!BRD4,AY_Q2[]));
+	SND_R1	= GND;
+ELSE
+
+	AY_XX[5..4] = 0;
+
+	CASE CTH[1..0] IS
+		WHEN 0 =>	AY_XX[3..0] = AY_Q1[];
+		WHEN 1 =>	AY_XX[3..0] = AY_Q2[];
+		WHEN 2 =>	AY_XX[3..0] = AY_Q3[];
+		WHEN 3 =>	AY_XX[3..0] = BRD4;
+	END CASE;
+
+--	AY_XX[]	= (GND,GND,AY_Q1[]) + (GND,GND,AY_Q3[]);
+
+	SND_L0	= DFF((CT[5..2] > AY_XX[3..0]),CT1,,);
+
+	SND_R0	= SND_L0;
+	SND_L1	= GND;
+	SND_R1	= GND;
+
+END IF;
+
+	BRD4.clrn		= VCC;
+
+ELSE
+
+IF AY_3_8910 == 2 THEN
+--	AY-3-8910 II version!
+
+	AY_ADR[].clk	= DFF(!(DCP[] == H"90"),!/IOWR,,!/IO);
+	AY_D_WR 		= DFF(!(DCP[] == H"91"),!/IOWR,,!/IO);
+	AY_F_RES		= DFF(!(AY_ADR[] == B"XXXX1101"),!AY_D_WR,,!/IO);
+
+	AY_ADR[].d		= D[];
+
+	AY_X_[].prn	= /RESET;
+  	AY_X_[].clk	= AY_D_WR;
+  	AY_GF[].clk	= AY_D_WR;
+  	AY_A1[].clk	= AY_D_WR;
+  	AY_A2[].clk	= AY_D_WR;
+  	AY_A3[].clk	= AY_D_WR;
+
+	TABLE AY_ADR[3..0] => AY_ADRX[];
+		B"0000" => B"00000010"; B"1000" => B"10001000";
+		B"0001" => B"00000011"; B"1001" => B"10001001";
+		B"0010" => B"00000110"; B"1010" => B"10001010";
+		B"0011" => B"00000111"; B"1011" => B"00001110";
+		B"0100" => B"00001010"; B"1100" => B"00001111";
+		B"0101" => B"00001011"; B"1101" => B"10001101";
+		B"0110" => B"00010010"; B"1110" => B"10001110";
+		B"0111" => B"10000111"; B"1111" => B"10001111";
+	END TABLE;
+
+  	IF LCELL(AY_ADR[] == B"XXXX0111") THEN AY_X_[5..0].d  = D[5..0]; ELSE AY_X_[5..0].d  = AY_X_[5..0]  ; END IF;
+  	IF LCELL(AY_ADR[] == B"XXXX1000") THEN AY_A1[4..0].d  = D[4..0]; ELSE AY_A1[4..0].d  = AY_A1[4..0]  ; END IF;
+  	IF LCELL(AY_ADR[] == B"XXXX1001") THEN AY_A2[4..0].d  = D[4..0]; ELSE AY_A2[4..0].d  = AY_A2[4..0]  ; END IF;
+  	IF LCELL(AY_ADR[] == B"XXXX1010") THEN AY_A3[4..0].d  = D[4..0]; ELSE AY_A3[4..0].d  = AY_A3[4..0]  ; END IF;
+  	IF LCELL(AY_ADR[] == B"XXXX1101") THEN AY_GF[3..0].d  = D[3..0]; ELSE AY_GF[3..0].d  = AY_GF[3..0]  ; END IF;
+
+	AY_CCC[].clk	= CLK42;
+	AY_CCC[5..0].d	= CT[5..0];
+	AY_CCC6			= AY_CCC6 xor (!CT5 & AY_CCC5);
+
+	AY_C.clk	= CLK42;
+	AY_CX.clk   = CLK42;
+--	AY_WR.clk   = CLK42;
+	AY_CH_WR.clk= CLK42;
+	AY_DRD.clk	= CLK42;
+
+	AY_DO[] = lpm_ram_dq(AY_DI[],AY_AX[],!AY_WR,CLK42,CLK42)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="AY.MIF");
+
+	CASE AY_CCC[1..0] IS
+		WHEN B"00" =>
+			AY_CX	= AY_CX & (AY_CCC2 or AY_CCC3);
+			AY_AX[] = (GND,GND,GND,AY_CCC[6..2]);
+			(AY_C,AY_DI[])	= (GND,AY_DO[]) + (B"00000000",AY_C) - 1;
+			AY_C	= !AY_CCC2 or AY_C;
+			AY_CH_WR= VCC;
+			AY_WR	= VCC;
+		WHEN B"X1" =>
+			AY_AX[]	= AY_ADRX[];
+			AY_DI[]	= D[];
+			AY_WR	= AY_D_WR;
+			AY_DRD	= GND;
+			AY_C	= AY_C;
+			AY_CX	= AY_CX;
+			AY_CH_WR= VCC;
+		WHEN B"10" =>
+			AY_AX[] = (GND,GND,GND,AY_CCC[6..4],GND,AY_CCC2);
+			(AY_C,AY_DI[])	= (GND,AY_DO[]) + (B"00000000",AY_C) - 1;
+			AY_CX	= ((AY_DI[] != H"00") & !AY_CCC3) or AY_CX;
+			AY_WR	= AY_CCC3 & AY_CX;
+			AY_CH_WR= AY_CCC2 or !AY_CCC3;
+	END CASE;
+
+	(AY_SH[].clk,AY_VA[].clk,AY_OUT[].clk)	= DFF(AY_CH_WR or AY_CX,CLK42,,);
+
+	CASE AY_CCC[6..4] IS
+		WHEN B"000" => AY_OUT1 = !AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+		WHEN B"001" => AY_OUT1 =  AY_OUT1; AY_OUT2 = !AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+		WHEN B"010" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 = !AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+		WHEN B"011" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[] + 1; AY_SH[] = AY_SH[];
+		WHEN B"100" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = ((!AY_SH0 xor AY_SH1 xor A0),AY_SH[7..1]);
+		WHEN B"101" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+		WHEN B"110" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+		WHEN B"111" => AY_OUT1 =  AY_OUT1; AY_OUT2 =  AY_OUT2; AY_OUT3 =  AY_OUT3; AY_VA[] = AY_VA[];     AY_SH[] = AY_SH[];
+	END CASE;
+
+	AY_VA[].clrn= AY_F_RES;
+	AY_ABLK		= DFF(!AY_GF3,!AY_VA3,AY_F_RES,);
+	AY_BBLK		= DFF(AY_GF0,!AY_VA3,AY_F_RES,);
+	AY_AINV		= AY_GF2;
+	AY_BINV		= DFF((AY_GF1 & (AY_GF0 or !AY_BINV)),!AY_VA3,AY_F_RES,);
+
+	AY_VA[].clrn= AY_ABLK;
+	AY_AA[].clk	= CLK42;
+	AY_AA[].d	= !((AY_VA[] or AY_BBLK) xor AY_BINV xor AY_AINV);
+
+  	AY_Q1[3..0] = ((AY_A1[3..0] or AY_A1[4]) & (AY_AA[] or !AY_A1[4])) & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+  	AY_Q2[3..0] = ((AY_A2[3..0] or AY_A1[4]) & (AY_AA[] or !AY_A2[4])) & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+  	AY_Q3[3..0] = ((AY_A3[3..0] or AY_A1[4]) & (AY_AA[] or !AY_A3[4])) & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+
+IF AY_STEREO == 1 THEN
+	SND_L0	= (CTH[1..0],CT[5..2]) > ((GND,AY_Q1[],GND) + (GND,!BRD4,AY_Q2[]));
+	SND_L1	= GND;
+	SND_R0	= (CTH[1..0],CT[5..2]) > ((GND,AY_Q3[],GND) + (GND,!BRD4,AY_Q2[]));
+	SND_R1	= GND;
+ELSE
+	AY_XX[]	= (GND,GND,AY_Q1[]) + (GND,GND,AY_Q3[]);
+
+	SND_L0	= DFF(((CTH[1..0],CT[5..2]) > (AY_XX[] + (GND,BRD4,AY_Q2[])
+									 )),CT1,,);
+	SND_R0	= SND_L0;
+	SND_L1	= GND;
+	SND_R1	= GND;
+
+END IF;
+
+	BRD4.clrn		= VCC;
+ELSE
+--	====== AY8910 III version =========
+
+	AY_CCC[].clk	= CLK42;
+	AY_CCC[8..0].d	= (CTH[2..0],CT[5..0]);
+
+	AY_ADR[].d		= D[];
+	(AY_AAX[].clk,AY_ADR[].clk)	= LCELL(!(DCP[] == H"90") or /IOWR);
+
+--	(AY_AAX[].clk,AY_ADR[].clk)	= DFF(!(DCP[] == H"90"),!/IOWR,,!/IO);
+--	AY_AAX[].d		= ((D2 & D3),(!D2 & D3),(D2 & !D3),(!D2 & !D3),(D0 & D1),(!D0 & D1),(D0 & !D1),(!D0 & !D1));
+
+	AY_AAX0.d	= (D[3..0] == B"1101");
+	AY_AAX1.d	= (D[3..0] == B"1000") or (D[3..0] == B"1001") or (D[3..0] == B"1010");
+
+--	AY_D_WR = LCELL(!(DCP[] == H"91") or /IOWR);
+--	AY_D_WR = DFF((!(DCP[] == H"91") or /IOWR),CLK42,,);
+
+	AY_D_WR 	= DFF(!(DCP[] == H"91"),!/IOWR,,!/IO);
+
+	AY_F_RES	= DFF(VCC,DFF((!((AY_DO[7..5] == B"111") & AY_CCC1 & !AY_DO0) or AY_F_RES),CLK42,,),LCELL(!AY_AAX0 or AY_D_WR),);
+
+	AY_X_[].prn	= VCC;
+--	AY_X_[].prn	= /RESET;
+--	AY_X_[].CLRN	= /RESET;
+  	AY_GF[3..0].clrn = /RESET;
+  	AY_GF[3..0].prn = VCC;
+  	AY_GF[3..0].clk	 = AY_D_WR;
+
+	IF AY_ADR[] == B"XXXX1101" THEN AY_GF[3..0].d  = D[3..0]; ELSE AY_GF[3..0].d  = AY_GF[3..0]  ; END IF;
+
+	AY_CCC[].clk	= CLK42;
+	AY_CCC[8..0].d	= (CTH[2..0],CT[5..0]);
+
+	CASE AY_CCC[1..0] IS
+		WHEN B"00" =>
+			AY_AX[]		= (VCC,GND,AY_CCC[7..2]);
+			AY_WR		= GND;
+			AY_DI[]		= AY_DAT[];
+		WHEN B"01" =>
+			AY_AX[]		= (B"0000",AY_ADR[3..0]);
+			AY_WR		= !AY_D_WR;
+			AY_DI[]		= MXVD[];
+		WHEN B"1X" =>
+			AY_AX[] 	= (GND,GND,GND,AY_DO[4..0]);
+			AY_WR		= !LCELL(!(AY_DO[7..5] == B"010") &
+								!((AY_DO[7..5] == B"110") & AY_CX));
+			AY_DI[]		= AY_DAT[];
+	END CASE;
+
+	AY_DAT_WR.clk	= CLK42;
+	AY_DAT_WR.ena = AY_CCC1;
+	AY_DAT_WR = !(AY_DO[7..5] == B"X0X");
+
+	AY_DD[].clk	= CLK42;
+	AY_DD[].ena = !(AY_CCC1 or AY_CCC0);
+	AY_DD[]	= AY_DO[];
+
+	AY_DO[] = lpm_ram_dq(AY_DI[],AY_AX[],AY_WR,CLK42,CLK42)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="AY.MIF");
+
+	AY_CX.prn	= !DFF((((AY_DO[7..5] == B"00X") & AY_CCC1) & (!AY_DO5 or AY_C)),CLK42,,);
+--	AY_C.prn	= !DFF(((AY_DO[7..5] == B"X00") & AY_CCC1),CLK42,,);
+	AY_C.prn	= VCC;
+
+	AY_CX.clk	= CLK42;
+	AY_CX.ena	= DFF((AY_CCC1 & (AY_DO[7..5] == B"111" or AY_DO[7..5] == B"010")),CLK42,,);
+
+	IF DFF((AY_DO[7..5] == B"010"),CLK42,,) THEN
+		AY_CX = LCELL(AY_DAT[] == 0) & AY_CX;
+	ELSE
+		AY_CX = DFF(((!/RESET & AY_DO0) or (!AY_F_RES & !AY_DO0)),CLK42,,);
+	END IF;
+
+	(AY_C.clk,AY_DAT[].clk)	= CLK42;
+	(AY_C.ena,AY_DAT[].ena)	= DFF(!AY_DAT_WR,CLK42,,);
+
+	(AY_C,AY_DAT[])	= (GND,AY_DO[]) - (B"00000000",DFF((DFF(!AY_DO5,CLK42,,) or (AY_C & DFF(AY_DO7,CLK42,,))),CLK42,,));
+
+	AY_OUT[].clk	= CLK42;
+
+	AY_AMP[].clk	= CLK42;
+	AY_AMP[] = ((AY_DAT[3..0] or AY_DAT[4]) & (AY_AA[] or !AY_DAT[4]));
+
+	AY_OUTS1 = DFF(((AY_DO[7..0] == B"011XX001") & AY_CCC1),CLK42,,);
+	AY_OUTS2 = DFF(((AY_DO[7..0] == B"011XX010") & AY_CCC1),CLK42,,);
+	AY_OUTS3 = DFF(((AY_DO[7..0] == B"011XX011") & AY_CCC1),CLK42,,);
+
+	IF AY_OUTS1 THEN
+		AY_OUT1 = AY_CX xor AY_OUT1;
+	ELSE
+		AY_OUT1 = AY_OUT1;
+	END IF;
+
+	IF AY_OUTS2 THEN
+		AY_OUT2 = AY_CX xor AY_OUT2;
+	ELSE
+		AY_OUT2 = AY_OUT2;
+	END IF;
+
+	IF AY_OUTS3 THEN
+		AY_OUT3 = AY_CX xor AY_OUT3;
+	ELSE
+		AY_OUT3 = AY_OUT3;
+	END IF;
+
+	-- CHANEL 1
+	AY_Q = (AY_OUTS1 & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0))) or
+	-- CHANEL 2
+		   (AY_OUTS2 & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0))) or
+	-- CHANEL 3
+		   (AY_OUTS3 & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0)));
+
+	AY_XX[].clk = CLK42;
+	AY_XX[].ena = AY_Q;
+	AY_XX[].clrn = DFF((AY_CCC[8..5] == 0),CLK42,,);
+
+	AY_XX[] = AY_XX[] + (GND,GND,AY_AMP[]);
+
+	AY_XXM[] = AY_XX[];
+	AY_XXM[].clk = !AY_CCC8;
+
+	AY_SH[].clk	= CLK42;
+	AY_SH[].clrn = VCC;
+	AY_SHR.clk	= CLK42;
+	(AY_SHR.ena,AY_SH[].ena) = DFF(((AY_DO[7..0] == B"011XX100") & AY_CCC1 & AY_CX),CLK42,,);
+--	(AY_SHR,AY_SH[]) = (LCELL((AY_SH0 xor AY_SH4) or ((AY_SHR,AY_SH[]) == 0)),AY_SHR,AY_SH[7..1]);
+	(AY_SHR,AY_SH[]) = (LCELL((AY_SH0 xor AY_SH4) xor A0),AY_SHR,AY_SH[7..1]);
+%
+	AY_DQ1[].clk = CLK42;
+	AY_DQ1[].ena = AY_OUTS1;
+	AY_DQ1[] = AY_AMP[] & LCELL((AY_OUT1 or AY_X_0) & (AY_X_3 or AY_SH0));
+
+	AY_DQ2[].clk	= CLK42;
+	AY_DQ2[].ena = AY_OUTS3;
+	AY_DQ2[] = AY_AMP[] & LCELL((AY_OUT2 or AY_X_1) & (AY_X_4 or AY_SH0));
+
+	AY_DQ3[].clk	= CLK42;
+	AY_DQ3[].ena = AY_OUTS3;
+	AY_DQ3[] = AY_AMP[] & LCELL((AY_OUT3 or AY_X_2) & (AY_X_5 or AY_SH0));
+%
+	AY_VAR.clk	= CLK42;
+	AY_VA[].clk	= CLK42;
+	AY_VAR.clrn= AY_F_RES;
+	AY_VA[].clrn= AY_F_RES;
+
+	(AY_VAR.ena,AY_VA[].ena) = DFF(((AY_DO[7..0] == B"011XX101") & AY_CCC1 & !AY_BBLK),CLK42,,);
+	(AY_VA[],AY_VAR) = (AY_VA[],AY_VAR) + (B"0000",AY_CX);
+
+	AY_X_[].clk	= CLK42;
+	AY_X_[].ena	= DFF(((AY_DO[7..0] == B"011XX110") & AY_CCC1),CLK42,,);
+	AY_X_[] = AY_DAT[5..0];
+
+%
+	AY_GF[].clk	= CLK42;
+	IF LCELL((AY_DO[7..0] == B"011XX111") & AY_CCC1) THEN
+			AY_GF[] = AY_DAT[3..0];
+		ELSE
+			AY_GF[] = AY_GF[]; END IF;
+%
+
+	AY_BBLK		= DFF(AY_GF0,!AY_VA3,AY_F_RES,);	-- VA_COUNT_STOP
+
+	AY_ABLK		= DFF(!AY_GF3,!AY_VA3,AY_F_RES,);	-- set ALL ZERO
+
+	AY_BINV		= DFF(((AY_GF1 xor AY_GF0) & !AY_BINV),!AY_VA3,AY_F_RES,); -- inverse 2-ND
+
+	AY_AINV		= AY_GF2;	-- inverse ALL
+
+	AY_AA[].clrn= VCC;
+	AY_AA[].clk	= CLK42;
+	AY_AA[].d	= (AY_VA[] xor AY_BINV xor !AY_AINV) & !AY_ABLK;
+
+--	AY_Q1[3..0] = AY_DQ1[3..0];
+--	AY_Q2[3..0] = AY_DQ2[3..0];
+--	AY_Q3[3..0] = AY_DQ3[3..0];
+
+	SND_L0	= DFF(((AY_CCC[7..2]) > AY_XXM[]),AY_CCC1,,);
+
+	SND_R0	= SND_L0;
+
+	SND_L1	= GND;
+	SND_R1	= GND;
+
+	BRD4.clrn		= VCC;
+
+END IF;
+
+END IF;
+ELSE
+--	===============  COVOX  =================
+
+
+--	COV_WR	= !/IOWR & (DCP[] == B"10001000");
+
+CASE covox_mode IS
+WHEN 0 =>
+
+--	COV_WR	= !DFF(!(DCP[] == B"10001000"),!/IOWR,,!/IO);
+
+	COV_WR	= !/IOWR & (DCP[] == B"10001000");
+
+	COV[] = lpm_ram_dq(D[],VCC,VCC,COV_WR,CLK42,)
+			WITH (lpm_width=8,lpm_widthad=2,lpm_file="COVOX.MIF",lpm_outdata="UNREGISTERED");
+
+%
+	IF !CT1 THEN
+		COV_ADR[] = (CTH[2..1]);
+		COV_WR	= GND;
+	ELSE
+		COV_ADR[] = (A[6..5]);
+		COV_WR	= !/IOWR & (DCP[] == B"10001000");
+	END IF;
+%
+
+--	COV[] = lpm_ram_dq(D[],COV_ADR[],COV_WR,CLK42,)
+--		WITH (lpm_width=8,lpm_widthad=2,lpm_file="COVOX.MIF",lpm_outdata="UNREGISTERED");
+
+WHEN 1 =>
+
+	IF !CT1 THEN
+		COV_ADR[1..0] = (CTH[2..1]);
+		COV_WR	= GND;
+	ELSE
+		COV_ADR[1..0] = (A6,LCELL(A4 xor !A3));
+		COV_WR	= !/IOWR & (DCP[] == B"10001000");
+--		COV_WR	= !DFF(!(DCP[] == B"10001000"),!/IOWR,,!/IO);
+	END IF;
+
+--	COV_WR	= !/IOWR & (DCP[] == B"10001000");
+
+	COV[] = lpm_ram_dq(D[],COV_ADR[1..0],COV_WR,CLK42,)
+		WITH (lpm_width=8,lpm_widthad=2,lpm_file="COVOX.MIF",lpm_outdata="UNREGISTERED");
+--	COV[] = lpm_ram_dq(D[],B"00",COV_WR,CLK42,)
+--		WITH (lpm_width=8,lpm_widthad=2,lpm_file="COVOX.MIF",lpm_outdata="UNREGISTERED");
+WHEN 2 =>
+
+
+	COV_BL[2..0].clk = CTH2;
+
+	IF COV_BL2 THEN
+		COV_BL[2..0] = GND;
+	ELSE
+		COV_BL[2..0] = COV_BL[2..0] + 1;
+	END IF;
+
+	COV_BL[10..3].clk = COV_BL2;
+	COV_BL[10..3] = COV_BL[10..3] + 1;
+
+	COV_BL_X[] = 4;
+%
+	IF (COV_BL[2..0] == COV_BL_X[]) THEN
+		COV_BL[2..0]  = 0;
+		COV_BL[10..3] = COV_BL[10..3] + 1;
+	ELSE
+		COV_BL[2..0]  = COV_BL[2..0] + 1;
+		COV_BL[10..3] = COV_BL[10..3];
+	END IF;
+%
+
+	IF !CT1 THEN
+		COV_ADR[] = COV_BL[10..3];
+
+--		COV_ADR[5..0] = (CTV[5..0]);
+--		COV_ADR[7..6] = COV_AR[7..6];
+
+		COV_WR	= GND;
+	ELSE
+		COV_ADR[7..0] = !(A[15..8]);
+--		COV_WR	= !DFF(!(DCP[] == B"10001000"),!/IOWR,,!/IO);
+		COV_WR	= !/IOWR & (DCP[] == B"10001000");
+	END IF;
+
+	COV_AR[7..6] = COV_BL[10..9];
+
+--	COV_AR[7..6] = (DFF((COV_AR7 xor COV_AR6),!CTV5,,),DFF(!COV_AR6,!CTV5,,));
+
+--	COV_ADR[7..6] = (DFF((COV_ADR7 xor COV_ADR6),!COV_ADR5,,),DFF(!COV_ADR6,!COV_ADR5,,));
+
+	COV[] = lpm_ram_dq(D[],COV_ADR[],COV_WR,CLK42,)
+		WITH (lpm_width=8,lpm_widthad=8,lpm_file="COVOX.MIF",lpm_outdata="UNREGISTERED");
+
+WHEN 3 =>
+
+	COV_DFF[].clk	= /IOWR;
+	COV_DFF[].ena	= (DCP[] == B"10001000");
+	COV_DFF[].d		= D[];
+	COV[]			= COV_DFF[];
+
+END CASE;
+
+
+	CLK42X	= DFF(!CLK42X,CLK84,,);
+	CLK84	= LCELL(CLK42 xor CLK42X);
+
+	IF !(COVOX == 0) THEN
+--		BRD4.clrn	= (!(DCP[] == B"100010XX") or /IOWR);
+		BRD4.clrn	= (!COV_WR);
+	ELSE
+		BRD4.clrn	= VCC;
+	END IF;
+
+
+%
+	COV_CT[5..0].clk	= CLK84;
+
+--	IF DFF((CT1 or CT2 or CT3),CLK42,,) THEN
+
+	IF LCELL(CT1 or CT2 or CT3) THEN
+		COV_CT[5..0] = COV_CT[5..0] - 1;
+	ELSE
+		COV_CT[5..0] = (GND,GND,COV[7..4]);
+	END IF;
+
+	COV_CT[10..6].clk = !COV_CT4;
+
+--	IF DFF((CTH2 or CTH1 or CTH0 or CT5 or CT4),CLK42,,) THEN
+
+	IF LCELL(CTH2 or CTH1 or CTH0 or CT5 or CT4) THEN
+		COV_CT[10..6] = COV_CT[10..6] - 1;
+	ELSE
+		COV_CT[10..6] = (COV[4..0]);
+	END IF;
+
+--	OUT = DFF((COV_CT4 or DFF((COV_CT4 & COV_CT10),CLK42,,)),CLK42,,);
+%
+
+	IF COVOX == 8 THEN
+
+		COV_CT[].clk	= CLK42;
+
+		IF DFF((CTH2 & CTH1 & CTH0 & CT5),CLK42,,) THEN
+			COV_CT[].d = (GND,GND,GND,(COV7 xor BRD4),COV[6..0]);
+		ELSE
+			COV_CT[].d = COV_CT[] - 1;
+		END IF;
+
+%
+		(SND_L0,SND_R0) = COV_CT9 xor BRD4;
+		(SND_L1,SND_R1) = VCC;
+%
+		SND_L0			= !DFF(((CTH0,CT[5..2]) > ((BRD4 xor COV7),COV[6..3])),!CT1,,);
+		SND_L1			= !DFF(((CT[5..3]) > COV[2..0]),!CT1,,);
+		SND_R0			= SND_L0;
+		SND_R1			= SND_L1;
+%
+
+
+		SND_L0	= DFF(((COV_CT5 or DFF((COV_CT5 & !DFF((COV[3..0] > (CTH[1..0],CT[5..4])),CT1,,)),CLK84,,)) xor BRD4),CLK84,,);
+		SND_L1	= GND;
+
+--		SND_R0			= !DFF(((CTH0,CT[5..2]) > ((BRD4 xor COV7),COV[6..3])),!CT1,,);
+--		SND_R1			= !DFF(((CT[5..3]) > COV[2..0]),CT1,,);
+
+		SND_R0			= SND_L0;
+		SND_R1			= SND_L1;
+%
+	END IF;
+
+	IF COVOX == 0 THEN
+--		SND_L0			= !((CT5 & CT4) or (BRD4 & (CT5 or CT4)));
+		SND_L0			= BRD4;
+		SND_L1			= VCC;
+--		SND_R0			= !((CT5 & CT4) or (BRD4 & (CT5 or CT4)));
+		SND_R0			= BRD4;
+		SND_R1			= VCC;
+	END IF;
+
+
+END IF;
+END IF;
+
+--	FORTH_PROCESSOR
+
+IF FORTH_CPU == 1 THEN
+
+	F_CLK.clk	= CLK42;
+	F_CLK.prn	= DFF(/RESET,CLK42,,);
+
+	FP_CLK		= (LCELL(F_CLK));
+	FP_CLK		= F_CLK;
+
+	FDR[].clk	= FP_CLK;
+	FCMD[].clk	= FP_CLK;
+	F_ST0[].clk = FP_CLK;
+	F_ST1[].clk = FP_CLK;
+	F_ST2[].clk = FP_CLK;
+	F_ST3[].clk = FP_CLK;
+
+	FDI[]	= (VD0[],VD1[]);
+%
+	(,,ALU[3..0],,AC4) 	= 74181 (FCMD[3..0],FCMD4,FCMD5,STDO[3..0],FDR[3..0]);
+	(,,ALU[7..4],,AC8) 	= 74181 (FCMD[3..0],FCMD4,AC4,  STDO[7..4],FDR[7..4]);
+	(,,ALU[11..8],,AC12)= 74181 (FCMD[3..0],FCMD4,AC8,  STDO[11..8],FDR[11..8]);
+	(,,ALU[15..12],,) 	= 74181 (FCMD[3..0],FCMD4,AC12, STDO[15..12],FDR[15..12]);
+%
+
+	(ALU[],C_ALU,) = lpm_add_sub (!FCMD1,STDO_[],FDR_[],!FCMD0,,,)
+   		WITH (LPM_WIDTH = 16,LPM_REPRESENTATION = "UNSIGNED");
+
+--	(ALU[],,) = lpm_add_sub (!FCMD1,STDO_[],FDR_[],VCC,,)
+--   		WITH (LPM_WIDTH = 16,LPM_REPRESENTATION = "UNSIGNED");
+
+	CASE FCMD[3..2] IS
+		WHEN 0 => STDO_[]	= STDO[];
+		WHEN 1 => STDO_[]	= STDO[] &  FDR[];
+		WHEN 2 => STDO_[]	= !STDO[];
+		WHEN 3 => STDO_[]	= GND;
+	END CASE;
+
+	CASE FCMD[5..4] IS
+		WHEN 0 => FDR_[]	= GND;
+		WHEN 1 => FDR_[]	= !FDR[];
+		WHEN 2 => FDR_[]	= STDO[] or FDR[];
+		WHEN 3 => FDR_[]	= FDR[];
+	END CASE;
+
+	CASE FCMD[7..6] IS
+		WHEN 0 => FDR[] = FDR[];
+--		WHEN 1 => FDR[] = FDR[] or  FDI[];
+		WHEN 1 => FDR[] = (B"000000000000000",C_ALU);
+		WHEN 2 => FDR[] = STDO[];
+		WHEN 3 => FDR[] = FDI[];
+	END CASE;
+
+	FDR[].prn = /RESET;
+
+--	STDO[] = lpm_ram_dq(ALU[],STA[],!FCMD8,CLK42,)
+	STDO[] = lpm_ram_dq(ALU[],STA[],LCELL(!F_CLK & !FCMD8),CLK42,)
+		WITH (lpm_width=16,lpm_widthad=8,lpm_file="FORTH.MIF",lpm_outdata="UNREGISTERED");
+
+	FDO[] = FDR[];
+
+	ZERO[] = GND;
+
+	(STA[],,) =	(FCMD[10..9],
+		lpm_add_sub (FCMD12,F_ST_[],ZERO[],!FCMD11,,,)
+   			WITH (LPM_WIDTH = STACK_W,LPM_REPRESENTATION = "UNSIGNED",ONE_INPUT_IS_CONSTANT = "YES"));
+
+	CASE (LCELL((FCMD12 & FCMD11) or FCMD10),FCMD9) IS
+		WHEN 0 => F_ST_X[] = F_ST0[];
+		WHEN 1 => F_ST_X[] = F_ST1[];
+		WHEN 2 => F_ST_X[] = VCC;
+		WHEN 3 => F_ST_X[] = VCC;
+	END CASE;
+
+	CASE (LCELL((FCMD12 & FCMD11) or !FCMD10),FCMD9) IS
+		WHEN 0 => F_ST_Y[] = F_ST2[];
+		WHEN 1 => F_ST_Y[] = F_ST3[];
+		WHEN 2 => F_ST_Y[] = VCC;
+		WHEN 3 => F_ST_Y[] = VCC;
+	END CASE;
+
+	FOR i IN 0 TO STACK_W-1 GENERATE
+		F_ST_[i] = F_ST_X[i] & CASCADE(F_ST_Y[i]);
+	END GENERATE;
+
+	CASE FCMD[10..9] IS
+		WHEN 0 => F_ST0[] = STA[STACK_W-1..0]; F_ST1[] = F_ST1[]; F_ST2[] = F_ST2[]; F_ST3[] = F_ST3[];
+		WHEN 1 => F_ST1[] = STA[STACK_W-1..0]; F_ST2[] = F_ST2[]; F_ST3[] = F_ST3[]; F_ST0[] = F_ST0[];
+		WHEN 2 => F_ST2[] = STA[STACK_W-1..0]; F_ST3[] = F_ST3[]; F_ST0[] = F_ST0[]; F_ST1[] = F_ST1[];
+		WHEN 3 => F_ST3[] = STA[STACK_W-1..0]; F_ST0[] = F_ST0[]; F_ST1[] = F_ST1[]; F_ST2[] = F_ST2[];
+	END CASE;
+
+	WE_MEM	= !FCMD13;
+--	WE_MEM	= VCC;
+
+	FCMD[].clrn = /RESET;
+
+	CMD_X = DFF(!CMD_X,FP_CLK,/RESET,);
+
+--	CASE (LCELL(CMD_X & FCMD15),LCELL(CMD_X & FCMD14)) IS
+	CASE (FCMD15,FCMD14) IS
+		WHEN 0 => FCMD[] = FDI[];
+--		WHEN 1 => FCMD[] = B"0000000000101111"; % NEXT %
+--		WHEN 2 => FCMD[] = B"0001000000101111";	% RET_CMD %
+--		WHEN 3 => FCMD[] = B"0100100000111010"; % CALL %
+		WHEN 1 => FCMD[] = B"0000000000000000"; % NEXT %
+		WHEN 2 => FCMD[] = B"0001000000000000";	% RET_CMD %
+		WHEN 3 => FCMD[] = B"0100100000111111"; % CALL %
+	END CASE;
+
+END IF;
+
+
+
+
+END;
+

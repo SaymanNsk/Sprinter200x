@@ -1,0 +1,76 @@
+
+	TITLE "Sp-Mouse";
+
+INCLUDE "lpm_add_sub";
+
+SUBDESIGN mouse
+	(
+	MOUSE_D		: INPUT;
+	CLK			: INPUT;
+	OUT_X[9..0]	: OUTPUT;
+	OUT_Y[9..0]	: OUTPUT;
+	OUT_K[1..0]	: OUTPUT;
+	INT			: OUTPUT;
+	)
+VARIABLE
+
+	SUM_X[9..0]		: DFFE;
+	SUM_Y[9..0]		: DFFE;
+
+	CT[3..0]	: DFF;
+	RG[9..0]	: DFFE;
+	STATE[1..0]	: DFFE;
+	RGK[5..0]	: DFFE;
+
+	MOUSE_IMP	: NODE;
+
+	DDX[7..0]	: NODE;
+	DDY[7..0]	: NODE;
+
+BEGIN
+
+	CT[].clk	= CLK;
+
+	MOUSE_IMP	= MOUSE_D xor !DFF(MOUSE_D,CLK,,);
+
+	CT[].clrn	= MOUSE_IMP;
+
+	IF CT[] == 12 THEN
+		CT[]	= GND;
+	ELSE
+		CT[]	= CT[]+1;
+	END IF;
+
+	RG[].clk	= CLK;
+	RG[].ena	= (CT[] == 4) or !RG0;
+	RG[].d		= ((MOUSE_D,RG[9..1]) or !RG0);
+	RG[].prn	= VCC;
+
+	STATE[].ena	= !RG0;
+	STATE[].clk	= CLK;
+
+	STATE[].d	= (STATE0,RG7);
+
+	RGK[].clk	= CLK;
+	RGK[].ena	= (RG7 & !RG0);
+	RGK[].d		= RG[6..1];
+
+	DDX[] = (RGK[1..0],RG[6..1]);
+	DDY[] = (RGK[3..2],RG[6..1]);
+
+	SUM_X[].ena	= LCELL(!RG7 & (STATE[] == 1) & !RG0);
+	SUM_Y[].ena	= LCELL(!RG7 & (STATE[] == 2) & !RG0);
+
+	SUM_X[].clk	= CLK;
+	SUM_Y[].clk	= CLK;
+
+	SUM_X[]		= SUM_X[] + (DDX7,DDX7,DDX[]);
+	SUM_Y[]		= SUM_Y[] + (DDY7,DDY7,DDY[]);
+
+	OUT_X[]		= SUM_X[];
+	OUT_Y[]		= SUM_Y[];
+	OUT_K[]		= RGK[5..4];
+
+	INT	= DFF(((STATE[] == 2) & !RG0),CLK,,);
+
+END;
