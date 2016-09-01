@@ -1,0 +1,239 @@
+-- Copyright (C) 1988-2000 Altera Corporation
+-- Any megafunction design, and related net list (encrypted or decrypted),
+-- support information, device programming or simulation file, and any other
+-- associated documentation or information provided by Altera or a partner
+-- under Altera's Megafunction Partnership Program may be used only to
+-- program PLD devices (but not masked PLD devices) from Altera.  Any other
+-- use of such megafunction design, net list, support information, device
+-- programming or simulation file, or any other related documentation or
+-- information is prohibited for any other purpose, including, but not
+-- limited to modification, reverse engineering, de-compiling, or use with
+-- any other silicon devices, unless such use is explicitly licensed under
+-- a separate agreement with Altera or a megafunction partner.  Title to
+-- the intellectual property, including patents, copyrights, trademarks,
+-- trade secrets, or maskworks, embodied in any such megafunction design,
+-- net list, support information, device programming or simulation file, or
+-- any other related documentation or information provided by Altera or a
+-- megafunction partner, remains with Altera, the megafunction partner, or
+-- their respective licensors.  No other licenses, including any licenses
+-- needed under any third party's intellectual property, are provided herein.
+
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+----------------------------------------------------------------------------
+
+CHIP "acceler" ASSIGNED TO AN EP1K30QC208-3
+TCK                              : 1
+CONF_DONE                        : 2
+nCEO                             : 3
+TDO                              : 4
+VCCIO                            : 5
+GND                              : 6
+G_LINE7                          : 7
+G_LINE3                          : 8
+G_LINE4                          : 9
+G_LINE5                          : 10
+RESERVED                         : 11
+MD1                              : 12
+RESERVED                         : 13
+RESERVED                         : 14
+RESERVED                         : 15
+MDO15                            : 16
+HDDR6                            : 17
+DI1                              : 18
+DO6                              : 19
+GND                              : 20
+VCCINT                           : 21
+VCCIO                            : 22
+GND                              : 23
+MDO10                            : 24
+AO9                              : 25
+AI5                              : 26
+AO3                              : 27
+AO4                              : 28
+AO5                              : 29
+AI2                              : 30
+AO7                              : 31
+GND                              : 32
+VCCINT                           : 33
+VCCIO                            : 34
+GND                              : 35
+RESERVED                         : 36
+ACC_ON                           : 37
+RESERVED                         : 38
+MDO11                            : 39
+G_LINE0                          : 40
+MDO1                             : 41
+VCCIO                            : 42
+GND                              : 43
+RESERVED                         : 44
+RESERVED                         : 45
+MDO9                             : 46
+RESERVED                         : 47
+VCCINT                           : 48
+GND                              : 49
+TMS                              : 50
+TRST                             : 51
+nSTATUS                          : 52
+DCP4                             : 53
+AI14                             : 54
+AO10                             : 55
+AO15                             : 56
+DI0                              : 57
+AO2                              : 58
+GND                              : 59
+DCP6                             : 60
+AI1                              : 61
+DI7                              : 62
+AI8                              : 63
+MDI1                             : 64
+MDI11                            : 65
+VCCIO                            : 66
+AI7                              : 67
+AI9                              : 68
+DI5                              : 69
+DI3                              : 70
+MC_TYPE                          : 71
+VCCINT                           : 72
+DI6                              : 73
+/RD                              : 74
+HDDR5                            : 75
+GND                              : 76
+VCCINT                           : 77
+CLK_Z80                          : 78
+/MR                              : 79
+/IO                              : 80
+GND                              : 81
+GND                              : 82
+DCP0                             : 83
+VCCIO                            : 84
+MD5                              : 85
+DO5                              : 86
+MDI0                             : 87
+/WR                              : 88
+MDO7                             : 89
+CT1                              : 90
+VCCINT                           : 91
+DO1                              : 92
+HDDR7                            : 93
+MDI15                            : 94
+MDI3                             : 95
+MDI10                            : 96
+MD0                              : 97
+VCCIO                            : 98
+CAS                              : 99
+HDDR0                            : 100
+DCP7                             : 101
+MDO8                             : 102
+MC_END                           : 103
+MDO5                             : 104
+nCONFIG                          : 105
+VCCINT                           : 106
+MSEL1                            : 107
+MSEL0                            : 108
+GND                              : 109
+VCCIO                            : 110
+DO4                              : 111
+AO14                             : 112
+AO0                              : 113
+RESERVED                         : 114
+RESERVED                         : 115
+RESERVED                         : 116
+GND                              : 117
+VCCIO                            : 118
+DOUBLE_CAS                       : 119
+MD7                              : 120
+CONTINUE                         : 121
+MDO2                             : 122
+GND                              : 123
+VCCINT                           : 124
+AO8                              : 125
+AO13                             : 126
+AI4                              : 127
+AI3                              : 128
+GND                              : 129
+VCCINT                           : 130
+MD2                              : 131
+MDO12                            : 132
+MDO6                             : 133
+HDDR4                            : 134
+MD4                              : 135
+MD3                              : 136
+GND                              : 137
+VCCIO                            : 138
+AO1                              : 139
+DO3                              : 140
+DO2                              : 141
+DO7                              : 142
+MDO14                            : 143
+MDO4                             : 144
+GND                              : 145
+VCCIO                            : 146
+MDO0                             : 147
+G_LINE6                          : 148
+RESERVED                         : 149
+RESERVED                         : 150
+GND                              : 151
+VCCINT                           : 152
+TDI                              : 153
+nCE                              : 154
+DCLK                             : 155
+DATA0                            : 156
+MDI8                             : 157
+MDI6                             : 158
+HDDR3                            : 159
+MDI13                            : 160
+MDO13                            : 161
+AI0                              : 162
+MDI9                             : 163
+MDI7                             : 164
+VCCIO                            : 165
+DCP1                             : 166
+HDD_FLIP                         : 167
+MDO3                             : 168
+MDI5                             : 169
+DO0                              : 170
+GND                              : 171
+DCP2                             : 172
+CT0                              : 173
+MDI14                            : 174
+DCP5                             : 175
+MD6                              : 176
+HDDR2                            : 177
+VCCIO                            : 178
+GLISSER                          : 179
+MDI12                            : 180
+GND                              : 181
+/RESET                           : 182
+CLK42                            : 183
+/M1                              : 184
+VCCINT                           : 185
+G_LINE2                          : 186
+/RF                              : 187
+GND                              : 188
+CT2                              : 189
+HDDR1                            : 190
+AI6                              : 191
+DI2                              : 192
+/IOM                             : 193
+VCCIO                            : 194
+DI4                              : 195
+AI12                             : 196
+AI11                             : 197
+AI10                             : 198
+G_LINE1                          : 199
+AI13                             : 200
+VCCINT                           : 201
+AO6                              : 202
+AI15                             : 203
+AO11                             : 204
+AO12                             : 205
+MDI2                             : 206
+MDI4                             : 207
+ACC_ENA                          : 208

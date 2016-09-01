@@ -1,0 +1,154 @@
+DEPTH = 256;	% Memory depth and width are required	%
+WIDTH = 8;		% Enter a decimal number	%
+
+ADDRESS_RADIX = HEX;	% Address and value radixes are optional	%
+DATA_RADIX = BIN;		% Enter BIN, DEC, HEX, or OCT; unless 	%
+						% otherwise specified, radixes = HEX	%
+
+-- Specify values for addresses, which can be single address or range
+
+CONTENT
+BEGIN
+	[0..7F]	: 00000000;
+	0	:	00000000 00000000
+			00000000 00000000
+			00000000 00000000
+			00000000 11111111
+			00000000 00000000
+			00000000 00000000
+			00000000 00000000
+			00000000 00000000
+
+			11111111 11111111
+			11111111 11111111
+			11111111 11111111
+			11111111 11111111
+			11111111 11111111
+			11111111 11111111
+			11111111 00000001
+			00000000 11111111
+	;
+	1E	:	00000000;
+	1F	:	11111111;
+
+	30	:	00000000
+			00000010
+			00000011
+			00000100
+			00000110
+			00001000
+			00001011
+			00010000
+			00010110
+			00100000
+			00101101
+			01000000
+			01011010
+			10000000
+			10110100
+			11111111;
+
+	[80..FF]: 00000000;
+
+%
+	000 - set CX, load & sub 1
+	001	- load
+	010	- save, if NZ,reset CX
+	011	- bit_out
+	100	- load & sub 1
+	101	- load & sub C
+	110	- if CX, save
+	111	- read states /RESET, AY_F_RES
+%
+
+	80	:
+			00010000  -- set C,CX load reg10 & sub C
+			01010000  -- save reg10 & reset CX if NZ
+			10110001  -- load reg11 & sub C
+			01010001  -- save reg11 & reset CX if NZ
+
+			00100000  -- set C load reg00 & sub C
+			11010000  -- save reg10 if CX
+			00100001  -- load reg01 & sub C
+			11010001  -- save reg11 if CX
+
+			00101000  -- load reg08
+			01100001  -- set AY_OUT1
+
+
+			00010010  -- set C,CX load reg12 & sub C
+			01010010  -- save reg12 & reset CX if NZ
+			10110011  -- load reg13 & sub C
+			01010011  -- save reg13 & reset CX if NZ
+
+			00100010  -- set C load reg02 & sub C
+			11010010  -- save reg12 if CX
+			00100011  -- load reg03 & reset CX if NZ
+			11010011  -- save reg13 if CX
+
+			00101001  -- load reg09
+			01100010  -- set AY_OUT2
+
+
+			00010100  -- set C,CX load reg14 & sub C
+			01010100  -- save reg14 & reset CX if NZ
+			10110101  -- load reg15 & sub C
+			01010101  -- save reg15 & reset CX if NZ
+
+			00100100  -- set C load reg04 & sub C
+			11010100  -- save reg14 if CX
+			00100101  -- load reg05 & reset CX if NZ
+			11010101  -- save reg15 if CX
+
+			00101010  -- load reg0A
+			01100011  -- set AY_OUT3
+
+
+			00010111  -- set C,CX load reg17 & dec 1
+			01010111  -- save reg17 & reset CX if NZ
+			00100110  -- load reg06 dec 1  		***********
+			11010111  -- save reg17 if CX
+
+			01100100  -- set AY_SH
+			00000000  -- NOP
+
+			00011000  -- set C,CX load reg18 & sub C
+			01011000  -- save reg18 & reset CX if NZ
+			10111001  -- load reg19 & sub C
+			01011001  -- save reg19 & reset CX if NZ
+
+			00101011  -- load reg0B & sub 1
+			11011000  -- save reg18 if CX
+			00101100  -- load reg0C & sub C
+			11011001  -- save reg19 if CX
+
+			01100101  -- set FORM_CLK
+
+			11100000  -- set CX = AY_F_RES
+
+--			00101011  -- load reg0B & sub 1
+--			11011000  -- save reg18 if CX
+--			00101100  -- load reg0C & sub C
+--			11011001  -- save reg19 if CX
+
+			11100001  -- set CX = /RESET
+
+			00111111  -- load reg1F - FF		***********
+			11000111  -- save reg07 if CX
+			00111110  -- load reg1E - 00		***********
+
+			11001101  -- save reg0D if CX
+			11001000  -- save reg08 if CX
+			11001001  -- save reg09 if CX
+			11001010  -- save reg0a if CX
+
+			00100111  -- load reg07				***********
+			01100110  -- set keys_bits
+
+			00101101  -- load reg0D             ***********
+			01100111  -- set keys_bits			SET-FORM-bits
+
+--			01100000  -- set AY_OUT_ALL
+
+		;
+END ;

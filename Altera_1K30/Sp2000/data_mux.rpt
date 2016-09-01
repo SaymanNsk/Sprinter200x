@@ -1,0 +1,2214 @@
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+MAX+plus II Compiler Report File
+Version 10.0 9/14/2000
+Compiled: 05/18/2001 05:13:10
+
+Copyright (C) 1988-2000 Altera Corporation
+Any megafunction design, and related net list (encrypted or decrypted),
+support information, device programming or simulation file, and any other
+associated documentation or information provided by Altera or a partner
+under Altera's Megafunction Partnership Program may be used only to
+program PLD devices (but not masked PLD devices) from Altera.  Any other
+use of such megafunction design, net list, support information, device
+programming or simulation file, or any other related documentation or
+information is prohibited for any other purpose, including, but not
+limited to modification, reverse engineering, de-compiling, or use with
+any other silicon devices, unless such use is explicitly licensed under
+a separate agreement with Altera or a megafunction partner.  Title to
+the intellectual property, including patents, copyrights, trademarks,
+trade secrets, or maskworks, embodied in any such megafunction design,
+net list, support information, device programming or simulation file, or
+any other related documentation or information provided by Altera or a
+megafunction partner, remains with Altera, the megafunction partner, or
+their respective licensors.  No other licenses, including any licenses
+needed under any third party's intellectual property, are provided herein.
+
+
+
+***** Project compilation was successful
+
+
+DATA_MUX
+
+
+** DEVICE SUMMARY **
+
+Chip/                     Input Output Bidir  Memory  Memory  			 LCs
+POF       Device          Pins  Pins   Pins   Bits % Utilized  LCs  % Utilized
+
+data_mux  EP1K30QC208-3    64     25     0    8192      33 %    134      7  %
+
+User Pins:                 64     25     0  
+
+
+
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+** PROJECT COMPILATION MESSAGES **
+
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR7" was declared but never used
+Warning: Line 23, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "ACC_FN2" was declared but never used
+Warning: Line 40, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "/MR" was declared but never used
+Warning: Line 23, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "ACC_FN3" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR0" was declared but never used
+Warning: Line 35, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "/IOM" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR1" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR2" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR3" was declared but never used
+Warning: Line 14, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "A1" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR4" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "/M1" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR5" was declared but never used
+Warning: Line 36, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "/WR" was declared but never used
+Warning: Line 69, File c:\copy_d\asembler\altera\sp2000\data_mux.tdf:
+   Symbolic name "HDDR6" was declared but never used
+Warning: Ignored unnecessary INPUT pin 'A1'
+Warning: Ignored unnecessary INPUT pin 'ACC_FN3'
+Warning: Ignored unnecessary INPUT pin 'ACC_FN2'
+Warning: Ignored unnecessary INPUT pin '/IOM'
+Warning: Ignored unnecessary INPUT pin '/WR'
+Warning: Ignored unnecessary INPUT pin '/M1'
+Warning: Ignored unnecessary INPUT pin '/MR'
+
+
+** PROJECT TIMING MESSAGES **
+
+Warning: Timing characteristics of device EP1K30QC208-3 are preliminary
+Warning: Found ripple clock -- warning messages and Report File information on tco, tsu, and fmax may be inaccurate
+Warning: Can't provide fmax of 200.00 MHz on Clock pin "CLK42". Current fmax is 106.38 MHz.
+
+
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+** EMBEDDED ARRAYS **
+
+
+|lpm_ram_dp:ACC_RAM|altdpram:sram|content: MEMORY (
+               width        =   16;
+               depth        =  256;
+               segmentsize  =  256;
+               mode         = MEM_FIFO#MEM_REG_DATAIN_CLK0#MEM_REG_WADDR_CLK0#MEM_REG_WCTRL_CLK0#MEM_REG_DATAOUT_CLK1#MEM_REG_RADDR_CLK1#MEM_REG_RCTRL_CLK1;
+         )
+         OF SEGMENTS (
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_15,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_14,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_13,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_12,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_11,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_10,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_9,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_8,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_7,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_6,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_5,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_4,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_3,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_2,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_1,
+               |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_0
+);
+
+
+
+|lpm_ram_dp:HDD_RAM|altdpram:sram|content: MEMORY (
+               width        =   16;
+               depth        =  256;
+               segmentsize  =  256;
+               mode         = MEM_FIFO#MEM_REG_DATAIN_CLK0#MEM_REG_WADDR_CLK0#MEM_REG_WCTRL_CLK0#MEM_REG_DATAOUT_CLK1#MEM_REG_RADDR_CLK1#MEM_REG_RCTRL_CLK1;
+         )
+         OF SEGMENTS (
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_15,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_14,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_13,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_12,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_11,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_10,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_9,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_8,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_7,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_6,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_5,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_4,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_3,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_2,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_1,
+               |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_0
+);
+
+
+
+
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+** FILE HIERARCHY **
+
+
+
+|lpm_ram_dp:ACC_RAM|
+|lpm_ram_dp:ACC_RAM|altdpram:sram|
+|lpm_ram_dp:HDD_RAM|
+|lpm_ram_dp:HDD_RAM|altdpram:sram|
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+***** Logic for device 'data_mux' compiled without errors.
+
+
+
+
+Device: EP1K30QC208-3
+
+ACEX 1K Configuration Scheme: Passive Serial
+
+Device Options:
+    User-Supplied Start-Up Clock               = OFF
+    Auto-Restart Configuration on Frame Error  = OFF
+    Release Clears Before Tri-States           = OFF
+    Enable Chip_Wide Reset                     = OFF
+    Enable Chip-Wide Output Enable             = OFF
+    Enable INIT_DONE Output                    = OFF
+    JTAG User Code                             = 7f
+    MultiVolt I/O                              = OFF
+
+                                                                                                                   H      
+                                                                                                                   D      
+                     A     A             A                 A         A           A                                 D   A  
+                 R   C R   C       R   R C R   R R R   R   C R   A H C         H C                                 _   C  
+                 E   C E   C       E   E C E   E E E   E   C E   C D C         D C                                 A   C  
+                 S   _ S   _   V   S   S _ S   S S S   S   _ S V C D _         D _                                 C   _  
+                 E   A E   A   C   E   E A E V E E E M E   A E C _ _ A     M V _ A             M       V M M   M   C   A  
+                 R   _ R M _ P C P R M R _ R C R R R D R   _ R C M D _   M D C F _   M M P     D M P   C D D M D M _ M _  
+                 V D R V D W D I D V D V R V C V V V O V G W V I O A W G D O C L W D D D D G D I D D / C I I D I D E D W  
+                 E I D E O R D N D E O E D E I E E E 1 E N R E N D T R N I 1 I I R I I I D N I 1 I D I I 1 1 I 1 I N I R  
+                 D 2 6 D 2 1 5 T 4 D 5 D 4 D O D D D 4 D D 2 D T E A 0 D 3 5 O P 3 1 9 4 0 D 7 1 2 7 O O 0 3 0 5 7 D 8 6  
+               ----------------------------------------------------------------------------------------------------------_ 
+              / 208 206 204 202 200 198 196 194 192 190 188 186 184 182 180 178 176 174 172 170 168 166 164 162 160 158   |_ 
+             /    207 205 203 201 199 197 195 193 191 189 187 185 183 181 179 177 175 173 171 169 167 165 163 161 159 157    | 
+       #TCK |  1                                                                                                         156 | ^DATA0 
+ ^CONF_DONE |  2                                                                                                         155 | ^DCLK 
+      ^nCEO |  3                                                                                                         154 | ^nCE 
+       #TDO |  4                                                                                                         153 | #TDI 
+      VCCIO |  5                                                                                                         152 | VCCINT 
+        GND |  6                                                                                                         151 | GND 
+   RESERVED |  7                                                                                                         150 | MDI12 
+   RESERVED |  8                                                                                                         149 | DO6 
+        /RD |  9                                                                                                         148 | RESERVED 
+   RESERVED | 10                                                                                                         147 | RESERVED 
+   RESERVED | 11                                                                                                         146 | VCCIO 
+      MDO12 | 12                                                                                                         145 | GND 
+   RESERVED | 13                                                                                                         144 | DO0 
+   RESERVED | 14                                                                                                         143 | RESERVED 
+   RESERVED | 15                                                                                                         142 | RESERVED 
+        DI4 | 16                                                                                                         141 | RESERVED 
+       MDO9 | 17                                                                                                         140 | RESERVED 
+       PDD2 | 18                                                                                                         139 | DO5 
+  ACC_A_RD0 | 19                                                                                                         138 | VCCIO 
+        GND | 20                                                                                                         137 | GND 
+     VCCINT | 21                                                                                                         136 | DO3 
+      VCCIO | 22                                                                                                         135 | ACC_FN1 
+        GND | 23                                                                                                         134 | DO1 
+        DI0 | 24                                                                                                         133 | DO2 
+   RESERVED | 25                                                                                                         132 | ACC_A_RD7 
+   RESERVED | 26                                                                                                         131 | DI3 
+       MDO3 | 27                                              EP1K30QC208-3                                              130 | VCCINT 
+   RESERVED | 28                                                                                                         129 | GND 
+   RESERVED | 29                                                                                                         128 | RESERVED 
+   RESERVED | 30                                                                                                         127 | MDO4 
+   RESERVED | 31                                                                                                         126 | MDO0 
+        GND | 32                                                                                                         125 | RESERVED 
+     VCCINT | 33                                                                                                         124 | VCCINT 
+      VCCIO | 34                                                                                                         123 | GND 
+        GND | 35                                                                                                         122 | RESERVED 
+   RESERVED | 36                                                                                                         121 | RESERVED 
+   RESERVED | 37                                                                                                         120 | MDO7 
+   RESERVED | 38                                                                                                         119 | RESERVED 
+   RESERVED | 39                                                                                                         118 | VCCIO 
+   RESERVED | 40                                                                                                         117 | GND 
+   RESERVED | 41                                                                                                         116 | RESERVED 
+      VCCIO | 42                                                                                                         115 | DO4 
+        GND | 43                                                                                                         114 | RESERVED 
+   RESERVED | 44                                                                                                         113 | RESERVED 
+   RESERVED | 45                                                                                                         112 | MDO1 
+   RESERVED | 46                                                                                                         111 | RESERVED 
+   RESERVED | 47                                                                                                         110 | VCCIO 
+     VCCINT | 48                                                                                                         109 | GND 
+        GND | 49                                                                                                         108 | ^MSEL0 
+       #TMS | 50                                                                                                         107 | ^MSEL1 
+      #TRST | 51                                                                                                         106 | VCCINT 
+   ^nSTATUS | 52                                                                                                         105 | ^nCONFIG 
+            |      54  56  58  60  62  64  66  68  70  72  74  76  78  80  82  84  86  88  90  92  94  96  98 100 102 104  _| 
+             \   53  55  57  59  61  63  65  67  69  71  73  75  77  79  81  83  85  87  89  91  93  95  97  99 101 103   | 
+              \----------------------------------------------------------------------------------------------------------- 
+                 D R M A R A G R R M M D A V R R R M R V R R C G V A C H G G M V A A P A A P V A M M A H M V A M P D A H  
+                 I E D C E C N E E D D I C C E E E D E C E E A N C C L D N N D C 0 C D C C D C C D D C I D C C D D O C D  
+                 5 S O C S C D S S O O 6 C C S S S O S C S S S D C C K D D D O C   C D C C D C C I I C G I C C I D 7 C D  
+                   E 1 _ E _   E E 1 1   _ I E E E 6 E I E E     I _ 4 _     8 I   _ 6 _ _ 3 I _ 1 6 _ H 1 I _ 5 1   _ _  
+                   R 0 A R A   R R 3 1   A O R R R   R N R R     N R 2 A       O   A   F A   N A     A _ 4 O A       A E  
+                   V   _ V _   V V       _   V V V   V T V V     T A   C           _   N _   T _     _ P     _       _ N  
+                   E   W E W   E E       R   E E E   E   E E       M   C           R   0 R     W     R O     W       R A  
+                   D   R D R   D D       D   D D D   D   D D       _               D     D     R     D R     R       D    
+                       4   5             3                         W               1     2     7     5 T     8       8    
+                                                                   R                                                      
+                                                                                                                          
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+^ = Dedicated configuration pin.
++ = Reserved configuration pin, which is tri-stated during user mode.
+* = Reserved configuration pin, which drives out in user mode.
+PDn = Power Down pin. 
+@ = Special-purpose pin. 
+# = JTAG Boundary-Scan Testing/In-System Programming or Configuration Pin. The JTAG inputs TMS and TDI should be tied to VCC and TCK should be tied to GND when not in use.
+& = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
+$ = Pin has PCI I/O option enabled. Pin is neither '5.0 V'- nor '3.3 V'-tolerant. 
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** RESOURCE USAGE **
+
+Logic                Column       Row                                   
+Array                Interconnect Interconnect         Clears/     External  
+Block   Logic Cells  Driven       Driven       Clocks  Presets   Interconnect
+A1       7/ 8( 87%)   0/ 8(  0%)   7/ 8( 87%)    1/2    1/2       1/22(  4%)   
+A3       3/ 8( 37%)   1/ 8( 12%)   1/ 8( 12%)    1/2    1/2       7/22( 31%)   
+A9       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       2/22(  9%)   
+C4       8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      16/22( 72%)   
+C5       8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      16/22( 72%)   
+C6       8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    0/2    0/2      12/22( 54%)   
+C7       8/ 8(100%)   0/ 8(  0%)   3/ 8( 37%)    2/2    0/2      16/22( 72%)   
+C8       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       3/22( 13%)   
+C9       8/ 8(100%)   0/ 8(  0%)   3/ 8( 37%)    2/2    0/2      16/22( 72%)   
+C10      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       1/22(  4%)   
+C11      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      16/22( 72%)   
+C12      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      16/22( 72%)   
+C13      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    0/2    0/2      14/22( 63%)   
+C14      8/ 8(100%)   0/ 8(  0%)   3/ 8( 37%)    2/2    0/2      16/22( 72%)   
+C15      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       3/22( 13%)   
+C16      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      16/22( 72%)   
+C17      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    0/2    0/2      14/22( 63%)   
+C18      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    0/2    0/2      13/22( 59%)   
+C22      8/ 8(100%)   3/ 8( 37%)   1/ 8( 12%)    0/2    0/2      14/22( 63%)   
+C27      8/ 8(100%)   3/ 8( 37%)   0/ 8(  0%)    0/2    0/2      14/22( 63%)   
+C34      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    0/2    0/2      13/22( 59%)   
+
+
+Embedded             Column       Row                                   
+Array     Embedded   Interconnect Interconnect         Read/      External  
+Block     Cells      Driven       Driven       Clocks  Write    Interconnect
+A37     16/16(100%)  16/16(100%)   2/16( 12%)    1/2    2/6      26/88( 29%)   
+C37     16/16(100%)   0/16(  0%)  16/16(100%)    1/2    2/6      33/88( 37%)   
+
+
+Total dedicated input pins used:                 6/6      (100%)
+Total I/O pins used:                            83/141    ( 58%)
+Total logic cells used:                        134/1728   (  7%)
+Total embedded cells used:                      32/96     ( 33%)
+Total EABs used:                                 2/6      ( 33%)
+Average fan-in:                                 3.50/4    ( 87%)
+Total fan-in:                                 469/6912    (  6%)
+
+Total input pins required:                      64
+Total input I/O cell registers required:         0
+Total output pins required:                     25
+Total output I/O cell registers required:        0
+Total buried I/O cell registers required:        0
+Total bidirectional pins required:               0
+Total reserved pins required                     0
+Total logic cells required:                    134
+Total flipflops required:                       41
+Total packed registers required:                 0
+Total logic cells in carry chains:               7
+Total number of carry chains:                    1
+Total number of carry chains of length  1-8 :    1
+Total logic cells in cascade chains:            18
+Total number of cascade chains:                  9
+Total single-pin Clock Enables required:         0
+Total single-pin Output Enables required:        0
+
+Synthesized logic cells:                        17/1728   (  0%)
+
+Logic Cell and Embedded Cell Counts
+
+Column:  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  EA  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  Total(LC/EC)
+ A:      7   0   3   0   0   0   0   0   1   0   0   0   0   0   0   0   0   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0     11/16 
+ B:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ C:      0   0   0   8   8   8   8   1   8   1   8   8   8   8   1   8   8   8  16   0   0   0   8   0   0   0   0   8   0   0   0   0   0   0   8   0   0    123/16 
+ D:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ E:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ F:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+
+Total:   7   0   3   8   8   8   8   1   9   1   8   8   8   8   1   8   8   8  32   0   0   0   8   0   0   0   0   8   0   0   0   0   0   0   8   0   0    134/32 
+
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** INPUTS **
+
+                                                    Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+  19      -     -    C    --      INPUT             ^    0    0    0   17  ACC_A_RD0
+  86      -     -    -    15      INPUT             ^    0    0    0   16  ACC_A_RD1
+  89      -     -    -    13      INPUT             ^    0    0    0   16  ACC_A_RD2
+  65      -     -    -    26      INPUT             ^    0    0    0   16  ACC_A_RD3
+ 196      -     -    -    27      INPUT             ^    0    0    0   16  ACC_A_RD4
+  95      -     -    -    09      INPUT             ^    0    0    0   16  ACC_A_RD5
+ 206      -     -    -    34      INPUT             ^    0    0    0   16  ACC_A_RD6
+ 132      -     -    C    --      INPUT             ^    0    0    0   16  ACC_A_RD7
+ 103      -     -    -    02      INPUT             ^    0    0    0   16  ACC_A_RD8
+ 182      -     -    -    --      INPUT             ^    0    0    0   25  ACC_A_WR0
+ 203      -     -    -    32      INPUT             ^    0    0    0   16  ACC_A_WR1
+ 187      -     -    -    20      INPUT             ^    0    0    0   16  ACC_A_WR2
+ 176      -     -    -    15      INPUT             ^    0    0    0   16  ACC_A_WR3
+  56      -     -    -    33      INPUT             ^    0    0    0   16  ACC_A_WR4
+  58      -     -    -    31      INPUT             ^    0    0    0   16  ACC_A_WR5
+ 157      -     -    -    01      INPUT             ^    0    0    0   16  ACC_A_WR6
+  92      -     -    -    11      INPUT             ^    0    0    0   16  ACC_A_WR7
+  99      -     -    -    06      INPUT             ^    0    0    0   16  ACC_A_WR8
+  88      -     -    -    14      INPUT             ^    0    0    0   16  ACC_FN0
+ 135      -     -    C    --      INPUT             ^    0    0    0   16  ACC_FN1
+ 184      -     -    -    --      INPUT             ^    0    0    0   42  ACC_MODE
+  78      -     -    -    --      INPUT  G          ^    0    0    0    0  ACC_RAM_WR
+  85      -     -    -    16      INPUT             ^    0    0    0    1  A0
+  75      -     -    -    19      INPUT             ^    0    0    0    1  CAS
+  79      -     -    -    --      INPUT  G          ^    0    0    0   32  CLK42
+  24      -     -    C    --      INPUT             ^    0    0    0    2  DI0
+ 175      -     -    -    14      INPUT             ^    0    0    0    2  DI1
+ 207      -     -    -    35      INPUT             ^    0    0    0    2  DI2
+ 131      -     -    C    --      INPUT             ^    0    0    0    2  DI3
+  16      -     -    C    --      INPUT             ^    0    0    0    2  DI4
+  53      -     -    -    36      INPUT             ^    0    0    0    2  DI5
+  64      -     -    -    26      INPUT             ^    0    0    0    2  DI6
+ 170      -     -    -    11      INPUT             ^    0    0    0    2  DI7
+  80      -     -    -    --      INPUT  G          ^    0    0    0    8  HDD_ACC
+ 183      -     -    -    --      INPUT  G          ^    0    0    0   17  HDD_DATA
+ 104      -     -    -    01      INPUT             ^    0    0    0   17  HDD_ENA
+ 177      -     -    -    16      INPUT             ^    0    0    0    8  HDD_FLIP
+  96      -     -    -    08      INPUT             ^    0    0    0    8  HIGH_PORT
+ 166      -     -    -    07      INPUT             ^    0    0    0    8  /IO
+ 162      -     -    -    05      INPUT             ^    0    0    0    4  MDI0
+  93      -     -    -    10      INPUT             ^    0    0    0    4  MDI1
+ 168      -     -    -    09      INPUT             ^    0    0    0    4  MDI2
+ 180      -     -    -    18      INPUT             ^    0    0    0    4  MDI3
+ 173      -     -    -    13      INPUT             ^    0    0    0    4  MDI4
+ 100      -     -    -    05      INPUT             ^    0    0    0    4  MDI5
+  94      -     -    -    09      INPUT             ^    0    0    0    4  MDI6
+ 160      -     -    -    04      INPUT             ^    0    0    0    4  MDI7
+ 158      -     -    -    02      INPUT             ^    0    0    0    4  MDI8
+ 174      -     -    -    14      INPUT             ^    0    0    0    4  MDI9
+ 164      -     -    -    06      INPUT             ^    0    0    0    4  MDI10
+ 169      -     -    -    10      INPUT             ^    0    0    0    4  MDI11
+ 150      -     -    A    --      INPUT             ^    0    0    0    4  MDI12
+ 163      -     -    -    06      INPUT             ^    0    0    0    4  MDI13
+  97      -     -    -    07      INPUT             ^    0    0    0    4  MDI14
+ 161      -     -    -    04      INPUT             ^    0    0    0    4  MDI15
+ 172      -     -    -    12      INPUT             ^    0    0    0    1  PDD0
+ 101      -     -    -    04      INPUT             ^    0    0    0    1  PDD1
+  18      -     -    C    --      INPUT             ^    0    0    0    1  PDD2
+  90      -     -    -    12      INPUT             ^    0    0    0    1  PDD3
+ 200      -     -    -    30      INPUT             ^    0    0    0    1  PDD4
+ 202      -     -    -    31      INPUT             ^    0    0    0    1  PDD5
+  87      -     -    -    14      INPUT             ^    0    0    0    1  PDD6
+ 167      -     -    -    08      INPUT             ^    0    0    0    1  PDD7
+   9      -     -    A    --      INPUT             ^    0    0    0    1  /RD
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+G = Global Source. Fan-out destinations counted here do not include destinations
+that are driven using global routing resources. Refer to the Auto Global Signals,
+Clock Signals, Clear Signals, Synchronous Load Signals, and Synchronous Clear Signals
+Sections of this Report File for information on which signals' fan-outs are used as
+Clock, Clear, Preset, Output Enable, and synchronous Load signals.
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** OUTPUTS **
+
+       Fed By Fed By                                Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+ 144      -     -    B    --     OUTPUT                 0    1    0    0  DO0
+ 134      -     -    C    --     OUTPUT                 0    1    0    0  DO1
+ 133      -     -    C    --     OUTPUT                 0    1    0    0  DO2
+ 136      -     -    C    --     OUTPUT                 0    1    0    0  DO3
+ 115      -     -    F    --     OUTPUT                 0    1    0    0  DO4
+ 139      -     -    B    --     OUTPUT                 0    1    0    0  DO5
+ 149      -     -    A    --     OUTPUT                 0    1    0    0  DO6
+ 102      -     -    -    03     OUTPUT                 0    1    0    0  DO7
+ 159      -     -    -    03     OUTPUT                 0    1    0    0  HDD_ACC_END
+ 126      -     -    D    --     OUTPUT                 0    1    0    0  MDO0
+ 112      -     -    F    --     OUTPUT                 0    1    0    0  MDO1
+ 204      -     -    -    33     OUTPUT                 0    1    0    0  MDO2
+  27      -     -    D    --     OUTPUT                 0    1    0    0  MDO3
+ 127      -     -    D    --     OUTPUT                 0    1    0    0  MDO4
+ 198      -     -    -    28     OUTPUT                 0    1    0    0  MDO5
+  70      -     -    -    22     OUTPUT                 0    1    0    0  MDO6
+ 120      -     -    E    --     OUTPUT                 0    1    0    0  MDO7
+  83      -     -    -    17     OUTPUT                 0    1    0    0  MDO8
+  17      -     -    C    --     OUTPUT                 0    1    0    0  MDO9
+  55      -     -    -    34     OUTPUT                 0    1    0    0  MDO10
+  63      -     -    -    27     OUTPUT                 0    1    0    0  MDO11
+  12      -     -    B    --     OUTPUT                 0    1    0    0  MDO12
+  62      -     -    -    28     OUTPUT                 0    1    0    0  MDO13
+ 190      -     -    -    22     OUTPUT                 0    1    0    0  MDO14
+ 179      -     -    -    17     OUTPUT                 0    1    0    0  MDO15
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** BURIED LOGIC **
+
+                                                    Fan-In    Fan-Out
+ IOC     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+   -      7     -    C    17        OR2                1    2    0    1  ACC_E_DAT0
+   -      3     -    C    06        OR2                1    2    0    1  ACC_E_DAT1
+   -      2     -    C    14        OR2                1    2    0    1  ACC_E_DAT2
+   -      1     -    C    08        OR2                1    2    0    1  ACC_E_DAT3
+   -      7     -    C    13        OR2                1    2    0    1  ACC_E_DAT4
+   -      3     -    C    15        OR2                1    2    0    1  ACC_E_DAT5
+   -      6     -    C    22        OR2                1    2    0    1  ACC_E_DAT6
+   -      7     -    C    04        OR2                1    2    0    1  ACC_E_DAT7
+   -      3     -    C    12        OR2                1    2    0    1  ACC_E_DAT8
+   -      3     -    C    09        OR2                1    2    0    1  ACC_E_DAT9
+   -      8     -    C    13        OR2                1    2    0    1  ACC_E_DAT10
+   -      2     -    C    07        OR2                1    2    0    1  ACC_E_DAT11
+   -      1     -    C    05        OR2                1    2    0    1  ACC_E_DAT12
+   -      3     -    C    11        OR2                1    2    0    1  ACC_E_DAT13
+   -      5     -    C    16        OR2                1    2    0    1  ACC_E_DAT14
+   -      4     -    C    18        OR2                1    2    0    1  ACC_E_DAT15
+   -      5     -    C    12       DFFE   +            2    2    0    1  ACC_FND0
+   -      5     -    C    09       DFFE   +            2    2    0    1  ACC_FND1
+   -      1     -    C    14       DFFE   +            2    2    0    1  ACC_FND2
+   -      3     -    C    07       DFFE   +            2    2    0    1  ACC_FND3
+   -      8     -    C    05       DFFE   +            2    2    0    1  ACC_FND4
+   -      7     -    C    11       DFFE   +            2    2    0    1  ACC_FND5
+   -      6     -    C    16       DFFE   +            2    2    0    1  ACC_FND6
+   -      1     -    C    04       DFFE   +            2    2    0    1  ACC_FND7
+   -      4     -    C    12       DFFE   +            2    2    0    1  ACC_FND8
+   -      2     -    C    09       DFFE   +            2    2    0    1  ACC_FND9
+   -      3     -    C    14       DFFE   +            2    2    0    1  ACC_FND10
+   -      5     -    C    07       DFFE   +            2    2    0    1  ACC_FND11
+   -      4     -    C    05       DFFE   +            2    2    0    1  ACC_FND12
+   -      2     -    C    11       DFFE   +            2    2    0    1  ACC_FND13
+   -      3     -    C    16       DFFE   +            2    2    0    1  ACC_FND14
+   -      5     -    C    04       DFFE   +            2    2    0    1  ACC_FND15
+   -      6     -    A    03       DFFE   +            0    0    0   18  HDD_CT0
+   -      1     -    A    01       DFFE   +            0    1    0   17  HDD_CT1
+   -      2     -    A    01       DFFE   +            0    0    0   17  HDD_CT2
+   -      3     -    A    01       DFFE   +            0    0    0   17  HDD_CT3
+   -      4     -    A    01       DFFE   +            0    0    0   17  HDD_CT4
+   -      5     -    A    01       DFFE   +            0    0    0   17  HDD_CT5
+   -      6     -    A    01       DFFE   +            0    0    0   17  HDD_CT6
+   -      7     -    A    01       DFFE   +            0    0    0   17  HDD_CT7
+   -      8     -    C    17        OR2        !       2    1    0    1  HDDX0
+   -      7     -    C    06        OR2        !       2    1    0    1  HDDX1
+   -      8     -    C    34        OR2        !       2    1    0    1  HDDX2
+   -      6     -    C    17        OR2        !       2    1    0    1  HDDX3
+   -      6     -    C    13        OR2        !       2    1    0    1  HDDX4
+   -      8     -    C    27        OR2        !       2    1    0    1  HDDX5
+   -      8     -    C    22        OR2        !       2    1    0    1  HDDX6
+   -      7     -    C    18        OR2        !       2    1    0    1  HDDX7
+   -      3     -    C    17        OR2                3    1    0    2  HDDY0
+   -      4     -    C    06        OR2                3    1    0    2  HDDY1
+   -      4     -    C    34        OR2                3    1    0    2  HDDY2
+   -      3     -    C    34        OR2                3    1    0    2  HDDY3
+   -      4     -    C    13        OR2                3    1    0    2  HDDY4
+   -      5     -    C    27        OR2                3    1    0    2  HDDY5
+   -      4     -    C    22        OR2                3    1    0    2  HDDY6
+   -      5     -    C    18        OR2                3    1    0    2  HDDY7
+   -      -     7    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_0
+   -      -     9    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_1
+   -      -     5    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_2
+   -      -    11    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_3
+   -      -     8    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_4
+   -      -    13    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_5
+   -      -     6    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_6
+   -      -    16    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_7
+   -      -     2    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_8
+   -      -    14    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_9
+   -      -     1    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_10
+   -      -    10    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_11
+   -      -     4    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_12
+   -      -    12    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_13
+   -      -     3    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_14
+   -      -    15    C    --   MEM_SGMT               17    1    0    4  |lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_15
+   -      -     6    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_0
+   -      -    16    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_1
+   -      -     7    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_2
+   -      -     9    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_3
+   -      -     8    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_4
+   -      -    14    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_5
+   -      -     3    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_6
+   -      -    13    A    --   MEM_SGMT                2    9    0    1  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_7
+   -      -     2    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_8
+   -      -    15    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_9
+   -      -     1    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_10
+   -      -    10    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_11
+   -      -     5    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_12
+   -      -    11    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_13
+   -      -     4    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_14
+   -      -    12    A    --   MEM_SGMT                2    9    0    2  |lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_15
+   -      3     -    C    18        OR2        !       3    0    0    8  MDI_L
+   -      8     -    C    06        OR2                3    0    0   16  MDO_H
+   -      6     -    C    12       DFFE                2    2    0    2  MUX_MDI0
+   -      6     -    C    09       DFFE                2    2    0    2  MUX_MDI1
+   -      5     -    C    14       DFFE                2    2    0    2  MUX_MDI2
+   -      6     -    C    07       DFFE                2    2    0    2  MUX_MDI3
+   -      5     -    C    05       DFFE                2    2    0    2  MUX_MDI4
+   -      4     -    C    11       DFFE                2    2    0    2  MUX_MDI5
+   -      4     -    C    16       DFFE                2    2    0    2  MUX_MDI6
+   -      3     -    C    04       DFFE                2    2    0    2  MUX_MDI7
+   -      2     -    C    12       DFFE                4    1    0    1  MUX_MDI8
+   -      1     -    C    09       DFFE                4    1    0    1  MUX_MDI9
+   -      4     -    C    14       DFFE                4    1    0    1  MUX_MDI10
+   -      4     -    C    07       DFFE                4    1    0    1  MUX_MDI11
+   -      2     -    C    05       DFFE                4    1    0    1  MUX_MDI12
+   -      1     -    C    11       DFFE                4    1    0    1  MUX_MDI13
+   -      1     -    C    16       DFFE                4    1    0    1  MUX_MDI14
+   -      2     -    C    04       DFFE                4    1    0    1  MUX_MDI15
+   -      5     -    C    17        OR2                2    2    1    0  MUX_MDO0
+   -      6     -    C    06        OR2                2    2    1    0  MUX_MDO1
+   -      7     -    C    34        OR2                2    2    1    0  MUX_MDO2
+   -      3     -    C    22        OR2                2    2    1    0  MUX_MDO3
+   -      3     -    C    13        OR2                2    2    1    0  MUX_MDO4
+   -      6     -    C    27        OR2                2    2    1    0  MUX_MDO5
+   -      7     -    C    22        OR2                2    2    1    0  MUX_MDO6
+   -      8     -    C    18        OR2                2    2    1    0  MUX_MDO7
+   -      2     -    C    17        OR2        !       1    4    1    0  MUX_MDO8
+   -      2     -    C    06        OR2        !       1    4    1    0  MUX_MDO9
+   -      2     -    C    34        OR2        !       1    4    1    0  MUX_MDO10
+   -      2     -    C    27        OR2        !       1    4    1    0  MUX_MDO11
+   -      2     -    C    13        OR2        !       1    4    1    0  MUX_MDO12
+   -      4     -    C    27        OR2        !       1    4    1    0  MUX_MDO13
+   -      2     -    C    22        OR2        !       1    4    1    0  MUX_MDO14
+   -      2     -    C    18        OR2        !       1    4    1    0  MUX_MDO15
+   -      7     -    C    12        OR2    s           3    1    0    1  PDDX0~1
+   -      8     -    C    12        OR2    s           4    0    0    1  PDDX0~2
+   -      7     -    C    09        OR2    s           3    1    0    1  PDDX1~1
+   -      8     -    C    09        OR2    s           4    0    0    1  PDDX1~2
+   -      6     -    C    14        OR2    s           3    1    0    1  PDDX2~1
+   -      7     -    C    14        OR2    s           4    0    0    1  PDDX2~2
+   -      7     -    C    07        OR2    s           3    1    0    1  PDDX3~1
+   -      8     -    C    07        OR2    s           4    0    0    1  PDDX3~2
+   -      6     -    C    05        OR2    s           3    1    0    1  PDDX4~1
+   -      7     -    C    05        OR2    s           4    0    0    1  PDDX4~2
+   -      5     -    C    11        OR2    s           3    1    0    1  PDDX5~1
+   -      6     -    C    11        OR2    s           4    0    0    1  PDDX5~2
+   -      7     -    C    16        OR2    s           3    1    0    1  PDDX6~1
+   -      8     -    C    16        OR2    s           4    0    0    1  PDDX6~2
+   -      6     -    C    04        OR2    s           3    1    0    1  PDDX7~1
+   -      8     -    C    04        OR2    s           4    0    0    1  PDDX7~2
+   -      6     -    C    10       DFFE   +            1    0    0   16  :363
+   -      1     -    C    12        OR2                1    3    1    0  :509
+   -      4     -    C    09        OR2                1    3    1    0  :511
+   -      8     -    C    14        OR2                1    3    1    0  :513
+   -      1     -    C    07        OR2                1    3    1    0  :515
+   -      3     -    C    05        OR2                1    3    1    0  :517
+   -      8     -    C    11        OR2                1    3    1    0  :519
+   -      2     -    C    16        OR2                1    3    1    0  :521
+   -      4     -    C    04        OR2                1    3    1    0  :523
+   -      2     -    A    09       AND2                2    0    0   16  :525
+   -      1     -    A    03       AND2    s           0    4    0    1  ~579~1
+   -      2     -    A    03       AND2        !       0    5    1    0  :579
+   -      1     -    C    17        OR2        !       1    3    0    1  :721
+   -      1     -    C    06        OR2        !       1    3    0    1  :723
+   -      1     -    C    34        OR2        !       1    3    0    1  :725
+   -      1     -    C    27        OR2        !       1    3    0    1  :727
+   -      1     -    C    13        OR2        !       1    3    0    1  :729
+   -      3     -    C    27        OR2        !       1    3    0    1  :731
+   -      1     -    C    22        OR2        !       1    3    0    1  :733
+   -      1     -    C    18        OR2        !       1    3    0    1  :735
+   -      4     -    C    17        OR2                2    2    0    1  :753
+   -      5     -    C    06        OR2                2    2    0    1  :755
+   -      5     -    C    34        OR2                2    2    0    1  :757
+   -      6     -    C    34        OR2                2    2    0    1  :759
+   -      5     -    C    13        OR2                2    2    0    1  :761
+   -      7     -    C    27        OR2                2    2    0    1  :763
+   -      5     -    C    22        OR2                2    2    0    1  :765
+   -      6     -    C    18        OR2                2    2    0    1  :767
+   -      1     -    A    01       AND2                0    1    0    1  :540
+   -      2     -    A    01       AND2                0    1    0    1  :544
+   -      3     -    A    01       AND2                0    1    0    1  :548
+   -      4     -    A    01       AND2                0    1    0    1  :552
+   -      5     -    A    01       AND2                0    1    0    1  :556
+   -      6     -    A    01       AND2                0    1    0    1  :560
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+p = Packed register
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** FASTTRACK INTERCONNECT UTILIZATION **
+
+Row FastTrack Interconnect:
+
+          Global         Left Half-      Right Half-
+         FastTrack       FastTrack       FastTrack 
+Row     Interconnect    Interconnect    Interconnect    Input Pins     Output Pins     Bidir Pins
+A:      27/144( 18%)     2/ 72(  2%)     0/ 72(  0%)    2/16( 12%)      1/16(  6%)     0/16(  0%)
+B:       1/144(  0%)     2/ 72(  2%)     0/ 72(  0%)    0/16(  0%)      3/16( 18%)     0/16(  0%)
+C:      79/144( 54%)    39/ 72( 54%)     5/ 72(  6%)    7/16( 43%)      4/16( 25%)     0/16(  0%)
+D:       0/144(  0%)     2/ 72(  2%)     1/ 72(  1%)    0/16(  0%)      3/16( 18%)     0/16(  0%)
+E:       0/144(  0%)     1/ 72(  1%)     0/ 72(  0%)    0/16(  0%)      1/16(  6%)     0/16(  0%)
+F:       0/144(  0%)     2/ 72(  2%)     0/ 72(  0%)    0/16(  0%)      2/16( 12%)     0/16(  0%)
+
+
+Column FastTrack Interconnect:
+
+         FastTrack                                 
+Column  Interconnect    Input Pins     Output Pins     Bidir Pins
+01:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+02:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+03:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+04:      3/24( 12%)     3/4( 75%)      0/4(  0%)       0/4(  0%)
+05:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+06:      4/24( 16%)     3/4( 75%)      0/4(  0%)       0/4(  0%)
+07:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+08:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+09:      4/24( 16%)     3/4( 75%)      0/4(  0%)       0/4(  0%)
+10:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+11:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+12:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+13:      4/24( 16%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+14:      4/24( 16%)     4/4(100%)      0/4(  0%)       0/4(  0%)
+15:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+16:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+17:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+18:      3/24( 12%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+19:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+20:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+21:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+22:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+23:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+24:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+25:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+26:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+27:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+28:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+29:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+30:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+31:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+32:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+33:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+34:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+35:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+36:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+EA:     14/24( 58%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** CLOCK SIGNALS **
+
+Type     Fan-out       Name
+INPUT       49         CLK42
+INPUT       25         HDD_DATA
+DFF         16         :363
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** CLEAR SIGNALS **
+
+Type     Fan-out       Name
+INPUT       16         HDD_ACC
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** CARRY CHAINS **
+
+Type                    Member Length   Member Name: SUM, (CARRY)
+UP/DOWN COUNTER               1         HDD_CT1, (:540)
+UP/DOWN COUNTER               2         HDD_CT2, (:544)
+UP/DOWN COUNTER               3         HDD_CT3, (:548)
+UP/DOWN COUNTER               4         HDD_CT4, (:552)
+UP/DOWN COUNTER               5         HDD_CT5, (:556)
+UP/DOWN COUNTER               6         HDD_CT6, (:560)
+NORMAL                        7         HDD_CT7
+
+
+
+Device-Specific Information:     c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+data_mux
+
+** EQUATIONS **
+
+ACC_A_RD0 : INPUT;
+ACC_A_RD1 : INPUT;
+ACC_A_RD2 : INPUT;
+ACC_A_RD3 : INPUT;
+ACC_A_RD4 : INPUT;
+ACC_A_RD5 : INPUT;
+ACC_A_RD6 : INPUT;
+ACC_A_RD7 : INPUT;
+ACC_A_RD8 : INPUT;
+ACC_A_WR0 : INPUT;
+ACC_A_WR1 : INPUT;
+ACC_A_WR2 : INPUT;
+ACC_A_WR3 : INPUT;
+ACC_A_WR4 : INPUT;
+ACC_A_WR5 : INPUT;
+ACC_A_WR6 : INPUT;
+ACC_A_WR7 : INPUT;
+ACC_A_WR8 : INPUT;
+ACC_FN0  : INPUT;
+ACC_FN1  : INPUT;
+ACC_MODE : INPUT;
+ACC_RAM_WR : INPUT;
+A0       : INPUT;
+CAS      : INPUT;
+CLK42    : INPUT;
+DI0      : INPUT;
+DI1      : INPUT;
+DI2      : INPUT;
+DI3      : INPUT;
+DI4      : INPUT;
+DI5      : INPUT;
+DI6      : INPUT;
+DI7      : INPUT;
+HDD_ACC  : INPUT;
+HDD_DATA : INPUT;
+HDD_ENA  : INPUT;
+HDD_FLIP : INPUT;
+HIGH_PORT : INPUT;
+MDI0     : INPUT;
+MDI1     : INPUT;
+MDI2     : INPUT;
+MDI3     : INPUT;
+MDI4     : INPUT;
+MDI5     : INPUT;
+MDI6     : INPUT;
+MDI7     : INPUT;
+MDI8     : INPUT;
+MDI9     : INPUT;
+MDI10    : INPUT;
+MDI11    : INPUT;
+MDI12    : INPUT;
+MDI13    : INPUT;
+MDI14    : INPUT;
+MDI15    : INPUT;
+PDD0     : INPUT;
+PDD1     : INPUT;
+PDD2     : INPUT;
+PDD3     : INPUT;
+PDD4     : INPUT;
+PDD5     : INPUT;
+PDD6     : INPUT;
+PDD7     : INPUT;
+/IO      : INPUT;
+/RD      : INPUT;
+
+-- Node name is 'ACC_E_DAT0' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT0', location is LC7_C17, type is buried.
+ACC_E_DAT0 = LCELL( _EQ001);
+  _EQ001 =  ACC_A_WR0 &  _EC7_C
+         # !ACC_A_WR0 &  ACC_FND0;
+
+-- Node name is 'ACC_E_DAT1' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT1', location is LC3_C6, type is buried.
+ACC_E_DAT1 = LCELL( _EQ002);
+  _EQ002 =  ACC_A_WR0 &  _EC9_C
+         # !ACC_A_WR0 &  ACC_FND1;
+
+-- Node name is 'ACC_E_DAT2' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT2', location is LC2_C14, type is buried.
+ACC_E_DAT2 = LCELL( _EQ003);
+  _EQ003 =  ACC_A_WR0 &  _EC5_C
+         # !ACC_A_WR0 &  ACC_FND2;
+
+-- Node name is 'ACC_E_DAT3' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT3', location is LC1_C8, type is buried.
+ACC_E_DAT3 = LCELL( _EQ004);
+  _EQ004 =  ACC_A_WR0 &  _EC11_C
+         # !ACC_A_WR0 &  ACC_FND3;
+
+-- Node name is 'ACC_E_DAT4' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT4', location is LC7_C13, type is buried.
+ACC_E_DAT4 = LCELL( _EQ005);
+  _EQ005 =  ACC_A_WR0 &  _EC8_C
+         # !ACC_A_WR0 &  ACC_FND4;
+
+-- Node name is 'ACC_E_DAT5' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT5', location is LC3_C15, type is buried.
+ACC_E_DAT5 = LCELL( _EQ006);
+  _EQ006 =  ACC_A_WR0 &  _EC13_C
+         # !ACC_A_WR0 &  ACC_FND5;
+
+-- Node name is 'ACC_E_DAT6' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT6', location is LC6_C22, type is buried.
+ACC_E_DAT6 = LCELL( _EQ007);
+  _EQ007 =  ACC_A_WR0 &  _EC6_C
+         # !ACC_A_WR0 &  ACC_FND6;
+
+-- Node name is 'ACC_E_DAT7' from file "data_mux.tdf" line 182, column 29
+-- Equation name is 'ACC_E_DAT7', location is LC7_C4, type is buried.
+ACC_E_DAT7 = LCELL( _EQ008);
+  _EQ008 =  ACC_A_WR0 &  _EC16_C
+         # !ACC_A_WR0 &  ACC_FND7;
+
+-- Node name is 'ACC_E_DAT8' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT8', location is LC3_C12, type is buried.
+ACC_E_DAT8 = LCELL( _EQ009);
+  _EQ009 = !ACC_A_WR0 &  _EC2_C
+         #  ACC_A_WR0 &  ACC_FND8;
+
+-- Node name is 'ACC_E_DAT9' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT9', location is LC3_C9, type is buried.
+ACC_E_DAT9 = LCELL( _EQ010);
+  _EQ010 = !ACC_A_WR0 &  _EC14_C
+         #  ACC_A_WR0 &  ACC_FND9;
+
+-- Node name is 'ACC_E_DAT10' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT10', location is LC8_C13, type is buried.
+ACC_E_DAT10 = LCELL( _EQ011);
+  _EQ011 = !ACC_A_WR0 &  _EC1_C
+         #  ACC_A_WR0 &  ACC_FND10;
+
+-- Node name is 'ACC_E_DAT11' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT11', location is LC2_C7, type is buried.
+ACC_E_DAT11 = LCELL( _EQ012);
+  _EQ012 = !ACC_A_WR0 &  _EC10_C
+         #  ACC_A_WR0 &  ACC_FND11;
+
+-- Node name is 'ACC_E_DAT12' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT12', location is LC1_C5, type is buried.
+ACC_E_DAT12 = LCELL( _EQ013);
+  _EQ013 = !ACC_A_WR0 &  _EC4_C
+         #  ACC_A_WR0 &  ACC_FND12;
+
+-- Node name is 'ACC_E_DAT13' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT13', location is LC3_C11, type is buried.
+ACC_E_DAT13 = LCELL( _EQ014);
+  _EQ014 = !ACC_A_WR0 &  _EC12_C
+         #  ACC_A_WR0 &  ACC_FND13;
+
+-- Node name is 'ACC_E_DAT14' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT14', location is LC5_C16, type is buried.
+ACC_E_DAT14 = LCELL( _EQ015);
+  _EQ015 = !ACC_A_WR0 &  _EC3_C
+         #  ACC_A_WR0 &  ACC_FND14;
+
+-- Node name is 'ACC_E_DAT15' from file "data_mux.tdf" line 178, column 30
+-- Equation name is 'ACC_E_DAT15', location is LC4_C18, type is buried.
+ACC_E_DAT15 = LCELL( _EQ016);
+  _EQ016 = !ACC_A_WR0 &  _EC15_C
+         #  ACC_A_WR0 &  ACC_FND15;
+
+-- Node name is 'ACC_FND0' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND0', location is LC5_C12, type is buried.
+ACC_FND0 = DFFE( _EQ017, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ017 = !ACC_FN0 & !_EC7_C &  MUX_MDI0
+         # !ACC_FN0 &  ACC_FN1 &  _EC7_C & !MUX_MDI0
+         #  ACC_FN0 & !ACC_FN1 &  _EC7_C
+         # !ACC_FN1 &  MUX_MDI0
+         #  ACC_FN0 &  _EC7_C &  MUX_MDI0;
+
+-- Node name is 'ACC_FND1' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND1', location is LC5_C9, type is buried.
+ACC_FND1 = DFFE( _EQ018, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ018 = !ACC_FN0 & !_EC9_C &  MUX_MDI1
+         # !ACC_FN0 &  ACC_FN1 &  _EC9_C & !MUX_MDI1
+         #  ACC_FN0 & !ACC_FN1 &  _EC9_C
+         # !ACC_FN1 &  MUX_MDI1
+         #  ACC_FN0 &  _EC9_C &  MUX_MDI1;
+
+-- Node name is 'ACC_FND2' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND2', location is LC1_C14, type is buried.
+ACC_FND2 = DFFE( _EQ019, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ019 = !ACC_FN0 & !_EC5_C &  MUX_MDI2
+         # !ACC_FN0 &  ACC_FN1 &  _EC5_C & !MUX_MDI2
+         #  ACC_FN0 & !ACC_FN1 &  _EC5_C
+         # !ACC_FN1 &  MUX_MDI2
+         #  ACC_FN0 &  _EC5_C &  MUX_MDI2;
+
+-- Node name is 'ACC_FND3' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND3', location is LC3_C7, type is buried.
+ACC_FND3 = DFFE( _EQ020, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ020 = !ACC_FN0 & !_EC11_C &  MUX_MDI3
+         # !ACC_FN0 &  ACC_FN1 &  _EC11_C & !MUX_MDI3
+         #  ACC_FN0 & !ACC_FN1 &  _EC11_C
+         # !ACC_FN1 &  MUX_MDI3
+         #  ACC_FN0 &  _EC11_C &  MUX_MDI3;
+
+-- Node name is 'ACC_FND4' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND4', location is LC8_C5, type is buried.
+ACC_FND4 = DFFE( _EQ021, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ021 = !ACC_FN0 & !_EC8_C &  MUX_MDI4
+         # !ACC_FN0 &  ACC_FN1 &  _EC8_C & !MUX_MDI4
+         #  ACC_FN0 & !ACC_FN1 &  _EC8_C
+         # !ACC_FN1 &  MUX_MDI4
+         #  ACC_FN0 &  _EC8_C &  MUX_MDI4;
+
+-- Node name is 'ACC_FND5' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND5', location is LC7_C11, type is buried.
+ACC_FND5 = DFFE( _EQ022, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ022 = !ACC_FN0 & !_EC13_C &  MUX_MDI5
+         # !ACC_FN0 &  ACC_FN1 &  _EC13_C & !MUX_MDI5
+         #  ACC_FN0 & !ACC_FN1 &  _EC13_C
+         # !ACC_FN1 &  MUX_MDI5
+         #  ACC_FN0 &  _EC13_C &  MUX_MDI5;
+
+-- Node name is 'ACC_FND6' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND6', location is LC6_C16, type is buried.
+ACC_FND6 = DFFE( _EQ023, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ023 = !ACC_FN0 & !_EC6_C &  MUX_MDI6
+         # !ACC_FN0 &  ACC_FN1 &  _EC6_C & !MUX_MDI6
+         #  ACC_FN0 & !ACC_FN1 &  _EC6_C
+         # !ACC_FN1 &  MUX_MDI6
+         #  ACC_FN0 &  _EC6_C &  MUX_MDI6;
+
+-- Node name is 'ACC_FND7' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND7', location is LC1_C4, type is buried.
+ACC_FND7 = DFFE( _EQ024, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ024 = !ACC_FN0 & !_EC16_C &  MUX_MDI7
+         # !ACC_FN0 &  ACC_FN1 &  _EC16_C & !MUX_MDI7
+         #  ACC_FN0 & !ACC_FN1 &  _EC16_C
+         #  ACC_FN0 &  _EC16_C &  MUX_MDI7
+         # !ACC_FN1 &  MUX_MDI7;
+
+-- Node name is 'ACC_FND8' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND8', location is LC4_C12, type is buried.
+ACC_FND8 = DFFE( _EQ025, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ025 = !ACC_FN0 &  ACC_FN1 &  _EC2_C & !MUX_MDI8
+         # !ACC_FN0 & !_EC2_C &  MUX_MDI8
+         #  ACC_FN0 & !ACC_FN1 &  _EC2_C
+         # !ACC_FN1 &  MUX_MDI8
+         #  ACC_FN0 &  _EC2_C &  MUX_MDI8;
+
+-- Node name is 'ACC_FND9' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND9', location is LC2_C9, type is buried.
+ACC_FND9 = DFFE( _EQ026, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ026 = !ACC_FN0 &  ACC_FN1 &  _EC14_C & !MUX_MDI9
+         # !ACC_FN0 & !_EC14_C &  MUX_MDI9
+         #  ACC_FN0 & !ACC_FN1 &  _EC14_C
+         # !ACC_FN1 &  MUX_MDI9
+         #  ACC_FN0 &  _EC14_C &  MUX_MDI9;
+
+-- Node name is 'ACC_FND10' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND10', location is LC3_C14, type is buried.
+ACC_FND10 = DFFE( _EQ027, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ027 = !ACC_FN0 &  ACC_FN1 &  _EC1_C & !MUX_MDI10
+         # !ACC_FN0 & !_EC1_C &  MUX_MDI10
+         #  ACC_FN0 & !ACC_FN1 &  _EC1_C
+         # !ACC_FN1 &  MUX_MDI10
+         #  ACC_FN0 &  _EC1_C &  MUX_MDI10;
+
+-- Node name is 'ACC_FND11' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND11', location is LC5_C7, type is buried.
+ACC_FND11 = DFFE( _EQ028, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ028 = !ACC_FN0 &  ACC_FN1 &  _EC10_C & !MUX_MDI11
+         # !ACC_FN0 & !_EC10_C &  MUX_MDI11
+         #  ACC_FN0 & !ACC_FN1 &  _EC10_C
+         # !ACC_FN1 &  MUX_MDI11
+         #  ACC_FN0 &  _EC10_C &  MUX_MDI11;
+
+-- Node name is 'ACC_FND12' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND12', location is LC4_C5, type is buried.
+ACC_FND12 = DFFE( _EQ029, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ029 = !ACC_FN0 &  ACC_FN1 &  _EC4_C & !MUX_MDI12
+         # !ACC_FN0 & !_EC4_C &  MUX_MDI12
+         #  ACC_FN0 & !ACC_FN1 &  _EC4_C
+         # !ACC_FN1 &  MUX_MDI12
+         #  ACC_FN0 &  _EC4_C &  MUX_MDI12;
+
+-- Node name is 'ACC_FND13' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND13', location is LC2_C11, type is buried.
+ACC_FND13 = DFFE( _EQ030, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ030 = !ACC_FN0 &  ACC_FN1 &  _EC12_C & !MUX_MDI13
+         # !ACC_FN0 & !_EC12_C &  MUX_MDI13
+         #  ACC_FN0 & !ACC_FN1 &  _EC12_C
+         # !ACC_FN1 &  MUX_MDI13
+         #  ACC_FN0 &  _EC12_C &  MUX_MDI13;
+
+-- Node name is 'ACC_FND14' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND14', location is LC3_C16, type is buried.
+ACC_FND14 = DFFE( _EQ031, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ031 = !ACC_FN0 &  ACC_FN1 &  _EC3_C & !MUX_MDI14
+         # !ACC_FN0 & !_EC3_C &  MUX_MDI14
+         #  ACC_FN0 & !ACC_FN1 &  _EC3_C
+         # !ACC_FN1 &  MUX_MDI14
+         #  ACC_FN0 &  _EC3_C &  MUX_MDI14;
+
+-- Node name is 'ACC_FND15' from file "data_mux.tdf" line 55, column 9
+-- Equation name is 'ACC_FND15', location is LC5_C4, type is buried.
+ACC_FND15 = DFFE( _EQ032, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ032 = !ACC_FN0 &  ACC_FN1 &  _EC15_C & !MUX_MDI15
+         # !ACC_FN0 & !_EC15_C &  MUX_MDI15
+         #  ACC_FN0 & !ACC_FN1 &  _EC15_C
+         # !ACC_FN1 &  MUX_MDI15
+         #  ACC_FN0 &  _EC15_C &  MUX_MDI15;
+
+-- Node name is 'DO0' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO0', type is output 
+DO0      =  _LC1_C12;
+
+-- Node name is 'DO1' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO1', type is output 
+DO1      =  _LC4_C9;
+
+-- Node name is 'DO2' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO2', type is output 
+DO2      =  _LC8_C14;
+
+-- Node name is 'DO3' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO3', type is output 
+DO3      =  _LC1_C7;
+
+-- Node name is 'DO4' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO4', type is output 
+DO4      =  _LC3_C5;
+
+-- Node name is 'DO5' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO5', type is output 
+DO5      =  _LC8_C11;
+
+-- Node name is 'DO6' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO6', type is output 
+DO6      =  _LC2_C16;
+
+-- Node name is 'DO7' from file "data_mux.tdf" line 97, column 15
+-- Equation name is 'DO7', type is output 
+DO7      =  _LC4_C4;
+
+-- Node name is 'HDD_ACC_END' from file "data_mux.tdf" line 115, column 2
+-- Equation name is 'HDD_ACC_END', type is output 
+HDD_ACC_END = !_LC2_A3;
+
+-- Node name is 'HDD_CT0' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT0', location is LC6_A3, type is buried.
+HDD_CT0  = DFFE(!HDD_CT0, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+
+-- Node name is 'HDD_CT1' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT1', location is LC1_A1, type is buried.
+-- HDD_CT1 is in Up/Down Counter Mode
+HDD_CT1  = DFFE( _EQ033, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ033 =  HDD_CT0 & !HDD_CT1
+         # !HDD_CT0 &  HDD_CT1;
+
+-- Node name is 'HDD_CT2' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT2', location is LC2_A1, type is buried.
+-- HDD_CT2 is in Up/Down Counter Mode
+HDD_CT2  = DFFE( _EQ034, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ034 =  HDD_CT2 & !_LC1_A1_CARRY
+         # !HDD_CT2 &  _LC1_A1_CARRY;
+
+-- Node name is 'HDD_CT3' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT3', location is LC3_A1, type is buried.
+-- HDD_CT3 is in Up/Down Counter Mode
+HDD_CT3  = DFFE( _EQ035, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ035 =  HDD_CT3 & !_LC2_A1_CARRY
+         # !HDD_CT3 &  _LC2_A1_CARRY;
+
+-- Node name is 'HDD_CT4' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT4', location is LC4_A1, type is buried.
+-- HDD_CT4 is in Up/Down Counter Mode
+HDD_CT4  = DFFE( _EQ036, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ036 =  HDD_CT4 & !_LC3_A1_CARRY
+         # !HDD_CT4 &  _LC3_A1_CARRY;
+
+-- Node name is 'HDD_CT5' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT5', location is LC5_A1, type is buried.
+-- HDD_CT5 is in Up/Down Counter Mode
+HDD_CT5  = DFFE( _EQ037, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ037 =  HDD_CT5 & !_LC4_A1_CARRY
+         # !HDD_CT5 &  _LC4_A1_CARRY;
+
+-- Node name is 'HDD_CT6' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT6', location is LC6_A1, type is buried.
+-- HDD_CT6 is in Up/Down Counter Mode
+HDD_CT6  = DFFE( _EQ038, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ038 =  HDD_CT6 & !_LC5_A1_CARRY
+         # !HDD_CT6 &  _LC5_A1_CARRY;
+
+-- Node name is 'HDD_CT7' from file "data_mux.tdf" line 74, column 8
+-- Equation name is 'HDD_CT7', location is LC7_A1, type is buried.
+HDD_CT7  = DFFE( _EQ039, GLOBAL(!HDD_DATA), GLOBAL( HDD_ACC),  VCC,  VCC);
+  _EQ039 =  HDD_CT7 & !_LC6_A1_CARRY
+         # !HDD_CT7 &  _LC6_A1_CARRY;
+
+-- Node name is 'HDDX0' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX0', location is LC8_C17, type is buried.
+!HDDX0   = HDDX0~NOT;
+HDDX0~NOT = LCELL( _EQ040);
+  _EQ040 = !DI0 & !_EC2_A
+         # !DI0 & !HDD_DATA
+         # !_EC2_A &  HDD_DATA;
+
+-- Node name is 'HDDX1' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX1', location is LC7_C6, type is buried.
+!HDDX1   = HDDX1~NOT;
+HDDX1~NOT = LCELL( _EQ041);
+  _EQ041 = !DI1 & !_EC15_A
+         # !DI1 & !HDD_DATA
+         # !_EC15_A &  HDD_DATA;
+
+-- Node name is 'HDDX2' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX2', location is LC8_C34, type is buried.
+!HDDX2   = HDDX2~NOT;
+HDDX2~NOT = LCELL( _EQ042);
+  _EQ042 = !DI2 & !_EC1_A
+         # !DI2 & !HDD_DATA
+         # !_EC1_A &  HDD_DATA;
+
+-- Node name is 'HDDX3' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX3', location is LC6_C17, type is buried.
+!HDDX3   = HDDX3~NOT;
+HDDX3~NOT = LCELL( _EQ043);
+  _EQ043 = !DI3 & !_EC10_A
+         # !DI3 & !HDD_DATA
+         # !_EC10_A &  HDD_DATA;
+
+-- Node name is 'HDDX4' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX4', location is LC6_C13, type is buried.
+!HDDX4   = HDDX4~NOT;
+HDDX4~NOT = LCELL( _EQ044);
+  _EQ044 = !DI4 & !_EC5_A
+         # !DI4 & !HDD_DATA
+         # !_EC5_A &  HDD_DATA;
+
+-- Node name is 'HDDX5' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX5', location is LC8_C27, type is buried.
+!HDDX5   = HDDX5~NOT;
+HDDX5~NOT = LCELL( _EQ045);
+  _EQ045 = !DI5 & !_EC11_A
+         # !DI5 & !HDD_DATA
+         # !_EC11_A &  HDD_DATA;
+
+-- Node name is 'HDDX6' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX6', location is LC8_C22, type is buried.
+!HDDX6   = HDDX6~NOT;
+HDDX6~NOT = LCELL( _EQ046);
+  _EQ046 = !DI6 & !_EC4_A
+         # !DI6 & !HDD_DATA
+         # !_EC4_A &  HDD_DATA;
+
+-- Node name is 'HDDX7' from file "data_mux.tdf" line 119, column 20
+-- Equation name is 'HDDX7', location is LC7_C18, type is buried.
+!HDDX7   = HDDX7~NOT;
+HDDX7~NOT = LCELL( _EQ047);
+  _EQ047 = !DI7 & !_EC12_A
+         # !DI7 & !HDD_DATA
+         # !_EC12_A &  HDD_DATA;
+
+-- Node name is 'HDDY0' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY0', location is LC3_C17, type is buried.
+HDDY0    = LCELL( _EQ048);
+  _EQ048 =  _EC6_A &  HDD_ACC &  HDD_DATA
+         #  DI0 & !HDD_DATA
+         #  DI0 & !HDD_ACC;
+
+-- Node name is 'HDDY1' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY1', location is LC4_C6, type is buried.
+HDDY1    = LCELL( _EQ049);
+  _EQ049 =  _EC16_A &  HDD_ACC &  HDD_DATA
+         #  DI1 & !HDD_DATA
+         #  DI1 & !HDD_ACC;
+
+-- Node name is 'HDDY2' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY2', location is LC4_C34, type is buried.
+HDDY2    = LCELL( _EQ050);
+  _EQ050 =  _EC7_A &  HDD_ACC &  HDD_DATA
+         #  DI2 & !HDD_DATA
+         #  DI2 & !HDD_ACC;
+
+-- Node name is 'HDDY3' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY3', location is LC3_C34, type is buried.
+HDDY3    = LCELL( _EQ051);
+  _EQ051 =  _EC9_A &  HDD_ACC &  HDD_DATA
+         #  DI3 & !HDD_DATA
+         #  DI3 & !HDD_ACC;
+
+-- Node name is 'HDDY4' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY4', location is LC4_C13, type is buried.
+HDDY4    = LCELL( _EQ052);
+  _EQ052 =  _EC8_A &  HDD_ACC &  HDD_DATA
+         #  DI4 & !HDD_DATA
+         #  DI4 & !HDD_ACC;
+
+-- Node name is 'HDDY5' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY5', location is LC5_C27, type is buried.
+HDDY5    = LCELL( _EQ053);
+  _EQ053 =  _EC14_A &  HDD_ACC &  HDD_DATA
+         #  DI5 & !HDD_DATA
+         #  DI5 & !HDD_ACC;
+
+-- Node name is 'HDDY6' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY6', location is LC4_C22, type is buried.
+HDDY6    = LCELL( _EQ054);
+  _EQ054 =  _EC3_A &  HDD_ACC &  HDD_DATA
+         #  DI6 & !HDD_DATA
+         #  DI6 & !HDD_ACC;
+
+-- Node name is 'HDDY7' from file "data_mux.tdf" line 124, column 20
+-- Equation name is 'HDDY7', location is LC5_C18, type is buried.
+HDDY7    = LCELL( _EQ055);
+  _EQ055 =  _EC13_A &  HDD_ACC &  HDD_DATA
+         #  DI7 & !HDD_DATA
+         #  DI7 & !HDD_ACC;
+
+-- Node name is 'MDI_L' from file "data_mux.tdf" line 139, column 13
+-- Equation name is 'MDI_L', location is LC3_C18, type is buried.
+!MDI_L   = MDI_L~NOT;
+MDI_L~NOT = LCELL( _EQ056);
+  _EQ056 = !ACC_MODE & !A0
+         # !ACC_A_WR0 & !A0
+         # !ACC_A_WR0 &  ACC_MODE;
+
+-- Node name is 'MDO_H' from file "data_mux.tdf" line 137, column 13
+-- Equation name is 'MDO_H', location is LC8_C6, type is buried.
+MDO_H    = LCELL( _EQ057);
+  _EQ057 = !ACC_MODE &  HDD_ENA
+         #  ACC_A_RD0 &  ACC_MODE;
+
+-- Node name is 'MDO0' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO0', type is output 
+MDO0     =  MUX_MDO0;
+
+-- Node name is 'MDO1' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO1', type is output 
+MDO1     =  MUX_MDO1;
+
+-- Node name is 'MDO2' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO2', type is output 
+MDO2     =  MUX_MDO2;
+
+-- Node name is 'MDO3' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO3', type is output 
+MDO3     =  MUX_MDO3;
+
+-- Node name is 'MDO4' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO4', type is output 
+MDO4     =  MUX_MDO4;
+
+-- Node name is 'MDO5' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO5', type is output 
+MDO5     =  MUX_MDO5;
+
+-- Node name is 'MDO6' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO6', type is output 
+MDO6     =  MUX_MDO6;
+
+-- Node name is 'MDO7' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO7', type is output 
+MDO7     =  MUX_MDO7;
+
+-- Node name is 'MDO8' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO8', type is output 
+MDO8     =  MUX_MDO8;
+
+-- Node name is 'MDO9' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO9', type is output 
+MDO9     =  MUX_MDO9;
+
+-- Node name is 'MDO10' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO10', type is output 
+MDO10    =  MUX_MDO10;
+
+-- Node name is 'MDO11' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO11', type is output 
+MDO11    =  MUX_MDO11;
+
+-- Node name is 'MDO12' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO12', type is output 
+MDO12    =  MUX_MDO12;
+
+-- Node name is 'MDO13' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO13', type is output 
+MDO13    =  MUX_MDO13;
+
+-- Node name is 'MDO14' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO14', type is output 
+MDO14    =  MUX_MDO14;
+
+-- Node name is 'MDO15' from file "data_mux.tdf" line 152, column 5
+-- Equation name is 'MDO15', type is output 
+MDO15    =  MUX_MDO15;
+
+-- Node name is 'MUX_MDI0' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI0', location is LC6_C12, type is buried.
+MUX_MDI0 = DFFE( _EQ058,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ058 =  MDI_L &  MDI8
+         # !MDI_L &  MDI0;
+
+-- Node name is 'MUX_MDI1' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI1', location is LC6_C9, type is buried.
+MUX_MDI1 = DFFE( _EQ059,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ059 =  MDI_L &  MDI9
+         # !MDI_L &  MDI1;
+
+-- Node name is 'MUX_MDI2' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI2', location is LC5_C14, type is buried.
+MUX_MDI2 = DFFE( _EQ060,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ060 =  MDI_L &  MDI10
+         # !MDI_L &  MDI2;
+
+-- Node name is 'MUX_MDI3' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI3', location is LC6_C7, type is buried.
+MUX_MDI3 = DFFE( _EQ061,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ061 =  MDI_L &  MDI11
+         # !MDI_L &  MDI3;
+
+-- Node name is 'MUX_MDI4' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI4', location is LC5_C5, type is buried.
+MUX_MDI4 = DFFE( _EQ062,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ062 =  MDI_L &  MDI12
+         # !MDI_L &  MDI4;
+
+-- Node name is 'MUX_MDI5' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI5', location is LC4_C11, type is buried.
+MUX_MDI5 = DFFE( _EQ063,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ063 =  MDI_L &  MDI13
+         # !MDI_L &  MDI5;
+
+-- Node name is 'MUX_MDI6' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI6', location is LC4_C16, type is buried.
+MUX_MDI6 = DFFE( _EQ064,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ064 =  MDI_L &  MDI14
+         # !MDI_L &  MDI6;
+
+-- Node name is 'MUX_MDI7' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI7', location is LC3_C4, type is buried.
+MUX_MDI7 = DFFE( _EQ065,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ065 =  MDI_L &  MDI15
+         # !MDI_L &  MDI7;
+
+-- Node name is 'MUX_MDI8' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI8', location is LC2_C12, type is buried.
+MUX_MDI8 = DFFE( _EQ066,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ066 = !ACC_MODE &  MDI0
+         # !ACC_A_WR0 &  MDI0
+         #  ACC_A_WR0 &  ACC_MODE &  MDI8;
+
+-- Node name is 'MUX_MDI9' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI9', location is LC1_C9, type is buried.
+MUX_MDI9 = DFFE( _EQ067,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ067 = !ACC_MODE &  MDI1
+         # !ACC_A_WR0 &  MDI1
+         #  ACC_A_WR0 &  ACC_MODE &  MDI9;
+
+-- Node name is 'MUX_MDI10' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI10', location is LC4_C14, type is buried.
+MUX_MDI10 = DFFE( _EQ068,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ068 = !ACC_MODE &  MDI2
+         # !ACC_A_WR0 &  MDI2
+         #  ACC_A_WR0 &  ACC_MODE &  MDI10;
+
+-- Node name is 'MUX_MDI11' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI11', location is LC4_C7, type is buried.
+MUX_MDI11 = DFFE( _EQ069,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ069 = !ACC_MODE &  MDI3
+         # !ACC_A_WR0 &  MDI3
+         #  ACC_A_WR0 &  ACC_MODE &  MDI11;
+
+-- Node name is 'MUX_MDI12' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI12', location is LC2_C5, type is buried.
+MUX_MDI12 = DFFE( _EQ070,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ070 = !ACC_MODE &  MDI4
+         # !ACC_A_WR0 &  MDI4
+         #  ACC_A_WR0 &  ACC_MODE &  MDI12;
+
+-- Node name is 'MUX_MDI13' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI13', location is LC1_C11, type is buried.
+MUX_MDI13 = DFFE( _EQ071,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ071 = !ACC_MODE &  MDI5
+         # !ACC_A_WR0 &  MDI5
+         #  ACC_A_WR0 &  ACC_MODE &  MDI13;
+
+-- Node name is 'MUX_MDI14' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI14', location is LC1_C16, type is buried.
+MUX_MDI14 = DFFE( _EQ072,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ072 = !ACC_MODE &  MDI6
+         # !ACC_A_WR0 &  MDI6
+         #  ACC_A_WR0 &  ACC_MODE &  MDI14;
+
+-- Node name is 'MUX_MDI15' from file "data_mux.tdf" line 50, column 9
+-- Equation name is 'MUX_MDI15', location is LC2_C4, type is buried.
+MUX_MDI15 = DFFE( _EQ073,  _LC6_C10,  VCC,  VCC,  VCC);
+  _EQ073 = !ACC_MODE &  MDI7
+         # !ACC_A_WR0 &  MDI7
+         #  ACC_A_WR0 &  ACC_MODE &  MDI15;
+
+-- Node name is 'MUX_MDO0' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO0', location is LC5_C17, type is buried.
+MUX_MDO0 = LCELL( _EQ074);
+  _EQ074 =  _LC4_C17
+         #  ACC_A_RD0 &  ACC_MODE &  _EC2_C;
+
+-- Node name is 'MUX_MDO1' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO1', location is LC6_C6, type is buried.
+MUX_MDO1 = LCELL( _EQ075);
+  _EQ075 =  _LC5_C6
+         #  ACC_A_RD0 &  ACC_MODE &  _EC14_C;
+
+-- Node name is 'MUX_MDO2' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO2', location is LC7_C34, type is buried.
+MUX_MDO2 = LCELL( _EQ076);
+  _EQ076 =  _LC5_C34
+         #  ACC_A_RD0 &  ACC_MODE &  _EC1_C;
+
+-- Node name is 'MUX_MDO3' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO3', location is LC3_C22, type is buried.
+MUX_MDO3 = LCELL( _EQ077);
+  _EQ077 =  _LC6_C34
+         #  ACC_A_RD0 &  ACC_MODE &  _EC10_C;
+
+-- Node name is 'MUX_MDO4' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO4', location is LC3_C13, type is buried.
+MUX_MDO4 = LCELL( _EQ078);
+  _EQ078 =  _LC5_C13
+         #  ACC_A_RD0 &  ACC_MODE &  _EC4_C;
+
+-- Node name is 'MUX_MDO5' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO5', location is LC6_C27, type is buried.
+MUX_MDO5 = LCELL( _EQ079);
+  _EQ079 =  _LC7_C27
+         #  ACC_A_RD0 &  ACC_MODE &  _EC12_C;
+
+-- Node name is 'MUX_MDO6' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO6', location is LC7_C22, type is buried.
+MUX_MDO6 = LCELL( _EQ080);
+  _EQ080 =  _LC5_C22
+         #  ACC_A_RD0 &  ACC_MODE &  _EC3_C;
+
+-- Node name is 'MUX_MDO7' from file "data_mux.tdf" line 150, column 27
+-- Equation name is 'MUX_MDO7', location is LC8_C18, type is buried.
+MUX_MDO7 = LCELL( _EQ081);
+  _EQ081 =  _LC6_C18
+         #  ACC_A_RD0 &  ACC_MODE &  _EC15_C;
+
+-- Node name is 'MUX_MDO8' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO8', location is LC2_C17, type is buried.
+!MUX_MDO8 = MUX_MDO8~NOT;
+MUX_MDO8~NOT = LCELL( _EQ082C);
+ _EQ082C =  _EQ082 & CASCADE( _EQ083C);
+  _EQ082 = !MDO_H
+         # !_EC2_C & !HDDX0
+         # !ACC_MODE & !HDDX0
+         #  ACC_MODE & !_EC2_C;
+
+-- Node name is 'MUX_MDO9' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO9', location is LC2_C6, type is buried.
+!MUX_MDO9 = MUX_MDO9~NOT;
+MUX_MDO9~NOT = LCELL( _EQ084C);
+ _EQ084C =  _EQ084 & CASCADE( _EQ085C);
+  _EQ084 = !_EC14_C & !HDDX1
+         # !ACC_MODE & !HDDX1
+         #  ACC_MODE & !_EC14_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO10' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO10', location is LC2_C34, type is buried.
+!MUX_MDO10 = MUX_MDO10~NOT;
+MUX_MDO10~NOT = LCELL( _EQ086C);
+ _EQ086C =  _EQ086 & CASCADE( _EQ087C);
+  _EQ086 = !_EC1_C & !HDDX2
+         # !ACC_MODE & !HDDX2
+         #  ACC_MODE & !_EC1_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO11' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO11', location is LC2_C27, type is buried.
+!MUX_MDO11 = MUX_MDO11~NOT;
+MUX_MDO11~NOT = LCELL( _EQ088C);
+ _EQ088C =  _EQ088 & CASCADE( _EQ089C);
+  _EQ088 = !_EC10_C & !HDDX3
+         # !ACC_MODE & !HDDX3
+         #  ACC_MODE & !_EC10_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO12' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO12', location is LC2_C13, type is buried.
+!MUX_MDO12 = MUX_MDO12~NOT;
+MUX_MDO12~NOT = LCELL( _EQ090C);
+ _EQ090C =  _EQ090 & CASCADE( _EQ091C);
+  _EQ090 = !_EC4_C & !HDDX4
+         # !ACC_MODE & !HDDX4
+         #  ACC_MODE & !_EC4_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO13' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO13', location is LC4_C27, type is buried.
+!MUX_MDO13 = MUX_MDO13~NOT;
+MUX_MDO13~NOT = LCELL( _EQ092C);
+ _EQ092C =  _EQ092 & CASCADE( _EQ093C);
+  _EQ092 = !_EC12_C & !HDDX5
+         # !ACC_MODE & !HDDX5
+         #  ACC_MODE & !_EC12_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO14' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO14', location is LC2_C22, type is buried.
+!MUX_MDO14 = MUX_MDO14~NOT;
+MUX_MDO14~NOT = LCELL( _EQ094C);
+ _EQ094C =  _EQ094 & CASCADE( _EQ095C);
+  _EQ094 = !_EC3_C & !HDDX6
+         # !ACC_MODE & !HDDX6
+         #  ACC_MODE & !_EC3_C
+         # !MDO_H;
+
+-- Node name is 'MUX_MDO15' from file "data_mux.tdf" line 145, column 28
+-- Equation name is 'MUX_MDO15', location is LC2_C18, type is buried.
+!MUX_MDO15 = MUX_MDO15~NOT;
+MUX_MDO15~NOT = LCELL( _EQ096C);
+ _EQ096C =  _EQ096 & CASCADE( _EQ097C);
+  _EQ096 = !_EC15_C & !HDDX7
+         # !ACC_MODE & !HDDX7
+         #  ACC_MODE & !_EC15_C
+         # !MDO_H;
+
+-- Node name is 'PDDX0~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX0~1', location is LC7_C12, type is buried.
+-- synthesized logic cell 
+_LC7_C12 = LCELL( _EQ098);
+  _EQ098 =  _EC2_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI0;
+
+-- Node name is 'PDDX0~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX0~2', location is LC8_C12, type is buried.
+-- synthesized logic cell 
+_LC8_C12 = LCELL( _EQ099);
+  _EQ099 = !HDD_ENA &  HIGH_PORT &  MDI8
+         # !HDD_ENA & !HIGH_PORT &  PDD0;
+
+-- Node name is 'PDDX1~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX1~1', location is LC7_C9, type is buried.
+-- synthesized logic cell 
+_LC7_C9  = LCELL( _EQ100);
+  _EQ100 =  _EC15_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI1;
+
+-- Node name is 'PDDX1~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX1~2', location is LC8_C9, type is buried.
+-- synthesized logic cell 
+_LC8_C9  = LCELL( _EQ101);
+  _EQ101 = !HDD_ENA &  HIGH_PORT &  MDI9
+         # !HDD_ENA & !HIGH_PORT &  PDD1;
+
+-- Node name is 'PDDX2~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX2~1', location is LC6_C14, type is buried.
+-- synthesized logic cell 
+_LC6_C14 = LCELL( _EQ102);
+  _EQ102 =  _EC1_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI2;
+
+-- Node name is 'PDDX2~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX2~2', location is LC7_C14, type is buried.
+-- synthesized logic cell 
+_LC7_C14 = LCELL( _EQ103);
+  _EQ103 = !HDD_ENA &  HIGH_PORT &  MDI10
+         # !HDD_ENA & !HIGH_PORT &  PDD2;
+
+-- Node name is 'PDDX3~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX3~1', location is LC7_C7, type is buried.
+-- synthesized logic cell 
+_LC7_C7  = LCELL( _EQ104);
+  _EQ104 =  _EC10_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI3;
+
+-- Node name is 'PDDX3~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX3~2', location is LC8_C7, type is buried.
+-- synthesized logic cell 
+_LC8_C7  = LCELL( _EQ105);
+  _EQ105 = !HDD_ENA &  HIGH_PORT &  MDI11
+         # !HDD_ENA & !HIGH_PORT &  PDD3;
+
+-- Node name is 'PDDX4~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX4~1', location is LC6_C5, type is buried.
+-- synthesized logic cell 
+_LC6_C5  = LCELL( _EQ106);
+  _EQ106 =  _EC5_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI4;
+
+-- Node name is 'PDDX4~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX4~2', location is LC7_C5, type is buried.
+-- synthesized logic cell 
+_LC7_C5  = LCELL( _EQ107);
+  _EQ107 = !HDD_ENA &  HIGH_PORT &  MDI12
+         # !HDD_ENA & !HIGH_PORT &  PDD4;
+
+-- Node name is 'PDDX5~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX5~1', location is LC5_C11, type is buried.
+-- synthesized logic cell 
+_LC5_C11 = LCELL( _EQ108);
+  _EQ108 =  _EC11_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI5;
+
+-- Node name is 'PDDX5~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX5~2', location is LC6_C11, type is buried.
+-- synthesized logic cell 
+_LC6_C11 = LCELL( _EQ109);
+  _EQ109 = !HDD_ENA &  HIGH_PORT &  MDI13
+         # !HDD_ENA & !HIGH_PORT &  PDD5;
+
+-- Node name is 'PDDX6~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX6~1', location is LC7_C16, type is buried.
+-- synthesized logic cell 
+_LC7_C16 = LCELL( _EQ110);
+  _EQ110 =  _EC4_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI6;
+
+-- Node name is 'PDDX6~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX6~2', location is LC8_C16, type is buried.
+-- synthesized logic cell 
+_LC8_C16 = LCELL( _EQ111);
+  _EQ111 = !HDD_ENA &  HIGH_PORT &  MDI14
+         # !HDD_ENA & !HIGH_PORT &  PDD6;
+
+-- Node name is 'PDDX7~1' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX7~1', location is LC6_C4, type is buried.
+-- synthesized logic cell 
+_LC6_C4  = LCELL( _EQ112);
+  _EQ112 =  _EC12_A &  HDD_ENA &  HDD_FLIP
+         #  HDD_ENA & !HDD_FLIP &  MDI7;
+
+-- Node name is 'PDDX7~2' from file "data_mux.tdf" line 92, column 25
+-- Equation name is 'PDDX7~2', location is LC8_C4, type is buried.
+-- synthesized logic cell 
+_LC8_C4  = LCELL( _EQ113);
+  _EQ113 = !HDD_ENA &  HIGH_PORT &  MDI15
+         # !HDD_ENA & !HIGH_PORT &  PDD7;
+
+-- Node name is ':363' from file "data_mux.tdf" line 154, column 18
+-- Equation name is '_LC6_C10', type is buried 
+_LC6_C10 = DFFE( CAS, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':509' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC1_C12', type is buried 
+_LC1_C12 = LCELL( _EQ114);
+  _EQ114 = !/IO &  _LC7_C12
+         # !/IO &  _LC8_C12
+         #  /IO &  MUX_MDI0;
+
+-- Node name is ':511' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC4_C9', type is buried 
+_LC4_C9  = LCELL( _EQ115);
+  _EQ115 = !/IO &  _LC7_C9
+         # !/IO &  _LC8_C9
+         #  /IO &  MUX_MDI1;
+
+-- Node name is ':513' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC8_C14', type is buried 
+_LC8_C14 = LCELL( _EQ116);
+  _EQ116 = !/IO &  _LC6_C14
+         # !/IO &  _LC7_C14
+         #  /IO &  MUX_MDI2;
+
+-- Node name is ':515' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC1_C7', type is buried 
+_LC1_C7  = LCELL( _EQ117);
+  _EQ117 = !/IO &  _LC7_C7
+         # !/IO &  _LC8_C7
+         #  /IO &  MUX_MDI3;
+
+-- Node name is ':517' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC3_C5', type is buried 
+_LC3_C5  = LCELL( _EQ118);
+  _EQ118 = !/IO &  _LC6_C5
+         # !/IO &  _LC7_C5
+         #  /IO &  MUX_MDI4;
+
+-- Node name is ':519' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC8_C11', type is buried 
+_LC8_C11 = LCELL( _EQ119);
+  _EQ119 = !/IO &  _LC5_C11
+         # !/IO &  _LC6_C11
+         #  /IO &  MUX_MDI5;
+
+-- Node name is ':521' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC2_C16', type is buried 
+_LC2_C16 = LCELL( _EQ120);
+  _EQ120 = !/IO &  _LC7_C16
+         # !/IO &  _LC8_C16
+         #  /IO &  MUX_MDI6;
+
+-- Node name is ':523' from file "data_mux.tdf" line 97, column 18
+-- Equation name is '_LC4_C4', type is buried 
+_LC4_C4  = LCELL( _EQ121);
+  _EQ121 = !/IO &  _LC6_C4
+         # !/IO &  _LC8_C4
+         #  /IO &  MUX_MDI7;
+
+-- Node name is ':525' from file "data_mux.tdf" line 101, column 28
+-- Equation name is '_LC2_A9', type is buried 
+_LC2_A9  = LCELL( _EQ122);
+  _EQ122 =  HDD_DATA & !/RD;
+
+-- Node name is ':540' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC1_A1_CARRY', type is buried 
+-- :540 is in Up/Down Counter Mode
+_LC1_A1_CARRY = CARRY( _EQ123);
+  _EQ123 =  HDD_CT0 &  HDD_CT1;
+
+-- Node name is ':544' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC2_A1_CARRY', type is buried 
+-- :544 is in Up/Down Counter Mode
+_LC2_A1_CARRY = CARRY( _EQ124);
+  _EQ124 =  HDD_CT2 &  _LC1_A1_CARRY;
+
+-- Node name is ':548' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC3_A1_CARRY', type is buried 
+-- :548 is in Up/Down Counter Mode
+_LC3_A1_CARRY = CARRY( _EQ125);
+  _EQ125 =  HDD_CT3 &  _LC2_A1_CARRY;
+
+-- Node name is ':552' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC4_A1_CARRY', type is buried 
+-- :552 is in Up/Down Counter Mode
+_LC4_A1_CARRY = CARRY( _EQ126);
+  _EQ126 =  HDD_CT4 &  _LC3_A1_CARRY;
+
+-- Node name is ':556' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC5_A1_CARRY', type is buried 
+-- :556 is in Up/Down Counter Mode
+_LC5_A1_CARRY = CARRY( _EQ127);
+  _EQ127 =  HDD_CT5 &  _LC4_A1_CARRY;
+
+-- Node name is ':560' from file "data_mux.tdf" line 113, column 24
+-- Equation name is '_LC6_A1_CARRY', type is buried 
+-- :560 is in Up/Down Counter Mode
+_LC6_A1_CARRY = CARRY( _EQ128);
+  _EQ128 =  HDD_CT6 &  _LC5_A1_CARRY;
+
+-- Node name is '~579~1' from file "data_mux.tdf" line 115, column 27
+-- Equation name is '~579~1', location is LC1_A3, type is buried.
+-- synthesized logic cell 
+_LC1_A3  = LCELL( _EQ129C);
+ _EQ129C =  _EQ129;
+  _EQ129 =  HDD_CT4 &  HDD_CT5 &  HDD_CT6 &  HDD_CT7;
+
+-- Node name is ':579' from file "data_mux.tdf" line 115, column 27
+-- Equation name is '_LC2_A3', type is buried 
+!_LC2_A3 = _LC2_A3~NOT;
+_LC2_A3~NOT = LCELL( _EQ130C);
+ _EQ130C =  _EQ130 & CASCADE( _EQ129C);
+  _EQ130 =  HDD_CT0 &  HDD_CT1 &  HDD_CT2 &  HDD_CT3;
+
+-- Node name is ':721' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C17', type is buried 
+!_LC1_C17 = _LC1_C17~NOT;
+_LC1_C17~NOT = LCELL( _EQ083C);
+ _EQ083C =  _EQ083;
+  _EQ083 = !ACC_MODE & !HDDY0
+         # !_EC7_C & !HDDY0
+         #  ACC_MODE & !_EC7_C
+         #  MDO_H;
+
+-- Node name is ':723' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C6', type is buried 
+!_LC1_C6 = _LC1_C6~NOT;
+_LC1_C6~NOT = LCELL( _EQ085C);
+ _EQ085C =  _EQ085;
+  _EQ085 = !ACC_MODE & !HDDY1
+         # !_EC9_C & !HDDY1
+         #  ACC_MODE & !_EC9_C
+         #  MDO_H;
+
+-- Node name is ':725' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C34', type is buried 
+!_LC1_C34 = _LC1_C34~NOT;
+_LC1_C34~NOT = LCELL( _EQ087C);
+ _EQ087C =  _EQ087;
+  _EQ087 = !ACC_MODE & !HDDY2
+         # !_EC5_C & !HDDY2
+         #  ACC_MODE & !_EC5_C
+         #  MDO_H;
+
+-- Node name is ':727' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C27', type is buried 
+!_LC1_C27 = _LC1_C27~NOT;
+_LC1_C27~NOT = LCELL( _EQ089C);
+ _EQ089C =  _EQ089;
+  _EQ089 = !ACC_MODE & !HDDY3
+         # !_EC11_C & !HDDY3
+         #  ACC_MODE & !_EC11_C
+         #  MDO_H;
+
+-- Node name is ':729' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C13', type is buried 
+!_LC1_C13 = _LC1_C13~NOT;
+_LC1_C13~NOT = LCELL( _EQ091C);
+ _EQ091C =  _EQ091;
+  _EQ091 = !ACC_MODE & !HDDY4
+         # !_EC8_C & !HDDY4
+         #  ACC_MODE & !_EC8_C
+         #  MDO_H;
+
+-- Node name is ':731' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC3_C27', type is buried 
+!_LC3_C27 = _LC3_C27~NOT;
+_LC3_C27~NOT = LCELL( _EQ093C);
+ _EQ093C =  _EQ093;
+  _EQ093 = !ACC_MODE & !HDDY5
+         # !_EC13_C & !HDDY5
+         #  ACC_MODE & !_EC13_C
+         #  MDO_H;
+
+-- Node name is ':733' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C22', type is buried 
+!_LC1_C22 = _LC1_C22~NOT;
+_LC1_C22~NOT = LCELL( _EQ095C);
+ _EQ095C =  _EQ095;
+  _EQ095 = !ACC_MODE & !HDDY6
+         # !_EC6_C & !HDDY6
+         #  ACC_MODE & !_EC6_C
+         #  MDO_H;
+
+-- Node name is ':735' from file "data_mux.tdf" line 144, column 28
+-- Equation name is '_LC1_C18', type is buried 
+!_LC1_C18 = _LC1_C18~NOT;
+_LC1_C18~NOT = LCELL( _EQ097C);
+ _EQ097C =  _EQ097;
+  _EQ097 = !ACC_MODE & !HDDY7
+         # !_EC16_C & !HDDY7
+         #  ACC_MODE & !_EC16_C
+         #  MDO_H;
+
+-- Node name is ':753' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC4_C17', type is buried 
+_LC4_C17 = LCELL( _EQ131);
+  _EQ131 = !ACC_MODE &  HDDY0
+         # !ACC_A_RD0 &  ACC_MODE &  _EC7_C;
+
+-- Node name is ':755' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC5_C6', type is buried 
+_LC5_C6  = LCELL( _EQ132);
+  _EQ132 = !ACC_MODE &  HDDY1
+         # !ACC_A_RD0 &  ACC_MODE &  _EC9_C;
+
+-- Node name is ':757' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC5_C34', type is buried 
+_LC5_C34 = LCELL( _EQ133);
+  _EQ133 = !ACC_MODE &  HDDY2
+         # !ACC_A_RD0 &  ACC_MODE &  _EC5_C;
+
+-- Node name is ':759' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC6_C34', type is buried 
+_LC6_C34 = LCELL( _EQ134);
+  _EQ134 = !ACC_MODE &  HDDY3
+         # !ACC_A_RD0 &  ACC_MODE &  _EC11_C;
+
+-- Node name is ':761' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC5_C13', type is buried 
+_LC5_C13 = LCELL( _EQ135);
+  _EQ135 = !ACC_MODE &  HDDY4
+         # !ACC_A_RD0 &  ACC_MODE &  _EC8_C;
+
+-- Node name is ':763' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC7_C27', type is buried 
+_LC7_C27 = LCELL( _EQ136);
+  _EQ136 = !ACC_MODE &  HDDY5
+         # !ACC_A_RD0 &  ACC_MODE &  _EC13_C;
+
+-- Node name is ':765' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC5_C22', type is buried 
+_LC5_C22 = LCELL( _EQ137);
+  _EQ137 = !ACC_MODE &  HDDY6
+         # !ACC_A_RD0 &  ACC_MODE &  _EC6_C;
+
+-- Node name is ':767' from file "data_mux.tdf" line 149, column 27
+-- Equation name is '_LC6_C18', type is buried 
+_LC6_C18 = LCELL( _EQ138);
+  _EQ138 = !ACC_MODE &  HDDY7
+         # !ACC_A_RD0 &  ACC_MODE &  _EC16_C;
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_0' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC7_C', type is memory 
+_EC7_C   = MEMORY_SEGMENT( ACC_E_DAT0, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_1' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC9_C', type is memory 
+_EC9_C   = MEMORY_SEGMENT( ACC_E_DAT1, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_2' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC5_C', type is memory 
+_EC5_C   = MEMORY_SEGMENT( ACC_E_DAT2, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_3' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC11_C', type is memory 
+_EC11_C  = MEMORY_SEGMENT( ACC_E_DAT3, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_4' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC8_C', type is memory 
+_EC8_C   = MEMORY_SEGMENT( ACC_E_DAT4, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_5' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC13_C', type is memory 
+_EC13_C  = MEMORY_SEGMENT( ACC_E_DAT5, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_6' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC6_C', type is memory 
+_EC6_C   = MEMORY_SEGMENT( ACC_E_DAT6, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_7' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC16_C', type is memory 
+_EC16_C  = MEMORY_SEGMENT( ACC_E_DAT7, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_8' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC2_C', type is memory 
+_EC2_C   = MEMORY_SEGMENT( ACC_E_DAT8, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_9' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC14_C', type is memory 
+_EC14_C  = MEMORY_SEGMENT( ACC_E_DAT9, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_10' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC1_C', type is memory 
+_EC1_C   = MEMORY_SEGMENT( ACC_E_DAT10, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_11' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC10_C', type is memory 
+_EC10_C  = MEMORY_SEGMENT( ACC_E_DAT11, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_12' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC4_C', type is memory 
+_EC4_C   = MEMORY_SEGMENT( ACC_E_DAT12, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_13' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC12_C', type is memory 
+_EC12_C  = MEMORY_SEGMENT( ACC_E_DAT13, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_14' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC3_C', type is memory 
+_EC3_C   = MEMORY_SEGMENT( ACC_E_DAT14, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:ACC_RAM|altdpram:sram|segment0_15' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC15_C', type is memory 
+_EC15_C  = MEMORY_SEGMENT( ACC_E_DAT15, GLOBAL( CLK42), GLOBAL( CLK42), GLOBAL( ACC_RAM_WR), VCC, ACC_A_WR1, ACC_A_WR2, ACC_A_WR3, ACC_A_WR4, ACC_A_WR5, ACC_A_WR6, ACC_A_WR7, ACC_A_WR8, VCC, VCC, VCC, ACC_A_RD1, ACC_A_RD2, ACC_A_RD3, ACC_A_RD4, ACC_A_RD5, ACC_A_RD6, ACC_A_RD7, ACC_A_RD8, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_0' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC6_A', type is memory 
+_EC6_A   = MEMORY_SEGMENT( MDI0, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_1' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC16_A', type is memory 
+_EC16_A  = MEMORY_SEGMENT( MDI1, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_2' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC7_A', type is memory 
+_EC7_A   = MEMORY_SEGMENT( MDI2, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_3' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC9_A', type is memory 
+_EC9_A   = MEMORY_SEGMENT( MDI3, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_4' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC8_A', type is memory 
+_EC8_A   = MEMORY_SEGMENT( MDI4, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_5' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC14_A', type is memory 
+_EC14_A  = MEMORY_SEGMENT( MDI5, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_6' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC3_A', type is memory 
+_EC3_A   = MEMORY_SEGMENT( MDI6, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_7' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC13_A', type is memory 
+_EC13_A  = MEMORY_SEGMENT( MDI7, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_8' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC2_A', type is memory 
+_EC2_A   = MEMORY_SEGMENT( MDI8, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_9' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC15_A', type is memory 
+_EC15_A  = MEMORY_SEGMENT( MDI9, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_10' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC1_A', type is memory 
+_EC1_A   = MEMORY_SEGMENT( MDI10, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_11' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC10_A', type is memory 
+_EC10_A  = MEMORY_SEGMENT( MDI11, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_12' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC5_A', type is memory 
+_EC5_A   = MEMORY_SEGMENT( MDI12, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_13' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC11_A', type is memory 
+_EC11_A  = MEMORY_SEGMENT( MDI13, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_14' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC4_A', type is memory 
+_EC4_A   = MEMORY_SEGMENT( MDI14, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:HDD_RAM|altdpram:sram|segment0_15' from file "altdpram.tdf" line 163, column 13
+-- Equation name is '_EC12_A', type is memory 
+_EC12_A  = MEMORY_SEGMENT( MDI15, GLOBAL( CLK42), GLOBAL( CLK42), _LC2_A9, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, HDD_CT0, HDD_CT1, HDD_CT2, HDD_CT3, HDD_CT4, HDD_CT5, HDD_CT6, HDD_CT7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+
+
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+** TIMING ASSIGNMENTS **
+
+
+INFORMATION: One or more paths have been found between register controlled by different clocks--can't calculate fmax for those paths 
+
+                         User       Actual 
+Type  Location        Assignment    Value     Status   Critical Path
+
+fmax  <default>       200.00 MHz 106.38 MHz   Failed   CLK42 to register :363.Q to register ACC_FND6.Q
+fmax  <default>       200.00 MHz 200.00 MHz            HDD_DATA to register HDD_CT0.Q to register HDD_CT7.Q
+
+
+Project Information              c:\copy_d\asembler\altera\sp2000\data_mux.rpt
+
+** COMPILATION SETTINGS & TIMES **
+
+Processing Menu Commands
+------------------------
+
+Design Doctor                             = off
+
+Logic Synthesis:
+
+   Synthesis Type Used                    = Multi-Level
+
+   Default Synthesis Style                = FAST
+
+      Logic option settings in 'FAST' style for 'ACEX1K' family
+
+      CARRY_CHAIN                         = auto
+      CARRY_CHAIN_LENGTH                  = 32
+      CASCADE_CHAIN                       = auto
+      CASCADE_CHAIN_LENGTH                = 2
+      DECOMPOSE_GATES                     = on
+      DUPLICATE_LOGIC_EXTRACTION          = on
+      MINIMIZATION                        = full
+      MULTI_LEVEL_FACTORING               = on
+      NOT_GATE_PUSH_BACK                  = on
+      REDUCE_LOGIC                        = on
+      REFACTORIZATION                     = off
+      REGISTER_OPTIMIZATION               = on
+      RESYNTHESIZE_NETWORK                = on
+      SLOW_SLEW_RATE                      = off
+      SUBFACTOR_EXTRACTION                = off
+      IGNORE_SOFT_BUFFERS                 = on
+      USE_LPM_FOR_AHDL_OPERATORS          = off
+
+   Other logic synthesis settings:
+
+      Automatic Global Clock              = on
+      Automatic Global Clear              = on
+      Automatic Global Preset             = on
+      Automatic Global Output Enable      = on
+      Automatic Fast I/O                  = off
+      Automatic Register Packing          = off
+      Automatic Open-Drain Pins           = on
+      Automatic Implement in EAB          = off
+      Optimize                            = 5
+
+Default Timing Specifications: 
+
+   fmax                                   = 200MHz
+
+Cut All Bidir Feedback Timing Paths       = on
+Cut All Clear & Preset Timing Paths       = on
+
+Ignore Timing Assignments                 = off
+
+Functional SNF Extractor                  = off
+
+Linked SNF Extractor                      = off
+Timing SNF Extractor                      = on
+Optimize Timing SNF                       = off
+Generate AHDL TDO File                    = off
+Fitter Settings                           = NORMAL
+Use Quartus Fitter                        = on
+Smart Recompile                           = off
+Total Recompile                           = off
+
+Interfaces Menu Commands
+------------------------
+
+EDIF Netlist Writer                       = off
+Verilog Netlist Writer                    = off
+VHDL Netlist Writer                       = off
+
+Compilation Times
+-----------------
+
+   Compiler Netlist Extractor             00:00:01
+   Database Builder                       00:00:00
+   Logic Synthesizer                      00:00:03
+   Partitioner                            00:00:01
+   Fitter                                 00:00:18
+   Timing SNF Extractor                   00:00:14
+   Assembler                              00:00:03
+   --------------------------             --------
+   Total Time                             00:00:40
+
+
+Memory Allocated
+-----------------
+
+Peak memory allocated during compilation  = 25,813K

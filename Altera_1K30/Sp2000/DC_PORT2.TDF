@@ -1,0 +1,283 @@
+
+	TITLE "DC_PORT_2";
+
+-- INCLUDE "lpm_ram_dp";
+
+SUBDESIGN dc_port2
+	(
+	CLK42		: INPUT;
+	/RESET		: INPUT;
+
+	A[15..0]	: INPUT;
+
+	/IO			: INPUT;
+	/WR			: INPUT;
+	/M1			: INPUT;
+
+	/IOM		: OUTPUT;
+	/IOMM		: OUTPUT;
+
+	DCP[7..0]	: OUTPUT;
+
+	DOS			: INPUT;
+
+	CNF[1..0]	: INPUT;
+
+	SYS			: INPUT;
+
+	PORT_MA[11..0] : OUTPUT;
+
+	PORT_X		: OUTPUT;
+
+	)
+VARIABLE
+
+	PORT_X		: DFF;
+
+	DCP[7..0]	: DFF;
+
+	PORTS[2..0]	: DFF;
+
+	/IOM1		: NODE;
+
+	HDD_DC[5..0]: DFF;
+	SPEC_DC[5..0] : DFF;
+	FDD_DC[4..0]: DFF;
+
+	PORT[3..0]	: NODE;
+
+	PORT_MA[11..0] : DFF;
+
+	HDD_MA[11..0]: DFF;
+	FDD_MA[11..0]: DFF;
+	SPEC_MA[11..0]: DFF;
+
+	KEY/BRD,
+	RGADR,
+	RGMOD,
+	PAGES,
+	COVOX,
+	CASHE,
+	ACCELER,
+	P_XTR,
+	SC256,
+	ZX128,
+	AY_FFFD,
+	AY_BFFD,
+	COVOX_MODE,
+	SYS_MODE	: LCELL;
+
+BEGIN
+
+--	DCP_WR_ENA			= VCC;
+	DEFAULTS
+		FDD_DC[].d = GND;
+		HDD_MA[].d = H"00F";
+		FDD_MA[].d = H"00F";
+		SPEC_MA[].d= H"00F";
+	END DEFAULTS;
+
+	-- DOS ports
+	PORT0		= (A[2..0] == 7) & (!DOS or (CNF[] == 3));
+
+	-- BD/BC ports
+	PORT1		= (A[7..5] == 5) & (A2 & !A1 & (!DOS or SYS));
+
+	-- HDD ports
+	PORT2		= (A[7..5] == 2) & ((CNF[] == 0) or SYS);
+
+	-- KMPS port
+	PORT3		= ((A[7..5] == 0) or (A[7..5] == 7)) & (A[2..0] == 7) & DOS & /WR;
+
+	PORTS[].clk	= CLK42;
+	PORTS[2..0] = (PORT3,((PORT2,PORT2) or (PORT1,PORT0)));
+	PORTS[].clrn= !/IO & /M1;
+
+	PORT_X.clk	= CLK42;
+	PORT_X		= (DCP[] != 0);
+	PORT_X.clrn	= !/IO & /M1;
+
+--	DCP[].clrn	= !/IOM1;
+
+	DCP[].clk	= !CLK42;
+	CASE (PORTS[2..0]) IS
+
+		WHEN B"000" => DCP[] = GND;
+					   PORT_MA[11..0] = H"00F";
+
+		WHEN B"100" => DCP[] = H"15"; -- KMPS
+					   PORT_MA[11..0] = H"01F";
+
+		WHEN B"X01" => DCP[] = (GND,GND,GND,FDD_DC[]);
+					   PORT_MA[11..0] = FDD_MA[];
+
+		WHEN B"X10" => DCP[] = (GND,GND,	SPEC_DC[]);
+					   PORT_MA[11..0] = SPEC_MA[];
+
+		WHEN B"X11" => DCP[] = (GND,GND,	HDD_DC[]);
+					   PORT_MA[11..0] = HDD_MA[];
+
+	END CASE;
+
+	FDD_DC[].clk	= CLK42;
+	CASE (A[7..5],/WR) IS
+
+		WHEN B"000X" => FDD_DC[] = H"10"; -- WG93			1F
+		WHEN B"001X" => FDD_DC[] = H"11"; -- WG93			3F
+		WHEN B"010X" => FDD_DC[] = H"12"; -- WG93			5F
+		WHEN B"011X" => FDD_DC[] = H"13"; -- WG93			7F
+
+		WHEN B"1000" => FDD_DC[] = H"00"; -- reserved
+		WHEN B"1001" => FDD_DC[] = H"00"; --
+		WHEN B"1010" => FDD_DC[] = H"00"; --
+		WHEN B"1011" => FDD_DC[] = H"00"; --
+		WHEN B"1100" => FDD_DC[] = H"00"; --
+		WHEN B"1101" => FDD_DC[] = H"00"; --
+		WHEN B"1110" => FDD_DC[] = H"14"; -- PORT_DOS		FF
+		WHEN B"1111" => FDD_DC[] = H"15"; -- KMPS/IRQ-DRQ	FF
+
+	END CASE;
+
+	SPEC_DC[].clk	= CLK42;
+	CASE (A[15..13],A0) IS
+
+		WHEN B"0001" => SPEC_DC[] = H"16"; -- SET720/1440	00BD
+		WHEN B"0011" => SPEC_DC[] = H"17"; -- SET720/1440	00BD
+		WHEN B"0101" => SPEC_DC[] = H"2C"; -- SET320		40BD
+		WHEN B"0111" => SPEC_DC[] = H"2D"; -- SET312		60BD
+		WHEN B"1001" => SPEC_DC[] = H"1B"; -- ISA_REG		9FBD
+		WHEN B"1011" => SPEC_DC[] = H"1E"; -- CMOS_DWR		BFBD
+		WHEN B"1101" => SPEC_DC[] = H"1D"; -- CMOS_AWR		DFBD
+		WHEN B"1111" => SPEC_DC[] = H"1C"; -- CMOS_DRD		FFBD
+
+		WHEN B"0000" => SPEC_DC[] = H"2A"; -- SET_HDD1		00BC
+		WHEN B"0010" => SPEC_DC[] = H"2B"; -- SET_HDD2		20BC
+		WHEN B"0100" => SPEC_DC[] = H"2E"; -- S_RESET		40BC
+		WHEN B"0110" => SPEC_DC[] = H"2F"; -- ?????  		60BC
+		WHEN B"1000" => SPEC_DC[] = H"00";
+		WHEN B"1010" => SPEC_DC[] = H"00";
+		WHEN B"1100" => SPEC_DC[] = H"00";
+		WHEN B"1110" => SPEC_DC[] = H"00";
+
+	END CASE;
+
+	HDD_DC[].clk	= CLK42;
+
+	CASE (A14,A[2..0]) IS
+		WHEN B"X000" => HDD_DC[] = H"20"; -- HDD-1F8		50
+		WHEN B"0001" => HDD_DC[] = H"21"; -- HDD-1F9		0051
+		WHEN B"0010" => HDD_DC[] = H"22"; -- HDD-1FA		0052
+		WHEN B"0011" => HDD_DC[] = H"23"; -- HDD-1FB		0053
+		WHEN B"0100" => HDD_DC[] = H"24"; -- HDD-1FC		0054
+		WHEN B"0101" => HDD_DC[] = H"25"; -- HDD-1FD		0055
+		WHEN B"X110" => HDD_DC[] = H"00"; --
+		WHEN B"X111" => HDD_DC[] = H"00"; --
+		WHEN B"1001" => HDD_DC[] = H"00"; --
+		WHEN B"1010" => HDD_DC[] = H"26"; -- HDD-1FE		4052
+		WHEN B"1011" => HDD_DC[] = H"27"; -- HDD-1FF		4053
+		WHEN B"1100" => HDD_DC[] = H"28"; -- HDD-3F6		4054
+		WHEN B"1101" => HDD_DC[] = H"29"; -- HDD-3F7		4055
+	END CASE;
+
+	/IOM	= DFF(!DFF(/M1,CLK42,,),!CLK42,,!/IO);
+	/IOM1	= DFF(/IOM,CLK42,,!/IO);
+	/IOMM	= DFF(/IOM1,CLK42,,!/IO);
+
+--	===============================================
+
+	HDD_MA[11..0].clk	= CLK42;
+	FDD_MA[11..0].clk	= CLK42;
+	SPEC_MA[11..0].clk	= CLK42;
+	PORT_MA[11..0].clk	= !CLK42;
+
+	CASE (A14,A[2..0]) IS
+		WHEN B"X000" => HDD_MA[] = H"0A8"; -- HDD-1F8		50
+		WHEN B"0001" => HDD_MA[] = H"2A8"; -- HDD-1F9		0051
+		WHEN B"0010" => HDD_MA[] = H"4A8"; -- HDD-1FA		0052
+		WHEN B"0011" => HDD_MA[] = H"6A8"; -- HDD-1FB		0053
+		WHEN B"0100" => HDD_MA[] = H"8A8"; -- HDD-1FC		0054
+		WHEN B"0101" => HDD_MA[] = H"AA8"; -- HDD-1FD		0055
+		WHEN B"1010" => HDD_MA[] = H"CA8"; -- HDD-1FE		4052
+		WHEN B"1011" => HDD_MA[] = H"EA8"; -- HDD-1FF		4053
+		WHEN B"1100" => HDD_MA[] = H"DA8"; -- HDD-3F6		4054
+		WHEN B"1101" => HDD_MA[] = H"FA8"; -- HDD-3F7		4055
+	END CASE;
+
+	CASE (A[15..13],A0) IS
+
+		WHEN B"0001" => SPEC_MA[] = H"023"; -- SET720/1440	00BD
+		WHEN B"0011" => SPEC_MA[] = H"027"; -- SET720/1440	00BD
+		WHEN B"0101" => SPEC_MA[] = H"120"; -- SET320		40BD
+		WHEN B"0111" => SPEC_MA[] = H"124"; -- SET312		60BD
+		WHEN B"1001" => SPEC_MA[] = H"00F"; -- ISA_REG		9FBD
+		WHEN B"1011" => SPEC_MA[] = H"1D4"; -- CMOS_DWR		BFBD
+		WHEN B"1101" => SPEC_MA[] = H"0D4"; -- CMOS_AWR		DFBD
+		WHEN B"1111" => SPEC_MA[] = H"1D8"; -- CMOS_DRD		FFBD
+
+		WHEN B"0000" => SPEC_MA[] = H"060"; -- SET_HDD1		00BC
+		WHEN B"0010" => SPEC_MA[] = H"064"; -- SET_HDD2		20BC
+		WHEN B"0100" => SPEC_MA[] = H"160"; -- S_RESET		40BC
+		WHEN B"0110" => SPEC_MA[] = H"164"; -- ?????  		60BC
+		WHEN B"1000" => SPEC_MA[] = H"00F";
+		WHEN B"1010" => SPEC_MA[] = H"00F";
+		WHEN B"1100" => SPEC_MA[] = H"00F";
+		WHEN B"1110" => SPEC_MA[] = H"00F";
+
+	END CASE;
+
+	CASE (A[7..5],/WR) IS
+
+		WHEN B"000X" => FDD_MA[] = H"018"; -- WG93			1F
+		WHEN B"001X" => FDD_MA[] = H"019"; -- WG93			3F
+		WHEN B"010X" => FDD_MA[] = H"01A"; -- WG93			5F
+		WHEN B"011X" => FDD_MA[] = H"01B"; -- WG93			7F
+
+		WHEN B"1000" => FDD_MA[] = H"00F"; -- reserved
+		WHEN B"1001" => FDD_MA[] = H"00F"; --
+		WHEN B"1010" => FDD_MA[] = H"00F"; --
+		WHEN B"1011" => FDD_MA[] = H"00F"; --
+		WHEN B"1100" => FDD_MA[] = H"00F"; --
+		WHEN B"1101" => FDD_MA[] = H"00F"; --
+		WHEN B"1110" => FDD_MA[] = H"017"; -- PORT_DOS		FF
+		WHEN B"1111" => FDD_MA[] = H"01F"; -- KMPS/IRQ-DRQ	FF
+
+	END CASE;
+
+--	KEYBOARD, BORDER,
+
+	KEY/BRD		= (A[7..5] == 7) & (A[2..0] == 6);
+
+--	RGADR, RGMOD, PAGES,
+
+	RGADR	= (A[7..0] == B"100XX001") & (!DOS or SYS or (CNF[] == 0));
+	RGMOD	= (A[7..0] == B"110XX001") & (!DOS or SYS or (CNF[] == 0));
+	PAGES	= (A[7..0] == B"1XX00010") & (!DOS or SYS or (CNF[] == 0));
+
+--	COVOX, CASHE,
+
+	COVOX	= (A[7..0] == B"111XX101") or (A[7..0] == B"010XX111");
+	CASHE	= ((A[7..0] == B"111XX101") or (A[7..0] == B"100XX000")) & /WR;
+
+--	ACCELER,
+
+	ACCELER	= (A[7..0] == B"111XX100") & (!DOS or SYS or (CNF[] == 0));
+
+--	P_XTR
+
+	P_XTR	= (A[7..0] == B"1101XX11");
+
+--	SC256, ZX128, AY,
+
+	SC256	= (A[7..0] == B"111XX101") & (A[15..13] == 0) & (CNF[] != 2);
+	ZX128	= (A[7..0] == B"111XX101") & ((!A15 & (CNF[] == 2)) or A[15..14] == 1);
+	AY_FFFD	= (A[7..0] == B"111XX101") & A15 & A14 & A13;
+	AY_BFFD	= (A[7..0] == B"111XX101") & A15 & !A14 & A13;
+
+--  COVOX_MODE, SYS_MODE,
+
+	COVOX_MODE	= (A[7..0] == B"010XX110") & (A[15..13] == 0);
+	SYS_MODE	= (A[7..0] == B"010XX110") & (A[15..13] == 1) & (!DOS or SYS or (CNF[] == 0));
+
+
+END;
+

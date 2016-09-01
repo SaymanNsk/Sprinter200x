@@ -1,0 +1,3017 @@
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+MAX+plus II Compiler Report File
+Version 10.0 9/14/2000
+Compiled: 05/15/2001 07:02:34
+
+Copyright (C) 1988-2000 Altera Corporation
+Any megafunction design, and related net list (encrypted or decrypted),
+support information, device programming or simulation file, and any other
+associated documentation or information provided by Altera or a partner
+under Altera's Megafunction Partnership Program may be used only to
+program PLD devices (but not masked PLD devices) from Altera.  Any other
+use of such megafunction design, net list, support information, device
+programming or simulation file, or any other related documentation or
+information is prohibited for any other purpose, including, but not
+limited to modification, reverse engineering, de-compiling, or use with
+any other silicon devices, unless such use is explicitly licensed under
+a separate agreement with Altera or a megafunction partner.  Title to
+the intellectual property, including patents, copyrights, trademarks,
+trade secrets, or maskworks, embodied in any such megafunction design,
+net list, support information, device programming or simulation file, or
+any other related documentation or information provided by Altera or a
+megafunction partner, remains with Altera, the megafunction partner, or
+their respective licensors.  No other licenses, including any licenses
+needed under any third party's intellectual property, are provided herein.
+
+
+
+***** Project compilation was successful
+
+
+DCP
+
+
+** DEVICE SUMMARY **
+
+Chip/                     Input Output Bidir  Memory  Memory  			 LCs
+POF       Device          Pins  Pins   Pins   Bits % Utilized  LCs  % Utilized
+
+dcp       EP1K30FC256-3    59     90     0    4096      16 %    253      14 %
+
+User Pins:                 59     90     0  
+
+
+
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+** PROJECT COMPILATION MESSAGES **
+
+Warning: No Clock transition on flipflop 'STARTING'
+Warning: Ignored unnecessary INPUT pin 'G_LINE9'
+
+
+** PROJECT TIMING MESSAGES **
+
+Warning: Timing characteristics of device EP1K30FC256-3 are preliminary
+Warning: Found ripple clock -- warning messages and Report File information on tco, tsu, and fmax may be inaccurate
+Warning: Can't provide fmax of 200.00 MHz on Clock pin "CLK42". Current fmax is 63.29 MHz.
+
+
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+** EMBEDDED ARRAYS **
+
+
+|lpm_ram_dp:MEM|altdpram:sram|content: MEMORY (
+               width        =   16;
+               depth        =  256;
+               segmentsize  =  256;
+               mode         = MEM_INITIALIZED#MEM_FIFO#MEM_REG_DATAIN_CLK0#MEM_REG_WADDR_CLK0#MEM_REG_WCTRL_CLK0#MEM_REG_DATAOUT_CLK1#MEM_REG_RADDR_CLK1#MEM_REG_RCTRL_CLK1;
+               file         = "DCP.MIF";
+         )
+         OF SEGMENTS (
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_15,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_14,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_13,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_12,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_11,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_10,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_9,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_8,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_7,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_6,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_5,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_4,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_3,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_2,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_1,
+               |lpm_ram_dp:MEM|altdpram:sram|segment0_0
+);
+
+
+
+
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+** FILE HIERARCHY **
+
+
+
+|lpm_ram_dp:MEM|
+|lpm_ram_dp:MEM|altdpram:sram|
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+***** Logic for device 'dcp' compiled without errors.
+
+
+
+
+Device: EP1K30FC256-3
+
+ACEX 1K Configuration Scheme: Passive Serial
+
+Device Options:
+    User-Supplied Start-Up Clock               = OFF
+    Auto-Restart Configuration on Frame Error  = OFF
+    Release Clears Before Tri-States           = OFF
+    Enable Chip_Wide Reset                     = OFF
+    Enable Chip-Wide Output Enable             = OFF
+    Enable INIT_DONE Output                    = OFF
+    JTAG User Code                             = 7f
+    MultiVolt I/O                              = OFF
+
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** ERROR SUMMARY **
+
+Info: Chip 'dcp' in device 'EP1K30FC256-3' has less than 20% of pins available for future logic changes -- if your project is likely to change, Altera recommends using a larger device
+
+
+
+              ----------------------------------------------------              
+             |   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16   |             
+             |T  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  T|             
+             |R  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  R|             
+             |P  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  P|             
+             |N  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  N|             
+             |M  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  M|             
+             |L  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  L|             
+             |K  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  K|             
+             |J  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  J|             
+             |H  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  H|             
+             |G  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  G|             
+             |F  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  F|             
+             |E  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  E|             
+             |D  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  D|             
+             |C  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  C|             
+             |B  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  B|             
+             |A  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  o  A|             
+             |   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16   |             
+              ----------------------------------------------------              
+
+                                 EP1K30FC256-3                                  
+                                  Bottom View                                   
+
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+
+
+    A1 ^DATA0      D5 MC_BEGIN    G9 GND        K13 PAGE7       P1 ^MSEL0       
+    A2 /IOM        D6 HDD_FLIP   G10 GND        K14 N.C.        P2 DO1          
+    A3 GND         D7 DO5        G11 VCCIO      K15 G_LINE4     P3 DI5          
+    A4 DCPP1       D8 /WR        G12 TYPE0      K16 N.C.        P4 RAS          
+    A5 GA5         D9 MD0        G13 V_RAM       L1 GND         P5 G_LINE0      
+    A6 MA10       D10 CS_RAM     G14 DI2         L2 N.C.        P6 CT1          
+    A7 DI3        D11 RESERVED   G15 CT0         L3 MA9         P7 A9           
+    A8 DCPP0      D12 VCCIO      G16 DI0         L4 N.C.        P8 GA6          
+    A9 REFRESH    D13 A10         H1 N.C.        L5 VCCINT      P9 /WAIT        
+   A10 G_LINE7    D14 DI6         H2 HDD_DATA    L6 GND        P10 MD2          
+   A11 CS_ROM     D15 RESERVED    H3 DO4         L7 VCCINT     P11 A14          
+   A12 SCR128     D16 PAGE4       H4 DO6         L8 CLK42      P12 ACC_ON       
+   A13 DI4         E1 PAGE11      H5 TYPE3       L9 VCCINT     P13 WR_TM9       
+   A14 GND         E2 /M1         H6 VCCINT     L10 VCCIO      P14 DCPP6        
+   A15 RESERVED    E3 N.C.        H7 VCCINT     L11 GND        P15 #TMS         
+   A16 TURBO       E4 MA11        H8 GND        L12 VCCINT     P16 TURBO_HAND   
+    B1 ^nCE        E5 GND         H9 GND        L13 PAGE0       R1 ^MSEL1       
+    B2 ^DCLK       E6 VCCIO      H10 VCCINT     L14 PAGE2       R2 VCCINT       
+    B3 A15         E7 GA0        H11 VCCIO      L15 RESERVED    R3 GA7          
+    B4 A2          E8 /RESET     H12 PAGE3      L16 RESERVED    R4 A8           
+    B5 MA1         E9 /RF        H13 CT2         M1 DO3         R5 GA4          
+    B6 MA0        E10 MC_WRITE   H14 DI7         M2 GA9         R6 A1           
+    B7 CONTINUE   E11 VCCINT     H15 GA1         M3 PAGE6       R7 GRAF         
+    B8 DI1        E12 GND        H16 N.C.        M4 MA3         R8 DOUBLE_CAS   
+    B9 /IO        E13 RESERVED    J1 N.C.        M5 GND         R9 G_LINE2      
+   B10 RESERVED   E14 DCPP2       J2 DO2         M6 VCCIO      R10 RESERVED     
+   B11 RA16       E15 WR_AWG      J3 MA8         M7 DOS        R11 RESERVED     
+   B12 RESERVED   E16 N.C.        J4 /IOMM       M8 GA2        R12 PN4Q         
+   B13 SP_SCR      F1 DCPP4       J5 MC_TYPE     M9 /MR        R13 A11          
+   B14 /RD         F2 RD_KP11     J6 VCCIO      M10 RESERVED   R14 A7           
+   B15 #TCK        F3 MCA1        J7 VCCINT     M11 VCCINT     R15 RESERVED     
+   B16 ^nCEO       F4 RA15        J8 GND        M12 GND        R16 #TRST        
+    C1 RA17        F5 VCCINT      J9 GND        M13 RESERVED    T1 A6           
+    C2 #TDI        F6 GND        J10 VCCINT     M14 N.C.        T2 A5           
+    C3 A3          F7 VCCINT     J11 VCCINT     M15 RESERVED    T3 MA6          
+    C4 CAS         F8 VCCIO      J12 A4         M16 N.C.        T4 SP_SA        
+    C5 MC_END      F9 VCCINT     J13 DCPP3       N1 PAGE9       T5 /RES         
+    C6 A0         F10 VCCIO      J14 DCPP5       N2 MCA0        T6 MA4          
+    C7 GND        F11 GND        J15 G_LINE8     N3 KP11_MIX    T7 G_LINE6      
+    C8 GA8        F12 VCCINT     J16 G_LINE1     N4 ^nCONFIG    T8 GND          
+    C9 DO7        F13 PAGE10      K1 GA3         N5 MA5         T9 G_LINE5      
+   C10 RESERVED   F14 RESERVED    K2 DO0         N6 WR_DWG     T10 MD1          
+   C11 PORT       F15 RESERVED    K3 N.C.        N7 G_LINE3    T11 RESERVED     
+   C12 MD5        F16 PAGE5       K4 MA7         N8 MA2        T12 RESERVED     
+   C13 DCPP7       G1 BLK_R       K5 GND         N9 RESERVED   T13 RESERVED     
+   C14 RESERVED    G2 MD4         K6 VCCIO      N10 MD3        T14 MD6          
+   C15 ^CONF_DONE  G3 N.C.        K7 GND        N11 MD7        T15 CLK_Z80      
+   C16 #TDO        G4 TYPE1       K8 VCCIO      N12 VCCIO      T16 ^nSTATUS     
+    D1 N.C.        G5 TYPE2       K9 VCCINT     N13 PAGE8                       
+    D2 TEST_R      G6 VCCIO      K10 GND        N14 RAM                         
+    D3 RA14        G7 GND        K11 VCCIO      N15 N.C.                        
+    D4 A12         G8 VCCIO      K12 A13        N16 PAGE1                       
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+^ = Dedicated configuration pin.
++ = Reserved configuration pin, which is tri-stated during user mode.
+* = Reserved configuration pin, which drives out in user mode.
+PDn = Power Down pin. 
+@ = Special-purpose pin. 
+# = JTAG Boundary-Scan Testing/In-System Programming or Configuration Pin. The JTAG inputs TMS and TDI should be tied to VCC and TCK should be tied to GND when not in use.
+& = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
+$ = Pin has PCI I/O option enabled. Pin is neither '5.0 V'- nor '3.3 V'-tolerant. 
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** RESOURCE USAGE **
+
+Logic                Column       Row                                   
+Array                Interconnect Interconnect         Clears/     External  
+Block   Logic Cells  Driven       Driven       Clocks  Presets   Interconnect
+A4       2/ 8( 25%)   0/ 8(  0%)   2/ 8( 25%)    0/2    0/2       4/22( 18%)   
+A5       8/ 8(100%)   0/ 8(  0%)   3/ 8( 37%)    0/2    0/2       7/22( 31%)   
+A36      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    1/2       1/22(  4%)   
+B19      2/ 8( 25%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       5/22( 22%)   
+B35      1/ 8( 12%)   1/ 8( 12%)   0/ 8(  0%)    0/2    0/2       2/22(  9%)   
+C1       2/ 8( 25%)   0/ 8(  0%)   1/ 8( 12%)    2/2    1/2       2/22(  9%)   
+C3       8/ 8(100%)   3/ 8( 37%)   4/ 8( 50%)    1/2    2/2      11/22( 50%)   
+C4       4/ 8( 50%)   1/ 8( 12%)   2/ 8( 25%)    1/2    1/2       8/22( 36%)   
+C5       1/ 8( 12%)   1/ 8( 12%)   0/ 8(  0%)    0/2    0/2       2/22(  9%)   
+C6       8/ 8(100%)   3/ 8( 37%)   1/ 8( 12%)    1/2    1/2      11/22( 50%)   
+C9       8/ 8(100%)   6/ 8( 75%)   4/ 8( 50%)    1/2    2/2       8/22( 36%)   
+C14      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    2/2    2/2      13/22( 59%)   
+C15      8/ 8(100%)   2/ 8( 25%)   6/ 8( 75%)    2/2    1/2       7/22( 31%)   
+C16      8/ 8(100%)   1/ 8( 12%)   4/ 8( 50%)    2/2    2/2      12/22( 54%)   
+C17      8/ 8(100%)   3/ 8( 37%)   5/ 8( 62%)    1/2    2/2      11/22( 50%)   
+C18      7/ 8( 87%)   2/ 8( 25%)   3/ 8( 37%)    2/2    2/2      10/22( 45%)   
+C19      8/ 8(100%)   2/ 8( 25%)   1/ 8( 12%)    2/2    1/2      12/22( 54%)   
+C24      8/ 8(100%)   3/ 8( 37%)   2/ 8( 25%)    2/2    2/2      11/22( 50%)   
+C26      8/ 8(100%)   1/ 8( 12%)   4/ 8( 50%)    2/2    2/2      13/22( 59%)   
+C27      8/ 8(100%)   4/ 8( 50%)   5/ 8( 62%)    2/2    2/2      10/22( 45%)   
+C29      8/ 8(100%)   4/ 8( 50%)   3/ 8( 37%)    2/2    2/2      10/22( 45%)   
+C30      8/ 8(100%)   0/ 8(  0%)   6/ 8( 75%)    1/2    1/2      17/22( 77%)   
+C31      8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    2/2    1/2      15/22( 68%)   
+C32      8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    1/2    0/2      14/22( 63%)   
+C35      7/ 8( 87%)   3/ 8( 37%)   3/ 8( 37%)    2/2    2/2       6/22( 27%)   
+D1       8/ 8(100%)   1/ 8( 12%)   4/ 8( 50%)    1/2    2/2       8/22( 36%)   
+D2       8/ 8(100%)   1/ 8( 12%)   4/ 8( 50%)    1/2    0/2      14/22( 63%)   
+D3       8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    1/2    0/2      17/22( 77%)   
+D5       8/ 8(100%)   0/ 8(  0%)   5/ 8( 62%)    1/2    1/2       8/22( 36%)   
+D6       8/ 8(100%)   2/ 8( 25%)   5/ 8( 62%)    2/2    2/2      10/22( 45%)   
+D7       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       1/22(  4%)   
+D8       8/ 8(100%)   3/ 8( 37%)   0/ 8(  0%)    1/2    0/2      16/22( 72%)   
+D10      8/ 8(100%)   3/ 8( 37%)   6/ 8( 75%)    2/2    1/2       4/22( 18%)   
+D11      8/ 8(100%)   2/ 8( 25%)   1/ 8( 12%)    1/2    1/2      16/22( 72%)   
+D12      3/ 8( 37%)   2/ 8( 25%)   1/ 8( 12%)    1/2    0/2       5/22( 22%)   
+D14      8/ 8(100%)   1/ 8( 12%)   0/ 8(  0%)    2/2    2/2      18/22( 81%)   
+D15      8/ 8(100%)   2/ 8( 25%)   1/ 8( 12%)    2/2    1/2      17/22( 77%)   
+D17      8/ 8(100%)   3/ 8( 37%)   3/ 8( 37%)    1/2    0/2      14/22( 63%)   
+E9       3/ 8( 37%)   1/ 8( 12%)   2/ 8( 25%)    0/2    0/2       3/22( 13%)   
+F4       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       1/22(  4%)   
+F16      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       1/22(  4%)   
+F17      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       1/22(  4%)   
+
+
+Embedded             Column       Row                                   
+Array     Embedded   Interconnect Interconnect         Read/      External  
+Block     Cells      Driven       Driven       Clocks  Write    Interconnect
+C37     16/16(100%)  18/16(112%)  13/16( 81%)    1/2    2/6      18/88( 20%)   
+
+
+Total dedicated input pins used:                 6/6      (100%)
+Total I/O pins used:                           143/165    ( 86%)
+Total logic cells used:                        253/1728   ( 14%)
+Total embedded cells used:                      16/96     ( 16%)
+Total EABs used:                                 1/6      ( 16%)
+Average fan-in:                                 2.83/4    ( 70%)
+Total fan-in:                                 716/6912    ( 10%)
+
+Total input pins required:                      59
+Total input I/O cell registers required:         0
+Total output pins required:                     90
+Total output I/O cell registers required:        0
+Total buried I/O cell registers required:        0
+Total bidirectional pins required:               0
+Total reserved pins required                     0
+Total logic cells required:                    253
+Total flipflops required:                      105
+Total packed registers required:                 0
+Total logic cells in carry chains:               5
+Total number of carry chains:                    1
+Total number of carry chains of length  1-8 :    1
+Total logic cells in cascade chains:             0
+Total number of cascade chains:                  0
+Total single-pin Clock Enables required:         0
+Total single-pin Output Enables required:        0
+
+Synthesized logic cells:                        56/1728   (  3%)
+
+Logic Cell and Embedded Cell Counts
+
+Column:  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  EA  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  Total(LC/EC)
+ A:      0   0   0   2   8   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1     11/0  
+ B:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0      3/0  
+ C:      2   0   8   4   1   8   0   0   8   0   0   0   0   8   8   8   8   7  16   8   0   0   0   0   8   0   8   8   0   8   8   8   8   0   0   7   0    141/16 
+ D:      8   8   8   0   8   8   1   8   0   8   8   3   0   8   8   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0     92/0  
+ E:      0   0   0   0   0   0   0   0   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      3/0  
+ F:      0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      3/0  
+
+Total:  10   8  16   7  17  16   1   8  11   8   8   3   0  16  16   9  17   7  16  10   0   0   0   0   8   0   8   8   0   8   8   8   8   0   0   8   1    253/16 
+
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** INPUTS **
+
+                                                    Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+ P12      -     -    -    28      INPUT             ^    0    0    0    1  ACC_ON
+  C6      -     -    -    12      INPUT             ^    0    0    0    1  A0
+  R6      -     -    -    12      INPUT             ^    0    0    0    1  A1
+  B4      -     -    -    04      INPUT             ^    0    0    0    1  A2
+  C3      -     -    -    03      INPUT             ^    0    0    0    1  A3
+ J12      -     -    D    --      INPUT             ^    0    0    0    1  A4
+  T2      -     -    -    02      INPUT             ^    0    0    0    1  A5
+  T1      -     -    -    01      INPUT             ^    0    0    0    2  A6
+ R14      -     -    -    33      INPUT             ^    0    0    0    3  A7
+  R4      -     -    -    07      INPUT             ^    0    0    0    2  A8
+  P7      -     -    -    14      INPUT             ^    0    0    0    1  A9
+ D13      -     -    -    32      INPUT             ^    0    0    0    1  A10
+ R13      -     -    -    32      INPUT             ^    0    0    0    1  A11
+  D4      -     -    -    06      INPUT             ^    0    0    0    1  A12
+ K12      -     -    D    --      INPUT             ^    0    0    0    2  A13
+ P11      -     -    -    26      INPUT             ^    0    0    0   11  A14
+  B3      -     -    -    01      INPUT             ^    0    0    0   12  A15
+  L8      -     -    -    --      INPUT  G          ^    0    0    0   16  CLK42
+  B7      -     -    -    14      INPUT             ^    0    0    0    1  CONTINUE
+ G15      -     -    C    --      INPUT             ^    0    0    0    8  CT0
+  P6      -     -    -    11      INPUT             ^    0    0    0    5  CT1
+ H13      -     -    C    --      INPUT             ^    0    0    0    9  CT2
+ G16      -     -    C    --      INPUT             ^    0    0    0    5  DI0
+  B8      -     -    -    17      INPUT             ^    0    0    0    5  DI1
+ G14      -     -    C    --      INPUT             ^    0    0    0    3  DI2
+  A7      -     -    -    14      INPUT             ^    0    0    0    3  DI3
+ A13      -     -    -    30      INPUT             ^    0    0    0    4  DI4
+  P3      -     -    -    03      INPUT             ^    0    0    0    3  DI5
+ D14      -     -    -    32      INPUT             ^    0    0    0    3  DI6
+ H14      -     -    C    --      INPUT             ^    0    0    0    3  DI7
+  M7      -     -    -    13      INPUT             ^    0    0    0    9  DOS
+  R8      -     -    -    --      INPUT  G          ^    0    0    0    0  DOUBLE_CAS
+  P5      -     -    -    08      INPUT             ^    0    0    0    1  G_LINE0
+ J16      -     -    D    --      INPUT             ^    0    0    0    1  G_LINE1
+  R9      -     -    -    19      INPUT             ^    0    0    0    1  G_LINE2
+  N7      -     -    -    13      INPUT             ^    0    0    0    1  G_LINE3
+ K15      -     -    E    --      INPUT             ^    0    0    0    1  G_LINE4
+  T9      -     -    -    19      INPUT             ^    0    0    0    1  G_LINE5
+  T7      -     -    -    14      INPUT             ^    0    0    0    1  G_LINE6
+ A10      -     -    -    21      INPUT             ^    0    0    0    1  G_LINE7
+ J15      -     -    D    --      INPUT             ^    0    0    0    1  G_LINE8
+  B9      -     -    -    --      INPUT  G          ^    0    0    0    7  /IO
+  D9      -     -    -    20      INPUT             ^    0    0    0    2  MD0
+ T10      -     -    -    22      INPUT             ^    0    0    0    2  MD1
+ P10      -     -    -    21      INPUT             ^    0    0    0    2  MD2
+ N10      -     -    -    23      INPUT             ^    0    0    0    2  MD3
+  G2      -     -    C    --      INPUT             ^    0    0    0    3  MD4
+ C12      -     -    -    28      INPUT             ^    0    0    0    3  MD5
+ T14      -     -    -    34      INPUT             ^    0    0    0    3  MD6
+ N11      -     -    -    26      INPUT             ^    0    0    0    3  MD7
+  M9      -     -    -    --      INPUT  G          ^    0    0    0    7  /MR
+  E2      -     -    B    --      INPUT             ^    0    0    0    1  /M1
+ B14      -     -    -    34      INPUT             ^    0    0    0    5  /RD
+  A9      -     -    -    --      INPUT  G          ^    0    0    0    0  REFRESH
+  E8      -     -    -    --      INPUT  G          ^    0    0    0    5  /RESET
+  E9      -     -    -    20      INPUT             ^    0    0    0    1  /RF
+  D2      -     -    A    --      INPUT             ^    0    0    0    4  TEST_R
+ P16      -     -    -    36      INPUT             ^    0    0    0    1  TURBO_HAND
+  D8      -     -    -    18      INPUT             ^    0    0    0    7  /WR
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+G = Global Source. Fan-out destinations counted here do not include destinations
+that are driven using global routing resources. Refer to the Auto Global Signals,
+Clock Signals, Clear Signals, Synchronous Load Signals, and Synchronous Clear Signals
+Sections of this Report File for information on which signals' fan-outs are used as
+Clock, Clear, Preset, Output Enable, and synchronous Load signals.
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** OUTPUTS **
+
+       Fed By Fed By                                Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+  G1      -     -    C    --     OUTPUT                 0    1    0    0  BLK_R
+  C4      -     -    -    06     OUTPUT                 0    1    0    0  CAS
+ T15      -     -    -    35     OUTPUT                 0    1    0    0  CLK_Z80
+ D10      -     -    -    23     OUTPUT                 0    1    0    0  CS_RAM
+ A11      -     -    -    24     OUTPUT                 0    1    0    0  CS_ROM
+  A8      -     -    -    17     OUTPUT                 0    1    0    0  DCPP0
+  A4      -     -    -    05     OUTPUT                 0    1    0    0  DCPP1
+ E14      -     -    A    --     OUTPUT                 0    1    0    0  DCPP2
+ J13      -     -    D    --     OUTPUT                 0    1    0    0  DCPP3
+  F1      -     -    B    --     OUTPUT                 0    1    0    0  DCPP4
+ J14      -     -    D    --     OUTPUT                 0    1    0    0  DCPP5
+ P14      -     -    -    29     OUTPUT                 0    1    0    0  DCPP6
+ C13      -     -    -    29     OUTPUT                 0    1    0    0  DCPP7
+  K2      -     -    E    --     OUTPUT                 0    1    0    0  DO0
+  P2      -     -    F    --     OUTPUT                 0    1    0    0  DO1
+  J2      -     -    D    --     OUTPUT                 0    1    0    0  DO2
+  M1      -     -    F    --     OUTPUT                 0    1    0    0  DO3
+  H3      -     -    C    --     OUTPUT                 0    1    0    0  DO4
+  D7      -     -    -    15     OUTPUT                 0    1    0    0  DO5
+  H4      -     -    C    --     OUTPUT                 0    1    0    0  DO6
+  C9      -     -    -    19     OUTPUT                 0    1    0    0  DO7
+  E7      -     -    -    16     OUTPUT                 0    1    0    0  GA0
+ H15      -     -    D    --     OUTPUT                 0    1    0    0  GA1
+  M8      -     -    -    16     OUTPUT                 0    1    0    0  GA2
+  K1      -     -    D    --     OUTPUT                 0    1    0    0  GA3
+  R5      -     -    -    10     OUTPUT                 0    1    0    0  GA4
+  A5      -     -    -    08     OUTPUT                 0    1    0    0  GA5
+  P8      -     -    -    18     OUTPUT                 0    1    0    0  GA6
+  R3      -     -    -    04     OUTPUT                 0    1    0    0  GA7
+  C8      -     -    -    18     OUTPUT                 0    1    0    0  GA8
+  M2      -     -    E    --     OUTPUT                 0    1    0    0  GA9
+  R7      -     -    -    15     OUTPUT                 0    1    0    0  GRAF
+  H2      -     -    C    --     OUTPUT                 0    1    0    0  HDD_DATA
+  D6      -     -    -    13     OUTPUT                 0    1    0    0  HDD_FLIP
+  A2      -     -    -    02     OUTPUT                 0    1    0    0  /IOM
+  J4      -     -    D    --     OUTPUT                 0    1    0    0  /IOMM
+  N3      -     -    F    --     OUTPUT                 0    1    0    0  KP11_MIX
+  B6      -     -    -    11     OUTPUT                 0    1    0    0  MA0
+  B5      -     -    -    07     OUTPUT                 0    1    0    0  MA1
+  N8      -     -    -    17     OUTPUT                 0    1    0    0  MA2
+  M4      -     -    F    --     OUTPUT                 0    1    0    0  MA3
+  T6      -     -    -    12     OUTPUT                 0    1    0    0  MA4
+  N5      -     -    -    07     OUTPUT                 0    1    0    0  MA5
+  T3      -     -    -    02     OUTPUT                 0    1    0    0  MA6
+  K4      -     -    D    --     OUTPUT                 0    1    0    0  MA7
+  J3      -     -    D    --     OUTPUT                 0    1    0    0  MA8
+  L3      -     -    E    --     OUTPUT                 0    1    0    0  MA9
+  A6      -     -    -    12     OUTPUT                 0    1    0    0  MA10
+  E4      -     -    -    11     OUTPUT                 0    1    0    0  MA11
+  N2      -     -    F    --     OUTPUT                 0    1    0    0  MCA0
+  F3      -     -    A    --     OUTPUT                 0    1    0    0  MCA1
+  D5      -     -    -    10     OUTPUT                 0    1    0    0  MC_BEGIN
+  C5      -     -    -    09     OUTPUT                 0    1    0    0  MC_END
+  J5      -     -    C    --     OUTPUT                 0    1    0    0  MC_TYPE
+ E10      -     -    -    23     OUTPUT                 0    1    0    0  MC_WRITE
+ L13      -     -    E    --     OUTPUT                 0    1    0    0  PAGE0
+ N16      -     -    F    --     OUTPUT                 0    1    0    0  PAGE1
+ L14      -     -    E    --     OUTPUT                 0    1    0    0  PAGE2
+ H12      -     -    C    --     OUTPUT                 0    1    0    0  PAGE3
+ D16      -     -    A    --     OUTPUT                 0    1    0    0  PAGE4
+ F16      -     -    B    --     OUTPUT                 0    1    0    0  PAGE5
+  M3      -     -    F    --     OUTPUT                 0    1    0    0  PAGE6
+ K13      -     -    E    --     OUTPUT                 0    1    0    0  PAGE7
+ N13      -     -    F    --     OUTPUT                 0    1    0    0  PAGE8
+  N1      -     -    F    --     OUTPUT                 0    1    0    0  PAGE9
+ F13      -     -    A    --     OUTPUT                 0    1    0    0  PAGE10
+  E1      -     -    A    --     OUTPUT                 0    1    0    0  PAGE11
+ R12      -     -    -    27     OUTPUT                 0    1    0    0  PN4Q
+ C11      -     -    -    26     OUTPUT                 0    1    0    0  PORT
+ N14      -     -    F    --     OUTPUT                 0    1    0    0  RAM
+  P4      -     -    -    05     OUTPUT                 0    1    0    0  RAS
+  D3      -     -    A    --     OUTPUT                 0    1    0    0  RA14
+  F4      -     -    A    --     OUTPUT                 0    1    0    0  RA15
+ B11      -     -    -    25     OUTPUT                 0    0    0    0  RA16
+  C1      -     -    A    --     OUTPUT                 0    1    0    0  RA17
+  F2      -     -    B    --     OUTPUT                 0    1    0    0  RD_KP11
+  T5      -     -    -    09     OUTPUT                 0    1    0    0  /RES
+ A12      -     -    -    27     OUTPUT                 0    1    0    0  SCR128
+  T4      -     -    -    06     OUTPUT                 0    1    0    0  SP_SA
+ B13      -     -    -    31     OUTPUT                 0    1    0    0  SP_SCR
+ A16      -     -    -    36     OUTPUT                 0    1    0    0  TURBO
+ G12      -     -    B    --     OUTPUT                 0    1    0    0  TYPE0
+  G4      -     -    B    --     OUTPUT                 0    1    0    0  TYPE1
+  G5      -     -    B    --     OUTPUT                 0    1    0    0  TYPE2
+  H5      -     -    B    --     OUTPUT                 0    1    0    0  TYPE3
+ G13      -     -    B    --     OUTPUT                 0    1    0    0  V_RAM
+  P9      -     -    -    20     OUTPUT                 0    1    0    0  /WAIT
+ E15      -     -    A    --     OUTPUT                 0    1    0    0  WR_AWG
+  N6      -     -    -    10     OUTPUT                 0    1    0    0  WR_DWG
+ P13      -     -    -    30     OUTPUT                 0    1    0    0  WR_TM9
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** BURIED LOGIC **
+
+                                                    Fan-In    Fan-Out
+ IOC     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+   -      4     -    C    03       DFFE                1    2    0    2  AROM16
+   -      3     -    C    06      LCELL                1    3    0    2  BLK_C
+   -      2     -    C    15       DFFE   +            0    5    0    1  /CASH
+   -      4     -    C    31       DFFE                1    1    0    3  CASH_ON
+   -      2     -    D    15       DFFE                1    2    0    1  CNF3
+   -      1     -    D    14       DFFE                1    2    0    1  CNF4
+   -      7     -    C    03       DFFE                1    2    0    2  CNF5
+   -      1     -    C    16       DFFE                1    2    0    1  CNF6
+   -      7     -    C    16       DFFE                1    2    0    3  CNF7
+   -      3     -    C    30       DFFE   +            1    4    0    8  DD0
+   -      1     -    C    30       DFFE   +            1    4    0    8  DD1
+   -      4     -    C    27       DFFE   +            1    4    0    8  DD2
+   -      6     -    C    30       DFFE   +            1    4    0    2  DD3
+   -      7     -    C    30       DFFE   +            1    3    0    4  DD4
+   -      8     -    C    30       DFFE   +            1    4    0    4  DD5
+   -      4     -    C    29       DFFE   +            1    3    0    6  DD6
+   -      7     -    C    29       DFFE   +            1    3    0    6  DD7
+   -      1     -    E    09      LCELL    s           0    1    1    0  DO0~1
+   -      8     -    F    16      LCELL    s           0    1    1    0  DO1~1
+   -      5     -    D    17      LCELL    s           0    1    1    0  DO2~1
+   -      1     -    F    17      LCELL    s           0    1    1    0  DO3~1
+   -      5     -    C    15      LCELL    s           0    1    1    0  DO4~1
+   -      8     -    C    15      LCELL    s           0    1    1    0  DO5~1
+   -      4     -    C    15      LCELL    s           0    1    1    0  DO6~1
+   -      2     -    C    19      LCELL    s           0    1    1    0  DO7~1
+   -      3     -    D    06       DFFE   +    !       0    3    0    3  /IOMX
+   -      1     -    D    07       SOFT    s   !       0    1    0    1  /IOMX~1
+   -      4     -    D    11       DFFE   +    !       0    5    0    2  /IOMY
+   -      8     -    D    11       DFFE   +    !       0    5    0    2  /IOMZ
+   -      8     -    D    06      LCELL                0    1    0    3  IO_RW
+   -      5     -    D    06      LCELL                0    2    0    1  /IO_WAIT
+   -      -     4    C    --   MEM_SGMT                2    9    1    3  |lpm_ram_dp:MEM|altdpram:sram|segment0_0
+   -      -    14    C    --   MEM_SGMT                2    9    1    3  |lpm_ram_dp:MEM|altdpram:sram|segment0_1
+   -      -     5    C    --   MEM_SGMT                2    9    1    3  |lpm_ram_dp:MEM|altdpram:sram|segment0_2
+   -      -    10    C    --   MEM_SGMT                2    9    1    3  |lpm_ram_dp:MEM|altdpram:sram|segment0_3
+   -      -    13    C    --   MEM_SGMT                2    9    1    5  |lpm_ram_dp:MEM|altdpram:sram|segment0_4
+   -      -     1    C    --   MEM_SGMT                2    9    1    7  |lpm_ram_dp:MEM|altdpram:sram|segment0_5
+   -      -     9    C    --   MEM_SGMT                2    9    1    8  |lpm_ram_dp:MEM|altdpram:sram|segment0_6
+   -      -     8    C    --   MEM_SGMT                2    9    1    8  |lpm_ram_dp:MEM|altdpram:sram|segment0_7
+   -      -    15    C    --   MEM_SGMT                1   10    1    5  |lpm_ram_dp:MEM|altdpram:sram|segment0_8
+   -      -     7    C    --   MEM_SGMT                1   10    1    5  |lpm_ram_dp:MEM|altdpram:sram|segment0_9
+   -      -    12    C    --   MEM_SGMT                1   10    1    4  |lpm_ram_dp:MEM|altdpram:sram|segment0_10
+   -      -     2    C    --   MEM_SGMT                1   10    1    4  |lpm_ram_dp:MEM|altdpram:sram|segment0_11
+   -      -     3    C    --   MEM_SGMT                1   10    1    5  |lpm_ram_dp:MEM|altdpram:sram|segment0_12
+   -      -    11    C    --   MEM_SGMT                1   10    1    7  |lpm_ram_dp:MEM|altdpram:sram|segment0_13
+   -      -     6    C    --   MEM_SGMT                1   10    1    7  |lpm_ram_dp:MEM|altdpram:sram|segment0_14
+   -      -    16    C    --   MEM_SGMT                1   10    1    3  |lpm_ram_dp:MEM|altdpram:sram|segment0_15
+   -      1     -    D    10       DFFE   +            0    2    0    6  MA_CT0
+   -      4     -    D    10       DFFE   +            0    3    0    8  MA_CT1
+   -      1     -    C    24       DFFE   +            3    1    0    6  MC_RQ
+   -      8     -    C    19      LCELL                2    0    0    1  MEM_RW
+   -      2     -    C    18       DFFE   +            1    3    0   16  MEM_WR
+   -      6     -    C    32      LCELL                2    2    0    1  MPGS0
+   -      3     -    C    32      LCELL                2    2    0    1  MPGS1
+   -      6     -    C    31      LCELL                2    2    0    1  MPGS2
+   -      3     -    C    31      LCELL                2    2    0    1  MPGS3
+   -      6     -    C    24      LCELL                2    0    0    1  MPGS4
+   -      6     -    C    16      LCELL                2    1    0    1  MPGS5
+   -      4     -    D    15      LCELL                0    3    0    1  MQ8
+   -      2     -    D    14      LCELL                0    3    0    1  MQ9
+   -      1     -    C    35        OR2    s           1    2    0    1  /MR_WAIT~1
+   -      7     -    C    32       DFFE   +            0    4    0   16  PGS0
+   -      8     -    C    32       DFFE   +            0    4    0   16  PGS1
+   -      1     -    C    26       DFFE   +            0    4    0   16  PGS2
+   -      2     -    C    31       DFFE   +            0    4    0   16  PGS3
+   -      7     -    C    24       DFFE   +            0    4    0   16  PGS4
+   -      5     -    C    16       DFFE   +            0    4    0   16  PGS5
+   -      8     -    C    18       DFFE   +            0    3    0   16  PGS6
+   -      5     -    C    26       DFFE   +            0    3    0   16  PGS7
+   -      4     -    C    32      LCELL                1    3    0    1  PG00
+   -      2     -    C    32      LCELL                1    2    0    1  PG01
+   -      5     -    C    31      LCELL                0    4    0    1  PG02
+   -      1     -    C    31      LCELL                0    3    0    1  PG03
+   -      2     -    C    16      LCELL                0    3    0    3  PG33
+   -      2     -    C    27       DFFE                1    3    0    3  PN0
+   -      3     -    C    03       DFFE                1    3    0    3  PN1
+   -      6     -    C    27       DFFE                1    3    0    3  PN2
+   -      1     -    C    27       DFFE                1    3    1    0  PN3
+   -      5     -    C    27       DFFE                1    3    1    5  PN4
+   -      5     -    D    14       DFFE                1    3    0    1  PN5
+   -      8     -    C    16       DFFE                1    3    0    1  PN6
+   -      3     -    C    16       DFFE                1    3    0    3  PN7
+   -      4     -    C    01       DFFE   +            0    3    0    3  RFC
+   -      1     -    C    01       DFFE   +    !       0    1    0    1  RFT
+   -      1     -    C    32      LCELL                0    4    0    2  SC_LCELL
+   -      3     -    C    17       DFFE                1    3    0    4  SC0
+   -      4     -    C    17       DFFE                1    3    0    7  SC1
+   -      2     -    C    17       DFFE                1    3    0    2  SC4
+   -      6     -    C    26       DFFE                0    1    0    2  STARTING
+   -      1     -    C    17       DFFE                1    2    0   12  SYS
+   -      1     -    C    04       DFFE        !       1    2    0    1  TB_SW
+   -      6     -    D    02      LCELL                0    3    0    1  W_TAB0
+   -      4     -    D    05      LCELL                0    3    0    1  W_TAB1
+   -      7     -    D    05      LCELL                0    2    0    1  W_TAB2
+   -      5     -    D    05      LCELL                0    2    0    1  W_TAB3
+   -      6     -    D    05       DFFE   +    !       0    4    0    4  WT_CT0
+   -      2     -    D    05       DFFE   +    !       0    5    0    5  WT_CT1
+   -      2     -    D    01       DFFE   +    !       0    4    0    3  WT_CT2
+   -      5     -    D    01       DFFE   +    !       0    2    0    4  WT_CT3
+   -      8     -    C    06       DFFE   +    !       1    2    1    0  :236
+   -      5     -    C    06       DFFE   +    !       1    3    1    0  :237
+   -      1     -    C    09       DFFE   +            0    2    1   38  :238
+   -      5     -    C    09       DFFE   +s   !       0    3    1    0  ~239~1
+   -      2     -    C    09       DFFE   +    !       0    3    1    1  :239
+   -      8     -    C    09       DFFE   +    !       0    4    1    3  :240
+   -      5     -    C    24       DFFE   +    !       0    5    1    0  :241
+   -      1     -    D    12       DFFE   +            0    4    1    0  :242
+   -      5     -    D    12       DFFE   +            0    4    1    0  :243
+   -      4     -    D    14       DFFE   +            0    3    1    0  :244
+   -      3     -    D    15       DFFE   +            0    3    1    0  :245
+   -      6     -    D    03       DFFE   +            1    3    1    0  :246
+   -      3     -    D    02       DFFE   +            1    3    1    0  :247
+   -      1     -    D    08       DFFE   +            0    4    1    0  :248
+   -      2     -    D    11       DFFE   +            1    3    1    0  :249
+   -      3     -    D    03       DFFE   +            0    3    1    0  :250
+   -      6     -    D    17       DFFE   +            0    3    1    0  :251
+   -      8     -    D    08       DFFE   +            0    3    1    0  :252
+   -      1     -    D    11       DFFE   +            0    4    1    0  :253
+   -      7     -    C    09       DFFE   +            1    1    1    0  :254
+   -      4     -    C    09       DFFE   +            1    1    1    0  :255
+   -      4     -    D    01       DFFE   +    !       0    3    1    5  :256
+   -      1     -    D    06       DFFE   +    !       0    5    1    1  :257
+   -      2     -    C    29       DFFE   +    !       0    3    1    1  :258
+   -      5     -    D    10       DFFE   +    !       0    4    1    1  :259
+   -      8     -    E    09      LCELL                0    1    1    0  :260
+   -      4     -    D    17      LCELL                1    1    1    0  :261
+   -      8     -    D    03      LCELL                1    2    1    1  :262
+   -      2     -    D    17      LCELL                1    2    1    1  :263
+   -      2     -    D    08      LCELL                1    2    1    1  :264
+   -      4     -    E    09      LCELL                1    2    1    1  :265
+   -      8     -    D    17      LCELL                2    1    1    1  :266
+   -      1     -    D    15      LCELL                2    1    1    1  :267
+   -      1     -    D    17      LCELL                2    1    1    1  :268
+   -      5     -    D    15      LCELL                2    1    1    1  :269
+   -      8     -    C    31      LCELL                2    2    1    0  :270
+   -      1     -    C    05      LCELL                1    1    1    0  :271
+   -      6     -    C    15      LCELL                0    4    1    0  :272
+   -      4     -    C    14       DFFE                0    6    1    2  :273
+   -      6     -    C    29       DFFE   +            1    2    1    0  :274
+   -      1     -    C    29       DFFE   +            1    2    1    0  :275
+   -      4     -    D    06       DFFE   +            1    2    1    0  :276
+   -      4     -    C    18       DFFE   +            1    2    1    0  :277
+   -      2     -    D    06       DFFE   +            1    2    1    0  :278
+   -      3     -    C    27       DFFE   +            1    2    1    0  :279
+   -      7     -    D    06       DFFE   +            1    2    1    0  :280
+   -      7     -    C    18       DFFE   +            1    2    1    0  :281
+   -      3     -    C    09       DFFE   +            1    0    1    8  :409
+   -      4     -    C    35       DFFE   +    !       1    2    1    2  :410
+   -      2     -    C    35       DFFE   +            2    2    1    1  :413
+   -      6     -    C    35       DFFE   +            2    0    0    1  :414
+   -      2     -    C    06      LCELL                2    0    0    2  :415
+   -      7     -    C    31      LCELL                0    4    0    1  :416
+   -      6     -    A    36       DFFE   +    !       0    1    1    0  :417
+   -      8     -    F    04       DFFE                0    1    1    0  :418
+   -      3     -    C    24       DFFE   +    !       0    0    0    1  :420
+   -      7     -    C    35       DFFE   +            0    1    0    1  :421
+   -      7     -    D    01       DFFE   +            0    3    0    2  :426
+   -      1     -    C    14      LCELL                0    4    0    1  :427
+   -      5     -    C    14       DFFE   +    !       0    1    0    1  :428
+   -      2     -    D    02       DFFE   +            0    1    0    1  :430
+   -      7     -    D    02       DFFE   +            0    2    0    1  :431
+   -      8     -    D    01       DFFE   +            0    4    0    2  :432
+   -      1     -    C    19       DFFE   +            0    2    1    1  :434
+   -      7     -    C    19      LCELL                0    4    0    1  :435
+   -      6     -    C    19      LCELL                2    1    0    1  :436
+   -      5     -    C    19       DFFE   +    !       0    1    0    1  :437
+   -      3     -    C    19       DFFE   +    !       0    1    0    1  :438
+   -      5     -    C    32      LCELL                2    2    1    3  :440
+   -      1     -    C    15       DFFE   +            0    2    1   12  :441
+   -      7     -    C    15      LCELL                0    4    0    1  :443
+   -      8     -    C    27       SOFT    s   !       0    1    0   16  ~445~1
+   -      7     -    C    27       DFFE   +            0    1    0    1  :445
+   -      8     -    C    29      LCELL                4    0    0    8  :446
+   -      2     -    C    26      LCELL                3    1    0    8  :455
+   -      3     -    C    18       DFFE   +            0    1    0    1  :457
+   -      1     -    C    18       DFFE   +            1    1    0    1  :458
+   -      3     -    D    10       AND2        !       0    3    0    8  :549
+   -      6     -    D    10       AND2        !       0    3    0    9  :573
+   -      8     -    D    10       AND2        !       0    2    0    9  :623
+   -      8     -    D    12        OR2    s           0    2    0    3  ~664~1
+   -      3     -    C    29       AND2        !       0    2    0    3  :665
+   -      2     -    D    10       AND2        !       0    3    0    8  :673
+   -      7     -    D    10       AND2        !       0    3    0    9  :709
+   -      3     -    D    11        OR2    s           1    3    0    1  ~712~1
+   -      3     -    D    08        OR2    s           1    3    0    1  ~715~1
+   -      4     -    D    08        OR2    s           1    3    0    1  ~715~2
+   -      3     -    D    17        OR2    s           1    3    0    1  ~718~1
+   -      7     -    D    17        OR2    s           1    3    0    1  ~718~2
+   -      5     -    D    02        OR2    s           0    2    0    3  ~724~1
+   -      5     -    D    11        OR2    s           0    3    0    1  ~724~2
+   -      6     -    D    11        OR2    s           0    4    0    1  ~724~3
+   -      7     -    D    11       AND2    s           0    2    0    1  ~724~4
+   -      5     -    D    08        OR2    s           0    3    0    1  ~727~1
+   -      6     -    D    08        OR2    s           0    4    0    1  ~727~2
+   -      7     -    D    08        OR2    s           2    2    0    1  ~727~3
+   -      8     -    D    02        OR2    s           1    3    0    1  ~730~1
+   -      4     -    D    03        OR2    s           0    3    0    2  ~733~1
+   -      7     -    D    03        OR2    s           1    3    0    1  ~733~2
+   -      6     -    D    15        OR2    s           1    3    0    1  ~736~1
+   -      7     -    D    15        OR2    s           0    4    0    1  ~736~2
+   -      8     -    D    15        OR2    s           0    3    0    1  ~736~3
+   -      6     -    D    14        OR2    s           0    4    0    1  ~739~1
+   -      7     -    D    14        OR2    s           0    4    0    1  ~739~2
+   -      8     -    D    14        OR2    s           0    3    0    1  ~739~3
+   -      5     -    C    29        OR2        !       0    3    0    1  :741
+   -      1     -    D    03        OR2    s           1    3    0    1  ~748~1
+   -      2     -    D    03        OR2    s           1    3    0    1  ~748~2
+   -      5     -    D    03        OR2    s           0    4    0    1  ~748~3
+   -      1     -    C    06       AND2    s           3    0    0    1  ~761~1
+   -      4     -    C    06       AND2                0    3    0    1  :761
+   -      6     -    C    09        OR2        !       2    0    0    3  :762
+   -      8     -    C    24       AND2    s           1    1    0    1  ~769~1
+   -      6     -    C    18       AND2                2    0    0    7  :772
+   -      7     -    C    06        OR2                2    2    0    1  :779
+   -      6     -    C    06        OR2                2    2    0    1  :787
+   -      1     -    D    02        OR2    s           2    1    0    1  ~811~1
+   -      8     -    C    14       AND2    s           0    4    0    1  ~818~1
+   -      2     -    C    14       AND2                0    4    0    1  :824
+   -      7     -    C    14       AND2    s           0    3    0    1  ~830~1
+   -      6     -    C    14       AND2                1    1    0    1  :831
+   -      3     -    C    35        OR2                2    0    0   26  :835
+   -      6     -    D    06       AND2                0    2    0    4  :837
+   -      4     -    D    02        OR2        !       0    2    0    1  :838
+   -      8     -    D    05        OR2        !       0    2    0    1  :840
+   -      1     -    D    05       AND2        !       0    2    0    4  :842
+   -      3     -    D    05        OR2        !       0    3    0    1  :865
+   -      4     -    C    19        OR2                0    4    1    0  :933
+   -      6     -    C    03       AND2    s           1    2    0    1  ~1004~1
+   -      8     -    C    03       AND2                0    3    0    1  :1004
+   -      8     -    C    17       AND2                0    4    0    1  :1010
+   -      2     -    C    04       AND2    s           1    2    0    1  ~1018~1
+   -      3     -    C    04       AND2                0    3    0    1  :1018
+   -      5     -    C    03       AND2    s           1    2    0    1  ~1025~1
+   -      2     -    C    03       AND2                0    3    0    5  :1025
+   -      6     -    C    17       AND2                0    4    0    3  :1029
+   -      5     -    C    17       AND2                0    4    0    8  :1034
+   -      3     -    C    14       AND2        !       0    4    0    6  :1039
+   -      5     -    C    04        OR2                2    0    0   19  :1046
+   -      7     -    C    17       AND2                1    1    0    3  :1048
+   -      1     -    C    03       AND2                1    1    0    5  :1050
+   -      4     -    C    16       AND2                1    1    0    2  :1051
+   -      3     -    D    14        OR2                1    2    0    1  :1052
+   -      1     -    A    04       AND2        !       1    2    0    1  :1258
+   -      5     -    A    05       AND2    s           1    3    0    2  ~1267~1
+   -      2     -    A    05       AND2    s           1    3    0    3  ~1277~1
+   -      2     -    A    04        OR2    s           1    3    0    1  ~1283~1
+   -      1     -    A    05        OR2                1    3    1    0  :1283
+   -      7     -    A    05       AND2    s           0    3    0    1  ~1290~1
+   -      3     -    A    05       AND2    s           1    3    0    2  ~1300~1
+   -      4     -    A    05        OR2                1    3    1    0  :1302
+   -      8     -    A    05        OR2    s           2    2    0    1  ~1304~1
+   -      6     -    A    05        OR2                1    3    1    0  :1304
+   -      2     -    C    24        OR2                1    1    1    0  :1306
+   -      4     -    C    24       AND2        !       1    1    1    1  :1307
+   -      1     -    B    19        OR2    s           0    3    0    1  ~1314~1
+   -      5     -    B    19        OR2                1    2    1    0  :1314
+   -      8     -    C    26        OR2    s           2    2    0    1  ~1320~1
+   -      7     -    C    26        OR2                1    3    1    0  :1320
+   -      3     -    C    26       AND2    s           0    2    0    1  ~1323~1
+   -      4     -    C    26        OR2                2    0    0    1  :1332
+   -      2     -    C    30        OR2    s           2    2    0    1  ~1343~1
+   -      4     -    C    30        OR2    s           0    4    0    1  ~1343~2
+   -      5     -    C    30        OR2                0    4    0    1  :1343
+   -      3     -    C    15       AND2        !       0    4    0    1  :1395
+   -      5     -    C    35       AND2                2    0    0    1  :1397
+   -      6     -    D    01       AND2        !       0    4    0    1  :1434
+   -      2     -    B    35        OR2                2    0    0    8  :1459
+   -      1     -    D    01        OR2                0    2    0    1  :850
+   -      2     -    D    01        OR2                0    4    0    1  :855
+   -      3     -    D    01        OR2        !       0    3    0    1  :871
+   -      4     -    D    01        OR2        !       0    4    0    1  :872
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+p = Packed register
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** FASTTRACK INTERCONNECT UTILIZATION **
+
+Row FastTrack Interconnect:
+
+          Global         Left Half-      Right Half-
+         FastTrack       FastTrack       FastTrack 
+Row     Interconnect    Interconnect    Interconnect    Input Pins     Output Pins     Bidir Pins
+A:       5/144(  3%)    10/ 72( 13%)     3/ 72(  4%)    1/16(  6%)      9/16( 56%)     0/16(  0%)
+B:       9/144(  6%)     2/ 72(  2%)     1/ 72(  1%)    1/16(  6%)      8/16( 50%)     0/16(  0%)
+C:      74/144( 51%)    19/ 72( 26%)    21/ 72( 29%)    6/16( 37%)      6/16( 37%)     0/16(  0%)
+D:      47/144( 32%)    46/ 72( 63%)     0/ 72(  0%)    4/16( 25%)      8/16( 50%)     0/16(  0%)
+E:       5/144(  3%)     4/ 72(  5%)     0/ 72(  0%)    1/16(  6%)      6/16( 37%)     0/16(  0%)
+F:       6/144(  4%)     6/ 72(  8%)     1/ 72(  1%)    0/16(  0%)     10/16( 62%)     0/16(  0%)
+
+
+Column FastTrack Interconnect:
+
+         FastTrack                                 
+Column  Interconnect    Input Pins     Output Pins     Bidir Pins
+01:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+02:      3/24( 12%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+03:      6/24( 25%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+04:      3/24( 12%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+05:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+06:      4/24( 16%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+07:      3/24( 12%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+08:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+09:      5/24( 20%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+10:      5/24( 20%)     0/4(  0%)      3/4( 75%)       0/4(  0%)
+11:      3/24( 12%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+12:      4/24( 16%)     2/4( 50%)      2/4( 50%)       0/4(  0%)
+13:      3/24( 12%)     2/4( 50%)      1/4( 25%)       0/4(  0%)
+14:      5/24( 20%)     4/4(100%)      0/4(  0%)       0/4(  0%)
+15:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+16:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+17:      6/24( 25%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+18:      4/24( 16%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+19:      4/24( 16%)     2/4( 50%)      1/4( 25%)       0/4(  0%)
+20:      3/24( 12%)     2/4( 50%)      1/4( 25%)       0/4(  0%)
+21:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+22:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+23:      3/24( 12%)     1/4( 25%)      2/4( 50%)       0/4(  0%)
+24:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+25:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+26:      3/24( 12%)     2/4( 50%)      1/4( 25%)       0/4(  0%)
+27:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+28:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+29:      4/24( 16%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+30:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+31:      2/24(  8%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+32:      4/24( 16%)     3/4( 75%)      0/4(  0%)       0/4(  0%)
+33:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+34:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+35:      4/24( 16%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+36:      3/24( 12%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+EA:     16/24( 66%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** CLOCK SIGNALS **
+
+Type     Fan-out       Name
+INPUT       96         CLK42
+LCELL       19         :1046
+DFF          7         :256
+DFF          2         :259
+INPUT        1         DOUBLE_CAS
+INPUT        1         REFRESH
+LCELL        1         :1343
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** CLEAR SIGNALS **
+
+Type     Fan-out       Name
+DFF         39         :238
+INPUT       16         /RESET
+INPUT       11         /MR
+INPUT       10         /IO
+DFF          9         :409
+LCELL        5         :1050
+LCELL        4         :837
+DFF          3         RFC
+DFF          3         :273
+LCELL        3         :665
+LCELL        3         :762
+LCELL        3         :1048
+LCELL        2         :1051
+DFF          2         :434
+DFF          2         :258
+LCELL        1         :831
+LCELL        1         :1052
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** CARRY CHAINS **
+
+Type                    Member Length   Member Name: SUM, (CARRY)
+ARITHMETIC                    1                     (:850)
+CLEARABLE COUNTER             2         WT_CT2, (:855)
+ARITHMETIC                    3                     (:871)
+UP/DOWN COUNTER               4         :256, (:872)
+NORMAL                        5         WT_CT3
+
+
+
+Device-Specific Information:          c:\copy_d\asembler\altera\sp2000\dcp.rpt
+dcp
+
+** EQUATIONS **
+
+ACC_ON   : INPUT;
+A0       : INPUT;
+A1       : INPUT;
+A2       : INPUT;
+A3       : INPUT;
+A4       : INPUT;
+A5       : INPUT;
+A6       : INPUT;
+A7       : INPUT;
+A8       : INPUT;
+A9       : INPUT;
+A10      : INPUT;
+A11      : INPUT;
+A12      : INPUT;
+A13      : INPUT;
+A14      : INPUT;
+A15      : INPUT;
+CLK42    : INPUT;
+CONTINUE : INPUT;
+CT0      : INPUT;
+CT1      : INPUT;
+CT2      : INPUT;
+DI0      : INPUT;
+DI1      : INPUT;
+DI2      : INPUT;
+DI3      : INPUT;
+DI4      : INPUT;
+DI5      : INPUT;
+DI6      : INPUT;
+DI7      : INPUT;
+DOS      : INPUT;
+DOUBLE_CAS : INPUT;
+G_LINE0  : INPUT;
+G_LINE1  : INPUT;
+G_LINE2  : INPUT;
+G_LINE3  : INPUT;
+G_LINE4  : INPUT;
+G_LINE5  : INPUT;
+G_LINE6  : INPUT;
+G_LINE7  : INPUT;
+G_LINE8  : INPUT;
+MD0      : INPUT;
+MD1      : INPUT;
+MD2      : INPUT;
+MD3      : INPUT;
+MD4      : INPUT;
+MD5      : INPUT;
+MD6      : INPUT;
+MD7      : INPUT;
+REFRESH  : INPUT;
+TEST_R   : INPUT;
+TURBO_HAND : INPUT;
+/IO      : INPUT;
+/MR      : INPUT;
+/M1      : INPUT;
+/RD      : INPUT;
+/RESET   : INPUT;
+/RF      : INPUT;
+/WR      : INPUT;
+
+-- Node name is 'AROM16' from file "dcp.tdf" line 119, column 2
+-- Equation name is 'AROM16', location is LC4_C3, type is buried.
+AROM16   = DFFE( DI0,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC8_C3);
+
+-- Node name is 'BLK_C' from file "dcp.tdf" line 477, column 10
+-- Equation name is 'BLK_C', location is LC3_C6, type is buried.
+BLK_C    = LCELL( _EQ001);
+  _EQ001 = !_LC1_C15 &  _LC7_C15 & !_LC8_C9 & !/MR
+         #  _LC1_C15 & !_LC7_C15 & !_LC8_C9 & !/MR;
+
+-- Node name is 'BLK_R' from file "dcp.tdf" line 463, column 2
+-- Equation name is 'BLK_R', type is output 
+BLK_R    =  _LC1_C19;
+
+-- Node name is 'CAS' from file "dcp.tdf" line 138, column 2
+-- Equation name is 'CAS', type is output 
+CAS      =  _LC5_C6;
+
+-- Node name is 'CASH_ON' from file "dcp.tdf" line 560, column 13
+-- Equation name is 'CASH_ON', location is LC4_C31, type is buried.
+CASH_ON  = DFFE( A7,  _LC5_C30, GLOBAL( /RESET),  VCC,  VCC);
+
+-- Node name is 'CLK_Z80' from file "dcp.tdf" line 214, column 2
+-- Equation name is 'CLK_Z80', type is output 
+CLK_Z80  =  _LC2_C35;
+
+-- Node name is 'CNF3' from file "dcp.tdf" line 118, column 5
+-- Equation name is 'CNF3', location is LC2_D15, type is buried.
+CNF3     = DFFE( DI3,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC2_C3);
+
+-- Node name is 'CNF4' from file "dcp.tdf" line 118, column 5
+-- Equation name is 'CNF4', location is LC1_D14, type is buried.
+CNF4     = DFFE( DI4,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC2_C3);
+
+-- Node name is 'CNF5' from file "dcp.tdf" line 118, column 5
+-- Equation name is 'CNF5', location is LC7_C3, type is buried.
+CNF5     = DFFE( DI5,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC2_C3);
+
+-- Node name is 'CNF6' from file "dcp.tdf" line 118, column 5
+-- Equation name is 'CNF6', location is LC1_C16, type is buried.
+CNF6     = DFFE( DI6,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC2_C3);
+
+-- Node name is 'CNF7' from file "dcp.tdf" line 118, column 5
+-- Equation name is 'CNF7', location is LC7_C16, type is buried.
+CNF7     = DFFE( DI7,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC2_C3);
+
+-- Node name is 'CS_RAM' from file "dcp.tdf" line 609, column 2
+-- Equation name is 'CS_RAM', type is output 
+CS_RAM   =  _LC4_C24;
+
+-- Node name is 'CS_ROM' from file "dcp.tdf" line 608, column 2
+-- Equation name is 'CS_ROM', type is output 
+CS_ROM   =  _LC2_C24;
+
+-- Node name is 'DCPP0' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP0', type is output 
+DCPP0    =  _LC7_C18;
+
+-- Node name is 'DCPP1' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP1', type is output 
+DCPP1    =  _LC7_D6;
+
+-- Node name is 'DCPP2' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP2', type is output 
+DCPP2    =  _LC3_C27;
+
+-- Node name is 'DCPP3' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP3', type is output 
+DCPP3    =  _LC2_D6;
+
+-- Node name is 'DCPP4' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP4', type is output 
+DCPP4    =  _LC4_C18;
+
+-- Node name is 'DCPP5' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP5', type is output 
+DCPP5    =  _LC4_D6;
+
+-- Node name is 'DCPP6' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP6', type is output 
+DCPP6    =  _LC1_C29;
+
+-- Node name is 'DCPP7' from file "dcp.tdf" line 184, column 6
+-- Equation name is 'DCPP7', type is output 
+DCPP7    =  _LC6_C29;
+
+-- Node name is 'DD0' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD0', location is LC3_C30, type is buried.
+DD0      = DFFE( _EQ002, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ002 =  _LC8_C29 &  PN0
+         # !_LC8_C29 &  MD0;
+
+-- Node name is 'DD1' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD1', location is LC1_C30, type is buried.
+DD1      = DFFE( _EQ003, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ003 =  _LC8_C29 &  PN1
+         # !_LC8_C29 &  MD1;
+
+-- Node name is 'DD2' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD2', location is LC4_C27, type is buried.
+DD2      = DFFE( _EQ004, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ004 =  _LC8_C29 &  PN2
+         # !_LC8_C29 &  MD2;
+
+-- Node name is 'DD3' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD3', location is LC6_C30, type is buried.
+DD3      = DFFE( _EQ005, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ005 =  _LC8_C29 &  PG33
+         # !_LC8_C29 &  MD3;
+
+-- Node name is 'DD4' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD4', location is LC7_C30, type is buried.
+DD4      = DFFE( _EQ006, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ006 =  MD4
+         #  _LC8_C29;
+
+-- Node name is 'DD5' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD5', location is LC8_C30, type is buried.
+DD5      = DFFE( _EQ007, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ007 =  _LC8_C29 & !PN7
+         # !_LC8_C29 &  MD5;
+
+-- Node name is 'DD6' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD6', location is LC4_C29, type is buried.
+DD6      = DFFE( _EQ008, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ008 =  MD6
+         #  _LC8_C29;
+
+-- Node name is 'DD7' from file "dcp.tdf" line 125, column 4
+-- Equation name is 'DD7', location is LC7_C29, type is buried.
+DD7      = DFFE( _EQ009, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+  _EQ009 =  MD7
+         #  _LC8_C29;
+
+-- Node name is 'DO0~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO0~1', location is LC1_E9, type is buried.
+-- synthesized logic cell 
+_LC1_E9  = LCELL( _EC4_C);
+
+-- Node name is 'DO0' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO0', type is output 
+DO0      =  _LC1_E9;
+
+-- Node name is 'DO1~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO1~1', location is LC8_F16, type is buried.
+-- synthesized logic cell 
+_LC8_F16 = LCELL( _EC14_C);
+
+-- Node name is 'DO1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO1', type is output 
+DO1      =  _LC8_F16;
+
+-- Node name is 'DO2~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO2~1', location is LC5_D17, type is buried.
+-- synthesized logic cell 
+_LC5_D17 = LCELL( _EC5_C);
+
+-- Node name is 'DO2' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO2', type is output 
+DO2      =  _LC5_D17;
+
+-- Node name is 'DO3~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO3~1', location is LC1_F17, type is buried.
+-- synthesized logic cell 
+_LC1_F17 = LCELL( _EC10_C);
+
+-- Node name is 'DO3' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO3', type is output 
+DO3      =  _LC1_F17;
+
+-- Node name is 'DO4~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO4~1', location is LC5_C15, type is buried.
+-- synthesized logic cell 
+_LC5_C15 = LCELL( _EC13_C);
+
+-- Node name is 'DO4' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO4', type is output 
+DO4      =  _LC5_C15;
+
+-- Node name is 'DO5~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO5~1', location is LC8_C15, type is buried.
+-- synthesized logic cell 
+_LC8_C15 = LCELL( _EC1_C);
+
+-- Node name is 'DO5' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO5', type is output 
+DO5      =  _LC8_C15;
+
+-- Node name is 'DO6~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO6~1', location is LC4_C15, type is buried.
+-- synthesized logic cell 
+_LC4_C15 = LCELL( _EC9_C);
+
+-- Node name is 'DO6' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO6', type is output 
+DO6      =  _LC4_C15;
+
+-- Node name is 'DO7~1' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO7~1', location is LC2_C19, type is buried.
+-- synthesized logic cell 
+_LC2_C19 = LCELL( _EC8_C);
+
+-- Node name is 'DO7' from file "dcp.tdf" line 578, column 46
+-- Equation name is 'DO7', type is output 
+DO7      =  _LC2_C19;
+
+-- Node name is 'GA0' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA0', type is output 
+GA0      =  _LC5_D15;
+
+-- Node name is 'GA1' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA1', type is output 
+GA1      =  _LC1_D17;
+
+-- Node name is 'GA2' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA2', type is output 
+GA2      =  _LC1_D15;
+
+-- Node name is 'GA3' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA3', type is output 
+GA3      =  _LC8_D17;
+
+-- Node name is 'GA4' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA4', type is output 
+GA4      =  _LC4_E9;
+
+-- Node name is 'GA5' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA5', type is output 
+GA5      =  _LC2_D8;
+
+-- Node name is 'GA6' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA6', type is output 
+GA6      =  _LC2_D17;
+
+-- Node name is 'GA7' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA7', type is output 
+GA7      =  _LC8_D3;
+
+-- Node name is 'GA8' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA8', type is output 
+GA8      =  _LC4_D17;
+
+-- Node name is 'GA9' from file "dcp.tdf" line 168, column 4
+-- Equation name is 'GA9', type is output 
+GA9      =  _LC8_E9;
+
+-- Node name is 'GRAF' from file "dcp.tdf" line 476, column 2
+-- Equation name is 'GRAF', type is output 
+GRAF     =  _LC1_C15;
+
+-- Node name is 'HDD_DATA' from file "dcp.tdf" line 178, column 2
+-- Equation name is 'HDD_DATA', type is output 
+HDD_DATA =  _LC6_C15;
+
+-- Node name is 'HDD_FLIP' from file "dcp.tdf" line 175, column 2
+-- Equation name is 'HDD_FLIP', type is output 
+HDD_FLIP =  _LC4_C14;
+
+-- Node name is 'IO_RW' from file "dcp.tdf" line 388, column 11
+-- Equation name is 'IO_RW', location is LC8_D6, type is buried.
+IO_RW    = LCELL( _LC2_B35);
+
+-- Node name is 'KP11_MIX' from file "dcp.tdf" line 308, column 2
+-- Equation name is 'KP11_MIX', type is output 
+KP11_MIX =  _LC8_F4;
+
+-- Node name is 'MA_CT0' from file "dcp.tdf" line 157, column 7
+-- Equation name is 'MA_CT0', location is LC1_D10, type is buried.
+MA_CT0   = DFFE( _EQ010, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ010 = !_LC2_C6 & !MA_CT0;
+
+-- Node name is 'MA_CT1' from file "dcp.tdf" line 157, column 7
+-- Equation name is 'MA_CT1', location is LC4_D10, type is buried.
+MA_CT1   = DFFE( _EQ011, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ011 = !_LC2_C6 & !MA_CT0 &  MA_CT1
+         # !_LC2_C6 &  MA_CT0 & !MA_CT1;
+
+-- Node name is 'MA0' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA0', type is output 
+MA0      =  _LC1_D11;
+
+-- Node name is 'MA1' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA1', type is output 
+MA1      =  _LC8_D8;
+
+-- Node name is 'MA2' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA2', type is output 
+MA2      =  _LC6_D17;
+
+-- Node name is 'MA3' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA3', type is output 
+MA3      =  _LC3_D3;
+
+-- Node name is 'MA4' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA4', type is output 
+MA4      =  _LC2_D11;
+
+-- Node name is 'MA5' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA5', type is output 
+MA5      =  _LC1_D8;
+
+-- Node name is 'MA6' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA6', type is output 
+MA6      =  _LC3_D2;
+
+-- Node name is 'MA7' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA7', type is output 
+MA7      =  _LC6_D3;
+
+-- Node name is 'MA8' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA8', type is output 
+MA8      =  _LC3_D15;
+
+-- Node name is 'MA9' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA9', type is output 
+MA9      =  _LC4_D14;
+
+-- Node name is 'MA10' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA10', type is output 
+MA10     =  _LC5_D12;
+
+-- Node name is 'MA11' from file "dcp.tdf" line 140, column 4
+-- Equation name is 'MA11', type is output 
+MA11     =  _LC1_D12;
+
+-- Node name is 'MCA0' from file "dcp.tdf" line 141, column 5
+-- Equation name is 'MCA0', type is output 
+MCA0     =  _LC4_C9;
+
+-- Node name is 'MCA1' from file "dcp.tdf" line 141, column 5
+-- Equation name is 'MCA1', type is output 
+MCA1     =  _LC7_C9;
+
+-- Node name is 'MC_BEGIN' from file "dcp.tdf" line 134, column 2
+-- Equation name is 'MC_BEGIN', type is output 
+MC_BEGIN =  _LC5_C9;
+
+-- Node name is 'MC_END' from file "dcp.tdf" line 133, column 2
+-- Equation name is 'MC_END', type is output 
+MC_END   =  _LC1_C9;
+
+-- Node name is 'MC_RQ' from file "dcp.tdf" line 341, column 11
+-- Equation name is 'MC_RQ', location is LC1_C24, type is buried.
+MC_RQ    = DFFE( _EQ012, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ012 =  _LC3_C24 &  /MR
+         #  /RD &  /WR;
+
+-- Node name is 'MC_TYPE' from file "dcp.tdf" line 135, column 2
+-- Equation name is 'MC_TYPE', type is output 
+MC_TYPE  =  _LC8_C9;
+
+-- Node name is 'MC_WRITE' from file "dcp.tdf" line 136, column 2
+-- Equation name is 'MC_WRITE', type is output 
+MC_WRITE =  _LC5_C24;
+
+-- Node name is 'MEM_RW' from file "dcp.tdf" line 387, column 12
+-- Equation name is 'MEM_RW', location is LC8_C19, type is buried.
+MEM_RW   = LCELL( _EQ013);
+  _EQ013 = !/RF
+         #  /MR;
+
+-- Node name is 'MEM_WR' from file "dcp.tdf" line 572, column 11
+-- Equation name is 'MEM_WR', location is LC2_C18, type is buried.
+MEM_WR   = DFFE( _EQ014, GLOBAL( CLK42), GLOBAL(!/IO),  VCC,  CT1);
+  _EQ014 =  DD6 &  _LC3_C18 &  _LC3_C26;
+
+-- Node name is 'MPGS0' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS0', location is LC6_C32, type is buried.
+MPGS0    = LCELL( _EQ015);
+  _EQ015 = !A15 &  PG00
+         #  A14 & !A15
+         #  A14 &  PN0;
+
+-- Node name is 'MPGS1' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS1', location is LC3_C32, type is buried.
+MPGS1    = LCELL( _EQ016);
+  _EQ016 = !A14 &  PG01
+         # !A14 &  A15
+         #  A15 &  PN1;
+
+-- Node name is 'MPGS2' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS2', location is LC6_C31, type is buried.
+MPGS2    = LCELL( _EQ017);
+  _EQ017 = !A14 & !A15 &  PG02
+         #  A14 &  A15 &  PN2;
+
+-- Node name is 'MPGS3' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS3', location is LC3_C31, type is buried.
+MPGS3    = LCELL( _EQ018);
+  _EQ018 = !A14 &  A15
+         #  A15 &  PG33
+         #  A14 & !A15
+         # !A14 &  PG03;
+
+-- Node name is 'MPGS4' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS4', location is LC6_C24, type is buried.
+MPGS4    = LCELL( _EQ019);
+  _EQ019 =  A14 &  A15;
+
+-- Node name is 'MPGS5' from file "dcp.tdf" line 111, column 6
+-- Equation name is 'MPGS5', location is LC6_C16, type is buried.
+MPGS5    = LCELL( _EQ020);
+  _EQ020 = !PN7
+         # !A15
+         # !A14;
+
+-- Node name is 'MQ8' from file "dcp.tdf" line 173, column 4
+-- Equation name is 'MQ8', location is LC4_D15, type is buried.
+MQ8      = LCELL( _EQ021);
+  _EQ021 =  _EC15_C &  _LC1_C9
+         #  CNF3 & !_LC1_C9;
+
+-- Node name is 'MQ9' from file "dcp.tdf" line 173, column 4
+-- Equation name is 'MQ9', location is LC2_D14, type is buried.
+MQ9      = LCELL( _EQ022);
+  _EQ022 =  _EC7_C &  _LC1_C9
+         #  CNF4 & !_LC1_C9;
+
+-- Node name is 'PAGE0' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE0', type is output 
+PAGE0    =  _EC4_C;
+
+-- Node name is 'PAGE1' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE1', type is output 
+PAGE1    =  _EC14_C;
+
+-- Node name is 'PAGE2' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE2', type is output 
+PAGE2    =  _EC5_C;
+
+-- Node name is 'PAGE3' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE3', type is output 
+PAGE3    =  _EC10_C;
+
+-- Node name is 'PAGE4' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE4', type is output 
+PAGE4    =  _EC13_C;
+
+-- Node name is 'PAGE5' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE5', type is output 
+PAGE5    =  _EC1_C;
+
+-- Node name is 'PAGE6' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE6', type is output 
+PAGE6    =  _EC9_C;
+
+-- Node name is 'PAGE7' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE7', type is output 
+PAGE7    =  _EC8_C;
+
+-- Node name is 'PAGE8' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE8', type is output 
+PAGE8    =  _EC15_C;
+
+-- Node name is 'PAGE9' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE9', type is output 
+PAGE9    =  _EC7_C;
+
+-- Node name is 'PAGE10' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE10', type is output 
+PAGE10   =  _EC12_C;
+
+-- Node name is 'PAGE11' from file "dcp.tdf" line 592, column 6
+-- Equation name is 'PAGE11', type is output 
+PAGE11   =  _EC2_C;
+
+-- Node name is 'PGS0' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS0', location is LC7_C32, type is buried.
+PGS0     = DFFE( _EQ023, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ023 =  _LC2_C26 &  MPGS0
+         #  DD0 &  _LC1_C9 & !_LC2_C26;
+
+-- Node name is 'PGS1' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS1', location is LC8_C32, type is buried.
+PGS1     = DFFE( _EQ024, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ024 =  _LC2_C26 &  MPGS1
+         #  DD1 &  _LC1_C9 & !_LC2_C26;
+
+-- Node name is 'PGS2' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS2', location is LC1_C26, type is buried.
+PGS2     = DFFE( _EQ025, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ025 =  _LC2_C26 &  MPGS2
+         #  DD2 &  _LC1_C9 & !_LC2_C26;
+
+-- Node name is 'PGS3' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS3', location is LC2_C31, type is buried.
+PGS3     = DFFE( _EQ026, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ026 =  _LC2_C26 &  MPGS3
+         #  DD3 &  _LC1_C9 & !_LC2_C26;
+
+-- Node name is 'PGS4' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS4', location is LC7_C24, type is buried.
+PGS4     = DFFE( _EQ027, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ027 =  DD4 &  _LC1_C9 & !_LC2_C26
+         #  _LC2_C26 &  MPGS4;
+
+-- Node name is 'PGS5' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS5', location is LC5_C16, type is buried.
+PGS5     = DFFE( _EQ028, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ028 =  _LC2_C26 &  MPGS5
+         #  DD5 &  _LC1_C9 & !_LC2_C26;
+
+-- Node name is 'PGS6' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS6', location is LC8_C18, type is buried.
+PGS6     = DFFE( _EQ029, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ029 =  DD6 &  _LC1_C9
+         #  _LC2_C26;
+
+-- Node name is 'PGS7' from file "dcp.tdf" line 112, column 5
+-- Equation name is 'PGS7', location is LC5_C26, type is buried.
+PGS7     = DFFE( _EQ030, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ030 =  DD7 &  _LC1_C9
+         #  _LC2_C26;
+
+-- Node name is 'PG00' from file "dcp.tdf" line 544, column 7
+-- Equation name is 'PG00', location is LC4_C32, type is buried.
+PG00     = LCELL( _EQ031);
+  _EQ031 =  PN4 &  SC_LCELL
+         # !DOS &  SC_LCELL
+         # !SYS;
+
+-- Node name is 'PG01' from file "dcp.tdf" line 543, column 7
+-- Equation name is 'PG01', location is LC2_C32, type is buried.
+PG01     = LCELL( _EQ032);
+  _EQ032 =  DOS &  SC_LCELL
+         # !SYS;
+
+-- Node name is 'PG02' from file "dcp.tdf" line 542, column 7
+-- Equation name is 'PG02', location is LC5_C31, type is buried.
+PG02     = LCELL( _EQ033);
+  _EQ033 =  AROM16 & !SC0
+         #  AROM16 & !SYS
+         #  CASH_ON;
+
+-- Node name is 'PG03' from file "dcp.tdf" line 541, column 7
+-- Equation name is 'PG03', location is LC1_C31, type is buried.
+PG03     = LCELL( _EQ034);
+  _EQ034 =  SC0
+         # !SYS
+         #  CASH_ON;
+
+-- Node name is 'PG33' from file "dcp.tdf" line 538, column 21
+-- Equation name is 'PG33', location is LC2_C16, type is buried.
+PG33     = LCELL( _EQ035);
+  _EQ035 = !CNF7 &  SC4
+         #  CNF7 &  PN6;
+
+-- Node name is 'PN0' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN0', location is LC2_C27, type is buried.
+PN0      = DFFE( DI0,  _LC5_C4,  _LC1_C3,  VCC,  _LC5_C17);
+
+-- Node name is 'PN1' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN1', location is LC3_C3, type is buried.
+PN1      = DFFE( DI1,  _LC5_C4,  _LC1_C3,  VCC,  _LC5_C17);
+
+-- Node name is 'PN2' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN2', location is LC6_C27, type is buried.
+PN2      = DFFE( DI2,  _LC5_C4,  _LC1_C3,  VCC,  _LC5_C17);
+
+-- Node name is 'PN3' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN3', location is LC1_C27, type is buried.
+PN3      = DFFE( DI3,  _LC5_C4,  _LC1_C3,  VCC,  _LC5_C17);
+
+-- Node name is 'PN4' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN4', location is LC5_C27, type is buried.
+PN4      = DFFE( DI4,  _LC5_C4,  _LC1_C3,  VCC,  _LC5_C17);
+
+-- Node name is 'PN4Q' from file "dcp.tdf" line 530, column 2
+-- Equation name is 'PN4Q', type is output 
+PN4Q     =  PN4;
+
+-- Node name is 'PN5' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN5', location is LC5_D14, type is buried.
+PN5      = DFFE( DI5,  _LC5_C4,  _LC3_D14,  VCC,  _LC5_C17);
+
+-- Node name is 'PN6' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN6', location is LC8_C16, type is buried.
+PN6      = DFFE( DI6,  _LC5_C4,  _LC4_C16,  VCC,  _LC5_C17);
+
+-- Node name is 'PN7' from file "dcp.tdf" line 115, column 4
+-- Equation name is 'PN7', location is LC3_C16, type is buried.
+PN7      = DFFE( DI7,  _LC5_C4,  _LC4_C16,  VCC,  _LC5_C17);
+
+-- Node name is 'PORT' from file "dcp.tdf" line 614, column 2
+-- Equation name is 'PORT', type is output 
+PORT     =  _LC7_C26;
+
+-- Node name is 'RAM' from file "dcp.tdf" line 470, column 2
+-- Equation name is 'RAM', type is output 
+RAM      = !_LC5_C32;
+
+-- Node name is 'RAS' from file "dcp.tdf" line 137, column 2
+-- Equation name is 'RAS', type is output 
+RAS      =  _LC8_C6;
+
+-- Node name is 'RA14' from file "dcp.tdf" line 604, column 23
+-- Equation name is 'RA14', type is output 
+RA14     =  _LC4_A5;
+
+-- Node name is 'RA15' from file "dcp.tdf" line 604, column 23
+-- Equation name is 'RA15', type is output 
+RA15     =  _LC6_A5;
+
+-- Node name is 'RA16' from file "dcp.tdf" line 604, column 23
+-- Equation name is 'RA16', type is output 
+RA16     =  GND;
+
+-- Node name is 'RA17' from file "dcp.tdf" line 604, column 23
+-- Equation name is 'RA17', type is output 
+RA17     =  _LC1_A5;
+
+-- Node name is 'RD_KP11' from file "dcp.tdf" line 160, column 2
+-- Equation name is 'RD_KP11', type is output 
+RD_KP11  =  _LC5_D10;
+
+-- Node name is 'RFC' from file "dcp.tdf" line 165, column 2
+-- Equation name is 'RFC', location is LC4_C1, type is buried.
+RFC      = DFFE( _EQ036, GLOBAL( CLK42),  VCC,  VCC,  _LC6_C18);
+  _EQ036 = !MC_RQ
+         #  RFT;
+
+-- Node name is 'RFT' from file "dcp.tdf" line 164, column 2
+-- Equation name is 'RFT', location is LC1_C1, type is buried.
+!RFT     = RFT~NOT;
+RFT~NOT  = DFFE( VCC, GLOBAL( REFRESH),  RFC,  VCC,  VCC);
+
+-- Node name is 'SC_LCELL' from file "dcp.tdf" line 546, column 13
+-- Equation name is 'SC_LCELL', location is LC1_C32, type is buried.
+SC_LCELL = LCELL( _EQ037);
+  _EQ037 = !CASH_ON & !SC0 & !SC1
+         # !CASH_ON & !SC1 & !SYS;
+
+-- Node name is 'SCR128' from file "dcp.tdf" line 481, column 2
+-- Equation name is 'SCR128', type is output 
+SCR128   =  PN3;
+
+-- Node name is 'SC0' from file "dcp.tdf" line 116, column 4
+-- Equation name is 'SC0', location is LC3_C17, type is buried.
+SC0      = DFFE( DI0,  _LC5_C4,  _LC7_C17,  VCC,  _LC6_C17);
+
+-- Node name is 'SC1' from file "dcp.tdf" line 116, column 4
+-- Equation name is 'SC1', location is LC4_C17, type is buried.
+SC1      = DFFE( DI1,  _LC5_C4,  _LC7_C17,  VCC,  _LC6_C17);
+
+-- Node name is 'SC4' from file "dcp.tdf" line 116, column 4
+-- Equation name is 'SC4', location is LC2_C17, type is buried.
+SC4      = DFFE( DI4,  _LC5_C4,  _LC7_C17,  VCC,  _LC6_C17);
+
+-- Node name is 'SP_SA' from file "dcp.tdf" line 171, column 2
+-- Equation name is 'SP_SA', type is output 
+SP_SA    =  _LC1_C5;
+
+-- Node name is 'SP_SCR' from file "dcp.tdf" line 170, column 2
+-- Equation name is 'SP_SCR', type is output 
+SP_SCR   =  _LC8_C31;
+
+-- Node name is 'STARTING' from file "dcp.tdf" line 563, column 13
+-- Equation name is 'STARTING', location is LC6_C26, type is buried.
+STARTING = DFFE( GND,  VCC, GLOBAL( /RESET),  _LC4_C26,  VCC);
+
+-- Node name is 'SYS' from file "dcp.tdf" line 117, column 2
+-- Equation name is 'SYS', location is LC1_C17, type is buried.
+SYS      = DFFE(!A6,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC8_C17);
+
+-- Node name is 'TB_SW' from file "dcp.tdf" line 120, column 2
+-- Equation name is 'TB_SW', location is LC1_C4, type is buried.
+!TB_SW   = TB_SW~NOT;
+TB_SW~NOT = DFFE(!DI0,  _LC5_C4, GLOBAL( /RESET),  VCC,  _LC3_C4);
+
+-- Node name is 'TURBO' from file "dcp.tdf" line 204, column 2
+-- Equation name is 'TURBO', type is output 
+TURBO    =  _LC4_C35;
+
+-- Node name is 'TYPE0' from file "dcp.tdf" line 593, column 6
+-- Equation name is 'TYPE0', type is output 
+TYPE0    =  _EC3_C;
+
+-- Node name is 'TYPE1' from file "dcp.tdf" line 593, column 6
+-- Equation name is 'TYPE1', type is output 
+TYPE1    =  _EC11_C;
+
+-- Node name is 'TYPE2' from file "dcp.tdf" line 593, column 6
+-- Equation name is 'TYPE2', type is output 
+TYPE2    =  _EC6_C;
+
+-- Node name is 'TYPE3' from file "dcp.tdf" line 593, column 6
+-- Equation name is 'TYPE3', type is output 
+TYPE3    =  _EC16_C;
+
+-- Node name is 'V_RAM' from file "dcp.tdf" line 613, column 2
+-- Equation name is 'V_RAM', type is output 
+V_RAM    =  _LC5_B19;
+
+-- Node name is 'WR_AWG' from file "dcp.tdf" line 303, column 2
+-- Equation name is 'WR_AWG', type is output 
+WR_AWG   =  _LC6_A36;
+
+-- Node name is 'WR_DWG' from file "dcp.tdf" line 309, column 2
+-- Equation name is 'WR_DWG', type is output 
+WR_DWG   = !_LC2_C9;
+
+-- Node name is 'WR_TM9' from file "dcp.tdf" line 159, column 2
+-- Equation name is 'WR_TM9', type is output 
+WR_TM9   =  _LC2_C29;
+
+-- Node name is 'W_TAB0' from file "dcp.tdf" line 149, column 7
+-- Equation name is 'W_TAB0', location is LC6_D2, type is buried.
+W_TAB0   = LCELL( _EQ038);
+  _EQ038 =  _EC3_C & !_EC6_C &  _EC11_C
+         #  _EC6_C & !_EC11_C;
+
+-- Node name is 'W_TAB1' from file "dcp.tdf" line 149, column 7
+-- Equation name is 'W_TAB1', location is LC4_D5, type is buried.
+W_TAB1   = LCELL( _EQ039);
+  _EQ039 =  _EC6_C
+         #  _EC3_C
+         # !_EC11_C;
+
+-- Node name is 'W_TAB2' from file "dcp.tdf" line 149, column 7
+-- Equation name is 'W_TAB2', location is LC7_D5, type is buried.
+W_TAB2   = LCELL( _EQ040);
+  _EQ040 =  _EC6_C & !_EC11_C
+         # !_EC6_C &  _EC11_C;
+
+-- Node name is 'W_TAB3' from file "dcp.tdf" line 149, column 7
+-- Equation name is 'W_TAB3', location is LC5_D5, type is buried.
+W_TAB3   = LCELL( _EQ041);
+  _EQ041 =  _EC6_C &  _EC11_C;
+
+-- Node name is 'WT_CT0' from file "dcp.tdf" line 148, column 7
+-- Equation name is 'WT_CT0', location is LC6_D5, type is buried.
+!WT_CT0  = WT_CT0~NOT;
+WT_CT0~NOT = DFFE( _EQ042, GLOBAL( CLK42),  _LC6_D6,  VCC,  _LC3_C35);
+  _EQ042 = !_LC4_D2 &  WT_CT0
+         #  _LC1_D5 & !_LC4_D2;
+
+-- Node name is 'WT_CT1' from file "dcp.tdf" line 148, column 7
+-- Equation name is 'WT_CT1', location is LC2_D5, type is buried.
+!WT_CT1  = WT_CT1~NOT;
+WT_CT1~NOT = DFFE( _EQ043, GLOBAL( CLK42),  _LC6_D6,  VCC,  _LC3_C35);
+  _EQ043 = !_LC3_D5 & !_LC4_D1
+         # !_LC3_D5 & !W_TAB1;
+
+-- Node name is 'WT_CT2' from file "dcp.tdf" line 148, column 7
+-- Equation name is 'WT_CT2', location is LC2_D1, type is buried.
+-- WT_CT2 is in Clearable Counter Mode
+-- synchronous load = !_LC1_D5
+-- synchronous clear = !_LC8_D5
+!WT_CT2  = WT_CT2~NOT;
+WT_CT2~NOT = DFFE(( _EQ044 & !_LC1_D5 #  _LC1_D5) & !_LC8_D5, GLOBAL( CLK42),  _LC6_D6,  VCC,  _LC3_C35);
+  _EQ044 =  _LC1_D1_CARRY & !WT_CT2
+         # !_LC1_D1_CARRY &  WT_CT2;
+
+-- Node name is 'WT_CT3' from file "dcp.tdf" line 148, column 7
+-- Equation name is 'WT_CT3', location is LC5_D1, type is buried.
+!WT_CT3  = WT_CT3~NOT;
+WT_CT3~NOT = DFFE(!_LC4_D1_CARRY, GLOBAL( CLK42),  _LC6_D6,  VCC,  _LC3_C35);
+
+-- Node name is '/CASH' from file "dcp.tdf" line 467, column 10
+-- Equation name is '/CASH', location is LC2_C15, type is buried.
+/CASH    = DFFE( _EQ045, GLOBAL(!CLK42),  _LC1_C19,  VCC,  VCC);
+  _EQ045 =  _EC1_C &  _EC8_C &  _EC9_C &  _EC13_C;
+
+-- Node name is '/IOM' from file "dcp.tdf" line 143, column 2
+-- Equation name is '/IOM', type is output 
+/IOM     =  _LC4_D1;
+
+-- Node name is '/IOMM' from file "dcp.tdf" line 144, column 2
+-- Equation name is '/IOMM', type is output 
+/IOMM    =  _LC1_D6;
+
+-- Node name is '/IOMX' from file "dcp.tdf" line 145, column 2
+-- Equation name is '/IOMX', location is LC3_D6, type is buried.
+!/IOMX   = /IOMX~NOT;
+/IOMX~NOT = DFFE(!_LC1_D6, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC3_C35);
+
+-- Node name is '/IOMX~1' from file "dcp.tdf" line 145, column 2
+-- Equation name is '/IOMX~1', location is LC1_D7, type is buried.
+-- synthesized logic cell 
+!_LC1_D7 = _LC1_D7~NOT;
+_LC1_D7~NOT = LCELL( /IOMX);
+
+-- Node name is '/IOMY' from file "dcp.tdf" line 146, column 2
+-- Equation name is '/IOMY', location is LC4_D11, type is buried.
+!/IOMY   = /IOMY~NOT;
+/IOMY~NOT = DFFE( _EQ046, GLOBAL( CLK42), !_LC3_C29,  VCC,  _LC3_C35);
+  _EQ046 = !/IOMX &  _LC1_C9 & !_LC7_D1;
+
+-- Node name is '/IOMZ' from file "dcp.tdf" line 176, column 2
+-- Equation name is '/IOMZ', location is LC8_D11, type is buried.
+!/IOMZ   = /IOMZ~NOT;
+/IOMZ~NOT = DFFE( _EQ047, GLOBAL( CLK42), !_LC3_C29,  VCC,  _LC3_C35);
+  _EQ047 =  _LC1_C9 &  _LC1_D2 & !_LC7_D1;
+
+-- Node name is '/IO_WAIT' from file "dcp.tdf" line 427, column 13
+-- Equation name is '/IO_WAIT', location is LC5_D6, type is buried.
+/IO_WAIT = LCELL( _EQ048);
+  _EQ048 =  _LC2_D2
+         #  IO_RW;
+
+-- Node name is '/MR_WAIT~1' from file "dcp.tdf" line 385, column 58
+-- Equation name is '/MR_WAIT~1', location is LC1_C35, type is buried.
+-- synthesized logic cell 
+_LC1_C35 = LCELL( _EQ049);
+  _EQ049 =  _LC7_C35
+         # !ACC_ON & !_LC4_C35;
+
+-- Node name is '/RES' from file "dcp.tdf" line 162, column 2
+-- Equation name is '/RES', type is output 
+/RES     =  _LC3_C9;
+
+-- Node name is '/WAIT' from file "dcp.tdf" line 457, column 2
+-- Equation name is '/WAIT', type is output 
+/WAIT    =  _LC4_C19;
+
+-- Node name is ':236' from file "dcp.tdf" line 137, column 2
+-- Equation name is '_LC8_C6', type is buried 
+!_LC8_C6 = _LC8_C6~NOT;
+_LC8_C6~NOT = DFFE(!CT2, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC7_C6);
+
+-- Node name is ':237' from file "dcp.tdf" line 138, column 2
+-- Equation name is '_LC5_C6', type is buried 
+!_LC5_C6 = _LC5_C6~NOT;
+_LC5_C6~NOT = DFFE( _EQ050, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC6_C6);
+  _EQ050 = !BLK_C & !CT2;
+
+-- Node name is ':238' from file "dcp.tdf" line 133, column 2
+-- Equation name is '_LC1_C9', type is buried 
+_LC1_C9  = DFFE( VCC, GLOBAL( CLK42), !_LC6_C9,  VCC,  _LC4_C6);
+
+-- Node name is '~239~1' from file "dcp.tdf" line 134, column 2
+-- Equation name is '~239~1', location is LC5_C9, type is buried.
+-- synthesized logic cell 
+!_LC5_C9 = _LC5_C9~NOT;
+_LC5_C9~NOT = DFFE(!MC_RQ, GLOBAL( CLK42), !_LC6_C9,  VCC,  _LC6_C18);
+
+-- Node name is ':239' from file "dcp.tdf" line 134, column 2
+-- Equation name is '_LC2_C9', type is buried 
+!_LC2_C9 = _LC2_C9~NOT;
+_LC2_C9~NOT = DFFE(!MC_RQ, GLOBAL( CLK42), !_LC6_C9,  VCC,  _LC6_C18);
+
+-- Node name is ':240' from file "dcp.tdf" line 135, column 2
+-- Equation name is '_LC8_C9', type is buried 
+!_LC8_C9 = _LC8_C9~NOT;
+_LC8_C9~NOT = DFFE( _EQ051, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC6_C18);
+  _EQ051 = !_LC1_C9 & !MC_RQ;
+
+-- Node name is ':241' from file "dcp.tdf" line 136, column 2
+-- Equation name is '_LC5_C24', type is buried 
+!_LC5_C24 = _LC5_C24~NOT;
+_LC5_C24~NOT = DFFE( _EQ052, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC6_C18);
+  _EQ052 = !_LC1_C9 & !_LC4_C24 &  _LC8_C24;
+
+-- Node name is ':242' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC1_D12', type is buried 
+_LC1_D12 = DFFE( _EQ053, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ053 =  _EC2_C & !_LC6_D10
+         #  _EC2_C & !_LC8_D10;
+
+-- Node name is ':243' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC5_D12', type is buried 
+_LC5_D12 = DFFE( _EQ054, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ054 =  _EC12_C & !_LC6_D10
+         #  _EC12_C & !_LC8_D10;
+
+-- Node name is ':244' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC4_D14', type is buried 
+_LC4_D14 = DFFE( _EQ055, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ055 =  _LC6_D14
+         #  _LC8_D14;
+
+-- Node name is ':245' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC3_D15', type is buried 
+_LC3_D15 = DFFE( _EQ056, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ056 =  _LC6_D15
+         #  _LC8_D15;
+
+-- Node name is ':246' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC6_D3', type is buried 
+_LC6_D3  = DFFE( _EQ057, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ057 =  _LC7_D3
+         #  A9 & !_LC2_D10;
+
+-- Node name is ':247' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC3_D2', type is buried 
+_LC3_D2  = DFFE( _EQ058, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ058 =  _LC8_D2
+         #  A8 & !_LC2_D10;
+
+-- Node name is ':248' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC1_D8', type is buried 
+_LC1_D8  = DFFE( _EQ059, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ059 =  _EC1_C &  _LC6_D8
+         #  _LC7_D8;
+
+-- Node name is ':249' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC2_D11', type is buried 
+_LC2_D11 = DFFE( _EQ060, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ060 =  _LC7_D11
+         #  A6 &  _LC5_D2;
+
+-- Node name is ':250' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC3_D3', type is buried 
+_LC3_D3  = DFFE( _EQ061, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ061 =  _LC1_D3
+         #  _LC5_D3;
+
+-- Node name is ':251' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC6_D17', type is buried 
+_LC6_D17 = DFFE( _EQ062, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ062 =  _LC3_D17
+         #  _LC7_D17;
+
+-- Node name is ':252' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC8_D8', type is buried 
+_LC8_D8  = DFFE( _EQ063, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ063 =  _LC3_D8
+         #  _LC4_D8;
+
+-- Node name is ':253' from file "dcp.tdf" line 140, column 4
+-- Equation name is '_LC1_D11', type is buried 
+_LC1_D11 = DFFE( _EQ064, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+  _EQ064 =  _LC3_D11
+         #  _LC4_E9 & !_LC7_D10;
+
+-- Node name is ':254' from file "dcp.tdf" line 141, column 5
+-- Equation name is '_LC7_C9', type is buried 
+_LC7_C9  = DFFE( A1, GLOBAL( CLK42),  VCC,  VCC,  _LC6_C18);
+
+-- Node name is ':255' from file "dcp.tdf" line 141, column 5
+-- Equation name is '_LC4_C9', type is buried 
+_LC4_C9  = DFFE( A0, GLOBAL( CLK42),  VCC,  VCC,  _LC6_C18);
+
+-- Node name is ':256' from file "dcp.tdf" line 143, column 2
+-- Equation name is '_LC4_D1', type is buried 
+-- :256 is in Up/Down Counter Mode
+-- synchronous load = !_LC1_D7
+!_LC4_D1 = _LC4_D1~NOT;
+_LC4_D1~NOT = DFFE((!_LC4_D1 & !_LC1_D7 #  _LC1_D7), GLOBAL( CLK42), GLOBAL(!/IO),  VCC,  _LC3_C35);
+
+-- Node name is ':257' from file "dcp.tdf" line 144, column 2
+-- Equation name is '_LC1_D6', type is buried 
+!_LC1_D6 = _LC1_D6~NOT;
+_LC1_D6~NOT = DFFE( _EQ065, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC3_C35);
+  _EQ065 = !IO_RW &  _LC1_C9 & !_LC8_D1;
+
+-- Node name is ':258' from file "dcp.tdf" line 159, column 2
+-- Equation name is '_LC2_C29', type is buried 
+!_LC2_C29 = _LC2_C29~NOT;
+_LC2_C29~NOT = DFFE(!_LC5_C29, GLOBAL( CLK42),  _LC3_C9,  VCC,  _LC3_C35);
+
+-- Node name is ':259' from file "dcp.tdf" line 160, column 2
+-- Equation name is '_LC5_D10', type is buried 
+!_LC5_D10 = _LC5_D10~NOT;
+_LC5_D10~NOT = DFFE( _EQ066, GLOBAL(!CLK42),  _LC3_C9,  VCC,  _LC3_C35);
+  _EQ066 = !MA_CT0 & !MA_CT1;
+
+-- Node name is ':260' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC8_E9', type is buried 
+_LC8_E9  = LCELL( _LC1_C15);
+
+-- Node name is ':261' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC4_D17', type is buried 
+_LC4_D17 = LCELL( _EQ067);
+  _EQ067 =  G_LINE8 &  _LC1_C15;
+
+-- Node name is ':262' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC8_D3', type is buried 
+_LC8_D3  = LCELL( _EQ068);
+  _EQ068 =  _EC10_C & !_LC1_C15
+         #  G_LINE7 &  _LC1_C15;
+
+-- Node name is ':263' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC2_D17', type is buried 
+_LC2_D17 = LCELL( _EQ069);
+  _EQ069 =  _EC5_C & !_LC1_C15
+         #  G_LINE6 &  _LC1_C15;
+
+-- Node name is ':264' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC2_D8', type is buried 
+_LC2_D8  = LCELL( _EQ070);
+  _EQ070 =  _EC14_C & !_LC1_C15
+         #  G_LINE5 &  _LC1_C15;
+
+-- Node name is ':265' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC4_E9', type is buried 
+_LC4_E9  = LCELL( _EQ071);
+  _EQ071 =  _EC4_C & !_LC1_C15
+         #  G_LINE4 &  _LC1_C15;
+
+-- Node name is ':266' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC8_D17', type is buried 
+_LC8_D17 = LCELL( _EQ072);
+  _EQ072 =  G_LINE3 &  _LC1_C15
+         #  A13 & !_LC1_C15;
+
+-- Node name is ':267' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC1_D15', type is buried 
+_LC1_D15 = LCELL( _EQ073);
+  _EQ073 =  G_LINE2 &  _LC1_C15
+         #  A12 & !_LC1_C15;
+
+-- Node name is ':268' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC1_D17', type is buried 
+_LC1_D17 = LCELL( _EQ074);
+  _EQ074 =  G_LINE1 &  _LC1_C15
+         #  A11 & !_LC1_C15;
+
+-- Node name is ':269' from file "dcp.tdf" line 168, column 4
+-- Equation name is '_LC5_D15', type is buried 
+_LC5_D15 = LCELL( _EQ075);
+  _EQ075 =  G_LINE0 &  _LC1_C15
+         #  A10 & !_LC1_C15;
+
+-- Node name is ':270' from file "dcp.tdf" line 170, column 2
+-- Equation name is '_LC8_C31', type is buried 
+_LC8_C31 = LCELL( _EQ076);
+  _EQ076 =  A14 & !A15 & !_LC1_C15
+         #  A14 & !_LC1_C15 &  _LC7_C31;
+
+-- Node name is ':271' from file "dcp.tdf" line 171, column 2
+-- Equation name is '_LC1_C5', type is buried 
+_LC1_C5  = LCELL( _EQ077);
+  _EQ077 =  A15 &  PN1;
+
+-- Node name is ':272' from file "dcp.tdf" line 178, column 2
+-- Equation name is '_LC6_C15', type is buried 
+_LC6_C15 = LCELL( _EQ078);
+  _EQ078 =  _EC1_C &  _EC8_C & !_EC9_C &  _LC8_C14;
+
+-- Node name is ':273' from file "dcp.tdf" line 175, column 2
+-- Equation name is '_LC4_C14', type is buried 
+_LC4_C14 = DFFE( _EQ079,  _LC4_D1,  _LC6_C14,  VCC,  _LC2_C14);
+  _EQ079 = !_EC2_C & !_EC12_C &  _LC7_C14;
+
+-- Node name is ':274' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC6_C29', type is buried 
+_LC6_C29 = DFFE( MD7, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':275' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC1_C29', type is buried 
+_LC1_C29 = DFFE( MD6, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':276' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC4_D6', type is buried 
+_LC4_D6  = DFFE( MD5, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':277' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC4_C18', type is buried 
+_LC4_C18 = DFFE( MD4, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':278' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC2_D6', type is buried 
+_LC2_D6  = DFFE( MD3, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':279' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC3_C27', type is buried 
+_LC3_C27 = DFFE( MD2, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':280' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC7_D6', type is buried 
+_LC7_D6  = DFFE( MD1, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':281' from file "dcp.tdf" line 184, column 6
+-- Equation name is '_LC7_C18', type is buried 
+_LC7_C18 = DFFE( MD0, GLOBAL(!CLK42),  _LC1_C9,  VCC, !_LC8_C27);
+
+-- Node name is ':409' from file "dcp.tdf" line 201, column 9
+-- Equation name is '_LC3_C9', type is buried 
+_LC3_C9  = DFFE( VCC, GLOBAL( CLK42),  VCC,  VCC,  CT0);
+
+-- Node name is ':410' from file "dcp.tdf" line 204, column 10
+-- Equation name is '_LC4_C35', type is buried 
+!_LC4_C35 = _LC4_C35~NOT;
+_LC4_C35~NOT = DFFE( _EQ080, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  _LC2_C35);
+  _EQ080 = !TB_SW
+         # !TURBO_HAND;
+
+-- Node name is ':413' from file "dcp.tdf" line 214, column 12
+-- Equation name is '_LC2_C35', type is buried 
+_LC2_C35 = DFFE( _EQ081, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+  _EQ081 = !_LC4_C35 &  _LC6_C35
+         #  CT0 &  CT2 &  _LC4_C35
+         # !CT0 & !CT2 &  _LC4_C35;
+
+-- Node name is ':414' from file "dcp.tdf" line 214, column 45
+-- Equation name is '_LC6_C35', type is buried 
+_LC6_C35 = DFFE( _EQ082, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ082 = !CT0 &  _LC6_C35
+         #  CT2 &  _LC6_C35
+         #  CT0 & !CT2 & !_LC6_C35;
+
+-- Node name is ':415' from file "dcp.tdf" line 234, column 7
+-- Equation name is '_LC2_C6', type is buried 
+_LC2_C6  = LCELL( _EQ083);
+  _EQ083 = !CT1 &  CT2;
+
+-- Node name is ':416' from file "dcp.tdf" line 261, column 30
+-- Equation name is '_LC7_C31', type is buried 
+_LC7_C31 = LCELL( _EQ084);
+  _EQ084 = !PG33 &  PN0 &  PN2 & !PN7;
+
+-- Node name is ':417' from file "dcp.tdf" line 303, column 12
+-- Equation name is '_LC6_A36', type is buried 
+!_LC6_A36 = _LC6_A36~NOT;
+_LC6_A36~NOT = DFFE( _LC6_A36, GLOBAL(!CLK42), !_LC2_C29,  VCC,  VCC);
+
+-- Node name is ':418' from file "dcp.tdf" line 308, column 13
+-- Equation name is '_LC8_F4', type is buried 
+_LC8_F4  = DFFE(!_LC8_F4,  _LC5_D10,  VCC,  VCC,  VCC);
+
+-- Node name is ':420' from file "dcp.tdf" line 341, column 23
+-- Equation name is '_LC3_C24', type is buried 
+!_LC3_C24 = _LC3_C24~NOT;
+_LC3_C24~NOT = DFFE( VCC, GLOBAL( CLK42), GLOBAL(!/IO),  VCC,  VCC);
+
+-- Node name is ':421' from file "dcp.tdf" line 385, column 33
+-- Equation name is '_LC7_C35', type is buried 
+_LC7_C35 = DFFE( _LC1_C9, GLOBAL( CLK42), GLOBAL(!/MR),  VCC,  VCC);
+
+-- Node name is ':426' from file "dcp.tdf" line 411, column 49
+-- Equation name is '_LC7_D1', type is buried 
+_LC7_D1  = DFFE( _EQ085, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ085 = !WT_CT1 & !WT_CT2 & !WT_CT3;
+
+-- Node name is ':427' from file "dcp.tdf" line 418, column 27
+-- Equation name is '_LC1_C14', type is buried 
+_LC1_C14 = LCELL( _EQ086);
+  _EQ086 = !DD4 &  DD5 & !DD6 & !DD7;
+
+-- Node name is ':428' from file "dcp.tdf" line 420, column 27
+-- Equation name is '_LC5_C14', type is buried 
+!_LC5_C14 = _LC5_C14~NOT;
+_LC5_C14~NOT = DFFE( VCC, GLOBAL(!DOUBLE_CAS),  _LC4_C14,  VCC,  VCC);
+
+-- Node name is ':430' from file "dcp.tdf" line 427, column 28
+-- Equation name is '_LC2_D2', type is buried 
+_LC2_D2  = DFFE( _LC7_D2, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':431' from file "dcp.tdf" line 427, column 32
+-- Equation name is '_LC7_D2', type is buried 
+_LC7_D2  = DFFE(!_LC6_D1, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C35);
+
+-- Node name is ':432' from file "dcp.tdf" line 434, column 13
+-- Equation name is '_LC8_D1', type is buried 
+_LC8_D1  = DFFE( _EQ087, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ087 = !WT_CT0 & !WT_CT1 & !WT_CT2 & !WT_CT3;
+
+-- Node name is ':434' from file "dcp.tdf" line 463, column 10
+-- Equation name is '_LC1_C19', type is buried 
+_LC1_C19 = DFFE( _EQ088, GLOBAL(!CLK42), GLOBAL(!/MR),  VCC,  VCC);
+  _EQ088 = !_LC5_C19 &  _LC7_C19;
+
+-- Node name is ':435' from file "dcp.tdf" line 463, column 17
+-- Equation name is '_LC7_C19', type is buried 
+_LC7_C19 = LCELL( _EQ089);
+  _EQ089 =  _EC8_C &  _LC6_C19
+         #  _EC8_C &  _EC9_C & !_LC5_C32;
+
+-- Node name is ':436' from file "dcp.tdf" line 464, column 18
+-- Equation name is '_LC6_C19', type is buried 
+_LC6_C19 = LCELL( _EQ090);
+  _EQ090 =  A14 &  A15 &  SC4;
+
+-- Node name is ':437' from file "dcp.tdf" line 465, column 9
+-- Equation name is '_LC5_C19', type is buried 
+!_LC5_C19 = _LC5_C19~NOT;
+_LC5_C19~NOT = DFFE(!_LC3_C19, GLOBAL( CLK42), GLOBAL(!/MR),  VCC,  VCC);
+
+-- Node name is ':438' from file "dcp.tdf" line 465, column 13
+-- Equation name is '_LC3_C19', type is buried 
+!_LC3_C19 = _LC3_C19~NOT;
+_LC3_C19~NOT = DFFE(!MC_RQ, GLOBAL( CLK42), GLOBAL(!/MR),  VCC,  VCC);
+
+-- Node name is ':440' from file "dcp.tdf" line 470, column 9
+-- Equation name is '_LC5_C32', type is buried 
+_LC5_C32 = LCELL( _EQ091);
+  _EQ091 =  SC0 &  SYS
+         #  A15
+         #  A14;
+
+-- Node name is ':441' from file "dcp.tdf" line 476, column 10
+-- Equation name is '_LC1_C15', type is buried 
+_LC1_C15 = DFFE(!_LC3_C15, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C35);
+
+-- Node name is ':443' from file "dcp.tdf" line 477, column 17
+-- Equation name is '_LC7_C15', type is buried 
+_LC7_C15 = LCELL( _EQ092);
+  _EQ092 = !_EC1_C & !_EC8_C &  _EC9_C &  _EC13_C;
+
+-- Node name is '~445~1' from file "dcp.tdf" line 492, column 14
+-- Equation name is '~445~1', location is LC8_C27, type is buried.
+-- synthesized logic cell 
+!_LC8_C27 = _LC8_C27~NOT;
+_LC8_C27~NOT = LCELL(!_LC7_C27);
+
+-- Node name is ':445' from file "dcp.tdf" line 492, column 14
+-- Equation name is '_LC7_C27', type is buried 
+_LC7_C27 = DFFE( _LC1_C9, GLOBAL(!CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':446' from file "dcp.tdf" line 495, column 7
+-- Equation name is '_LC8_C29', type is buried 
+_LC8_C29 = LCELL( _EQ093);
+  _EQ093 =  MD4 &  MD5 &  MD6 &  MD7;
+
+-- Node name is ':455' from file "dcp.tdf" line 566, column 8
+-- Equation name is '_LC2_C26', type is buried 
+_LC2_C26 = LCELL( _EQ094);
+  _EQ094 = !A15 &  /IO
+         # !A14 &  /IO
+         #  /IO &  STARTING;
+
+-- Node name is ':457' from file "dcp.tdf" line 572, column 44
+-- Equation name is '_LC3_C18', type is buried 
+_LC3_C18 = DFFE( _LC1_C18, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':458' from file "dcp.tdf" line 572, column 48
+-- Equation name is '_LC1_C18', type is buried 
+_LC1_C18 = DFFE( _EQ095, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ095 =  _LC1_C9 & !/WR;
+
+-- Node name is ':549' from file "dcp.tdf" line 276, column 3
+-- Equation name is '_LC3_D10', type is buried 
+!_LC3_D10 = _LC3_D10~NOT;
+_LC3_D10~NOT = LCELL( _EQ096);
+  _EQ096 = !_LC2_B35 & !MA_CT0 & !MA_CT1;
+
+-- Node name is ':573' from file "dcp.tdf" line 280, column 3
+-- Equation name is '_LC6_D10', type is buried 
+!_LC6_D10 = _LC6_D10~NOT;
+_LC6_D10~NOT = LCELL( _EQ097);
+  _EQ097 = !_LC2_B35 &  MA_CT0 & !MA_CT1;
+
+-- Node name is ':623' from file "dcp.tdf" line 284, column 3
+-- Equation name is '_LC8_D10', type is buried 
+!_LC8_D10 = _LC8_D10~NOT;
+_LC8_D10~NOT = LCELL( _EQ098);
+  _EQ098 = !_LC2_B35 &  MA_CT1;
+
+-- Node name is '~664~1' from file "dcp.tdf" line 285, column 9
+-- Equation name is '~664~1', location is LC8_D12, type is buried.
+-- synthesized logic cell 
+_LC8_D12 = LCELL( _EQ099);
+  _EQ099 = !_LC6_D10
+         # !_LC8_D10;
+
+-- Node name is ':665' from file "dcp.tdf" line 287, column 24
+-- Equation name is '_LC3_C29', type is buried 
+!_LC3_C29 = _LC3_C29~NOT;
+_LC3_C29~NOT = LCELL( _EQ100);
+  _EQ100 = !DD6 & !DD7;
+
+-- Node name is ':673' from file "dcp.tdf" line 289, column 3
+-- Equation name is '_LC2_D10', type is buried 
+!_LC2_D10 = _LC2_D10~NOT;
+_LC2_D10~NOT = LCELL( _EQ101);
+  _EQ101 =  _LC2_B35 & !MA_CT0 & !MA_CT1;
+
+-- Node name is ':709' from file "dcp.tdf" line 293, column 3
+-- Equation name is '_LC7_D10', type is buried 
+!_LC7_D10 = _LC7_D10~NOT;
+_LC7_D10~NOT = LCELL( _EQ102);
+  _EQ102 =  _LC2_B35 &  MA_CT0 & !MA_CT1;
+
+-- Node name is '~712~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~712~1', location is LC3_D11, type is buried.
+-- synthesized logic cell 
+_LC3_D11 = LCELL( _EQ103);
+  _EQ103 =  A2 &  _LC5_D2
+         #  _EC4_C &  _LC8_D12;
+
+-- Node name is '~715~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~715~1', location is LC3_D8, type is buried.
+-- synthesized logic cell 
+_LC3_D8  = LCELL( _EQ104);
+  _EQ104 =  _LC2_D8 & !_LC7_D10
+         #  A3 & !_LC2_D10;
+
+-- Node name is '~715~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~715~2', location is LC4_D8, type is buried.
+-- synthesized logic cell 
+_LC4_D8  = LCELL( _EQ105);
+  _EQ105 =  A7 & !_LC3_D10
+         #  _EC14_C &  _LC8_D12;
+
+-- Node name is '~718~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~718~1', location is LC3_D17, type is buried.
+-- synthesized logic cell 
+_LC3_D17 = LCELL( _EQ106);
+  _EQ106 =  _LC2_D17 & !_LC7_D10
+         #  A4 & !_LC2_D10;
+
+-- Node name is '~718~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~718~2', location is LC7_D17, type is buried.
+-- synthesized logic cell 
+_LC7_D17 = LCELL( _EQ107);
+  _EQ107 =  A13 & !_LC3_D10
+         #  _EC5_C &  _LC8_D12;
+
+-- Node name is '~724~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~724~1', location is LC5_D2, type is buried.
+-- synthesized logic cell 
+_LC5_D2  = LCELL( _EQ108);
+  _EQ108 = !_LC3_D10
+         # !_LC2_D10;
+
+-- Node name is '~724~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~724~2', location is LC5_D11, type is buried.
+-- synthesized logic cell 
+_LC5_D11 = LCELL( _EQ109);
+  _EQ109 = !/IOMY & !_LC8_D10
+         # !_LC7_D10;
+
+-- Node name is '~724~3' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~724~3', location is LC6_D11, type is buried.
+-- synthesized logic cell 
+_LC6_D11 = LCELL( _EQ110);
+  _EQ110 = !/IOMY & !_LC6_D10
+         # !_LC1_C9 & !_LC6_D10
+         #  _LC5_D11;
+
+-- Node name is '~724~4' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~724~4', location is LC7_D11, type is buried.
+-- synthesized logic cell 
+_LC7_D11 = LCELL( _EQ111);
+  _EQ111 =  _EC13_C &  _LC6_D11;
+
+-- Node name is '~727~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~727~1', location is LC5_D8, type is buried.
+-- synthesized logic cell 
+_LC5_D8  = LCELL( _EQ112);
+  _EQ112 = !/IOMZ & !_LC8_D10
+         # !_LC7_D10;
+
+-- Node name is '~727~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~727~2', location is LC6_D8, type is buried.
+-- synthesized logic cell 
+_LC6_D8  = LCELL( _EQ113);
+  _EQ113 = !/IOMZ & !_LC6_D10
+         # !_LC1_C9 & !_LC6_D10
+         #  _LC5_D8;
+
+-- Node name is '~727~3' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~727~3', location is LC7_D8, type is buried.
+-- synthesized logic cell 
+_LC7_D8  = LCELL( _EQ114);
+  _EQ114 =  A7 & !_LC2_D10
+         #  A14 & !_LC3_D10;
+
+-- Node name is '~730~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~730~1', location is LC8_D2, type is buried.
+-- synthesized logic cell 
+_LC8_D2  = LCELL( _EQ115);
+  _EQ115 =  A15 & !_LC3_D10
+         #  _EC9_C &  _LC4_D3;
+
+-- Node name is '~733~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~733~1', location is LC4_D3, type is buried.
+-- synthesized logic cell 
+_LC4_D3  = LCELL( _EQ116);
+  _EQ116 = !_LC6_D10
+         # !_LC7_D10
+         # !_LC8_D10;
+
+-- Node name is '~733~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~733~2', location is LC7_D3, type is buried.
+-- synthesized logic cell 
+_LC7_D3  = LCELL( _EQ117);
+  _EQ117 = !_LC3_D10 &  /WR
+         #  _EC8_C &  _LC4_D3;
+
+-- Node name is '~736~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~736~1', location is LC6_D15, type is buried.
+-- synthesized logic cell 
+_LC6_D15 = LCELL( _EQ118);
+  _EQ118 = !_LC6_D10 &  MQ8
+         #  DOS & !_LC3_D10;
+
+-- Node name is '~736~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~736~2', location is LC7_D15, type is buried.
+-- synthesized logic cell 
+_LC7_D15 = LCELL( _EQ119);
+  _EQ119 =  _LC1_D15 & !_LC7_D10
+         # !_LC2_D10 &  _LC5_D15;
+
+-- Node name is '~736~3' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~736~3', location is LC8_D15, type is buried.
+-- synthesized logic cell 
+_LC8_D15 = LCELL( _EQ120);
+  _EQ120 =  _EC15_C & !_LC8_D10
+         #  _LC7_D15;
+
+-- Node name is '~739~1' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~739~1', location is LC6_D14, type is buried.
+-- synthesized logic cell 
+_LC6_D14 = LCELL( _EQ121);
+  _EQ121 = !_LC6_D10 &  MQ9
+         # !_LC3_D10 &  PN5;
+
+-- Node name is '~739~2' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~739~2', location is LC7_D14, type is buried.
+-- synthesized logic cell 
+_LC7_D14 = LCELL( _EQ122);
+  _EQ122 = !_LC7_D10 &  _LC8_D17
+         #  _LC1_D17 & !_LC2_D10;
+
+-- Node name is '~739~3' from file "dcp.tdf" line 294, column 9
+-- Equation name is '~739~3', location is LC8_D14, type is buried.
+-- synthesized logic cell 
+_LC8_D14 = LCELL( _EQ123);
+  _EQ123 =  _EC7_C & !_LC8_D10
+         #  _LC7_D14;
+
+-- Node name is ':741' from file "dcp.tdf" line 295, column 11
+-- Equation name is '_LC5_C29', type is buried 
+!_LC5_C29 = _LC5_C29~NOT;
+_LC5_C29~NOT = LCELL( _EQ124);
+  _EQ124 = !_LC3_C29 &  MA_CT1
+         #  _LC2_B35 &  MA_CT1;
+
+-- Node name is '~748~1' from file "dcp.tdf" line 298, column 9
+-- Equation name is '~748~1', location is LC1_D3, type is buried.
+-- synthesized logic cell 
+_LC1_D3  = LCELL( _EQ125);
+  _EQ125 = !_LC7_D10 &  _LC8_D3
+         #  A5 &  _LC5_D2;
+
+-- Node name is '~748~2' from file "dcp.tdf" line 298, column 9
+-- Equation name is '~748~2', location is LC2_D3, type is buried.
+-- synthesized logic cell 
+_LC2_D3  = LCELL( _EQ126);
+  _EQ126 = !_LC8_D10 &  /WR
+         # !_LC1_C9 & !_LC6_D10
+         # !_LC6_D10 &  /WR;
+
+-- Node name is '~748~3' from file "dcp.tdf" line 298, column 9
+-- Equation name is '~748~3', location is LC5_D3, type is buried.
+-- synthesized logic cell 
+_LC5_D3  = LCELL( _EQ127);
+  _EQ127 =  _LC2_B35 &  MA_CT1
+         #  _EC10_C &  _LC2_D3;
+
+-- Node name is '~761~1' from file "dcp.tdf" line 350, column 50
+-- Equation name is '~761~1', location is LC1_C6, type is buried.
+-- synthesized logic cell 
+_LC1_C6  = LCELL( _EQ128);
+  _EQ128 =  CONTINUE &  CT0 &  CT2;
+
+-- Node name is ':761' from file "dcp.tdf" line 350, column 50
+-- Equation name is '_LC4_C6', type is buried 
+_LC4_C6  = LCELL( _EQ129);
+  _EQ129 = !BLK_C &  _LC1_C6 & !_LC2_C9;
+
+-- Node name is ':762' from file "dcp.tdf" line 351, column 22
+-- Equation name is '_LC6_C9', type is buried 
+!_LC6_C9 = _LC6_C9~NOT;
+_LC6_C9~NOT = LCELL( _EQ130);
+  _EQ130 = !/MR
+         # !/IO;
+
+-- Node name is '~769~1' from file "dcp.tdf" line 360, column 38
+-- Equation name is '~769~1', location is LC8_C24, type is buried.
+-- synthesized logic cell 
+_LC8_C24 = LCELL( _EQ131);
+  _EQ131 = !MC_RQ & !/WR;
+
+-- Node name is ':772' from file "dcp.tdf" line 369, column 17
+-- Equation name is '_LC6_C18', type is buried 
+_LC6_C18 = LCELL( _EQ132);
+  _EQ132 =  CT1 &  CT2;
+
+-- Node name is ':779' from file "dcp.tdf" line 371, column 43
+-- Equation name is '_LC7_C6', type is buried 
+_LC7_C6  = LCELL( _EQ133);
+  _EQ133 = !CT0 & !CT1 & !_LC8_C9
+         #  CT0 & !CT1 &  _LC8_C9 & !RFC;
+
+-- Node name is ':787' from file "dcp.tdf" line 372, column 44
+-- Equation name is '_LC6_C6', type is buried 
+_LC6_C6  = LCELL( _EQ134);
+  _EQ134 =  CT0 & !CT1 & !_LC8_C9
+         # !CT0 & !CT1 &  _LC8_C9 & !RFC;
+
+-- Node name is '~811~1' from file "dcp.tdf" line 411, column 46
+-- Equation name is '~811~1', location is LC1_D2, type is buried.
+-- synthesized logic cell 
+_LC1_D2  = LCELL( _EQ135);
+  _EQ135 =  A8 & !/IOMX &  /RD
+         # !A8 & !/IOMX & !/RD;
+
+-- Node name is '~818~1' from file "dcp.tdf" line 414, column 21
+-- Equation name is '~818~1', location is LC8_C14, type is buried.
+-- synthesized logic cell 
+_LC8_C14 = LCELL( _EQ136);
+  _EQ136 = !_EC2_C & !_EC7_C & !_EC12_C & !_EC15_C;
+
+-- Node name is ':824' from file "dcp.tdf" line 418, column 25
+-- Equation name is '_LC2_C14', type is buried 
+_LC2_C14 = LCELL( _EQ137);
+  _EQ137 =  _EC1_C &  _EC8_C & !_EC9_C &  _LC1_C14;
+
+-- Node name is '~830~1' from file "dcp.tdf" line 419, column 26
+-- Equation name is '~830~1', location is LC7_C14, type is buried.
+-- synthesized logic cell 
+_LC7_C14 = LCELL( _EQ138);
+  _EQ138 = !_EC7_C & !_EC15_C & !_LC4_C14;
+
+-- Node name is ':831' from file "dcp.tdf" line 420, column 25
+-- Equation name is '_LC6_C14', type is buried 
+_LC6_C14 = LCELL( _EQ139);
+  _EQ139 =  _LC5_C14 &  /RESET;
+
+-- Node name is ':835' from file "dcp.tdf" line 430, column 21
+-- Equation name is '_LC3_C35', type is buried 
+_LC3_C35 = LCELL( _EQ140);
+  _EQ140 =  CT0 & !CT2
+         # !CT0 &  CT2;
+
+-- Node name is ':837' from file "dcp.tdf" line 432, column 23
+-- Equation name is '_LC6_D6', type is buried 
+_LC6_D6  = LCELL( _EQ141);
+  _EQ141 = !IO_RW &  _LC1_C9;
+
+-- Node name is ':838' from file "dcp.tdf" line 435, column 27
+-- Equation name is '_LC4_D2', type is buried 
+!_LC4_D2 = _LC4_D2~NOT;
+_LC4_D2~NOT = LCELL( _EQ142);
+  _EQ142 = !_LC4_D1
+         # !W_TAB0;
+
+-- Node name is ':840' from file "dcp.tdf" line 435, column 27
+-- Equation name is '_LC8_D5', type is buried 
+!_LC8_D5 = _LC8_D5~NOT;
+_LC8_D5~NOT = LCELL( _EQ143);
+  _EQ143 = !_LC4_D1
+         # !W_TAB2;
+
+-- Node name is ':842' from file "dcp.tdf" line 436, column 3
+-- Equation name is '_LC1_D5', type is buried 
+!_LC1_D5 = _LC1_D5~NOT;
+_LC1_D5~NOT = LCELL( _EQ144);
+  _EQ144 = !_LC4_D1 & !_LC8_D1;
+
+-- Node name is ':850' from file "dcp.tdf" line 436, column 36
+-- Equation name is '_LC1_D1_CARRY', type is buried 
+_LC1_D1_CARRY = CARRY( _EQ145);
+  _EQ145 =  WT_CT0
+         #  WT_CT1;
+
+-- Node name is ':855' from file "dcp.tdf" line 436, column 36
+-- Equation name is '_LC2_D1_CARRY', type is buried 
+-- :855 is in Clearable Counter Mode
+_LC2_D1_CARRY = CARRY( _EQ146);
+  _EQ146 =  WT_CT2
+         #  _LC1_D1_CARRY;
+
+-- Node name is ':865' from file "dcp.tdf" line 436, column 27
+-- Equation name is '_LC3_D5', type is buried 
+!_LC3_D5 = _LC3_D5~NOT;
+_LC3_D5~NOT = LCELL( _EQ147);
+  _EQ147 =  _LC1_D5
+         #  WT_CT0 & !WT_CT1
+         # !WT_CT0 &  WT_CT1;
+
+-- Node name is ':871' from file "dcp.tdf" line 436, column 27
+-- Equation name is '_LC3_D1_CARRY', type is buried 
+!_LC3_D1_CARRY = _LC3_D1_CARRY~NOT;
+_LC3_D1_CARRY~NOT = CARRY( _EQ148);
+  _EQ148 =  _LC2_D1_CARRY & !WT_CT3
+         # !_LC2_D1_CARRY &  WT_CT3
+         #  _LC1_D5;
+
+-- Node name is ':872' from file "dcp.tdf" line 436, column 27
+-- Equation name is '_LC4_D1_CARRY', type is buried 
+-- :872 is in Up/Down Counter Mode
+!_LC4_D1_CARRY = _LC4_D1_CARRY~NOT;
+_LC4_D1_CARRY~NOT = CARRY( _EQ149);
+  _EQ149 = !_LC3_D1_CARRY & !_LC4_D1
+         # !_LC3_D1_CARRY & !W_TAB3;
+
+-- Node name is ':933' from file "dcp.tdf" line 457, column 21
+-- Equation name is '_LC4_C19', type is buried 
+_LC4_C19 = LCELL( _EQ150);
+  _EQ150 =  /CASH &  /IO_WAIT
+         #  /IO_WAIT &  _LC1_C35
+         #  /IO_WAIT &  MEM_RW;
+
+-- Node name is '~1004~1' from file "dcp.tdf" line 502, column 23
+-- Equation name is '~1004~1', location is LC6_C3, type is buried.
+-- synthesized logic cell 
+_LC6_C3  = LCELL( _EQ151);
+  _EQ151 = !DD0 &  DD1 & !DI1;
+
+-- Node name is ':1004' from file "dcp.tdf" line 502, column 23
+-- Equation name is '_LC8_C3', type is buried 
+_LC8_C3  = LCELL( _EQ152);
+  _EQ152 =  DD2 & !_LC3_C14 &  _LC6_C3;
+
+-- Node name is ':1010' from file "dcp.tdf" line 503, column 20
+-- Equation name is '_LC8_C17', type is buried 
+_LC8_C17 = LCELL( _EQ153);
+  _EQ153 = !DD0 &  DD1 &  DD2 & !_LC3_C14;
+
+-- Node name is '~1018~1' from file "dcp.tdf" line 504, column 22
+-- Equation name is '~1018~1', location is LC2_C4, type is buried.
+-- synthesized logic cell 
+_LC2_C4  = LCELL( _EQ154);
+  _EQ154 = !DD0 &  DD1 &  DI1;
+
+-- Node name is ':1018' from file "dcp.tdf" line 504, column 22
+-- Equation name is '_LC3_C4', type is buried 
+_LC3_C4  = LCELL( _EQ155);
+  _EQ155 =  DD2 &  _LC2_C4 & !_LC3_C14;
+
+-- Node name is '~1025~1' from file "dcp.tdf" line 505, column 25
+-- Equation name is '~1025~1', location is LC5_C3, type is buried.
+-- synthesized logic cell 
+_LC5_C3  = LCELL( _EQ156);
+  _EQ156 = !DD0 &  DD1 &  DI2;
+
+-- Node name is ':1025' from file "dcp.tdf" line 505, column 25
+-- Equation name is '_LC2_C3', type is buried 
+_LC2_C3  = LCELL( _EQ157);
+  _EQ157 =  DD2 & !_LC3_C14 &  _LC5_C3;
+
+-- Node name is ':1029' from file "dcp.tdf" line 506, column 21
+-- Equation name is '_LC6_C17', type is buried 
+_LC6_C17 = LCELL( _EQ158);
+  _EQ158 = !DD0 & !DD1 & !DD2 & !_LC3_C14;
+
+-- Node name is ':1034' from file "dcp.tdf" line 507, column 21
+-- Equation name is '_LC5_C17', type is buried 
+_LC5_C17 = LCELL( _EQ159);
+  _EQ159 =  DD0 & !DD1 & !DD2 & !_LC3_C14;
+
+-- Node name is ':1039' from file "dcp.tdf" line 509, column 18
+-- Equation name is '_LC3_C14', type is buried 
+!_LC3_C14 = _LC3_C14~NOT;
+_LC3_C14~NOT = LCELL( _EQ160);
+  _EQ160 = !DD4 & !DD5 &  DD6 &  DD7;
+
+-- Node name is ':1046' from file "dcp.tdf" line 516, column 18
+-- Equation name is '_LC5_C4', type is buried 
+_LC5_C4  = LCELL( _EQ161);
+  _EQ161 =  /IO
+         #  /WR;
+
+-- Node name is ':1048' from file "dcp.tdf" line 523, column 22
+-- Equation name is '_LC7_C17', type is buried 
+_LC7_C17 = LCELL( _EQ162);
+  _EQ162 = !CNF6 &  /RESET;
+
+-- Node name is ':1050' from file "dcp.tdf" line 525, column 25
+-- Equation name is '_LC1_C3', type is buried 
+_LC1_C3  = LCELL( _EQ163);
+  _EQ163 = !CNF5 &  /RESET;
+
+-- Node name is ':1051' from file "dcp.tdf" line 527, column 25
+-- Equation name is '_LC4_C16', type is buried 
+_LC4_C16 = LCELL( _EQ164);
+  _EQ164 =  CNF7 &  /RESET;
+
+-- Node name is ':1052' from file "dcp.tdf" line 527, column 16
+-- Equation name is '_LC3_D14', type is buried 
+_LC3_D14 = LCELL( _EQ165);
+  _EQ165 =  CNF7 &  /RESET
+         # !CNF5 &  /RESET;
+
+-- Node name is ':1258' from file "dcp.tdf" line 600, column 3
+-- Equation name is '_LC1_A4', type is buried 
+!_LC1_A4 = _LC1_A4~NOT;
+_LC1_A4~NOT = LCELL( _EQ166);
+  _EQ166 = !DOS & !SC1 &  SYS;
+
+-- Node name is '~1267~1' from file "dcp.tdf" line 601, column 3
+-- Equation name is '~1267~1', location is LC5_A5, type is buried.
+-- synthesized logic cell 
+_LC5_A5  = LCELL( _EQ167);
+  _EQ167 =  DOS & !PN4 & !SC1 &  SYS;
+
+-- Node name is '~1277~1' from file "dcp.tdf" line 602, column 3
+-- Equation name is '~1277~1', location is LC2_A5, type is buried.
+-- synthesized logic cell 
+_LC2_A5  = LCELL( _EQ168);
+  _EQ168 =  DOS &  PN4 & !SC1 &  SYS;
+
+-- Node name is '~1283~1' from file "dcp.tdf" line 602, column 26
+-- Equation name is '~1283~1', location is LC2_A4, type is buried.
+-- synthesized logic cell 
+_LC2_A4  = LCELL( _EQ169);
+  _EQ169 = !AROM16 &  SC1
+         # !AROM16 & !SYS
+         # !DOS & !SC1 &  SYS;
+
+-- Node name is ':1283' from file "dcp.tdf" line 602, column 26
+-- Equation name is '_LC1_A5', type is buried 
+_LC1_A5  = LCELL( _EQ170);
+  _EQ170 =  _LC2_A4
+         #  _LC5_A5 & !TEST_R
+         #  _LC2_A5 & !TEST_R;
+
+-- Node name is '~1290~1' from file "dcp.tdf" line 603, column 3
+-- Equation name is '~1290~1', location is LC7_A5, type is buried.
+-- synthesized logic cell 
+_LC7_A5  = LCELL( _EQ171);
+  _EQ171 = !PN4 & !SC1 &  SYS;
+
+-- Node name is '~1300~1' from file "dcp.tdf" line 604, column 3
+-- Equation name is '~1300~1', location is LC3_A5, type is buried.
+-- synthesized logic cell 
+_LC3_A5  = LCELL( _EQ172);
+  _EQ172 =  DOS &  PN4 & !SC1 &  SYS;
+
+-- Node name is ':1302' from file "dcp.tdf" line 604, column 26
+-- Equation name is '_LC4_A5', type is buried 
+_LC4_A5  = LCELL( _EQ173);
+  _EQ173 = !_LC1_A4
+         #  _LC2_A5 & !TEST_R
+         #  _LC3_A5 &  TEST_R;
+
+-- Node name is '~1304~1' from file "dcp.tdf" line 604, column 26
+-- Equation name is '~1304~1', location is LC8_A5, type is buried.
+-- synthesized logic cell 
+_LC8_A5  = LCELL( _EQ174);
+  _EQ174 =  _LC5_A5 & !TEST_R
+         #  DOS &  _LC7_A5 &  TEST_R;
+
+-- Node name is ':1304' from file "dcp.tdf" line 604, column 26
+-- Equation name is '_LC6_A5', type is buried 
+_LC6_A5  = LCELL( _EQ175);
+  _EQ175 =  _LC2_A5 & !TEST_R
+         #  _LC8_A5
+         #  _LC3_A5 &  TEST_R;
+
+-- Node name is ':1306' from file "dcp.tdf" line 608, column 17
+-- Equation name is '_LC2_C24', type is buried 
+_LC2_C24 = LCELL( _EQ176);
+  _EQ176 =  _LC5_C32
+         #  /MR;
+
+-- Node name is ':1307' from file "dcp.tdf" line 609, column 18
+-- Equation name is '_LC4_C24', type is buried 
+!_LC4_C24 = _LC4_C24~NOT;
+_LC4_C24~NOT = LCELL( _EQ177);
+  _EQ177 =  _LC5_C32 & !/MR;
+
+-- Node name is '~1314~1' from file "dcp.tdf" line 613, column 35
+-- Equation name is '~1314~1', location is LC1_B19, type is buried.
+-- synthesized logic cell 
+_LC1_B19 = LCELL( _EQ178);
+  _EQ178 =  _EC11_C
+         # !_EC3_C
+         # !_EC6_C;
+
+-- Node name is ':1314' from file "dcp.tdf" line 613, column 35
+-- Equation name is '_LC5_B19', type is buried 
+_LC5_B19 = LCELL( _EQ179);
+  _EQ179 =  _LC1_B19
+         # !_EC16_C
+         #  /MR;
+
+-- Node name is '~1320~1' from file "dcp.tdf" line 614, column 40
+-- Equation name is '~1320~1', location is LC8_C26, type is buried.
+-- synthesized logic cell 
+_LC8_C26 = LCELL( _EQ180);
+  _EQ180 =  /RD &  /WR
+         #  _EC3_C
+         #  _EC11_C;
+
+-- Node name is ':1320' from file "dcp.tdf" line 614, column 40
+-- Equation name is '_LC7_C26', type is buried 
+_LC7_C26 = LCELL( _EQ181);
+  _EQ181 =  _LC8_C26
+         #  _EC16_C
+         #  _EC6_C
+         #  /IO;
+
+-- Node name is '~1323~1' from file "dcp.tdf" line 572, column 42
+-- Equation name is '~1323~1', location is LC3_C26, type is buried.
+-- synthesized logic cell 
+_LC3_C26 = LCELL( _EQ182);
+  _EQ182 =  DD7 &  STARTING;
+
+-- Node name is ':1332' from file "dcp.tdf" line 563, column 37
+-- Equation name is '_LC4_C26', type is buried 
+_LC4_C26 = LCELL( _EQ183);
+  _EQ183 =  /RD
+         #  /IO;
+
+-- Node name is '~1343~1' from file "dcp.tdf" line 560, column 32
+-- Equation name is '~1343~1', location is LC2_C30, type is buried.
+-- synthesized logic cell 
+_LC2_C30 = LCELL( _EQ184);
+  _EQ184 =  /RD
+         #  /IO
+         #  DD5
+         #  DD4;
+
+-- Node name is '~1343~2' from file "dcp.tdf" line 560, column 32
+-- Equation name is '~1343~2', location is LC4_C30, type is buried.
+-- synthesized logic cell 
+_LC4_C30 = LCELL( _EQ185);
+  _EQ185 =  DD6
+         # !DD7
+         #  DD0
+         #  DD1;
+
+-- Node name is ':1343' from file "dcp.tdf" line 560, column 32
+-- Equation name is '_LC5_C30', type is buried 
+_LC5_C30 = LCELL( _EQ186);
+  _EQ186 =  _LC2_C30
+         #  _LC4_C30
+         # !DD3
+         #  DD2;
+
+-- Node name is ':1395' from file "dcp.tdf" line 477, column 35
+-- Equation name is '_LC3_C15', type is buried 
+!_LC3_C15 = _LC3_C15~NOT;
+_LC3_C15~NOT = LCELL( _EQ187);
+  _EQ187 = !_EC1_C & !_EC8_C &  _EC9_C &  _EC13_C;
+
+-- Node name is ':1397' from file "dcp.tdf" line 476, column 53
+-- Equation name is '_LC5_C35', type is buried 
+_LC5_C35 = LCELL( _EQ188);
+  _EQ188 =  CT0 &  CT2;
+
+-- Node name is ':1434' from file "dcp.tdf" line 434, column 26
+-- Equation name is '_LC6_D1', type is buried 
+!_LC6_D1 = _LC6_D1~NOT;
+_LC6_D1~NOT = LCELL( _EQ189);
+  _EQ189 = !WT_CT0 & !WT_CT1 & !WT_CT2 & !WT_CT3;
+
+-- Node name is ':1459' from file "dcp.tdf" line 388, column 21
+-- Equation name is '_LC2_B35', type is buried 
+_LC2_B35 = LCELL( _EQ190);
+  _EQ190 =  /IO
+         # !/M1;
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_0' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC4_C', type is memory 
+_EC4_C   = MEMORY_SEGMENT( DI0, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_1' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC14_C', type is memory 
+_EC14_C  = MEMORY_SEGMENT( DI1, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_2' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC5_C', type is memory 
+_EC5_C   = MEMORY_SEGMENT( DI2, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_3' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC10_C', type is memory 
+_EC10_C  = MEMORY_SEGMENT( DI3, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_4' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC13_C', type is memory 
+_EC13_C  = MEMORY_SEGMENT( DI4, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_5' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC1_C', type is memory 
+_EC1_C   = MEMORY_SEGMENT( DI5, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_6' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC9_C', type is memory 
+_EC9_C   = MEMORY_SEGMENT( DI6, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_7' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC8_C', type is memory 
+_EC8_C   = MEMORY_SEGMENT( DI7, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_8' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC15_C', type is memory 
+_EC15_C  = MEMORY_SEGMENT( _EC15_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_9' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC7_C', type is memory 
+_EC7_C   = MEMORY_SEGMENT( _EC7_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_10' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC12_C', type is memory 
+_EC12_C  = MEMORY_SEGMENT( _EC12_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_11' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC2_C', type is memory 
+_EC2_C   = MEMORY_SEGMENT( _EC2_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_12' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC3_C', type is memory 
+_EC3_C   = MEMORY_SEGMENT( _EC3_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_13' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC11_C', type is memory 
+_EC11_C  = MEMORY_SEGMENT( _EC11_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_14' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC6_C', type is memory 
+_EC6_C   = MEMORY_SEGMENT( _EC6_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dp:MEM|altdpram:sram|segment0_15' from file "altdpram.tdf" line 190, column 12
+-- Equation name is '_EC16_C', type is memory 
+_EC16_C  = MEMORY_SEGMENT( _EC16_C, GLOBAL( CLK42), GLOBAL( CLK42), MEM_WR, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, PGS0, PGS1, PGS2, PGS3, PGS4, PGS5, PGS6, PGS7, VCC, VCC, VCC, VCC, VCC, VCC);
+
+
+
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+** TIMING ASSIGNMENTS **
+
+
+INFORMATION: One or more paths have been found between register controlled by different clocks--can't calculate fmax for those paths 
+
+                         User       Actual 
+Type  Location        Assignment    Value     Status   Critical Path
+
+fmax  <default>       200.00 MHz  63.29 MHz   Failed   CLK42 to register DD6.Q to register PGS0.Q
+
+
+Project Information                   c:\copy_d\asembler\altera\sp2000\dcp.rpt
+
+** COMPILATION SETTINGS & TIMES **
+
+Processing Menu Commands
+------------------------
+
+Design Doctor                             = off
+
+Logic Synthesis:
+
+   Synthesis Type Used                    = Multi-Level
+
+   Default Synthesis Style                = FAST
+
+      Logic option settings in 'FAST' style for 'ACEX1K' family
+
+      CARRY_CHAIN                         = auto
+      CARRY_CHAIN_LENGTH                  = 32
+      CASCADE_CHAIN                       = auto
+      CASCADE_CHAIN_LENGTH                = 2
+      DECOMPOSE_GATES                     = on
+      DUPLICATE_LOGIC_EXTRACTION          = on
+      MINIMIZATION                        = full
+      MULTI_LEVEL_FACTORING               = on
+      NOT_GATE_PUSH_BACK                  = on
+      REDUCE_LOGIC                        = on
+      REFACTORIZATION                     = off
+      REGISTER_OPTIMIZATION               = on
+      RESYNTHESIZE_NETWORK                = on
+      SLOW_SLEW_RATE                      = off
+      SUBFACTOR_EXTRACTION                = off
+      IGNORE_SOFT_BUFFERS                 = on
+      USE_LPM_FOR_AHDL_OPERATORS          = off
+
+   Other logic synthesis settings:
+
+      Automatic Global Clock              = on
+      Automatic Global Clear              = on
+      Automatic Global Preset             = on
+      Automatic Global Output Enable      = on
+      Automatic Fast I/O                  = off
+      Automatic Register Packing          = off
+      Automatic Open-Drain Pins           = on
+      Automatic Implement in EAB          = off
+      Optimize                            = 5
+
+Default Timing Specifications: 
+
+   fmax                                   = 200MHz
+
+Cut All Bidir Feedback Timing Paths       = on
+Cut All Clear & Preset Timing Paths       = on
+
+Ignore Timing Assignments                 = off
+
+Functional SNF Extractor                  = off
+
+Linked SNF Extractor                      = off
+Timing SNF Extractor                      = on
+Optimize Timing SNF                       = off
+Generate AHDL TDO File                    = off
+Fitter Settings                           = NORMAL
+Use Quartus Fitter                        = on
+Smart Recompile                           = off
+Total Recompile                           = off
+
+Interfaces Menu Commands
+------------------------
+
+EDIF Netlist Writer                       = off
+Verilog Netlist Writer                    = off
+VHDL Netlist Writer                       = off
+
+Compilation Times
+-----------------
+
+   Compiler Netlist Extractor             00:00:00
+   Database Builder                       00:00:00
+   Logic Synthesizer                      00:00:02
+   Partitioner                            00:00:01
+   Fitter                                 00:00:24
+   Timing SNF Extractor                   00:00:06
+   Assembler                              00:00:03
+   --------------------------             --------
+   Total Time                             00:00:36
+
+
+Memory Allocated
+-----------------
+
+Peak memory allocated during compilation  = 27,419K

@@ -1,0 +1,119 @@
+DEPTH = 256;	% Memory depth and width are required	%
+WIDTH = 16;		% Enter a decimal number	%
+
+ADDRESS_RADIX = HEX;	% Address and value radixes are optional	%
+DATA_RADIX = HEX;		% Enter BIN, DEC, HEX, or OCT; unless 	%
+						% otherwise specified, radixes = HEX	%
+
+-- Specify values for addresses, which can be single address or range
+
+CONTENT
+BEGIN
+	[0..FF]	: 1000;
+
+	0		: 1040	% DCP PAGE %;
+
+%
+	MA[11..0]	bit0 - WG_A5
+				bit1 - WG_A6
+
+				bit2 - MUX_KP11, 0 - WG,CMOS	1 - KMPS,TM9
+				bit3 - RD/WR	 0 - WRITE		1 - READ
+				bit4 - CS_WG93 or WR_TM9
+
+				bit5 - HDD/CMOS strobe
+				bit6,7	- 	00 - FDD/Scr switches
+							01 - HDD Switch/ Reset
+							10 - HDD1/HDD2
+							11 - CMOS
+				bit8 - HDD CS1/CS3 or CMOS data/adr
+				bit9,10,11 - HDD_A[2..0]
+%
+	10		:
+			7018 % RD WG93 1F,0F %
+			7019 % RD WG93 3F %
+			701A % RD WG93 5F %
+			701B % RD WG93 7F %
+
+			7017 % WR_PDOS FF %
+			701F % RD_KEYS/ WR_A20 %
+
+			7023 % Set 720  %
+			7027 % Set 1440 %;
+
+--	18		:
+--			1000 % No_function %
+
+--	1B		: 1000;	% ISA_A20 WR %
+
+	1C		: 71D8 % CMOS_DAT_RD %;
+	1D		: 70D4 % CMOS_ADR_WR %;
+	1E		: 71D4 % CMOS_DAT_WR %;
+
+	20		:
+			60A8 % HD_CS1 ports %
+			62A8
+			64A8
+			66A8
+			68A8
+			6AA8
+			6CA8
+			6EA8
+
+			6DA8 % HD_CS3 3F6 port %
+			6FA8 % HD_CS3 3F7 port %
+
+			7060 % Set HDD1 %
+			7064 % Set HDD2 %
+
+			7120 % Set 320 Lines %
+			7124 % Set 312 Lines %
+
+			7160 % Soft Reset %
+			7164 % ??? %;
+
+
+	30		:
+			7000 % slot 1 ports %
+			7001 % slot 2 ports %
+			7002 % slot 1 mem   %
+			7003 % slot 2 mem   %
+			;
+
+	40		: 4000; % kb read %
+
+	52		: 3000;	-- AY_D READ
+
+	58		: 5000;	-- KEMPSTON-Mouse
+
+	[80..FF]:	C000;
+
+	88		:	2000; -- COVOX
+	89		:	2000; -- COVOX-Mode
+
+	8C		: 	3000;	-- AY_D READ
+	8D		:	2000;	-- AY_A WRITE
+	8E		:	2000;	-- AY_D WRITE
+
+	8F		:   2000;	-- port for ROM_WRITE
+
+--	80		: 7F 7F 7F 7F 7F 7F 7F 7F % KBD_DAT %;
+--	90		: 7F % PORT FF %;
+
+	90		: 	3030 3031 2032 2033 2034 2035 2036 2037
+				2038 2039 203A 203B 203C 203D 203E 203F; % RAM PAGES %
+
+	B0		: 	2020 2021 2022 2023 2024 2025 2026 2027
+				2028 2029 202A 202B 202C 202D 202E 202F; % RAM PAGES %
+
+	[C0..CF]: 	2000 % SYS PORTS COPYES %;
+
+	D0		: 	2010 2011 2012 2013 2014 2015 2016 2017
+				2018 2019 201A 201B 201C 201D 201E 201F; % RAM PAGES %
+	E0		: 	20E0 20E2 20E4 20E6 20E8 20EA 20EC 20EE
+				2000 2005 2002 20E0 20F0 2000 2000 20E8; % ROM PAGES %
+--	E0		: 41 42 43 44 45 46 47 48 00 05 02 E0 F0 00 00 E8; % ROM PAGES %
+	F0		: 	2000 2001 2002 2003 2004 2005 2006 2007
+				2008 2009 200A 200B 200C 200D 200E 200F; % RAM PAGES %
+
+END ;

@@ -1,0 +1,239 @@
+-- Copyright (C) 1988-2000 Altera Corporation
+-- Any megafunction design, and related net list (encrypted or decrypted),
+-- support information, device programming or simulation file, and any other
+-- associated documentation or information provided by Altera or a partner
+-- under Altera's Megafunction Partnership Program may be used only to
+-- program PLD devices (but not masked PLD devices) from Altera.  Any other
+-- use of such megafunction design, net list, support information, device
+-- programming or simulation file, or any other related documentation or
+-- information is prohibited for any other purpose, including, but not
+-- limited to modification, reverse engineering, de-compiling, or use with
+-- any other silicon devices, unless such use is explicitly licensed under
+-- a separate agreement with Altera or a megafunction partner.  Title to
+-- the intellectual property, including patents, copyrights, trademarks,
+-- trade secrets, or maskworks, embodied in any such megafunction design,
+-- net list, support information, device programming or simulation file, or
+-- any other related documentation or information provided by Altera or a
+-- megafunction partner, remains with Altera, the megafunction partner, or
+-- their respective licensors.  No other licenses, including any licenses
+-- needed under any third party's intellectual property, are provided herein.
+
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+----------------------------------------------------------------------------
+
+CHIP "ay" ASSIGNED TO AN EP1K30QC208-3
+TCK                              : 1
+CONF_DONE                        : 2
+nCEO                             : 3
+TDO                              : 4
+VCCIO                            : 5
+GND                              : 6
+AY_CH_C2                         : 7
+AY_CH_B3                         : 8
+AY_CH_B1                         : 9
+AY_CH_B2                         : 10
+AY_CH_C3                         : 11
+RESERVED                         : 12
+RESERVED                         : 13
+RESERVED                         : 14
+RESERVED                         : 15
+DO3                              : 16
+AY_D_WR                          : 17
+AY_T3                            : 18
+AY_T5                            : 19
+GND                              : 20
+VCCINT                           : 21
+VCCIO                            : 22
+GND                              : 23
+D7                               : 24
+RESERVED                         : 25
+AY_CH_A0                         : 26
+RESERVED                         : 27
+AY_CH_A1                         : 28
+AY_CH_B0                         : 29
+RESERVED                         : 30
+RESERVED                         : 31
+GND                              : 32
+VCCINT                           : 33
+VCCIO                            : 34
+GND                              : 35
+RESERVED                         : 36
+AY_CH_C0                         : 37
+AY_T7                            : 38
+RESERVED                         : 39
+RESERVED                         : 40
+AY_CH_A3                         : 41
+VCCIO                            : 42
+GND                              : 43
+RESERVED                         : 44
+AY_CH_L9                         : 45
+AY_CH_R6                         : 46
+AY_CH_R8                         : 47
+VCCINT                           : 48
+GND                              : 49
+TMS                              : 50
+TRST                             : 51
+nSTATUS                          : 52
+RESERVED                         : 53
+RESERVED                         : 54
+RESERVED                         : 55
+RESERVED                         : 56
+AY_CH_R7                         : 57
+AY_CH_R9                         : 58
+GND                              : 59
+RESERVED                         : 60
+RESERVED                         : 61
+RESERVED                         : 62
+RESERVED                         : 63
+RESERVED                         : 64
+RESERVED                         : 65
+VCCIO                            : 66
+RESERVED                         : 67
+BEEPER                           : 68
+RESERVED                         : 69
+RESERVED                         : 70
+RESERVED                         : 71
+VCCINT                           : 72
+RESERVED                         : 73
+RESERVED                         : 74
+RESERVED                         : 75
+GND                              : 76
+VCCINT                           : 77
+/RESET                           : 78
+AY_A_WR                          : 79
+D1                               : 80
+GND                              : 81
+GND                              : 82
+AY_T0                            : 83
+VCCIO                            : 84
+AY_CH_VAL                        : 85
+RESERVED                         : 86
+RESERVED                         : 87
+RESERVED                         : 88
+RESERVED                         : 89
+RESERVED                         : 90
+VCCINT                           : 91
+RESERVED                         : 92
+DO1                              : 93
+RESERVED                         : 94
+RESERVED                         : 95
+AY_T4                            : 96
+RESERVED                         : 97
+VCCIO                            : 98
+RESERVED                         : 99
+AY_T2                            : 100
+AY_CH_R5                         : 101
+RESERVED                         : 102
+RESERVED                         : 103
+AY_T1                            : 104
+nCONFIG                          : 105
+VCCINT                           : 106
+MSEL1                            : 107
+MSEL0                            : 108
+GND                              : 109
+VCCIO                            : 110
+AY_CH_L3                         : 111
+AY_CH_L1                         : 112
+AY_CH_R2                         : 113
+AY_CH_R1                         : 114
+AY_CH_R4                         : 115
+AY_CH_L6                         : 116
+GND                              : 117
+VCCIO                            : 118
+RESERVED                         : 119
+RESERVED                         : 120
+RESERVED                         : 121
+RESERVED                         : 122
+GND                              : 123
+VCCINT                           : 124
+RESERVED                         : 125
+RESERVED                         : 126
+AY_CH_L2                         : 127
+AY_CH_A2                         : 128
+GND                              : 129
+VCCINT                           : 130
+DO6                              : 131
+DO4                              : 132
+DO5                              : 133
+DO7                              : 134
+DO2                              : 135
+D6                               : 136
+GND                              : 137
+VCCIO                            : 138
+RESERVED                         : 139
+RESERVED                         : 140
+RESERVED                         : 141
+RESERVED                         : 142
+RESERVED                         : 143
+RESERVED                         : 144
+GND                              : 145
+VCCIO                            : 146
+AY_CH_C1                         : 147
+RESERVED                         : 148
+RESERVED                         : 149
+RESERVED                         : 150
+GND                              : 151
+VCCINT                           : 152
+TDI                              : 153
+nCE                              : 154
+DCLK                             : 155
+DATA0                            : 156
+AY_CH_R0                         : 157
+AY_CH_L4                         : 158
+RESERVED                         : 159
+AY_CH_R3                         : 160
+RESERVED                         : 161
+RESERVED                         : 162
+RESERVED                         : 163
+RESERVED                         : 164
+VCCIO                            : 165
+RESERVED                         : 166
+D4                               : 167
+AY_CH_L0                         : 168
+RESERVED                         : 169
+D0                               : 170
+GND                              : 171
+RESERVED                         : 172
+AY_T6                            : 173
+DO0                              : 174
+RESERVED                         : 175
+AY_CH_L5                         : 176
+RESERVED                         : 177
+VCCIO                            : 178
+RESERVED                         : 179
+D5                               : 180
+GND                              : 181
+D2                               : 182
+CLK42                            : 183
+D3                               : 184
+VCCINT                           : 185
+RESERVED                         : 186
+RESERVED                         : 187
+GND                              : 188
+RESERVED                         : 189
+RESERVED                         : 190
+RESERVED                         : 191
+RESERVED                         : 192
+RESERVED                         : 193
+VCCIO                            : 194
+RESERVED                         : 195
+AY_CH_L7                         : 196
+AY_CH_L8                         : 197
+RESERVED                         : 198
+RESERVED                         : 199
+RESERVED                         : 200
+VCCINT                           : 201
+RESERVED                         : 202
+RESERVED                         : 203
+RESERVED                         : 204
+RESERVED                         : 205
+RESERVED                         : 206
+RESERVED                         : 207
+RESERVED                         : 208

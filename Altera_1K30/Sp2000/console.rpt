@@ -1,0 +1,1476 @@
+Project Information               c:\copy_d\asembler\altera\sp2000\console.rpt
+
+MAX+plus II Compiler Report File
+Version 10.0 9/14/2000
+Compiled: 06/23/2001 00:49:05
+
+Copyright (C) 1988-2000 Altera Corporation
+Any megafunction design, and related net list (encrypted or decrypted),
+support information, device programming or simulation file, and any other
+associated documentation or information provided by Altera or a partner
+under Altera's Megafunction Partnership Program may be used only to
+program PLD devices (but not masked PLD devices) from Altera.  Any other
+use of such megafunction design, net list, support information, device
+programming or simulation file, or any other related documentation or
+information is prohibited for any other purpose, including, but not
+limited to modification, reverse engineering, de-compiling, or use with
+any other silicon devices, unless such use is explicitly licensed under
+a separate agreement with Altera or a megafunction partner.  Title to
+the intellectual property, including patents, copyrights, trademarks,
+trade secrets, or maskworks, embodied in any such megafunction design,
+net list, support information, device programming or simulation file, or
+any other related documentation or information provided by Altera or a
+megafunction partner, remains with Altera, the megafunction partner, or
+their respective licensors.  No other licenses, including any licenses
+needed under any third party's intellectual property, are provided herein.
+
+
+
+***** Project compilation was successful
+
+
+CONSOLE
+
+
+** DEVICE SUMMARY **
+
+Chip/                     Input Output Bidir  Memory  Memory  			 LCs
+POF       Device          Pins  Pins   Pins   Bits % Utilized  LCs  % Utilized
+
+console   EP1K30QC208-3    14     49     0    0         0  %    83       4  %
+
+User Pins:                 14     49     0  
+
+
+
+Project Information               c:\copy_d\asembler\altera\sp2000\console.rpt
+
+** PROJECT COMPILATION MESSAGES **
+
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L5" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L3" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_3" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L6" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L0" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L7" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L1" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_1" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R5" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L0" was declared but never used
+Warning: Line 11, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CLK42" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_6" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R0" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R4" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L1" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_7" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R1" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R7" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L2" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_4" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R2" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R6" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L3" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_5" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R3" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R1" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L6" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R4" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R0" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L7" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R5" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R3" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L4" was declared but never used
+Warning: Line 15, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "/READ" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R6" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_R2" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L5" was declared but never used
+Warning: Line 31, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_R7" was declared but never used
+Warning: Line 32, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "VER_L4" was declared but never used
+Warning: Line 30, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "HOR_L2" was declared but never used
+Warning: Line 39, File c:\copy_d\asembler\altera\sp2000\console.tdf:
+   Symbolic name "CMD_2" was declared but never used
+Warning: Ignored unnecessary INPUT pin 'CLK42'
+Warning: Ignored unnecessary INPUT pin '/READ'
+
+
+** PROJECT TIMING MESSAGES **
+
+Warning: Timing characteristics of device EP1K30QC208-3 are preliminary
+Warning: Can't provide fmax of 200.00 MHz on Clock pin "/WR". Current fmax is 76.33 MHz.
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+***** Logic for device 'console' compiled without errors.
+
+
+
+
+Device: EP1K30QC208-3
+
+ACEX 1K Configuration Scheme: Passive Serial
+
+Device Options:
+    User-Supplied Start-Up Clock               = OFF
+    Auto-Restart Configuration on Frame Error  = OFF
+    Release Clears Before Tri-States           = OFF
+    Enable Chip_Wide Reset                     = OFF
+    Enable Chip-Wide Output Enable             = OFF
+    Enable INIT_DONE Output                    = OFF
+    JTAG User Code                             = 7f
+    MultiVolt I/O                              = OFF
+
+                                                                                                                         
+                                                                                                                         
+                            R       R     R   R     R       R             R   R R R R   R   R R R           R R     R R  
+                            E       E     E   E     E       E             E   E E E E   E   E E E           E E     E E  
+                            S V     S     S   S     S       S V           S   S S S S   S   S S S           S S     S S  
+                            E C     E     E V E     E       E C           E V E E E E   E   E E E     V     E E     E E  
+                    V     V R C     R   V R C R   V R V   V R C     D   V R C R R R R   R   R R R V V C V V R R V   R R  
+                V V A V V A V I D V V V D V C V V D V D G D V I D D I G D V C V V V V D V G V V V D D C D D V V D V V V  
+                A A 1 A A 1 E N I A E D 1 E I E D 1 E 2 N 1 E N I I R N 3 E I E E E E I E N E E E 1 3 I 2 2 E E 1 D E E  
+                3 5 1 4 2 5 D T 7 6 D 9 7 D O D 5 2 D 7 D 5 D T 0 1 0 D 1 D O D D D D 6 D D D D D 8 0 O 4 6 D D 1 3 D D  
+              ----------------------------------------------------------------------------------------------------------_ 
+             / 208 206 204 202 200 198 196 194 192 190 188 186 184 182 180 178 176 174 172 170 168 166 164 162 160 158   |_ 
+            /    207 205 203 201 199 197 195 193 191 189 187 185 183 181 179 177 175 173 171 169 167 165 163 161 159 157    | 
+      #TCK |  1                                                                                                         156 | ^DATA0 
+^CONF_DONE |  2                                                                                                         155 | ^DCLK 
+     ^nCEO |  3                                                                                                         154 | ^nCE 
+      #TDO |  4                                                                                                         153 | #TDI 
+     VCCIO |  5                                                                                                         152 | VCCINT 
+       GND |  6                                                                                                         151 | GND 
+       DI4 |  7                                                                                                         150 | DIR2 
+      VD16 |  8                                                                                                         149 | VA14 
+      VA10 |  9                                                                                                         148 | VA12 
+      DIR3 | 10                                                                                                         147 | VD10 
+      VA13 | 11                                                                                                         146 | VCCIO 
+  RESERVED | 12                                                                                                         145 | GND 
+  RESERVED | 13                                                                                                         144 | RESERVED 
+      VD22 | 14                                                                                                         143 | RESERVED 
+  RESERVED | 15                                                                                                         142 | RESERVED 
+  RESERVED | 16                                                                                                         141 | VD19 
+  RESERVED | 17                                                                                                         140 | RESERVED 
+  RESERVED | 18                                                                                                         139 | RESERVED 
+  RESERVED | 19                                                                                                         138 | VCCIO 
+       GND | 20                                                                                                         137 | GND 
+    VCCINT | 21                                                                                                         136 | RESERVED 
+     VCCIO | 22                                                                                                         135 | RESERVED 
+       GND | 23                                                                                                         134 | RESERVED 
+  RESERVED | 24                                                                                                         133 | RESERVED 
+  RESERVED | 25                                                                                                         132 | RESERVED 
+       VA9 | 26                                                                                                         131 | RESERVED 
+      VD13 | 27                                              EP1K30QC208-3                                              130 | VCCINT 
+  RESERVED | 28                                                                                                         129 | GND 
+      VD20 | 29                                                                                                         128 | VD28 
+      V_WR | 30                                                                                                         127 | RESERVED 
+  RESERVED | 31                                                                                                         126 | RESERVED 
+       GND | 32                                                                                                         125 | RESERVED 
+    VCCINT | 33                                                                                                         124 | VCCINT 
+     VCCIO | 34                                                                                                         123 | GND 
+       GND | 35                                                                                                         122 | RESERVED 
+  RESERVED | 36                                                                                                         121 | RESERVED 
+  RESERVED | 37                                                                                                         120 | RESERVED 
+  RESERVED | 38                                                                                                         119 | RESERVED 
+       VD8 | 39                                                                                                         118 | VCCIO 
+  RESERVED | 40                                                                                                         117 | GND 
+  RESERVED | 41                                                                                                         116 | VD29 
+     VCCIO | 42                                                                                                         115 | RESERVED 
+       GND | 43                                                                                                         114 | RESERVED 
+  RESERVED | 44                                                                                                         113 | RESERVED 
+  RESERVED | 45                                                                                                         112 | RESERVED 
+  RESERVED | 46                                                                                                         111 | RESERVED 
+       VA1 | 47                                                                                                         110 | VCCIO 
+    VCCINT | 48                                                                                                         109 | GND 
+       GND | 49                                                                                                         108 | ^MSEL0 
+      #TMS | 50                                                                                                         107 | ^MSEL1 
+     #TRST | 51                                                                                                         106 | VCCINT 
+  ^nSTATUS | 52                                                                                                         105 | ^nCONFIG 
+           |      54  56  58  60  62  64  66  68  70  72  74  76  78  80  82  84  86  88  90  92  94  96  98 100 102 104  _| 
+            \   53  55  57  59  61  63  65  67  69  71  73  75  77  79  81  83  85  87  89  91  93  95  97  99 101 103   | 
+             \----------------------------------------------------------------------------------------------------------- 
+                V R V V R R G D R V V R R V R R V R R V V R V G V / / D G G R V R R R R R R V R V R D V V V R R V V R D  
+                A E A A E E N I E D D E E C E E D E E C D E D N C R W I N N E C E E E E E E C E D E I D D C E E D D E I  
+                7 S 0 8 S S D 5 S 1 0 S S C S S 2 S S C 2 S 7 D C E R R D D S C S S S S S S C S 2 S 3 6 1 C S S 4 2 S 2  
+                  E     E E     E     E E I E E 1 E E I 3 E     I S   1     E I E E E E E E I E 5 E     4 I E E     E    
+                  R     R R     R     R R O R R   R R N   R     N E         R O R R R R R R N R   R       O R R     R    
+                  V     V V     V     V V   V V   V V T   V     T T         V   V V V V V V T V   V         V V     V    
+                  E     E E     E     E E   E E   E E     E                 E   E E E E E E   E   E         E E     E    
+                  D     D D     D     D D   D D   D D     D                 D   D D D D D D   D   D         D D     D    
+                                                                                                                         
+                                                                                                                         
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+^ = Dedicated configuration pin.
++ = Reserved configuration pin, which is tri-stated during user mode.
+* = Reserved configuration pin, which drives out in user mode.
+PDn = Power Down pin. 
+@ = Special-purpose pin. 
+# = JTAG Boundary-Scan Testing/In-System Programming or Configuration Pin. The JTAG inputs TMS and TDI should be tied to VCC and TCK should be tied to GND when not in use.
+& = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
+$ = Pin has PCI I/O option enabled. Pin is neither '5.0 V'- nor '3.3 V'-tolerant. 
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** RESOURCE USAGE **
+
+Logic                Column       Row                                   
+Array                Interconnect Interconnect         Clears/     External  
+Block   Logic Cells  Driven       Driven       Clocks  Presets   Interconnect
+A4       8/ 8(100%)   5/ 8( 62%)   1/ 8( 12%)    1/2    1/2       7/22( 31%)   
+A7       8/ 8(100%)   4/ 8( 50%)   3/ 8( 37%)    1/2    1/2      10/22( 45%)   
+A20      4/ 8( 50%)   3/ 8( 37%)   0/ 8(  0%)    1/2    1/2       5/22( 22%)   
+A23      7/ 8( 87%)   5/ 8( 62%)   0/ 8(  0%)    1/2    1/2       6/22( 27%)   
+A28      8/ 8(100%)   5/ 8( 62%)   1/ 8( 12%)    1/2    1/2       6/22( 27%)   
+A30      8/ 8(100%)   2/ 8( 25%)   5/ 8( 62%)    1/2    1/2       8/22( 36%)   
+A32      8/ 8(100%)   1/ 8( 12%)   6/ 8( 75%)    1/2    1/2      10/22( 45%)   
+A33      8/ 8(100%)   2/ 8( 25%)   6/ 8( 75%)    1/2    1/2      11/22( 50%)   
+A34      8/ 8(100%)   4/ 8( 50%)   7/ 8( 87%)    1/2    1/2      16/22( 72%)   
+A35      8/ 8(100%)   1/ 8( 12%)   6/ 8( 75%)    1/2    1/2      11/22( 50%)   
+A36      8/ 8(100%)   3/ 8( 37%)   5/ 8( 62%)    1/2    1/2      16/22( 72%)   
+
+
+Embedded             Column       Row                                   
+Array     Embedded   Interconnect Interconnect         Read/      External  
+Block     Cells      Driven       Driven       Clocks  Write    Interconnect
+
+
+Total dedicated input pins used:                 6/6      (100%)
+Total I/O pins used:                            57/141    ( 40%)
+Total logic cells used:                         83/1728   (  4%)
+Total embedded cells used:                       0/96     (  0%)
+Total EABs used:                                 0/6      (  0%)
+Average fan-in:                                 2.77/4    ( 69%)
+Total fan-in:                                 230/6912    (  3%)
+
+Total input pins required:                      14
+Total input I/O cell registers required:         0
+Total output pins required:                     49
+Total output I/O cell registers required:        0
+Total buried I/O cell registers required:        0
+Total bidirectional pins required:               0
+Total reserved pins required                     0
+Total logic cells required:                     83
+Total flipflops required:                       41
+Total packed registers required:                 0
+Total logic cells in carry chains:              16
+Total number of carry chains:                    2
+Total number of carry chains of length  1-8 :    2
+Total logic cells in cascade chains:             2
+Total number of cascade chains:                  1
+Total single-pin Clock Enables required:         0
+Total single-pin Output Enables required:        0
+
+Synthesized logic cells:                         4/1728   (  0%)
+
+Logic Cell and Embedded Cell Counts
+
+Column:  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  EA  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  Total(LC/EC)
+ A:      0   0   0   8   0   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   4   0   0   7   0   0   0   0   8   0   8   0   8   8   8   8   8     83/0  
+ B:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ C:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ D:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ E:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+ F:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0      0/0  
+
+Total:   0   0   0   8   0   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0   4   0   0   7   0   0   0   0   8   0   8   0   8   8   8   8   8     83/0  
+
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** INPUTS **
+
+                                                    Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+ 182      -     -    -    --      INPUT             ^    0    0    0   16  DIR0
+  80      -     -    -    --      INPUT             ^    0    0    0   16  DIR1
+ 150      -     -    A    --      INPUT             ^    0    0    0    7  DIR2
+  10      -     -    A    --      INPUT             ^    0    0    0    7  DIR3
+ 184      -     -    -    --      INPUT             ^    0    0    0    7  DI0
+ 183      -     -    -    --      INPUT             ^    0    0    0    6  DI1
+ 104      -     -    -    01      INPUT             ^    0    0    0    6  DI2
+  95      -     -    -    09      INPUT             ^    0    0    0    6  DI3
+   7      -     -    A    --      INPUT             ^    0    0    0    6  DI4
+  60      -     -    -    30      INPUT             ^    0    0    0    6  DI5
+ 173      -     -    -    13      INPUT             ^    0    0    0    6  DI6
+ 200      -     -    -    30      INPUT             ^    0    0    0    6  DI7
+  78      -     -    -    --      INPUT  G          ^    0    0    0    0  /RESET
+  79      -     -    -    --      INPUT  G          ^    0    0    0    1  /WR
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+G = Global Source. Fan-out destinations counted here do not include destinations
+that are driven using global routing resources. Refer to the Auto Global Signals,
+Clock Signals, Clear Signals, Synchronous Load Signals, and Synchronous Clear Signals
+Sections of this Report File for information on which signals' fan-outs are used as
+Clock, Clear, Preset, Output Enable, and synchronous Load signals.
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** OUTPUTS **
+
+       Fed By Fed By                                Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+  55      -     -    -    34     OUTPUT                 0    1    0    0  VA0
+  47      -     -    F    --     OUTPUT                 0    1    0    0  VA1
+ 204      -     -    -    33     OUTPUT                 0    1    0    0  VA2
+ 208      -     -    -    36     OUTPUT                 0    1    0    0  VA3
+ 205      -     -    -    34     OUTPUT                 0    1    0    0  VA4
+ 207      -     -    -    35     OUTPUT                 0    1    0    0  VA5
+ 199      -     -    -    29     OUTPUT                 0    1    0    0  VA6
+  53      -     -    -    36     OUTPUT                 0    1    0    0  VA7
+  56      -     -    -    33     OUTPUT                 0    1    0    0  VA8
+  26      -     -    D    --     OUTPUT                 0    1    0    0  VA9
+   9      -     -    A    --     OUTPUT                 0    1    0    0  VA10
+ 206      -     -    -    34     OUTPUT                 0    1    0    0  VA11
+ 148      -     -    A    --     OUTPUT                 0    1    0    0  VA12
+  11      -     -    A    --     OUTPUT                 0    1    0    0  VA13
+ 149      -     -    A    --     OUTPUT                 0    1    0    0  VA14
+ 203      -     -    -    32     OUTPUT                 0    1    0    0  VA15
+  63      -     -    -    27     OUTPUT                 0    1    0    0  VD0
+  62      -     -    -    28     OUTPUT                 0    1    0    0  VD1
+ 102      -     -    -    03     OUTPUT                 0    1    0    0  VD2
+ 159      -     -    -    03     OUTPUT                 0    1    0    0  VD3
+ 101      -     -    -    04     OUTPUT                 0    1    0    0  VD4
+ 192      -     -    -    24     OUTPUT                 0    1    0    0  VD5
+  96      -     -    -    08     OUTPUT                 0    1    0    0  VD6
+  75      -     -    -    19     OUTPUT                 0    1    0    0  VD7
+  39      -     -    E    --     OUTPUT                 0    1    0    0  VD8
+ 197      -     -    -    28     OUTPUT                 0    1    0    0  VD9
+ 147      -     -    A    --     OUTPUT                 0    1    0    0  VD10
+ 160      -     -    -    04     OUTPUT                 0    1    0    0  VD11
+ 191      -     -    -    23     OUTPUT                 0    1    0    0  VD12
+  27      -     -    D    --     OUTPUT                 0    1    0    0  VD13
+  97      -     -    -    07     OUTPUT                 0    1    0    0  VD14
+ 187      -     -    -    20     OUTPUT                 0    1    0    0  VD15
+   8      -     -    A    --     OUTPUT                 0    1    0    0  VD16
+ 196      -     -    -    27     OUTPUT                 0    1    0    0  VD17
+ 167      -     -    -    08     OUTPUT                 0    1    0    0  VD18
+ 141      -     -    B    --     OUTPUT                 0    1    0    0  VD19
+  29      -     -    D    --     OUTPUT                 0    1    0    0  VD20
+  69      -     -    -    23     OUTPUT                 0    1    0    0  VD21
+  14      -     -    B    --     OUTPUT                 0    1    0    0  VD22
+  73      -     -    -    20     OUTPUT                 0    1    0    0  VD23
+ 164      -     -    -    06     OUTPUT                 0    0    0    0  VD24
+  93      -     -    -    10     OUTPUT                 0    0    0    0  VD25
+ 163      -     -    -    06     OUTPUT                 0    0    0    0  VD26
+ 189      -     -    -    21     OUTPUT                 0    0    0    0  VD27
+ 128      -     -    D    --     OUTPUT                 0    0    0    0  VD28
+ 116      -     -    F    --     OUTPUT                 0    0    0    0  VD29
+ 166      -     -    -    07     OUTPUT                 0    0    0    0  VD30
+ 180      -     -    -    18     OUTPUT                 0    0    0    0  VD31
+  30      -     -    D    --     OUTPUT                 0    1    0    0  V_WR
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** BURIED LOGIC **
+
+                                                    Fan-In    Fan-Out
+ IOC     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+   -      3     -    A    07       DFFE   +            1    1    1    0  ATTR_0
+   -      6     -    A    28       DFFE   +            1    1    1    0  ATTR_1
+   -      2     -    A    07       DFFE   +            1    1    1    0  ATTR_2
+   -      8     -    A    04       DFFE   +            1    1    1    0  ATTR_3
+   -      5     -    A    23       DFFE   +            1    1    1    0  ATTR_4
+   -      1     -    A    23       DFFE   +            1    1    1    0  ATTR_5
+   -      5     -    A    07       DFFE   +            1    1    1    0  ATTR_6
+   -      1     -    A    20       DFFE   +            1    1    1    0  ATTR_7
+   -      2     -    A    28       DFFE   +            1    1    0    8  CMD_0
+   -      6     -    A    33       DFFE   +            0    3    1    3  HOR_PL0
+   -      2     -    A    33       DFFE   +            2    2    1    3  HOR_PL1
+   -      4     -    A    34       DFFE   +            2    2    1    2  HOR_PL2
+   -      2     -    A    34       DFFE   +            2    2    1    2  HOR_PL3
+   -      6     -    A    34       DFFE   +            2    2    1    2  HOR_PL4
+   -      7     -    A    33       DFFE   +            2    2    1    2  HOR_PL5
+   -      3     -    A    33       DFFE   +            2    2    1    2  HOR_PL6
+   -      8     -    A    32       DFFE   +            0    3    1    2  HOR_PL7
+   -      4     -    A    28       DFFE   +    !       1    1    1    0  MODE_0
+   -      3     -    A    28       DFFE   +    !       1    1    1    0  MODE_1
+   -      3     -    A    04       DFFE   +    !       1    1    1    0  MODE_2
+   -      5     -    A    04       DFFE   +    !       1    1    1    0  MODE_3
+   -      2     -    A    04       DFFE   +    !       1    1    1    0  MODE_4
+   -      6     -    A    23       DFFE   +    !       1    1    1    0  MODE_5
+   -      6     -    A    07       DFFE   +    !       1    1    1    0  MODE_6
+   -      4     -    A    20       DFFE   +    !       1    1    1    0  MODE_7
+   -      5     -    A    28       DFFE   +            1    1    0    1  SYMB_0
+   -      7     -    A    28       DFFE   +            1    1    0    1  SYMB_1
+   -      4     -    A    04       DFFE   +            1    1    0    1  SYMB_2
+   -      6     -    A    04       DFFE   +            1    1    0    1  SYMB_3
+   -      2     -    A    23       DFFE   +            1    1    0    1  SYMB_4
+   -      7     -    A    23       DFFE   +            1    1    0    1  SYMB_5
+   -      7     -    A    07       DFFE   +            1    1    0    1  SYMB_6
+   -      3     -    A    20       DFFE   +            1    1    0    1  SYMB_7
+   -      4     -    A    36      LCELL                0    4    0    5  S1
+   -      6     -    A    36      LCELL                0    5    0    1  S2
+   -      1     -    A    34       DFFE   +            0    3    1    3  VER_PL0
+   -      7     -    A    36       DFFE   +            2    2    1    3  VER_PL1
+   -      7     -    A    34       DFFE   +            2    2    1    2  VER_PL2
+   -      1     -    A    36       DFFE   +            2    2    1    2  VER_PL3
+   -      8     -    A    34       DFFE   +            2    2    1    2  VER_PL4
+   -      8     -    A    36       DFFE   +            2    2    1    2  VER_PL5
+   -      5     -    A    30       DFFE   +            2    2    1    2  VER_PL6
+   -      8     -    A    35       DFFE   +            2    1    1    2  VER_PL7
+   -      8     -    A    07      LCELL                3    0    0    8  :174
+   -      8     -    A    30      LCELL                2    2    0    8  :175
+   -      1     -    A    30      LCELL                4    0    0    8  :180
+   -      4     -    A    07      LCELL                4    0    0    8  :181
+   -      2     -    A    30      LCELL                4    0    0    8  :182
+   -      3     -    A    30      LCELL                4    0    0    1  :183
+   -      7     -    A    30      LCELL                4    0    0    1  :186
+   -      1     -    A    33       AND2        !       1    1    0    7  :187
+   -      8     -    A    33        OR2                1    3    0    1  :222
+   -      2     -    A    32        OR2                0    2    0    1  :224
+   -      3     -    A    32        OR2                0    2    0    1  :226
+   -      4     -    A    32        OR2                0    2    0    1  :228
+   -      5     -    A    32        OR2                0    2    0    1  :230
+   -      6     -    A    32        OR2                0    2    0    1  :232
+   -      4     -    A    33       AND2                2    0    0    1  :248
+   -      5     -    A    33        OR2    s           2    2    0    1  ~263~1
+   -      3     -    A    36        OR2        !       1    2    0    8  :265
+   -      2     -    A    36        OR2                0    3    0    1  :300
+   -      2     -    A    35        OR2                0    2    0    1  :302
+   -      3     -    A    35        OR2                0    2    0    1  :304
+   -      4     -    A    35        OR2                0    2    0    1  :306
+   -      5     -    A    35        OR2                0    2    0    1  :308
+   -      6     -    A    35        OR2                0    2    0    1  :310
+   -      5     -    A    34       AND2                2    0    0    1  :323
+   -      8     -    A    28        OR2                1    2    1    0  :404
+   -      1     -    A    28        OR2                1    2    1    0  :406
+   -      7     -    A    04        OR2                1    2    1    0  :408
+   -      1     -    A    04        OR2                1    2    1    0  :410
+   -      4     -    A    23        OR2                1    2    1    0  :412
+   -      3     -    A    23        OR2                1    2    1    0  :414
+   -      1     -    A    07        OR2                1    2    1    0  :416
+   -      2     -    A    20        OR2                1    2    1    0  :418
+   -      6     -    A    30        OR2                1    1    1    0  :436
+   -      5     -    A    36       AND2    s           0    4    0    1  ~452~1
+   -      3     -    A    34       AND2    s           0    4    0    1  ~464~1
+   -      4     -    A    30       AND2    s           2    0    0    1  ~528~1
+   -      1     -    A    32       AND2                0    2    0    1  :194
+   -      2     -    A    32       AND2                0    3    0    1  :198
+   -      3     -    A    32       AND2                0    3    0    1  :202
+   -      4     -    A    32       AND2                0    3    0    1  :206
+   -      5     -    A    32       AND2                0    3    0    1  :210
+   -      6     -    A    32       AND2                0    3    0    1  :214
+   -      7     -    A    32        OR2                0    2    0    1  :216
+   -      1     -    A    35       AND2                0    2    0    1  :272
+   -      2     -    A    35       AND2                0    3    0    1  :276
+   -      3     -    A    35       AND2                0    3    0    1  :280
+   -      4     -    A    35       AND2                0    3    0    1  :284
+   -      5     -    A    35       AND2                0    3    0    1  :288
+   -      6     -    A    35       AND2                0    3    0    1  :292
+   -      7     -    A    35        OR2                0    3    0    1  :312
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+p = Packed register
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** FASTTRACK INTERCONNECT UTILIZATION **
+
+Row FastTrack Interconnect:
+
+          Global         Left Half-      Right Half-
+         FastTrack       FastTrack       FastTrack 
+Row     Interconnect    Interconnect    Interconnect    Input Pins     Output Pins     Bidir Pins
+A:      40/144( 27%)     1/ 72(  1%)    11/ 72( 15%)    3/16( 18%)      6/16( 37%)     0/16(  0%)
+B:       1/144(  0%)     1/ 72(  1%)     0/ 72(  0%)    0/16(  0%)      2/16( 12%)     0/16(  0%)
+C:       0/144(  0%)     0/ 72(  0%)     0/ 72(  0%)    0/16(  0%)      0/16(  0%)     0/16(  0%)
+D:       0/144(  0%)     0/ 72(  0%)     4/ 72(  5%)    0/16(  0%)      5/16( 31%)     0/16(  0%)
+E:       0/144(  0%)     0/ 72(  0%)     1/ 72(  1%)    0/16(  0%)      1/16(  6%)     0/16(  0%)
+F:       0/144(  0%)     0/ 72(  0%)     1/ 72(  1%)    0/16(  0%)      2/16( 12%)     0/16(  0%)
+
+
+Column FastTrack Interconnect:
+
+         FastTrack                                 
+Column  Interconnect    Input Pins     Output Pins     Bidir Pins
+01:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+02:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+03:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+04:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+05:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+06:      0/24(  0%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+07:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+08:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+09:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+10:      0/24(  0%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+11:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+12:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+13:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+14:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+15:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+16:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+17:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+18:      0/24(  0%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+19:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+20:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+21:      0/24(  0%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+22:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+23:      4/24( 16%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+24:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+25:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+26:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+27:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+28:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+29:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+30:      3/24( 12%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+31:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+32:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+33:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+34:      3/24( 12%)     0/4(  0%)      3/4( 75%)       0/4(  0%)
+35:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+36:      3/24( 12%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+EA:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** CLOCK SIGNALS **
+
+Type     Fan-out       Name
+INPUT       42         /WR
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** CLEAR SIGNALS **
+
+Type     Fan-out       Name
+INPUT       41         /RESET
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** CARRY CHAINS **
+
+Type                    Member Length   Member Name: SUM, (CARRY)
+ARITHMETIC                    1                     (:194)
+ARITHMETIC                    2         :224, (:198)
+ARITHMETIC                    3         :226, (:202)
+ARITHMETIC                    4         :228, (:206)
+ARITHMETIC                    5         :230, (:210)
+ARITHMETIC                    6         :232, (:214)
+ARITHMETIC                    7                     (:216)
+NORMAL                        8         HOR_PL7
+
+ARITHMETIC                    1                     (:272)
+ARITHMETIC                    2         :302, (:276)
+ARITHMETIC                    3         :304, (:280)
+ARITHMETIC                    4         :306, (:284)
+ARITHMETIC                    5         :308, (:288)
+ARITHMETIC                    6         :310, (:292)
+ARITHMETIC                    7                     (:312)
+NORMAL                        8         VER_PL7
+
+
+
+Device-Specific Information:      c:\copy_d\asembler\altera\sp2000\console.rpt
+console
+
+** EQUATIONS **
+
+DIR0     : INPUT;
+DIR1     : INPUT;
+DIR2     : INPUT;
+DIR3     : INPUT;
+DI0      : INPUT;
+DI1      : INPUT;
+DI2      : INPUT;
+DI3      : INPUT;
+DI4      : INPUT;
+DI5      : INPUT;
+DI6      : INPUT;
+DI7      : INPUT;
+/RESET   : INPUT;
+/WR      : INPUT;
+
+-- Node name is 'ATTR_0' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_0', location is LC3_A7, type is buried.
+ATTR_0   = DFFE( DI0, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_1' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_1', location is LC6_A28, type is buried.
+ATTR_1   = DFFE( DI1, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_2' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_2', location is LC2_A7, type is buried.
+ATTR_2   = DFFE( DI2, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_3' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_3', location is LC8_A4, type is buried.
+ATTR_3   = DFFE( DI3, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_4' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_4', location is LC5_A23, type is buried.
+ATTR_4   = DFFE( DI4, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_5' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_5', location is LC1_A23, type is buried.
+ATTR_5   = DFFE( DI5, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_6' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_6', location is LC5_A7, type is buried.
+ATTR_6   = DFFE( DI6, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'ATTR_7' from file "console.tdf" line 36, column 7
+-- Equation name is 'ATTR_7', location is LC1_A20, type is buried.
+ATTR_7   = DFFE( DI7, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC4_A7);
+
+-- Node name is 'CMD_0' from file "console.tdf" line 39, column 6
+-- Equation name is 'CMD_0', location is LC2_A28, type is buried.
+CMD_0    = DFFE( DI0, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC3_A30);
+
+-- Node name is 'HOR_PL0' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL0', location is LC6_A33, type is buried.
+HOR_PL0  = DFFE( _EQ001, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ001 = !HOR_PL0 & !_LC1_A33
+         #  _LC4_A33;
+
+-- Node name is 'HOR_PL1' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL1', location is LC2_A33, type is buried.
+HOR_PL1  = DFFE( _EQ002, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ002 =  _LC8_A33
+         #  DIR0 &  DI1;
+
+-- Node name is 'HOR_PL2' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL2', location is LC4_A34, type is buried.
+HOR_PL2  = DFFE( _EQ003, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ003 =  _LC2_A32
+         #  DIR0 &  DI2;
+
+-- Node name is 'HOR_PL3' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL3', location is LC2_A34, type is buried.
+HOR_PL3  = DFFE( _EQ004, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ004 =  _LC3_A32
+         #  DIR0 &  DI3;
+
+-- Node name is 'HOR_PL4' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL4', location is LC6_A34, type is buried.
+HOR_PL4  = DFFE( _EQ005, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ005 =  _LC4_A32
+         #  DIR0 &  DI4;
+
+-- Node name is 'HOR_PL5' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL5', location is LC7_A33, type is buried.
+HOR_PL5  = DFFE( _EQ006, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ006 =  _LC5_A32
+         #  DIR0 &  DI5;
+
+-- Node name is 'HOR_PL6' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL6', location is LC3_A33, type is buried.
+HOR_PL6  = DFFE( _EQ007, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ007 =  _LC6_A32
+         #  DIR0 &  DI6;
+
+-- Node name is 'HOR_PL7' from file "console.tdf" line 27, column 8
+-- Equation name is 'HOR_PL7', location is LC8_A32, type is buried.
+HOR_PL7  = DFFE( _EQ008, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A7);
+  _EQ008 =  _LC5_A33
+         # !_LC1_A33 &  _LC7_A32_CARRY;
+
+-- Node name is 'MODE_0' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_0', location is LC4_A28, type is buried.
+!MODE_0  = MODE_0~NOT;
+MODE_0~NOT = DFFE(!DI0, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_1' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_1', location is LC3_A28, type is buried.
+!MODE_1  = MODE_1~NOT;
+MODE_1~NOT = DFFE(!DI1, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_2' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_2', location is LC3_A4, type is buried.
+!MODE_2  = MODE_2~NOT;
+MODE_2~NOT = DFFE(!DI2, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_3' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_3', location is LC5_A4, type is buried.
+!MODE_3  = MODE_3~NOT;
+MODE_3~NOT = DFFE(!DI3, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_4' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_4', location is LC2_A4, type is buried.
+!MODE_4  = MODE_4~NOT;
+MODE_4~NOT = DFFE(!DI4, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_5' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_5', location is LC6_A23, type is buried.
+!MODE_5  = MODE_5~NOT;
+MODE_5~NOT = DFFE(!DI5, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_6' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_6', location is LC6_A7, type is buried.
+!MODE_6  = MODE_6~NOT;
+MODE_6~NOT = DFFE(!DI6, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'MODE_7' from file "console.tdf" line 35, column 7
+-- Equation name is 'MODE_7', location is LC4_A20, type is buried.
+!MODE_7  = MODE_7~NOT;
+MODE_7~NOT = DFFE(!DI7, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC1_A30);
+
+-- Node name is 'SYMB_0' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_0', location is LC5_A28, type is buried.
+SYMB_0   = DFFE( DI0, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_1' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_1', location is LC7_A28, type is buried.
+SYMB_1   = DFFE( DI1, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_2' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_2', location is LC4_A4, type is buried.
+SYMB_2   = DFFE( DI2, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_3' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_3', location is LC6_A4, type is buried.
+SYMB_3   = DFFE( DI3, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_4' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_4', location is LC2_A23, type is buried.
+SYMB_4   = DFFE( DI4, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_5' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_5', location is LC7_A23, type is buried.
+SYMB_5   = DFFE( DI5, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_6' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_6', location is LC7_A7, type is buried.
+SYMB_6   = DFFE( DI6, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'SYMB_7' from file "console.tdf" line 37, column 7
+-- Equation name is 'SYMB_7', location is LC3_A20, type is buried.
+SYMB_7   = DFFE( DI7, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC2_A30);
+
+-- Node name is 'S1' from file "console.tdf" line 95, column 7
+-- Equation name is 'S1', location is LC4_A36, type is buried.
+S1       = LCELL( _EQ009);
+  _EQ009 = !HOR_PL4 & !HOR_PL5 &  HOR_PL6 &  _LC3_A34;
+
+-- Node name is 'S2' from file "console.tdf" line 96, column 7
+-- Equation name is 'S2', location is LC6_A36, type is buried.
+S2       = LCELL( _EQ010C);
+ _EQ010C =  _EQ010 & CASCADE( _EQ011C);
+  _EQ010 =  VER_PL4 & !VER_PL5 & !VER_PL6 & !VER_PL7;
+
+-- Node name is 'VA0' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA0', type is output 
+VA0      =  VER_PL0;
+
+-- Node name is 'VA1' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA1', type is output 
+VA1      =  VER_PL1;
+
+-- Node name is 'VA2' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA2', type is output 
+VA2      =  VER_PL2;
+
+-- Node name is 'VA3' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA3', type is output 
+VA3      =  VER_PL3;
+
+-- Node name is 'VA4' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA4', type is output 
+VA4      =  VER_PL4;
+
+-- Node name is 'VA5' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA5', type is output 
+VA5      =  VER_PL5;
+
+-- Node name is 'VA6' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA6', type is output 
+VA6      =  VER_PL6;
+
+-- Node name is 'VA7' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA7', type is output 
+VA7      =  VER_PL7;
+
+-- Node name is 'VA8' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA8', type is output 
+VA8      =  HOR_PL0;
+
+-- Node name is 'VA9' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA9', type is output 
+VA9      =  HOR_PL1;
+
+-- Node name is 'VA10' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA10', type is output 
+VA10     =  HOR_PL2;
+
+-- Node name is 'VA11' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA11', type is output 
+VA11     =  HOR_PL3;
+
+-- Node name is 'VA12' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA12', type is output 
+VA12     =  HOR_PL4;
+
+-- Node name is 'VA13' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA13', type is output 
+VA13     =  HOR_PL5;
+
+-- Node name is 'VA14' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA14', type is output 
+VA14     =  HOR_PL6;
+
+-- Node name is 'VA15' from file "console.tdf" line 114, column 4
+-- Equation name is 'VA15', type is output 
+VA15     =  HOR_PL7;
+
+-- Node name is 'VD0' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD0', type is output 
+VD0      =  MODE_0;
+
+-- Node name is 'VD1' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD1', type is output 
+VD1      =  MODE_1;
+
+-- Node name is 'VD2' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD2', type is output 
+VD2      =  MODE_2;
+
+-- Node name is 'VD3' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD3', type is output 
+VD3      =  MODE_3;
+
+-- Node name is 'VD4' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD4', type is output 
+VD4      =  MODE_4;
+
+-- Node name is 'VD5' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD5', type is output 
+VD5      =  MODE_5;
+
+-- Node name is 'VD6' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD6', type is output 
+VD6      =  MODE_6;
+
+-- Node name is 'VD7' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD7', type is output 
+VD7      =  MODE_7;
+
+-- Node name is 'VD8' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD8', type is output 
+VD8      =  _LC8_A28;
+
+-- Node name is 'VD9' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD9', type is output 
+VD9      =  _LC1_A28;
+
+-- Node name is 'VD10' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD10', type is output 
+VD10     =  _LC7_A4;
+
+-- Node name is 'VD11' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD11', type is output 
+VD11     =  _LC1_A4;
+
+-- Node name is 'VD12' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD12', type is output 
+VD12     =  _LC4_A23;
+
+-- Node name is 'VD13' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD13', type is output 
+VD13     =  _LC3_A23;
+
+-- Node name is 'VD14' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD14', type is output 
+VD14     =  _LC1_A7;
+
+-- Node name is 'VD15' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD15', type is output 
+VD15     =  _LC2_A20;
+
+-- Node name is 'VD16' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD16', type is output 
+VD16     =  ATTR_0;
+
+-- Node name is 'VD17' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD17', type is output 
+VD17     =  ATTR_1;
+
+-- Node name is 'VD18' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD18', type is output 
+VD18     =  ATTR_2;
+
+-- Node name is 'VD19' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD19', type is output 
+VD19     =  ATTR_3;
+
+-- Node name is 'VD20' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD20', type is output 
+VD20     =  ATTR_4;
+
+-- Node name is 'VD21' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD21', type is output 
+VD21     =  ATTR_5;
+
+-- Node name is 'VD22' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD22', type is output 
+VD22     =  ATTR_6;
+
+-- Node name is 'VD23' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD23', type is output 
+VD23     =  ATTR_7;
+
+-- Node name is 'VD24' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD24', type is output 
+VD24     =  GND;
+
+-- Node name is 'VD25' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD25', type is output 
+VD25     =  GND;
+
+-- Node name is 'VD26' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD26', type is output 
+VD26     =  GND;
+
+-- Node name is 'VD27' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD27', type is output 
+VD27     =  GND;
+
+-- Node name is 'VD28' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD28', type is output 
+VD28     =  GND;
+
+-- Node name is 'VD29' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD29', type is output 
+VD29     =  GND;
+
+-- Node name is 'VD30' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD30', type is output 
+VD30     =  GND;
+
+-- Node name is 'VD31' from file "console.tdf" line 117, column 15
+-- Equation name is 'VD31', type is output 
+VD31     =  GND;
+
+-- Node name is 'VER_PL0' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL0', location is LC1_A34, type is buried.
+VER_PL0  = DFFE( _EQ012, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ012 = !_LC3_A36 & !VER_PL0
+         #  _LC5_A34;
+
+-- Node name is 'VER_PL1' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL1', location is LC7_A36, type is buried.
+VER_PL1  = DFFE( _EQ013, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ013 =  _LC2_A36
+         #  DIR1 &  DI1;
+
+-- Node name is 'VER_PL2' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL2', location is LC7_A34, type is buried.
+VER_PL2  = DFFE( _EQ014, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ014 =  _LC2_A35
+         #  DIR1 &  DI2;
+
+-- Node name is 'VER_PL3' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL3', location is LC1_A36, type is buried.
+VER_PL3  = DFFE( _EQ015, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ015 =  _LC3_A35
+         #  DIR1 &  DI3;
+
+-- Node name is 'VER_PL4' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL4', location is LC8_A34, type is buried.
+VER_PL4  = DFFE( _EQ016, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ016 =  _LC4_A35
+         #  DIR1 &  DI4;
+
+-- Node name is 'VER_PL5' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL5', location is LC8_A36, type is buried.
+VER_PL5  = DFFE( _EQ017, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ017 =  _LC5_A35
+         #  DIR1 &  DI5;
+
+-- Node name is 'VER_PL6' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL6', location is LC5_A30, type is buried.
+VER_PL6  = DFFE( _EQ018, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ018 =  _LC6_A35
+         #  DIR1 &  DI6;
+
+-- Node name is 'VER_PL7' from file "console.tdf" line 28, column 8
+-- Equation name is 'VER_PL7', location is LC8_A35, type is buried.
+VER_PL7  = DFFE( _EQ019, GLOBAL( /WR), GLOBAL( /RESET),  VCC,  _LC8_A30);
+  _EQ019 =  _LC7_A35_CARRY
+         #  DIR1 &  DI7;
+
+-- Node name is 'V_WR' from file "console.tdf" line 120, column 2
+-- Equation name is 'V_WR', type is output 
+V_WR     =  _LC6_A30;
+
+-- Node name is ':174' from file "console.tdf" line 60, column 16
+-- Equation name is '_LC8_A7', type is buried 
+_LC8_A7  = LCELL( _EQ020);
+  _EQ020 = !DIR1 & !DIR2 & !DIR3;
+
+-- Node name is ':175' from file "console.tdf" line 61, column 16
+-- Equation name is '_LC8_A30', type is buried 
+_LC8_A30 = LCELL( _EQ021);
+  _EQ021 =  DIR1 & !DIR3 &  _LC4_A30
+         # !DIR3 &  _LC4_A30 &  S1;
+
+-- Node name is ':180' from file "console.tdf" line 68, column 16
+-- Equation name is '_LC1_A30', type is buried 
+_LC1_A30 = LCELL( _EQ022);
+  _EQ022 = !DIR0 & !DIR1 &  DIR2 &  DIR3;
+
+-- Node name is ':181' from file "console.tdf" line 69, column 16
+-- Equation name is '_LC4_A7', type is buried 
+_LC4_A7  = LCELL( _EQ023);
+  _EQ023 =  DIR0 & !DIR1 &  DIR2 &  DIR3;
+
+-- Node name is ':182' from file "console.tdf" line 70, column 16
+-- Equation name is '_LC2_A30', type is buried 
+_LC2_A30 = LCELL( _EQ024);
+  _EQ024 = !DIR0 &  DIR1 &  DIR2 &  DIR3;
+
+-- Node name is ':183' from file "console.tdf" line 72, column 16
+-- Equation name is '_LC3_A30', type is buried 
+_LC3_A30 = LCELL( _EQ025);
+  _EQ025 =  DIR0 &  DIR1 &  DIR2 &  DIR3;
+
+-- Node name is ':186' from file "console.tdf" line 120, column 17
+-- Equation name is '_LC7_A30', type is buried 
+_LC7_A30 = LCELL( _EQ026);
+  _EQ026 = !DIR0 & !DIR1 & !DIR2 & !DIR3;
+
+-- Node name is ':187' from file "console.tdf" line 99, column 3
+-- Equation name is '_LC1_A33', type is buried 
+!_LC1_A33 = _LC1_A33~NOT;
+_LC1_A33~NOT = LCELL( _EQ027);
+  _EQ027 = !DIR0 & !S1;
+
+-- Node name is ':194' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC1_A32_CARRY', type is buried 
+_LC1_A32_CARRY = CARRY( _EQ028);
+  _EQ028 =  HOR_PL0 &  HOR_PL1;
+
+-- Node name is ':198' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC2_A32_CARRY', type is buried 
+_LC2_A32_CARRY = CARRY( _EQ029);
+  _EQ029 =  HOR_PL2 &  _LC1_A32_CARRY;
+
+-- Node name is ':202' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC3_A32_CARRY', type is buried 
+_LC3_A32_CARRY = CARRY( _EQ030);
+  _EQ030 =  HOR_PL3 &  _LC2_A32_CARRY;
+
+-- Node name is ':206' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC4_A32_CARRY', type is buried 
+_LC4_A32_CARRY = CARRY( _EQ031);
+  _EQ031 =  HOR_PL4 &  _LC3_A32_CARRY;
+
+-- Node name is ':210' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC5_A32_CARRY', type is buried 
+_LC5_A32_CARRY = CARRY( _EQ032);
+  _EQ032 =  HOR_PL5 &  _LC4_A32_CARRY;
+
+-- Node name is ':214' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC6_A32_CARRY', type is buried 
+_LC6_A32_CARRY = CARRY( _EQ033);
+  _EQ033 =  HOR_PL6 &  _LC5_A32_CARRY;
+
+-- Node name is ':216' from file "console.tdf" line 99, column 33
+-- Equation name is '_LC7_A32_CARRY', type is buried 
+_LC7_A32_CARRY = CARRY( _EQ034);
+  _EQ034 =  HOR_PL7 & !_LC6_A32_CARRY
+         # !HOR_PL7 &  _LC6_A32_CARRY;
+
+-- Node name is ':222' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC8_A33', type is buried 
+_LC8_A33 = LCELL( _EQ035);
+  _EQ035 = !DIR0 & !HOR_PL0 &  HOR_PL1 & !S1
+         # !DIR0 &  HOR_PL0 & !HOR_PL1 & !S1;
+
+-- Node name is ':224' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC2_A32', type is buried 
+_LC2_A32 = LCELL( _EQ036);
+  _EQ036 =  HOR_PL2 & !_LC1_A32_CARRY & !_LC1_A33
+         # !HOR_PL2 &  _LC1_A32_CARRY & !_LC1_A33;
+
+-- Node name is ':226' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC3_A32', type is buried 
+_LC3_A32 = LCELL( _EQ037);
+  _EQ037 =  HOR_PL3 & !_LC1_A33 & !_LC2_A32_CARRY
+         # !HOR_PL3 & !_LC1_A33 &  _LC2_A32_CARRY;
+
+-- Node name is ':228' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC4_A32', type is buried 
+_LC4_A32 = LCELL( _EQ038);
+  _EQ038 =  HOR_PL4 & !_LC1_A33 & !_LC3_A32_CARRY
+         # !HOR_PL4 & !_LC1_A33 &  _LC3_A32_CARRY;
+
+-- Node name is ':230' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC5_A32', type is buried 
+_LC5_A32 = LCELL( _EQ039);
+  _EQ039 =  HOR_PL5 & !_LC1_A33 & !_LC4_A32_CARRY
+         # !HOR_PL5 & !_LC1_A33 &  _LC4_A32_CARRY;
+
+-- Node name is ':232' from file "console.tdf" line 99, column 22
+-- Equation name is '_LC6_A32', type is buried 
+_LC6_A32 = LCELL( _EQ040);
+  _EQ040 =  HOR_PL6 & !_LC1_A33 & !_LC5_A32_CARRY
+         # !HOR_PL6 & !_LC1_A33 &  _LC5_A32_CARRY;
+
+-- Node name is ':248' from file "console.tdf" line 101, column 24
+-- Equation name is '_LC4_A33', type is buried 
+_LC4_A33 = LCELL( _EQ041);
+  _EQ041 =  DIR0 &  DI0;
+
+-- Node name is '~263~1' from file "console.tdf" line 101, column 24
+-- Equation name is '~263~1', location is LC5_A33, type is buried.
+-- synthesized logic cell 
+_LC5_A33 = LCELL( _EQ042);
+  _EQ042 = !DIR0 &  HOR_PL7 &  S1
+         #  DIR0 &  DI7;
+
+-- Node name is ':265' from file "console.tdf" line 105, column 3
+-- Equation name is '_LC3_A36', type is buried 
+!_LC3_A36 = _LC3_A36~NOT;
+_LC3_A36~NOT = LCELL( _EQ043);
+  _EQ043 = !DIR1 & !S2
+         # !DIR1 & !S1;
+
+-- Node name is ':272' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC1_A35_CARRY', type is buried 
+_LC1_A35_CARRY = CARRY( _EQ044);
+  _EQ044 =  VER_PL0 &  VER_PL1;
+
+-- Node name is ':276' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC2_A35_CARRY', type is buried 
+_LC2_A35_CARRY = CARRY( _EQ045);
+  _EQ045 =  _LC1_A35_CARRY &  VER_PL2;
+
+-- Node name is ':280' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC3_A35_CARRY', type is buried 
+_LC3_A35_CARRY = CARRY( _EQ046);
+  _EQ046 =  _LC2_A35_CARRY &  VER_PL3;
+
+-- Node name is ':284' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC4_A35_CARRY', type is buried 
+_LC4_A35_CARRY = CARRY( _EQ047);
+  _EQ047 =  _LC3_A35_CARRY &  VER_PL4;
+
+-- Node name is ':288' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC5_A35_CARRY', type is buried 
+_LC5_A35_CARRY = CARRY( _EQ048);
+  _EQ048 =  _LC4_A35_CARRY &  VER_PL5;
+
+-- Node name is ':292' from file "console.tdf" line 105, column 33
+-- Equation name is '_LC6_A35_CARRY', type is buried 
+_LC6_A35_CARRY = CARRY( _EQ049);
+  _EQ049 =  _LC5_A35_CARRY &  VER_PL6;
+
+-- Node name is ':300' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC2_A36', type is buried 
+_LC2_A36 = LCELL( _EQ050);
+  _EQ050 = !_LC3_A36 & !VER_PL0 &  VER_PL1
+         # !_LC3_A36 &  VER_PL0 & !VER_PL1;
+
+-- Node name is ':302' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC2_A35', type is buried 
+_LC2_A35 = LCELL( _EQ051);
+  _EQ051 = !_LC1_A35_CARRY & !_LC3_A36 &  VER_PL2
+         #  _LC1_A35_CARRY & !_LC3_A36 & !VER_PL2;
+
+-- Node name is ':304' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC3_A35', type is buried 
+_LC3_A35 = LCELL( _EQ052);
+  _EQ052 = !_LC2_A35_CARRY & !_LC3_A36 &  VER_PL3
+         #  _LC2_A35_CARRY & !_LC3_A36 & !VER_PL3;
+
+-- Node name is ':306' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC4_A35', type is buried 
+_LC4_A35 = LCELL( _EQ053);
+  _EQ053 = !_LC3_A35_CARRY & !_LC3_A36 &  VER_PL4
+         #  _LC3_A35_CARRY & !_LC3_A36 & !VER_PL4;
+
+-- Node name is ':308' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC5_A35', type is buried 
+_LC5_A35 = LCELL( _EQ054);
+  _EQ054 = !_LC3_A36 & !_LC4_A35_CARRY &  VER_PL5
+         # !_LC3_A36 &  _LC4_A35_CARRY & !VER_PL5;
+
+-- Node name is ':310' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC6_A35', type is buried 
+_LC6_A35 = LCELL( _EQ055);
+  _EQ055 = !_LC3_A36 & !_LC5_A35_CARRY &  VER_PL6
+         # !_LC3_A36 &  _LC5_A35_CARRY & !VER_PL6;
+
+-- Node name is ':312' from file "console.tdf" line 105, column 22
+-- Equation name is '_LC7_A35_CARRY', type is buried 
+_LC7_A35_CARRY = CARRY( _EQ056);
+  _EQ056 = !_LC3_A36 & !_LC6_A35_CARRY &  VER_PL7
+         # !_LC3_A36 &  _LC6_A35_CARRY & !VER_PL7;
+
+-- Node name is ':323' from file "console.tdf" line 107, column 24
+-- Equation name is '_LC5_A34', type is buried 
+_LC5_A34 = LCELL( _EQ057);
+  _EQ057 =  DIR1 &  DI0;
+
+-- Node name is ':404' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC8_A28', type is buried 
+_LC8_A28 = LCELL( _EQ058);
+  _EQ058 =  CMD_0 &  SYMB_0
+         # !CMD_0 &  DI0;
+
+-- Node name is ':406' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC1_A28', type is buried 
+_LC1_A28 = LCELL( _EQ059);
+  _EQ059 =  CMD_0 &  SYMB_1
+         # !CMD_0 &  DI1;
+
+-- Node name is ':408' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC7_A4', type is buried 
+_LC7_A4  = LCELL( _EQ060);
+  _EQ060 =  CMD_0 &  SYMB_2
+         # !CMD_0 &  DI2;
+
+-- Node name is ':410' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC1_A4', type is buried 
+_LC1_A4  = LCELL( _EQ061);
+  _EQ061 =  CMD_0 &  SYMB_3
+         # !CMD_0 &  DI3;
+
+-- Node name is ':412' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC4_A23', type is buried 
+_LC4_A23 = LCELL( _EQ062);
+  _EQ062 =  CMD_0 &  SYMB_4
+         # !CMD_0 &  DI4;
+
+-- Node name is ':414' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC3_A23', type is buried 
+_LC3_A23 = LCELL( _EQ063);
+  _EQ063 =  CMD_0 &  SYMB_5
+         # !CMD_0 &  DI5;
+
+-- Node name is ':416' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC1_A7', type is buried 
+_LC1_A7  = LCELL( _EQ064);
+  _EQ064 =  CMD_0 &  SYMB_6
+         # !CMD_0 &  DI6;
+
+-- Node name is ':418' from file "console.tdf" line 117, column 18
+-- Equation name is '_LC2_A20', type is buried 
+_LC2_A20 = LCELL( _EQ065);
+  _EQ065 =  CMD_0 &  SYMB_7
+         # !CMD_0 &  DI7;
+
+-- Node name is ':436' from file "console.tdf" line 120, column 13
+-- Equation name is '_LC6_A30', type is buried 
+_LC6_A30 = LCELL( _EQ066);
+  _EQ066 = !_LC7_A30
+         #  /WR;
+
+-- Node name is '~452~1' from file "console.tdf" line 96, column 22
+-- Equation name is '~452~1', location is LC5_A36, type is buried.
+-- synthesized logic cell 
+_LC5_A36 = LCELL( _EQ011C);
+ _EQ011C =  _EQ011;
+  _EQ011 =  VER_PL0 &  VER_PL1 &  VER_PL2 &  VER_PL3;
+
+-- Node name is '~464~1' from file "console.tdf" line 95, column 26
+-- Equation name is '~464~1', location is LC3_A34, type is buried.
+-- synthesized logic cell 
+_LC3_A34 = LCELL( _EQ067);
+  _EQ067 =  HOR_PL0 &  HOR_PL1 &  HOR_PL2 &  HOR_PL3;
+
+-- Node name is '~528~1' from file "console.tdf" line 61, column 42
+-- Equation name is '~528~1', location is LC4_A30, type is buried.
+-- synthesized logic cell 
+_LC4_A30 = LCELL( _EQ068);
+  _EQ068 = !DIR0 & !DIR2;
+
+
+
+Project Information               c:\copy_d\asembler\altera\sp2000\console.rpt
+
+** TIMING ASSIGNMENTS **
+
+                         User       Actual 
+Type  Location        Assignment    Value     Status   Critical Path
+
+fmax  <default>       200.00 MHz  76.33 MHz   Failed   /WR to register HOR_PL0.Q to register HOR_PL2.Q
+
+
+Project Information               c:\copy_d\asembler\altera\sp2000\console.rpt
+
+** COMPILATION SETTINGS & TIMES **
+
+Processing Menu Commands
+------------------------
+
+Design Doctor                             = off
+
+Logic Synthesis:
+
+   Synthesis Type Used                    = Multi-Level
+
+   Default Synthesis Style                = FAST
+
+      Logic option settings in 'FAST' style for 'ACEX1K' family
+
+      CARRY_CHAIN                         = auto
+      CARRY_CHAIN_LENGTH                  = 32
+      CASCADE_CHAIN                       = auto
+      CASCADE_CHAIN_LENGTH                = 2
+      DECOMPOSE_GATES                     = on
+      DUPLICATE_LOGIC_EXTRACTION          = on
+      MINIMIZATION                        = full
+      MULTI_LEVEL_FACTORING               = on
+      NOT_GATE_PUSH_BACK                  = on
+      REDUCE_LOGIC                        = on
+      REFACTORIZATION                     = off
+      REGISTER_OPTIMIZATION               = on
+      RESYNTHESIZE_NETWORK                = on
+      SLOW_SLEW_RATE                      = off
+      SUBFACTOR_EXTRACTION                = off
+      IGNORE_SOFT_BUFFERS                 = on
+      USE_LPM_FOR_AHDL_OPERATORS          = off
+
+   Other logic synthesis settings:
+
+      Automatic Global Clock              = on
+      Automatic Global Clear              = on
+      Automatic Global Preset             = on
+      Automatic Global Output Enable      = on
+      Automatic Fast I/O                  = off
+      Automatic Register Packing          = off
+      Automatic Open-Drain Pins           = on
+      Automatic Implement in EAB          = off
+      Optimize                            = 5
+
+Default Timing Specifications: 
+
+   fmax                                   = 200MHz
+
+Cut All Bidir Feedback Timing Paths       = on
+Cut All Clear & Preset Timing Paths       = on
+
+Ignore Timing Assignments                 = off
+
+Functional SNF Extractor                  = off
+
+Linked SNF Extractor                      = off
+Timing SNF Extractor                      = on
+Optimize Timing SNF                       = off
+Generate AHDL TDO File                    = off
+Fitter Settings                           = NORMAL
+Use Quartus Fitter                        = on
+Smart Recompile                           = off
+Total Recompile                           = off
+
+Interfaces Menu Commands
+------------------------
+
+EDIF Netlist Writer                       = off
+Verilog Netlist Writer                    = off
+VHDL Netlist Writer                       = off
+
+Compilation Times
+-----------------
+
+   Compiler Netlist Extractor             00:00:01
+   Database Builder                       00:00:00
+   Logic Synthesizer                      00:00:01
+   Partitioner                            00:00:00
+   Fitter                                 00:00:11
+   Timing SNF Extractor                   00:00:00
+   Assembler                              00:00:03
+   --------------------------             --------
+   Total Time                             00:00:16
+
+
+Memory Allocated
+-----------------
+
+Peak memory allocated during compilation  = 23,947K

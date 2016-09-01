@@ -1,0 +1,374 @@
+
+	TITLE "ACCELERATOR";
+
+INCLUDE "lpm_ram_dp";
+
+SUBDESIGN acceler
+	(
+	CLK42		: INPUT;
+	/RESET		: INPUT;
+	CT[2..0]	: INPUT;
+
+	RAS			: INPUT;
+	CAS			: INPUT;
+	CLK_Z80		: INPUT;
+
+	CONTINUE	: OUTPUT;
+
+	MC_END		: INPUT;
+	MC_BEGIN	: INPUT;
+	MC_TYPE		: INPUT;
+	MC_WRITE	: INPUT;
+--	MCA[1..0]	: INPUT;
+
+	AI[15..0]	: INPUT;
+	DI[7..0]	: INPUT;
+
+	AO[15..0]	: OUTPUT;
+	DO[7..0]	: OUTPUT;
+
+	/IO			: INPUT;
+	/RD			: INPUT;
+	/WR			: INPUT;
+	/MR			: INPUT;
+	/RF			: INPUT;
+	/M1			: INPUT;
+	/IOM		: INPUT;
+
+	DCP[7..0]	: INPUT;
+
+	MDI[15..0]	: INPUT;
+	MDO[15..0]	: OUTPUT;
+	MD[7..0]	: OUTPUT;
+
+	G_LINE[7..0]: OUTPUT;
+
+	GLISSER		: OUTPUT;
+
+	ACC_ON		: OUTPUT;
+
+	ACC_ENA		: INPUT;
+
+	DOUBLE_CAS	: OUTPUT;
+
+	HDDR[7..0]	: INPUT;
+	HDD_FLIP	: INPUT;
+
+	ACC_DIR[7..0]	: OUTPUT;
+
+	)
+VARIABLE
+
+	RAM			: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8);
+
+	DO[7..0]	: DFFE;
+	MDO[15..0]	: DFFE;
+
+	PRF_CMD		: DFFE;
+	ED_CMD		: DFFE;
+	CB_CMD		: DFFE;
+	ID_CMD		: DFFE;
+	IN_OUT_CMD	: DFFE;
+
+	CORRECT_1F	: NODE;
+
+	ACC_BLK		: DFF;
+
+	RETI		: DFFE;
+	RETN		: DFFE;
+
+	AA[15..0]	: DFFE;
+
+	RGACC[7..0]	: DFFE;
+	AGR[7..0]	: DFFE;
+	ACC_CNT[7..0] : DFFE;
+
+	START_ACC	: NODE;
+	ACC_END		: DFFE;
+	FN_ACC[2..0]: DFFE;
+	ACC_MODE[3..0]	: DFFE;
+
+	MD[7..0]	: LCELL;
+	XMD[7..0]	: DFF;
+	XMDH[7..0]	: DFF;
+
+	ACC_DIR[7..0]	: LCELL;
+
+	/M1M		: NODE;
+
+	ACC_GO		: NODE;
+	ACC_GO_1	: NODE;
+
+	RAM_WR		: NODE;
+
+	STATE_EI	: DFFE;
+
+--	HDDR[7..0]	: DFFE;
+
+	XAGR[7..0]		: DFFE;
+	AAGR[9..0]		: DFFE;
+	XCNT[7..0]		: DFFE;
+	ALT_ACC			: NODE;
+
+	RAM_ADR[7..0]	: NODE;
+	ACC_C		: NODE;
+	WR_C7		: NODE;
+
+	XCNT_AGR[15..0]	: NODE;
+
+	MDOX[7..0]	: DFF;
+	MDOY[7..0]	: DFF;
+
+	GLISS_R		: DFF;
+
+	ACC_TIME	: NODE;
+
+BEGIN
+
+	ACC_ON		= ACC_DIR0;
+
+	/M1M		= DFF(!/M1,CLK_Z80,/RESET,);
+
+	PRF_CMD.clk		= /MR;
+	PRF_CMD.ena		= /M1M;
+	PRF_CMD.d		= (DI[] == B"11XX1XX1") &
+							   ((DI[] == B"XX00X01X") or  -- CB
+					  			(DI[] == B"XX01X10X") or  -- DD
+					  			(DI[] == B"XX10X10X") or  -- ED
+					  			(DI[] == B"XX11X10X"));	  -- FD
+
+--	=== interrupt === 0 - disable; 1 - enable
+
+	STATE_EI.clk	= /MR;
+	STATE_EI.ena	= /M1M & !PRF_CMD & (DI[] == B"1111X011");
+	STATE_EI.d		= DI3;
+
+--	RETI comand
+
+	ED_CMD.clk		= /MR;
+	ED_CMD.ena		= /M1M;
+	ED_CMD.d		= (DI[] == H"ED");
+
+	RETI.clk		= /MR;
+	RETI.ena		= /M1M;
+	RETI.d			= ED_CMD & (DI[] == H"4D");
+
+--	"1" on the RETI triger is the end of interupt sycle.
+
+	RETN.clk		= /MR;
+	RETN.ena		= /M1M;
+	RETN.d			= ED_CMD & (DI[] == H"45");
+
+--	The end of NMI sycle.
+
+	ACC_BLK.clk		= /M1;
+	ACC_BLK.d		= DFF(((/IO & ACC_BLK) or (!ACC_BLK & RETI)),CLK_Z80,,);
+	ACC_BLK.prn		= /RESET & ACC_MODE3;
+
+	CB_CMD.clk		= /MR;
+	ID_CMD.clk		= /MR;
+	CB_CMD.ena		= /M1M;
+	ID_CMD.ena		= /M1M;
+
+	CB_CMD.d		= (DI[] == H"CB");
+	ID_CMD.d		= (DI[] == B"11X11101");
+
+	IN_OUT_CMD.clk	= /MR;
+	IN_OUT_CMD.ena	= /M1M;
+	IN_OUT_CMD.d	= (DI[] == B"1101X011") & !PRF_CMD;  -- D3/DB
+	IN_OUT_CMD.clrn	= /IO;
+
+	CORRECT_1F		= LCELL(IN_OUT_CMD & (DO[] == H"1F") & !/MR & !/RD);
+	DO[4..3].clrn	= !CORRECT_1F;
+
+	ACC_GO			= DFFE((CAS or START_ACC),CLK42,,(!/MR & /M1),CT1);
+	ACC_GO_1		= DFF(ACC_GO,CLK42,,);
+
+--	== accelerator number ==
+
+	RGACC[].clk		= /MR;
+	RGACC[].ena		= DFF((/M1 & /RF & ACC_DIR3),CLK_Z80,,);
+	RGACC[].d 		= DI[];
+
+--  == accelerator grafic line ==
+
+	AGR[].clk	= CLK42;
+	AGR[].ena	= !DFF((/IOM or /WR or !DFF((DCP[] == B"1100X100"),CLK42,,)),CLK42,,) or
+					!(!ACC_DIR4 or ACC_GO or !ACC_GO_1);
+
+	CASE DFF(START_ACC,CLK42,,) IS
+		WHEN 0 => AGR[].d = AGR[] + 1;
+		WHEN 1 => AGR[].d = DI[];
+	END CASE;
+
+	AGR[].clrn	= /RESET;
+
+	G_LINE[]	= AGR[];
+
+--  == accelerator counter ==
+
+	ACC_C			= (!ACC_GO & DFF(((CT0 & !/RD) or (CT1 & !/WR)),CLK42,,));
+	ACC_CNT[].clk	= CLK42;
+--	ACC_CNT[].ena	= START_ACC or (ACC_C & ACC_DIR2);
+	ACC_CNT[].ena	= LCELL(START_ACC or (ACC_C & ACC_DIR2));
+
+	CASE DFF(START_ACC,CLK42,,) IS
+		WHEN 1 => ACC_CNT[].d = RGACC[];
+		WHEN 0 => ACC_CNT[].d = ACC_CNT[] - 1;
+	END CASE;
+
+	WR_C7	= DFF((/IOM or DFF(!/IOM,CLK42,,) or /WR or DFF(!(DCP[] == B"1100X111"),CLK42,,)),CLK42,,);
+	ALT_ACC	= DFF(VCC,WR_C7,/RESET,);
+
+	(AAGR[].ena,XCNT[].ena,XAGR[].ena)	= LCELL(!WR_C7 or (ACC_DIR1 & ACC_C));
+	(AAGR[].clk,XCNT[].clk,XAGR[].clk)	= CLK42;
+
+	XCNT_AGR[15..0] = (XCNT[],XAGR[]) + (B"000000",AAGR[]);
+
+	CASE !DFF(START_ACC,CLK42,,) IS
+		WHEN 1 => AAGR[].d	= AAGR[];
+				  (XCNT[].d,XAGR[].d) = XCNT_AGR[15..0];
+		WHEN 0 => AAGR[].d = (AI9,AI8,DI[]);
+				  (XCNT[].d,XAGR[].d) = (B"00",AI[15..10],B"00000000");
+	END CASE;
+
+--	== accelerator dir ==
+
+	START_ACC = LCELL(LCELL(/MR or !/M1 or !/RF or !ACC_BLK) or (!ACC_DIR0 or MC_TYPE));
+
+	DOUBLE_CAS= LCELL(ACC_DIR6 & !START_ACC);
+
+	ACC_END.clk	= CLK42;
+	ACC_END.ena	= !ACC_GO & ACC_GO_1;
+	ACC_END.prn	= /M1;
+	ACC_END.d	= (ACC_CNT[] == 1) or !ACC_DIR2;
+
+	CONTINUE	= ACC_END;
+
+	CASE ACC_MODE[2..0] IS
+		WHEN 0 => ACC_DIR[] = B"00000000"; % LD B,B %
+		WHEN 1 => ACC_DIR[] = B"00100101"; % LD C,C % % fill by constant %
+		WHEN 2 => ACC_DIR[] = B"00001001"; % LD D,D % % load count accelerator %
+		WHEN 3 => ACC_DIR[] = B"00010101"; % LD E,E % % fill by constant VERTICAL %
+		WHEN 4 => ACC_DIR[] = B"01000001"; % LD H,H % % duble byte fn %
+		WHEN 5 => ACC_DIR[] = B"00100111"; % LD L,L % % copy line %
+		WHEN 6 => ACC_DIR[] = B"00000000"; % HALT   %
+		WHEN 7 => ACC_DIR[] = B"00010111"; % LD A,A % % copy line VERTICAL %
+	END CASE;
+
+--	== accelerator mode ==
+
+	ACC_MODE[].clk	= /MR;
+	ACC_MODE[].ena	= DFF((!/M1 & !PRF_CMD &
+								  LCELL((DI[] == B"XXX00X00") or
+		  	   				 			(DI[] == B"XXX01X01") or
+			   				 			(DI[] == B"XXX10X10") or
+			   				 			(DI[] == B"XXX11X11")) &
+								  LCELL((DI[] == B"010XX0XX") or
+							 			(DI[] == B"011XX1XX"))),CLK_Z80,,);
+	ACC_MODE[].d = (VCC,DI[2..0]);
+	ACC_MODE[2..0].clrn	= /RESET & ACC_ENA;
+	ACC_MODE[3].clrn = /RESET & !DFF(ACC_MODE3,CLK_Z80,,);
+
+--  == accelerator datas ==
+
+	CASE DFFE(AA0,CLK42,,,(CT2 & CT1)) IS
+		WHEN 0 => MD[] = MDI[7..0];
+--				  GLISSER = DFF((MDO[7..0] == H"FF"),CLK42,,);
+		WHEN 1 => MD[] = MDI[15..8];
+--				  GLISSER = DFF((MDO[15..8] == H"FF"),CLK42,,);
+	END CASE;
+
+	GLISS_R.clk	= CLK42;
+	CASE ACC_DIR1 IS
+		WHEN 0 => GLISS_R = LCELL(DI[] == H"FF");
+		WHEN 1 => GLISS_R = LCELL(RAM.q[7..4] == H"F") & LCELL(RAM.q[3..0] == H"F");
+	END CASE;
+	GLISSER	= GLISS_R;
+
+--	MDO[].clk	= !CLK42;
+	MDO[].clk	= CLK42;
+
+	MDO[].ena	= CAS;
+
+	MDOX[].clk	= CLK42;
+	MDOY[].clk	= CLK42;
+
+	CASE LCELL(MC_END & HDD_FLIP) IS
+		WHEN 0 => MDOX[7..0] = DI[];
+		WHEN 1 => MDOX[7..0] = HDDR[];
+	END CASE;
+
+	CASE ACC_DIR6 IS
+		WHEN 0 => MDOY[7..0] = DI[];
+		WHEN 1 => MDOY[7..0] = HDDR[];
+	END CASE;
+
+	CASE LCELL(/IO & ACC_DIR1) IS
+		WHEN 0 => MDO[].d = (MDOY[],MDOX[]);
+		WHEN 1 => MDO[].d = (RAM.q[7..0],RAM.q[7..0]);
+	END CASE;
+
+	DO[].clk		= DFF(MC_END,!CLK42,,);
+--	DO[].clk		= !CLK42;
+	DO[].ena		= VCC;
+--	DO[].ena		= DFF(!MC_END,CLK42,,);
+	DO[].d			= MD[];
+
+--	== accelerator functions ==
+
+	FN_ACC[].clk	= /MR;
+	FN_ACC[].ena	= /M1M;
+	FN_ACC[].d		= LCELL(DI7 & !DI6 & !PRF_CMD) & !(DI[5..3]);
+
+	XMDH[].clk		= !CLK42;
+	XMDH[]			= MDI[15..8];
+
+	XMD[].clk		= !CLK42;
+	CASE FN_ACC[1..0] IS
+		WHEN 0 =>
+			XMD[] = MD[];					% BE %
+		WHEN 1 =>
+			XMD[] = MD[] or RAM.q[7..0];	% B6 %
+		WHEN 2 =>
+			XMD[] = MD[] xor RAM.q[7..0];	% AE %
+		WHEN 3 =>
+			XMD[] = MD[] & RAM.q[7..0];		% A6 %
+	END CASE;
+
+	CASE ALT_ACC IS
+		WHEN 0 => RAM_ADR[] = ACC_CNT[];
+		WHEN 1 => RAM_ADR[] = XCNT[];
+	END CASE;
+
+	ACC_TIME		= LCELL((!ACC_END or !DFFE(ACC_END,CLK42,,,(CT1 & CT2))));
+
+--	RAM_WR			= DFF((!/RD & (!ACC_GO & CT0) & ACC_TIME),CLK42,,);
+	RAM_WR			= DFF((!/RD & (!ACC_GO & CT0) & ACC_DIR1),CLK42,,);
+
+	RAM.wren 		= RAM_WR;
+	RAM.data[] 		= (XMD[],XMD[]);
+--	RAM.wraddress[] = ACC_CNT[];
+	RAM.wraddress[] = RAM_ADR[];
+	RAM.wrclock		= CLK42;
+	RAM.wrclken		= VCC;
+	RAM.rden		= VCC;
+--	RAM.rdaddress[] = ACC_CNT[];
+	RAM.rdaddress[] = RAM_ADR[];
+	RAM.rdclock		= CLK42;
+	RAM.rdclken		= VCC;
+
+	AA[].clk	= CLK42;
+--	AA[].ena	= START_ACC or (ACC_DIR5 & !ACC_GO & ACC_GO_1);
+	AA[].ena	= LCELL(START_ACC or (ACC_DIR5 & !(CAS or START_ACC) & (ACC_GO or (ACC_GO_1 & ACC_DIR6))));
+
+	CASE DFF(START_ACC,CLK42,,) IS
+		WHEN 1 => AA[].d = AI[];
+--		WHEN 0 => AA[].d = AA[] + (B"00000000000000",ACC_DIR6,!ACC_DIR6);
+		WHEN 0 => AA[].d = AA[] + 1;
+	END CASE;
+
+	AO[] = (AA[15..0]);
+
+END;
+

@@ -1,0 +1,96 @@
+
+	TITLE "DC_PORT";
+
+INCLUDE "lpm_ram_dp";
+
+SUBDESIGN dc_port
+	(
+	CLK42		: INPUT;
+	/RESET		: INPUT;
+
+	A[15..0]	: INPUT;
+	D[7..0]		: INPUT;
+
+	/IO			: INPUT;
+	/RD			: INPUT;
+	/WR			: INPUT;
+	/MR			: INPUT;
+	/RF			: INPUT;
+	/M1			: INPUT;
+
+	/IOM		: OUTPUT;
+	/IOMM		: OUTPUT;
+
+	DCP[7..0]	: OUTPUT;
+
+	DOS			: INPUT;
+	E128		: INPUT;
+
+	)
+VARIABLE
+
+	/IOM1		: NODE;
+	/IOM2		: NODE;
+
+	DX[7..0]	: DFFE;
+	DC_RAM		: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8,
+						LPM_FILE="DC_RAM.MIF",
+						LPM_OUTDATA="UNREGISTERED");
+	DCP_WR_ENA	: NODE;
+	DDX[7..0]	: DFFE;
+	DCP_A[7..0]	: LCELL;
+
+	SWAP		: NODE;
+	DDX_RES		: NODE;
+
+BEGIN
+
+--	DCP_WR_ENA			= VCC;
+
+	DCP_WR_ENA			= DFF(VCC,VCC,(/IO or /RD),/RESET) & A14 & A15;
+
+	DX[].clk			= CLK42;
+	DX[].ena			= LCELL(!A0 & !(/MR or /WR));
+	DX[]				= D[];
+
+	DC_RAM.wren 		= LCELL(A0 & !(/MR or /WR) & DCP_WR_ENA);
+	DC_RAM.data[] 		= (D[7..0],DX[7..0]);
+	DC_RAM.wraddress[]	= A[8..1];
+	DC_RAM.wrclock		= CLK42;
+	DC_RAM.wrclken		= VCC;
+	DC_RAM.rden			= VCC;
+	DC_RAM.rdaddress[]	= DCP_A[7..0];
+	DC_RAM.rdclock		= CLK42;
+	DC_RAM.rdclken		= VCC;
+
+--	============================================================
+
+	SWAP		= LCELL((DC_RAM.q[7..4] == 0) & !/IOM1);
+
+	DDX[].ena	= LCELL((DDX[7..4] == 0) & /IOMM);
+	DDX[].clrn	= DDX_RES;
+	DDX_RES 	= LCELL(/IO or !/IOM1);
+
+	CASE (/IOM or !/IOM2) IS
+		WHEN 1 => DCP_A[] = (DOS,/WR,A[7..5],A[2..0]);
+		WHEN 0 => DCP_A[] = (DC_RAM.q[3..0],E128,A[15..13]);
+	END CASE;
+
+	CASE /IOM2 IS
+		WHEN 1 => DDX[]	  = DC_RAM.q[7..0];
+		WHEN 0 => DDX[]	  = DC_RAM.q[15..8];
+	END CASE;
+
+	DDX[].clk		= CLK42;
+
+--	DDX[] - code of port
+
+	DCP[]	= DDX[];
+
+	/IOM	= DFF(!/M1,!CLK42,,!/IO);
+	/IOM1	= DFF(/IOM,CLK42,,!/IO);
+	/IOM2	= DFF(/IOM1,CLK42,,!/IO);
+	/IOMM	= DFF(/IOM2,CLK42,,!/IO);
+
+END;
+

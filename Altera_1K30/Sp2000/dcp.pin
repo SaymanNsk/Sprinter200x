@@ -1,0 +1,287 @@
+-- Copyright (C) 1988-2000 Altera Corporation
+-- Any megafunction design, and related net list (encrypted or decrypted),
+-- support information, device programming or simulation file, and any other
+-- associated documentation or information provided by Altera or a partner
+-- under Altera's Megafunction Partnership Program may be used only to
+-- program PLD devices (but not masked PLD devices) from Altera.  Any other
+-- use of such megafunction design, net list, support information, device
+-- programming or simulation file, or any other related documentation or
+-- information is prohibited for any other purpose, including, but not
+-- limited to modification, reverse engineering, de-compiling, or use with
+-- any other silicon devices, unless such use is explicitly licensed under
+-- a separate agreement with Altera or a megafunction partner.  Title to
+-- the intellectual property, including patents, copyrights, trademarks,
+-- trade secrets, or maskworks, embodied in any such megafunction design,
+-- net list, support information, device programming or simulation file, or
+-- any other related documentation or information provided by Altera or a
+-- megafunction partner, remains with Altera, the megafunction partner, or
+-- their respective licensors.  No other licenses, including any licenses
+-- needed under any third party's intellectual property, are provided herein.
+
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+----------------------------------------------------------------------------
+
+CHIP "dcp" ASSIGNED TO AN EP1K30FC256-3
+DATA0                            : A1
+/IOM                             : A2
+GND                              : A3
+DCPP1                            : A4
+GA5                              : A5
+MA10                             : A6
+DI3                              : A7
+DCPP0                            : A8
+REFRESH                          : A9
+G_LINE7                          : A10
+CS_ROM                           : A11
+SCR128                           : A12
+DI4                              : A13
+GND                              : A14
+RESERVED                         : A15
+TURBO                            : A16
+nCE                              : B1
+DCLK                             : B2
+A15                              : B3
+A2                               : B4
+MA1                              : B5
+MA0                              : B6
+CONTINUE                         : B7
+DI1                              : B8
+/IO                              : B9
+RESERVED                         : B10
+RA16                             : B11
+RESERVED                         : B12
+SP_SCR                           : B13
+/RD                              : B14
+TCK                              : B15
+nCEO                             : B16
+RA17                             : C1
+TDI                              : C2
+A3                               : C3
+CAS                              : C4
+MC_END                           : C5
+A0                               : C6
+GND                              : C7
+GA8                              : C8
+DO7                              : C9
+RESERVED                         : C10
+PORT                             : C11
+MD5                              : C12
+DCPP7                            : C13
+RESERVED                         : C14
+CONF_DONE                        : C15
+TDO                              : C16
+N.C.                             : D1
+TEST_R                           : D2
+RA14                             : D3
+A12                              : D4
+MC_BEGIN                         : D5
+HDD_FLIP                         : D6
+DO5                              : D7
+/WR                              : D8
+MD0                              : D9
+CS_RAM                           : D10
+RESERVED                         : D11
+VCCIO                            : D12
+A10                              : D13
+DI6                              : D14
+RESERVED                         : D15
+PAGE4                            : D16
+PAGE11                           : E1
+/M1                              : E2
+N.C.                             : E3
+MA11                             : E4
+GND                              : E5
+VCCIO                            : E6
+GA0                              : E7
+/RESET                           : E8
+/RF                              : E9
+MC_WRITE                         : E10
+VCCINT                           : E11
+GND                              : E12
+RESERVED                         : E13
+DCPP2                            : E14
+WR_AWG                           : E15
+N.C.                             : E16
+DCPP4                            : F1
+RD_KP11                          : F2
+MCA1                             : F3
+RA15                             : F4
+VCCINT                           : F5
+GND                              : F6
+VCCINT                           : F7
+VCCIO                            : F8
+VCCINT                           : F9
+VCCIO                            : F10
+GND                              : F11
+VCCINT                           : F12
+PAGE10                           : F13
+RESERVED                         : F14
+RESERVED                         : F15
+PAGE5                            : F16
+BLK_R                            : G1
+MD4                              : G2
+N.C.                             : G3
+TYPE1                            : G4
+TYPE2                            : G5
+VCCIO                            : G6
+GND                              : G7
+VCCIO                            : G8
+GND                              : G9
+GND                              : G10
+VCCIO                            : G11
+TYPE0                            : G12
+V_RAM                            : G13
+DI2                              : G14
+CT0                              : G15
+DI0                              : G16
+N.C.                             : H1
+HDD_DATA                         : H2
+DO4                              : H3
+DO6                              : H4
+TYPE3                            : H5
+VCCINT                           : H6
+VCCINT                           : H7
+GND                              : H8
+GND                              : H9
+VCCINT                           : H10
+VCCIO                            : H11
+PAGE3                            : H12
+CT2                              : H13
+DI7                              : H14
+GA1                              : H15
+N.C.                             : H16
+N.C.                             : J1
+DO2                              : J2
+MA8                              : J3
+/IOMM                            : J4
+MC_TYPE                          : J5
+VCCIO                            : J6
+VCCINT                           : J7
+GND                              : J8
+GND                              : J9
+VCCINT                           : J10
+VCCINT                           : J11
+A4                               : J12
+DCPP3                            : J13
+DCPP5                            : J14
+G_LINE8                          : J15
+G_LINE1                          : J16
+GA3                              : K1
+DO0                              : K2
+N.C.                             : K3
+MA7                              : K4
+GND                              : K5
+VCCIO                            : K6
+GND                              : K7
+VCCIO                            : K8
+VCCINT                           : K9
+GND                              : K10
+VCCIO                            : K11
+A13                              : K12
+PAGE7                            : K13
+N.C.                             : K14
+G_LINE4                          : K15
+N.C.                             : K16
+GND                              : L1
+N.C.                             : L2
+MA9                              : L3
+N.C.                             : L4
+VCCINT                           : L5
+GND                              : L6
+VCCINT                           : L7
+CLK42                            : L8
+VCCINT                           : L9
+VCCIO                            : L10
+GND                              : L11
+VCCINT                           : L12
+PAGE0                            : L13
+PAGE2                            : L14
+RESERVED                         : L15
+RESERVED                         : L16
+DO3                              : M1
+GA9                              : M2
+PAGE6                            : M3
+MA3                              : M4
+GND                              : M5
+VCCIO                            : M6
+DOS                              : M7
+GA2                              : M8
+/MR                              : M9
+RESERVED                         : M10
+VCCINT                           : M11
+GND                              : M12
+RESERVED                         : M13
+N.C.                             : M14
+RESERVED                         : M15
+N.C.                             : M16
+PAGE9                            : N1
+MCA0                             : N2
+KP11_MIX                         : N3
+nCONFIG                          : N4
+MA5                              : N5
+WR_DWG                           : N6
+G_LINE3                          : N7
+MA2                              : N8
+RESERVED                         : N9
+MD3                              : N10
+MD7                              : N11
+VCCIO                            : N12
+PAGE8                            : N13
+RAM                              : N14
+N.C.                             : N15
+PAGE1                            : N16
+MSEL0                            : P1
+DO1                              : P2
+DI5                              : P3
+RAS                              : P4
+G_LINE0                          : P5
+CT1                              : P6
+A9                               : P7
+GA6                              : P8
+/WAIT                            : P9
+MD2                              : P10
+A14                              : P11
+ACC_ON                           : P12
+WR_TM9                           : P13
+DCPP6                            : P14
+TMS                              : P15
+TURBO_HAND                       : P16
+MSEL1                            : R1
+VCCINT                           : R2
+GA7                              : R3
+A8                               : R4
+GA4                              : R5
+A1                               : R6
+GRAF                             : R7
+DOUBLE_CAS                       : R8
+G_LINE2                          : R9
+RESERVED                         : R10
+RESERVED                         : R11
+PN4Q                             : R12
+A11                              : R13
+A7                               : R14
+RESERVED                         : R15
+TRST                             : R16
+A6                               : T1
+A5                               : T2
+MA6                              : T3
+SP_SA                            : T4
+/RES                             : T5
+MA4                              : T6
+G_LINE6                          : T7
+GND                              : T8
+G_LINE5                          : T9
+MD1                              : T10
+RESERVED                         : T11
+RESERVED                         : T12
+RESERVED                         : T13
+MD6                              : T14
+CLK_Z80                          : T15
+nSTATUS                          : T16

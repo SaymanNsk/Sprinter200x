@@ -1,0 +1,2744 @@
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+MAX+plus II Compiler Report File
+Version 10.0 9/14/2000
+Compiled: 05/26/2001 07:09:22
+
+Copyright (C) 1988-2000 Altera Corporation
+Any megafunction design, and related net list (encrypted or decrypted),
+support information, device programming or simulation file, and any other
+associated documentation or information provided by Altera or a partner
+under Altera's Megafunction Partnership Program may be used only to
+program PLD devices (but not masked PLD devices) from Altera.  Any other
+use of such megafunction design, net list, support information, device
+programming or simulation file, or any other related documentation or
+information is prohibited for any other purpose, including, but not
+limited to modification, reverse engineering, de-compiling, or use with
+any other silicon devices, unless such use is explicitly licensed under
+a separate agreement with Altera or a megafunction partner.  Title to
+the intellectual property, including patents, copyrights, trademarks,
+trade secrets, or maskworks, embodied in any such megafunction design,
+net list, support information, device programming or simulation file, or
+any other related documentation or information provided by Altera or a
+megafunction partner, remains with Altera, the megafunction partner, or
+their respective licensors.  No other licenses, including any licenses
+needed under any third party's intellectual property, are provided herein.
+
+
+
+***** Project compilation was successful
+
+
+AY-3-8910
+
+
+** DEVICE SUMMARY **
+
+Chip/                     Input Output Bidir  Memory  Memory  			 LCs
+POF       Device          Pins  Pins   Pins   Bits % Utilized  LCs  % Utilized
+
+ay        EP1K30QC208-3    21     41     0    2048      8  %    275      15 %
+
+User Pins:                 21     41     0  
+
+
+
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+** PROJECT COMPILATION MESSAGES **
+
+Warning: Line 292, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Group "AY_GF" is missing brackets []
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR7" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX3" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR6" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX2" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX5" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX4" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX7" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX6" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR1" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR0" was declared but never used
+Warning: Line 50, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CLK1" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR3" was declared but never used
+Warning: Line 33, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AWR" was declared but never used
+Warning: Line 42, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_AAX1" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR2" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR5" was declared but never used
+Warning: Line 61, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CCC8" was declared but never used
+Warning: Line 96, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_CH_DIR4" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX1" was declared but never used
+Warning: Line 60, File c:\copy_d\asembler\altera\sp2000\ay.tdf:
+   Symbolic name "AY_ADRX0" was declared but never used
+Warning: Ignored unnecessary INPUT pin 'AY_T8'
+
+
+** PROJECT TIMING MESSAGES **
+
+Warning: Timing characteristics of device EP1K30QC208-3 are preliminary
+Warning: Found ripple clock -- warning messages and Report File information on tco, tsu, and fmax may be inaccurate
+Warning: Can't provide fmax of 100.00 MHz on Clock pin "CLK42". Current fmax is 49.01 MHz.
+
+
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+** EMBEDDED ARRAYS **
+
+
+|lpm_ram_dq:90|altram:sram|content: MEMORY (
+               width        =    8;
+               depth        =  256;
+               segmentsize  =  256;
+               mode         = MEM_INITIALIZED#MEM_REG_DATAIN_CLK0#MEM_REG_WADDR_CLK0#MEM_REG_WCTRL_CLK0#MEM_REG_DATAOUT_CLK1;
+               file         = "AY.MIF";
+         )
+         OF SEGMENTS (
+               |lpm_ram_dq:90|altram:sram|segment0_7,
+               |lpm_ram_dq:90|altram:sram|segment0_6,
+               |lpm_ram_dq:90|altram:sram|segment0_5,
+               |lpm_ram_dq:90|altram:sram|segment0_4,
+               |lpm_ram_dq:90|altram:sram|segment0_3,
+               |lpm_ram_dq:90|altram:sram|segment0_2,
+               |lpm_ram_dq:90|altram:sram|segment0_1,
+               |lpm_ram_dq:90|altram:sram|segment0_0
+);
+
+
+
+
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+** FILE HIERARCHY **
+
+
+
+|lpm_ram_dq:90|
+|lpm_ram_dq:90|altram:sram|
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+***** Logic for device 'ay' compiled without errors.
+
+
+
+
+Device: EP1K30QC208-3
+
+ACEX 1K Configuration Scheme: Passive Serial
+
+Device Options:
+    User-Supplied Start-Up Clock               = OFF
+    Auto-Restart Configuration on Frame Error  = OFF
+    Release Clears Before Tri-States           = OFF
+    Enable Chip_Wide Reset                     = OFF
+    Enable Chip-Wide Output Enable             = OFF
+    Enable INIT_DONE Output                    = OFF
+    JTAG User Code                             = 7f
+    MultiVolt I/O                              = OFF
+
+                                                                                                                         
+                                                                                                                         
+                R R R R R R R   R R R A A R   R R R R R   R R             R   R A R     R     R A   R   R R R R A R A A  
+                E E E E E E E   E E E Y Y E   E E E E E   E E             E   E Y E     E     E Y   E   E E E E Y E Y Y  
+                S S S S S S S V S S S _ _ S   S S S S S   S S V           S   S _ S     S     S _   S   S S S S _ S _ _  
+                E E E E E E E C E E E C C E V E E E E E   E E C   C       E V E C E   A E     E C   E V E E E E C E C C  
+                R R R R R R R C R R R H H R C R R R R R   R R C   L       R C R H R   Y R     R H   R C R R R R H R H H  
+                V V V V V V V I V V V _ _ V C V V V V V G V V I   K   G   V C V _ V D _ V G   V _   V C V V V V _ V _ _  
+                E E E E E E E N E E E L L E I E E E E E N E E N D 4 D N D E I E L E O T E N D E L D E I E E E E R E L R  
+                D D D D D D D T D D D 8 7 D O D D D D D D D D T 3 2 2 D 5 D O D 5 D 0 6 D D 0 D 0 4 D O D D D D 3 D 4 0  
+              ----------------------------------------------------------------------------------------------------------_ 
+             / 208 206 204 202 200 198 196 194 192 190 188 186 184 182 180 178 176 174 172 170 168 166 164 162 160 158   |_ 
+            /    207 205 203 201 199 197 195 193 191 189 187 185 183 181 179 177 175 173 171 169 167 165 163 161 159 157    | 
+      #TCK |  1                                                                                                         156 | ^DATA0 
+^CONF_DONE |  2                                                                                                         155 | ^DCLK 
+     ^nCEO |  3                                                                                                         154 | ^nCE 
+      #TDO |  4                                                                                                         153 | #TDI 
+     VCCIO |  5                                                                                                         152 | VCCINT 
+       GND |  6                                                                                                         151 | GND 
+  AY_CH_C2 |  7                                                                                                         150 | RESERVED 
+  AY_CH_B3 |  8                                                                                                         149 | RESERVED 
+  AY_CH_B1 |  9                                                                                                         148 | RESERVED 
+  AY_CH_B2 | 10                                                                                                         147 | AY_CH_C1 
+  AY_CH_C3 | 11                                                                                                         146 | VCCIO 
+  RESERVED | 12                                                                                                         145 | GND 
+  RESERVED | 13                                                                                                         144 | RESERVED 
+  RESERVED | 14                                                                                                         143 | RESERVED 
+  RESERVED | 15                                                                                                         142 | RESERVED 
+       DO3 | 16                                                                                                         141 | RESERVED 
+   AY_D_WR | 17                                                                                                         140 | RESERVED 
+     AY_T3 | 18                                                                                                         139 | RESERVED 
+     AY_T5 | 19                                                                                                         138 | VCCIO 
+       GND | 20                                                                                                         137 | GND 
+    VCCINT | 21                                                                                                         136 | D6 
+     VCCIO | 22                                                                                                         135 | DO2 
+       GND | 23                                                                                                         134 | DO7 
+        D7 | 24                                                                                                         133 | DO5 
+  RESERVED | 25                                                                                                         132 | DO4 
+  AY_CH_A0 | 26                                                                                                         131 | DO6 
+  RESERVED | 27                                              EP1K30QC208-3                                              130 | VCCINT 
+  AY_CH_A1 | 28                                                                                                         129 | GND 
+  AY_CH_B0 | 29                                                                                                         128 | AY_CH_A2 
+  RESERVED | 30                                                                                                         127 | AY_CH_L2 
+  RESERVED | 31                                                                                                         126 | RESERVED 
+       GND | 32                                                                                                         125 | RESERVED 
+    VCCINT | 33                                                                                                         124 | VCCINT 
+     VCCIO | 34                                                                                                         123 | GND 
+       GND | 35                                                                                                         122 | RESERVED 
+  RESERVED | 36                                                                                                         121 | RESERVED 
+  AY_CH_C0 | 37                                                                                                         120 | RESERVED 
+     AY_T7 | 38                                                                                                         119 | RESERVED 
+  RESERVED | 39                                                                                                         118 | VCCIO 
+  RESERVED | 40                                                                                                         117 | GND 
+  AY_CH_A3 | 41                                                                                                         116 | AY_CH_L6 
+     VCCIO | 42                                                                                                         115 | AY_CH_R4 
+       GND | 43                                                                                                         114 | AY_CH_R1 
+  RESERVED | 44                                                                                                         113 | AY_CH_R2 
+  AY_CH_L9 | 45                                                                                                         112 | AY_CH_L1 
+  AY_CH_R6 | 46                                                                                                         111 | AY_CH_L3 
+  AY_CH_R8 | 47                                                                                                         110 | VCCIO 
+    VCCINT | 48                                                                                                         109 | GND 
+       GND | 49                                                                                                         108 | ^MSEL0 
+      #TMS | 50                                                                                                         107 | ^MSEL1 
+     #TRST | 51                                                                                                         106 | VCCINT 
+  ^nSTATUS | 52                                                                                                         105 | ^nCONFIG 
+           |      54  56  58  60  62  64  66  68  70  72  74  76  78  80  82  84  86  88  90  92  94  96  98 100 102 104  _| 
+            \   53  55  57  59  61  63  65  67  69  71  73  75  77  79  81  83  85  87  89  91  93  95  97  99 101 103   | 
+             \----------------------------------------------------------------------------------------------------------- 
+                R R R R A A G R R R R R R V R B R R R V R R R G V / A D G G A V A R R R R R V R D R R A R V R A A R R A  
+                E E E E Y Y N E E E E E E C E E E E E C E E E N C R Y 1 N N Y C Y E E E E E C E O E E Y E C E Y Y E E Y  
+                S S S S _ _ D S S S S S S C S E S S S C S S S D C E _   D D _ C _ S S S S S C S 1 S S _ S C S _ _ S S _  
+                E E E E C C   E E E E E E I E P E E E I E E E   I S A       T I C E E E E E I E   E E T E I E T C E E T  
+                R R R R H H   R R R R R R O R E R R R N R R R   N E _       0 O H R R R R R N R   R R 4 R O R 2 H R R 1  
+                V V V V _ _   V V V V V V   V R V V V T V V V   T T W           _ V V V V V T V   V V   V   V   _ V V    
+                E E E E R R   E E E E E E   E   E E E   E E E       R           V E E E E E   E   E E   E   E   R E E    
+                D D D D 7 9   D D D D D D   D   D D D   D D D                   A D D D D D   D   D D   D   D   5 D D    
+                                                                                L                                        
+                                                                                                                         
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+^ = Dedicated configuration pin.
++ = Reserved configuration pin, which is tri-stated during user mode.
+* = Reserved configuration pin, which drives out in user mode.
+PDn = Power Down pin. 
+@ = Special-purpose pin. 
+# = JTAG Boundary-Scan Testing/In-System Programming or Configuration Pin. The JTAG inputs TMS and TDI should be tied to VCC and TCK should be tied to GND when not in use.
+& = JTAG pin used for I/O. When used as user I/O, JTAG pins must be kept stable before and during configuration.  JTAG pin stability prevents accidental loading of JTAG instructions.
+$ = Pin has PCI I/O option enabled. Pin is neither '5.0 V'- nor '3.3 V'-tolerant. 
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** RESOURCE USAGE **
+
+Logic                Column       Row                                   
+Array                Interconnect Interconnect         Clears/     External  
+Block   Logic Cells  Driven       Driven       Clocks  Presets   Interconnect
+A24      8/ 8(100%)   0/ 8(  0%)   3/ 8( 37%)    1/2    0/2      10/22( 45%)   
+A25      8/ 8(100%)   5/ 8( 62%)   2/ 8( 25%)    2/2    1/2      11/22( 50%)   
+A26      7/ 8( 87%)   1/ 8( 12%)   2/ 8( 25%)    2/2    0/2      10/22( 45%)   
+A31      8/ 8(100%)   0/ 8(  0%)   4/ 8( 50%)    2/2    0/2       7/22( 31%)   
+A32      8/ 8(100%)   0/ 8(  0%)   5/ 8( 62%)    1/2    1/2       2/22(  9%)   
+B19      8/ 8(100%)   0/ 8(  0%)   1/ 8( 12%)    1/2    1/2       2/22(  9%)   
+B32      8/ 8(100%)   1/ 8( 12%)   1/ 8( 12%)    1/2    1/2       2/22(  9%)   
+B34      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    1/2       2/22(  9%)   
+C1       8/ 8(100%)   0/ 8(  0%)   4/ 8( 50%)    2/2    1/2      10/22( 45%)   
+C3       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    0/2    0/2       0/22(  0%)   
+C4       1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       1/22(  4%)   
+C5       8/ 8(100%)   0/ 8(  0%)   5/ 8( 62%)    2/2    1/2      10/22( 45%)   
+C6       3/ 8( 37%)   0/ 8(  0%)   3/ 8( 37%)    1/2    0/2       4/22( 18%)   
+C9       8/ 8(100%)   1/ 8( 12%)   5/ 8( 62%)    1/2    0/2       7/22( 31%)   
+C10      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       1/22(  4%)   
+C11      8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    2/2    0/2      12/22( 54%)   
+C12      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       2/22(  9%)   
+C14      8/ 8(100%)   1/ 8( 12%)   5/ 8( 62%)    1/2    0/2       8/22( 36%)   
+C15      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    1/2    0/2      10/22( 45%)   
+C19      1/ 8( 12%)   0/ 8(  0%)   1/ 8( 12%)    1/2    0/2       1/22(  4%)   
+C23      8/ 8(100%)   0/ 8(  0%)   4/ 8( 50%)    1/2    1/2      14/22( 63%)   
+C24      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    1/2    1/2      11/22( 50%)   
+C25      2/ 8( 25%)   0/ 8(  0%)   2/ 8( 25%)    1/2    0/2       3/22( 13%)   
+C26      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    1/2    0/2       8/22( 36%)   
+C28      8/ 8(100%)   5/ 8( 62%)   6/ 8( 75%)    1/2    0/2      11/22( 50%)   
+C30      8/ 8(100%)   4/ 8( 50%)   4/ 8( 50%)    1/2    0/2       8/22( 36%)   
+C32      8/ 8(100%)   2/ 8( 25%)   5/ 8( 62%)    1/2    0/2       9/22( 40%)   
+C34      8/ 8(100%)   1/ 8( 12%)   2/ 8( 25%)    1/2    0/2      11/22( 50%)   
+C35      8/ 8(100%)   4/ 8( 50%)   1/ 8( 12%)    1/2    2/2      14/22( 63%)   
+D23      8/ 8(100%)   0/ 8(  0%)   4/ 8( 50%)    2/2    0/2       8/22( 36%)   
+E32      8/ 8(100%)   3/ 8( 37%)   2/ 8( 25%)    2/2    0/2       9/22( 40%)   
+F1       8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    2/2    1/2       9/22( 40%)   
+F2       8/ 8(100%)   1/ 8( 12%)   3/ 8( 37%)    2/2    1/2       7/22( 31%)   
+F4       8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    2/2    1/2       7/22( 31%)   
+F9       8/ 8(100%)   0/ 8(  0%)   6/ 8( 75%)    2/2    1/2      10/22( 45%)   
+F10      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    2/2    1/2       9/22( 40%)   
+F13      8/ 8(100%)   0/ 8(  0%)   4/ 8( 50%)    1/2    0/2       4/22( 18%)   
+F15      4/ 8( 50%)   1/ 8( 12%)   3/ 8( 37%)    1/2    0/2       5/22( 22%)   
+F17      5/ 8( 62%)   0/ 8(  0%)   5/ 8( 62%)    1/2    1/2       4/22( 18%)   
+F20      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    1/2    0/2       7/22( 31%)   
+F27      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    2/2    1/2       8/22( 36%)   
+F31      8/ 8(100%)   2/ 8( 25%)   2/ 8( 25%)    2/2    1/2       6/22( 27%)   
+
+
+Embedded             Column       Row                                   
+Array     Embedded   Interconnect Interconnect         Read/      External  
+Block     Cells      Driven       Driven       Clocks  Write    Interconnect
+C37      8/16( 50%)   3/16( 18%)   8/16( 50%)    1/2    2/6      18/88( 20%)   
+
+
+Total dedicated input pins used:                 6/6      (100%)
+Total I/O pins used:                            56/141    ( 39%)
+Total logic cells used:                        275/1728   ( 15%)
+Total embedded cells used:                       8/96     (  8%)
+Total EABs used:                                 1/6      ( 16%)
+Average fan-in:                                 2.70/4    ( 67%)
+Total fan-in:                                 745/6912    ( 10%)
+
+Total input pins required:                      21
+Total input I/O cell registers required:         0
+Total output pins required:                     41
+Total output I/O cell registers required:        0
+Total buried I/O cell registers required:        0
+Total bidirectional pins required:               0
+Total reserved pins required                     0
+Total logic cells required:                    275
+Total flipflops required:                      201
+Total packed registers required:                 0
+Total logic cells in carry chains:               0
+Total number of carry chains:                    0
+Total logic cells in cascade chains:             0
+Total number of cascade chains:                  0
+Total single-pin Clock Enables required:         0
+Total single-pin Output Enables required:        0
+
+Synthesized logic cells:                        16/1728   (  0%)
+
+Logic Cell and Embedded Cell Counts
+
+Column:  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  EA  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  Total(LC/EC)
+ A:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   8   8   7   0   0   0   0   8   8   0   0   0   0     39/0  
+ B:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   8   0   0   0   0   0   0   0   0   0   0   0   0   8   0   1   0   0     17/0  
+ C:      8   0   1   1   8   3   0   0   8   1   8   1   0   8   8   0   0   0   8   1   0   0   0   8   8   2   8   0   8   0   8   0   8   0   8   8   0    122/8  
+ D:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   8   0   0   0   0   0   0   0   0   0   0   0   0   0      8/0  
+ E:      0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   8   0   0   0   0      8/0  
+ F:      8   8   0   8   0   0   0   0   8   8   0   0   8   0   4   0   5   0   0   0   8   0   0   0   0   0   0   8   0   0   0   8   0   0   0   0   0     81/0  
+
+Total:  16   8   1   9   8   3   0   0  16   9   8   1   8   8  12   0   5   0   8   9   8   0   0  16  16  10  15   8   8   0   8  16  32   0   9   8   0    275/8  
+
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** INPUTS **
+
+                                                    Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+  79      -     -    -    --      INPUT  G          ^    0    0    0    0  AY_A_WR
+  17      -     -    C    --      INPUT             ^    0    0    0    1  AY_D_WR
+  83      -     -    -    17      INPUT             ^    0    0    0    1  AY_T0
+ 104      -     -    -    01      INPUT             ^    0    0    0    1  AY_T1
+ 100      -     -    -    05      INPUT             ^    0    0    0    1  AY_T2
+  18      -     -    C    --      INPUT             ^    0    0    0    1  AY_T3
+  96      -     -    -    08      INPUT             ^    0    0    0    1  AY_T4
+  19      -     -    C    --      INPUT             ^    0    0    0    1  AY_T5
+ 173      -     -    -    13      INPUT             ^    0    0    0    1  AY_T6
+  38      -     -    E    --      INPUT             ^    0    0    0    1  AY_T7
+  68      -     -    -    24      INPUT             ^    0    0    0    1  BEEPER
+ 183      -     -    -    --      INPUT  G          ^    0    0    0    8  CLK42
+ 170      -     -    -    11      INPUT             ^    0    0    0    3  D0
+  80      -     -    -    --      INPUT             ^    0    0    0    3  D1
+ 182      -     -    -    --      INPUT             ^    0    0    0    3  D2
+ 184      -     -    -    --      INPUT             ^    0    0    0    3  D3
+ 167      -     -    -    08      INPUT             ^    0    0    0    1  D4
+ 180      -     -    -    18      INPUT             ^    0    0    0    1  D5
+ 136      -     -    C    --      INPUT             ^    0    0    0    1  D6
+  24      -     -    C    --      INPUT             ^    0    0    0    1  D7
+  78      -     -    -    --      INPUT  G          ^    0    0    0    1  /RESET
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+G = Global Source. Fan-out destinations counted here do not include destinations
+that are driven using global routing resources. Refer to the Auto Global Signals,
+Clock Signals, Clear Signals, Synchronous Load Signals, and Synchronous Clear Signals
+Sections of this Report File for information on which signals' fan-outs are used as
+Clock, Clear, Preset, Output Enable, and synchronous Load signals.
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** OUTPUTS **
+
+       Fed By Fed By                                Fan-In    Fan-Out
+ Pin     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+  26      -     -    D    --     OUTPUT                 0    1    0    0  AY_CH_A0
+  28      -     -    D    --     OUTPUT                 0    1    0    0  AY_CH_A1
+ 128      -     -    D    --     OUTPUT                 0    1    0    0  AY_CH_A2
+  41      -     -    E    --     OUTPUT                 0    1    0    0  AY_CH_A3
+  29      -     -    D    --     OUTPUT                 0    1    0    0  AY_CH_B0
+   9      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_B1
+  10      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_B2
+   8      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_B3
+  37      -     -    E    --     OUTPUT                 0    1    0    0  AY_CH_C0
+ 147      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_C1
+   7      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_C2
+  11      -     -    A    --     OUTPUT                 0    1    0    0  AY_CH_C3
+ 168      -     -    -    09     OUTPUT                 0    1    0    0  AY_CH_L0
+ 112      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_L1
+ 127      -     -    D    --     OUTPUT                 0    1    0    0  AY_CH_L2
+ 111      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_L3
+ 158      -     -    -    02     OUTPUT                 0    1    0    0  AY_CH_L4
+ 176      -     -    -    15     OUTPUT                 0    1    0    0  AY_CH_L5
+ 116      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_L6
+ 196      -     -    -    27     OUTPUT                 0    1    0    0  AY_CH_L7
+ 197      -     -    -    28     OUTPUT                 0    1    0    0  AY_CH_L8
+  45      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_L9
+ 157      -     -    -    01     OUTPUT                 0    1    0    0  AY_CH_R0
+ 114      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_R1
+ 113      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_R2
+ 160      -     -    -    04     OUTPUT                 0    1    0    0  AY_CH_R3
+ 115      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_R4
+ 101      -     -    -    04     OUTPUT                 0    1    0    0  AY_CH_R5
+  46      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_R6
+  57      -     -    -    32     OUTPUT                 0    1    0    0  AY_CH_R7
+  47      -     -    F    --     OUTPUT                 0    1    0    0  AY_CH_R8
+  58      -     -    -    31     OUTPUT                 0    1    0    0  AY_CH_R9
+  85      -     -    -    16     OUTPUT                 0    1    0    0  AY_CH_VAL
+ 174      -     -    -    14     OUTPUT                 0    1    0    0  DO0
+  93      -     -    -    10     OUTPUT                 0    1    0    0  DO1
+ 135      -     -    C    --     OUTPUT                 0    1    0    0  DO2
+  16      -     -    C    --     OUTPUT                 0    1    0    0  DO3
+ 132      -     -    C    --     OUTPUT                 0    1    0    0  DO4
+ 133      -     -    C    --     OUTPUT                 0    1    0    0  DO5
+ 131      -     -    C    --     OUTPUT                 0    1    0    0  DO6
+ 134      -     -    C    --     OUTPUT                 0    1    0    0  DO7
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+@ = Uses single-pin Clock Enable
+& = Uses single-pin Output Enable
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** BURIED LOGIC **
+
+                                                    Fan-In    Fan-Out
+ IOC     LC     EC   Row  Col  Primitive    Code      INP  FBK  OUT  FBK  Name
+   -      3     -    C    11       DFFE   +            4    0    0    1  AY_AAX0
+   -      7     -    A    25       DFFE   +            0    4    0    1  AY_AA0
+   -      3     -    A    25       DFFE   +            0    4    0    1  AY_AA1
+   -      6     -    A    25       DFFE   +            0    4    0    1  AY_AA2
+   -      5     -    A    25       DFFE   +            0    4    0    1  AY_AA3
+   -      1     -    A    24       DFFE   +            0    2    0    4  AY_ABLK
+   -      5     -    C    11       DFFE   +            1    0    0    3  AY_ADR0
+   -      3     -    C    05       DFFE   +            1    0    0    3  AY_ADR1
+   -      5     -    C    01       DFFE   +            1    0    0    3  AY_ADR2
+   -      4     -    C    01       DFFE   +            1    0    0    3  AY_ADR3
+   -      6     -    C    28       DFFE   +            0    3    0    4  AY_AMP0
+   -      8     -    C    28       DFFE   +            0    3    0    4  AY_AMP1
+   -      8     -    A    25       DFFE   +            0    3    0    4  AY_AMP2
+   -      3     -    E    32       DFFE   +            0    3    0    4  AY_AMP3
+   -      4     -    C    14        OR2    s           0    4    0    1  AY_AX0~1
+   -      2     -    C    14        OR2                0    3    0    8  AY_AX0
+   -      4     -    C    05        OR2    s           0    4    0    1  AY_AX1~1
+   -      1     -    C    05        OR2                0    3    0    8  AY_AX1
+   -      6     -    C    01        OR2    s           0    4    0    1  AY_AX2~1
+   -      1     -    C    01        OR2                0    3    0    8  AY_AX2
+   -      4     -    C    15        OR2    s           0    4    0    1  AY_AX3~1
+   -      3     -    C    06        OR2                0    3    0    8  AY_AX3
+   -      8     -    C    15        OR2                0    4    0    8  AY_AX4
+   -      5     -    C    14       AND2                0    3    0    8  AY_AX5
+   -      5     -    A    24       DFFE   +            0    3    0    1  AY_BBLK
+   -      8     -    A    24       DFFE   +            0    4    0    4  AY_BINV
+   -      7     -    C    32       DFFE   +            0    4    0    2  AY_C
+   -      1     -    C    10       DFFE   +            1    0    0   16  AY_CCC0
+   -      2     -    C    06       DFFE   +            1    0    0   34  AY_CCC1
+   -      8     -    C    14       DFFE   +            1    0    0    3  AY_CCC2
+   -      6     -    C    05       DFFE   +            1    0    0    3  AY_CCC3
+   -      1     -    C    04       DFFE   +            1    0    0    3  AY_CCC4
+   -      5     -    C    15       DFFE   +            1    0    0    3  AY_CCC5
+   -      1     -    C    15       DFFE   +            1    0    0    3  AY_CCC6
+   -      8     -    E    32       DFFE   +            1    0    0   17  AY_CCC7
+   -      7     -    F    13       DFFE   +            0    4    0    6  AY_CH_CS0
+   -      2     -    F    09       DFFE   +            0    4    0    4  AY_CH_CS1
+   -      3     -    F    13       DFFE   +            0    4    0    4  AY_CH_CS2
+   -      4     -    F    13       DFFE   +            0    4    0    4  AY_CH_CS3
+   -      6     -    F    09       DFFE   +            0    4    0    4  AY_CH_CS4
+   -      1     -    A    26       DFFE   +            0    2    0    4  AY_CH_CS5
+   -      1     -    F    13       DFFE   +            0    4    0    4  AY_CH_CS6
+   -      3     -    F    09       DFFE   +            0    4    0    4  AY_CH_CS7
+   -      1     -    F    27       DFFE   +            0    4    0    4  AY_CH_CS8
+   -      2     -    F    17       DFFE   +            0    3    0    2  AY_CH_LX0
+   -      1     -    F    10       DFFE   +            0    4    0    2  AY_CH_LX1
+   -      7     -    F    10       DFFE   +            0    4    0    2  AY_CH_LX2
+   -      8     -    F    10       DFFE   +            0    4    0    2  AY_CH_LX3
+   -      2     -    F    02       DFFE   +            0    4    0    2  AY_CH_LX4
+   -      6     -    F    02       DFFE   +            0    4    0    2  AY_CH_LX5
+   -      1     -    F    02       DFFE   +            0    4    0    2  AY_CH_LX6
+   -      5     -    F    09       DFFE   +            0    4    0    2  AY_CH_LX7
+   -      5     -    F    27       DFFE   +            0    4    0    2  AY_CH_LX8
+   -      7     -    F    27       DFFE   +            0    3    0    2  AY_CH_LX9
+   -      8     -    F    27       DFFE   +            0    4    0    1  AY_CH_LX10
+   -      7     -    C    35       DFFE   +            0    3    0    4  AY_CH_MIX
+   -      1     -    F    17       DFFE   +            0    3    0    2  AY_CH_RX0
+   -      2     -    F    01       DFFE   +            0    4    0    2  AY_CH_RX1
+   -      1     -    F    01       DFFE   +            0    4    0    2  AY_CH_RX2
+   -      8     -    F    01       DFFE   +            0    4    0    2  AY_CH_RX3
+   -      4     -    F    04       DFFE   +            0    4    0    2  AY_CH_RX4
+   -      3     -    F    04       DFFE   +            0    4    0    2  AY_CH_RX5
+   -      7     -    F    04       DFFE   +            0    4    0    2  AY_CH_RX6
+   -      8     -    F    09       DFFE   +            0    4    0    2  AY_CH_RX7
+   -      3     -    F    31       DFFE   +            0    4    0    2  AY_CH_RX8
+   -      6     -    F    31       DFFE   +            0    3    0    2  AY_CH_RX9
+   -      8     -    F    31       DFFE   +            0    4    0    1  AY_CH_RX10
+   -      5     -    C    24       DFFE   +    !       0    3    0    5  AY_CX
+   -      2     -    C    24       DFFE   +    !       0    5    0    3  AY_CXX
+   -      1     -    C    09       DFFE   +            0    2    0    1  AY_DAT_WR
+   -      3     -    C    32       DFFE   +            0    3    0    6  AY_DAT0
+   -      4     -    C    28       DFFE   +            0    3    0    6  AY_DAT1
+   -      1     -    C    28       DFFE   +            0    4    0    5  AY_DAT2
+   -      1     -    C    32       DFFE   +            0    3    0    5  AY_DAT3
+   -      3     -    C    28       DFFE   +            0    3    0    7  AY_DAT4
+   -      2     -    C    28       DFFE   +            0    4    0    3  AY_DAT5
+   -      3     -    C    23       DFFE   +            0    3    0    2  AY_DAT6
+   -      5     -    C    23       DFFE   +            0    4    0    2  AY_DAT7
+   -      1     -    C    14       DFFE   +            0    2    1    0  AY_DD0
+   -      2     -    C    09       DFFE   +            0    2    1    0  AY_DD1
+   -      2     -    C    12       DFFE   +            0    2    1    0  AY_DD2
+   -      1     -    C    06       DFFE   +            0    2    1    0  AY_DD3
+   -      6     -    C    09       DFFE   +            0    2    1    0  AY_DD4
+   -      5     -    C    09       DFFE   +            0    2    1    0  AY_DD5
+   -      8     -    C    09       DFFE   +            0    2    1    0  AY_DD6
+   -      4     -    C    09       DFFE   +            0    2    1    0  AY_DD7
+   -      1     -    C    11        OR2                0    4    0    1  AY_DI0
+   -      1     -    C    34        OR2                0    4    0    1  AY_DI1
+   -      6     -    C    14        OR2                0    4    0    1  AY_DI2
+   -      2     -    C    35        OR2                0    4    0    1  AY_DI3
+   -      2     -    C    01        OR2                0    4    0    1  AY_DI4
+   -      5     -    C    05        OR2                0    4    0    1  AY_DI5
+   -      2     -    C    05        OR2                0    4    0    1  AY_DI6
+   -      6     -    C    23        OR2                0    4    0    1  AY_DI7
+   -      1     -    C    35       DFFE   +            0    5    0   13  AY_DQX0
+   -      6     -    C    35       DFFE   +            0    4    0   13  AY_DQX1
+   -      3     -    C    35       DFFE   +            0    5    0   13  AY_DQX2
+   -      4     -    C    35       DFFE   +            0    5    0   13  AY_DQX3
+   -      6     -    D    23       DFFE   +            0    3    0    1  AY_DQ10
+   -      7     -    D    23       DFFE   +            0    3    0    1  AY_DQ11
+   -      8     -    D    23       DFFE   +            0    3    0    1  AY_DQ12
+   -      7     -    E    32       DFFE   +            0    3    0    1  AY_DQ13
+   -      3     -    D    23       DFFE   +            0    3    0    1  AY_DQ20
+   -      6     -    A    26       DFFE   +            0    3    0    1  AY_DQ21
+   -      6     -    A    31       DFFE   +            0    3    0    1  AY_DQ22
+   -      8     -    A    31       DFFE   +            0    3    0    1  AY_DQ23
+   -      4     -    E    32       DFFE   +            0    3    0    1  AY_DQ30
+   -      5     -    A    26       DFFE   +            0    3    0    1  AY_DQ31
+   -      2     -    A    31       DFFE   +            0    3    0    1  AY_DQ32
+   -      4     -    A    31       DFFE   +            0    3    0    1  AY_DQ33
+   -      1     -    A    25       DFFE                0    3    0    7  AY_F_RES
+   -      6     -    C    11       DFFE   +            0    2    0    2  AY_F_R1
+   -      4     -    A    24       DFFE   +            0    2    0    2  AY_GF0
+   -      7     -    A    24       DFFE   +            0    2    0    1  AY_GF1
+   -      4     -    A    25       DFFE   +            0    2    0    4  AY_GF2
+   -      3     -    A    24       DFFE   +            0    2    0    3  AY_GF3
+   -      6     -    C    30       DFFE   +            0    4    0    4  AY_OUTSX
+   -      4     -    F    20       DFFE   +            0    4    0    8  AY_OUTS1
+   -      5     -    F    20       DFFE   +            0    1    0    1  AY_OUTS1X
+   -      7     -    F    20       DFFE   +            0    2    0    1  AY_OUTS1Y
+   -      1     -    F    20       DFFE   +            0    4    0    8  AY_OUTS2
+   -      3     -    F    20       DFFE   +            0    2    0    2  AY_OUTS2X
+   -      4     -    C    30       DFFE   +            0    4    0    8  AY_OUTS3
+   -      1     -    E    32       DFFE   +            0    1    0    1  AY_OUTS3X
+   -      5     -    E    32       DFFE   +            0    2    0    1  AY_OUTS3Y
+   -      5     -    C    25       DFFE   +            0    2    0    2  AY_OUT1
+   -      4     -    C    34       DFFE   +            0    2    0    2  AY_OUT2
+   -      1     -    C    25       DFFE   +            0    2    0    2  AY_OUT3
+   -      2     -    C    30       DFFE   +            0    4    0   23  AY_SH_Q
+   -      1     -    B    32       DFFE   +    !       0    2    0    7  AY_SH0
+   -      8     -    B    32       DFFE   +    !       0    2    0    1  AY_SH1
+   -      7     -    B    32       DFFE   +    !       0    2    0    1  AY_SH2
+   -      6     -    B    32       DFFE   +    !       0    2    0    2  AY_SH3
+   -      1     -    B    34       DFFE   +    !       0    2    0    1  AY_SH4
+   -      1     -    B    19       DFFE   +    !       0    2    0    1  AY_SH5
+   -      8     -    B    19       DFFE   +    !       0    2    0    1  AY_SH6
+   -      7     -    B    19       DFFE   +    !       0    2    0    1  AY_SH7
+   -      6     -    B    19       DFFE   +    !       0    2    0    1  AY_SH8
+   -      5     -    B    19       DFFE   +    !       0    2    0    1  AY_SH9
+   -      4     -    B    19       DFFE   +    !       0    2    0    1  AY_SH10
+   -      3     -    B    19       DFFE   +    !       0    2    0    1  AY_SH11
+   -      2     -    B    19       DFFE   +    !       0    2    0    1  AY_SH12
+   -      2     -    B    32       DFFE   +    !       0    2    0    1  AY_SH13
+   -      5     -    B    32       DFFE   +    !       0    2    0    1  AY_SH14
+   -      4     -    B    32       DFFE   +    !       0    2    0    1  AY_SH15
+   -      3     -    B    32       DFFE   +    !       0    3    0    1  AY_SH16
+   -      3     -    A    32       DFFE   +            0    2    0    3  AY_VAR
+   -      4     -    A    32       DFFE   +            0    3    0    3  AY_VA0
+   -      1     -    A    32       DFFE   +            0    4    0    2  AY_VA1
+   -      6     -    A    32       DFFE   +            0    3    0    3  AY_VA2
+   -      5     -    A    32       DFFE   +            0    4    0    2  AY_VA3
+   -      2     -    A    32       DFFE   +            0    4    0    3  AY_VX
+   -      2     -    C    11        OR2                0    4    0    8  AY_WR
+   -      8     -    C    26       DFFE   +            0    2    0    2  AY_X_0
+   -      6     -    C    34       DFFE   +            0    2    0    2  AY_X_1
+   -      5     -    C    26       DFFE   +            0    2    0    2  AY_X_2
+   -      6     -    C    26       DFFE   +            0    2    0    2  AY_X_3
+   -      5     -    C    34       DFFE   +            0    2    0    2  AY_X_4
+   -      4     -    C    26       DFFE   +            0    2    0    2  AY_X_5
+   -      8     -    C    11       DFFE   +            1    1    0    1  BD0
+   -      8     -    C    34       DFFE   +            1    1    0    1  BD1
+   -      7     -    C    14       DFFE   +            1    1    0    1  BD2
+   -      8     -    C    35       DFFE   +            1    1    0    1  BD3
+   -      8     -    C    01       DFFE   +            1    2    0    1  BD4
+   -      7     -    C    05       DFFE   +            1    2    0    1  BD5
+   -      8     -    C    05       DFFE   +            1    2    0    1  BD6
+   -      7     -    C    23       DFFE   +            1    2    0    1  BD7
+   -      4     -    C    11       DFFE   +            1    1    0    2  BWR
+   -      1     -    C    03        GND    s           0    0    0    8  ~GND~
+   -      -     2    C    --   MEM_SGMT                1   10    0   15  |lpm_ram_dq:90|altram:sram|segment0_0
+   -      -    12    C    --   MEM_SGMT                1   10    0   14  |lpm_ram_dq:90|altram:sram|segment0_1
+   -      -     4    C    --   MEM_SGMT                1   10    0   13  |lpm_ram_dq:90|altram:sram|segment0_2
+   -      -    11    C    --   MEM_SGMT                1   10    0    5  |lpm_ram_dq:90|altram:sram|segment0_3
+   -      -     3    C    --   MEM_SGMT                1   10    0    5  |lpm_ram_dq:90|altram:sram|segment0_4
+   -      -     9    C    --   MEM_SGMT                1   10    0   10  |lpm_ram_dq:90|altram:sram|segment0_5
+   -      -     1    C    --   MEM_SGMT                1   10    0   11  |lpm_ram_dq:90|altram:sram|segment0_6
+   -      -    10    C    --   MEM_SGMT                1   10    0   10  |lpm_ram_dq:90|altram:sram|segment0_7
+   -      6     -    E    32       DFFE                0    2    1    0  :121
+   -      1     -    D    23       DFFE                0    2    1    0  :122
+   -      4     -    D    23       DFFE                0    2    1    0  :123
+   -      2     -    D    23       DFFE                0    2    1    0  :124
+   -      3     -    A    31       DFFE                0    2    1    0  :125
+   -      5     -    A    31       DFFE                0    2    1    0  :126
+   -      4     -    A    26       DFFE                0    2    1    0  :127
+   -      5     -    D    23       DFFE                0    2    1    0  :128
+   -      7     -    A    31       DFFE                0    2    1    0  :129
+   -      1     -    A    31       DFFE                0    2    1    0  :130
+   -      8     -    A    26       DFFE                0    2    1    0  :131
+   -      2     -    E    32       DFFE                0    2    1    0  :132
+   -      3     -    F    27       DFFE                0    2    1    0  :133
+   -      4     -    F    27       DFFE                0    2    1    0  :134
+   -      2     -    F    27       DFFE                0    2    1    0  :135
+   -      1     -    F    09       DFFE                0    2    1    0  :136
+   -      1     -    F    15       DFFE                0    2    1    0  :137
+   -      3     -    F    02       DFFE                0    2    1    0  :138
+   -      8     -    F    02       DFFE                0    2    1    0  :139
+   -      2     -    F    10       DFFE                0    2    1    0  :140
+   -      6     -    F    15       DFFE                0    2    1    0  :141
+   -      3     -    F    10       DFFE                0    2    1    0  :142
+   -      1     -    F    31       DFFE                0    2    1    0  :143
+   -      7     -    F    31       DFFE                0    2    1    0  :144
+   -      2     -    F    31       DFFE                0    2    1    0  :145
+   -      5     -    F    31       DFFE                0    2    1    0  :146
+   -      1     -    F    04       DFFE                0    2    1    0  :147
+   -      3     -    F    15       DFFE                0    2    1    0  :148
+   -      8     -    F    04       DFFE                0    2    1    0  :149
+   -      5     -    F    01       DFFE                0    2    1    0  :150
+   -      4     -    F    15       DFFE                0    2    1    0  :151
+   -      3     -    F    01       DFFE                0    2    1    0  :152
+   -      2     -    A    25       DFFE                0    2    0    1  :354
+   -      7     -    C    11      LCELL                0    4    0    1  :355
+   -      7     -    C    24       DFFE   +            0    4    0    2  :356
+   -      6     -    C    24       DFFE   +            0    4    0    2  :358
+   -      1     -    C    24       DFFE   +            0    3    0    2  :359
+   -      8     -    C    23      LCELL                0    4    0    1  :360
+   -      4     -    C    23      LCELL                0    4    0    1  :361
+   -      2     -    C    19       DFFE   +            0    1    0    1  :362
+   -      3     -    C    24       DFFE   +            1    2    0    2  :364
+   -      7     -    C    09       SOFT    s   !       0    1    0    9  ~365~1
+   -      3     -    C    09       DFFE   +            0    1    0    1  :365
+   -      4     -    C    32       DFFE   +            0    3    0    3  :366
+   -      5     -    C    32       DFFE   +            0    1    0    1  :367
+   -      6     -    C    32       DFFE   +            0    1    0    1  :368
+   -      3     -    C    26      LCELL                0    4    0    4  :370
+   -      3     -    C    34      LCELL                0    4    0    4  :372
+   -      2     -    C    26      LCELL                0    4    0    4  :374
+   -      5     -    C    35       DFFE   +            1    1    0    3  :376
+   -      7     -    C    26      LCELL                0    4    0    1  :377
+   -      7     -    C    34      LCELL                0    4    0    1  :378
+   -      1     -    C    26      LCELL                0    4    0    1  :379
+   -      2     -    A    24       DFFE   +            0    4    0    6  :381
+   -      5     -    C    30       DFFE   +            0    4    0    6  :382
+   -      3     -    C    30       DFFE   +            0    4    0    4  :383
+   -      6     -    C    15       DFFE   +            0    4    0   22  :387
+   -      2     -    F    20       DFFE   +            0    1    0   11  :393
+   -      8     -    F    20       DFFE   +            0    4    0    1  :394
+   -      8     -    F    17       DFFE   +            0    1    0   11  :395
+   -      6     -    F    20       DFFE   +            0    4    0    1  :396
+   -      3     -    C    15       DFFE   +            0    4    1   20  :397
+   -      3     -    C    01        OR2        !       0    4    0    3  :415
+   -      7     -    C    01        OR2        !       0    4    0    1  :429
+   -      3     -    C    14       AND2        !       0    2    0   16  :470
+   -      8     -    C    24        OR2        !       0    4    0    1  :584
+   -      4     -    C    24        OR2        !       0    4    0    1  :591
+   -      5     -    C    28        OR2                0    2    0    3  :605
+   -      8     -    C    32       AND2        !       0    4    0    2  :621
+   -      7     -    C    28        OR2                0    4    0    2  :627
+   -      2     -    C    32       AND2        !       0    4    0    3  :637
+   -      2     -    C    23       AND2        !       0    2    0    2  :656
+   -      2     -    C    34        OR2    s           0    3    0    1  ~712~1
+   -      7     -    A    32       AND2                0    3    0    3  :724
+   -      8     -    A    32       AND2                0    2    0    1  :728
+   -      2     -    F    13       AND2        !       0    4    0    1  :763
+   -      5     -    F    13       AND2        !       0    4    0    1  :823
+   -      2     -    A    26        OR2    s           0    4    0    1  ~857~1
+   -      3     -    A    26        OR2    s           0    4    0    1  ~857~2
+   -      6     -    F    13        OR2                0    4    0    1  :883
+   -      8     -    F    13       AND2        !       0    4    0    1  :891
+   -      6     -    F    17       AND2                0    2    0    1  :940
+   -      4     -    F    10        OR2                0    4    0    2  :956
+   -      6     -    F    10        OR2                0    3    0    2  :966
+   -      5     -    F    10        OR2                0    3    0    2  :976
+   -      5     -    F    02        OR2                0    3    0    2  :987
+   -      7     -    F    02        OR2                0    3    0    2  :997
+   -      4     -    F    02        OR2                0    3    0    2  :1007
+   -      4     -    F    09        OR2                0    3    0    2  :1018
+   -      6     -    F    27        OR2                0    3    0    2  :1028
+   -      3     -    F    17       AND2                0    2    0    1  :1036
+   -      6     -    F    01        OR2                0    4    0    2  :1052
+   -      7     -    F    01        OR2                0    3    0    2  :1062
+   -      4     -    F    01        OR2                0    3    0    2  :1072
+   -      5     -    F    04        OR2                0    3    0    2  :1083
+   -      6     -    F    04        OR2                0    3    0    2  :1093
+   -      2     -    F    04        OR2                0    3    0    2  :1103
+   -      7     -    F    09        OR2                0    3    0    2  :1114
+   -      4     -    F    31        OR2                0    3    0    2  :1124
+   -      7     -    C    15       AND2    s           0    3    0    1  ~1140~1
+   -      2     -    C    15       AND2    s           0    3    0    1  ~1155~1
+   -      7     -    C    30       AND2    s   !       0    2    0    2  ~1248~1
+   -      8     -    C    30       AND2    s           0    3    0    1  ~1249~1
+   -      1     -    C    30       AND2    s           0    4    0    7  ~1289~1
+   -      6     -    A    24       AND2    s           0    3    0    1  ~1289~2
+   -      1     -    C    23       AND2    s           0    4    0    2  ~1319~1
+
+
+Code:
+
+s = Synthesized pin or logic cell
++ = Synchronous flipflop
+/ = Slow slew-rate output
+! = NOT gate push-back
+r = Fitter-inserted logic cell
+^ = Increased input delay
+* = PCI I/O is enabled
+p = Packed register
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** FASTTRACK INTERCONNECT UTILIZATION **
+
+Row FastTrack Interconnect:
+
+          Global         Left Half-      Right Half-
+         FastTrack       FastTrack       FastTrack 
+Row     Interconnect    Interconnect    Interconnect    Input Pins     Output Pins     Bidir Pins
+A:      32/144( 22%)     0/ 72(  0%)     7/ 72(  9%)    0/16(  0%)      6/16( 37%)     0/16(  0%)
+B:       4/144(  2%)     0/ 72(  0%)     0/ 72(  0%)    0/16(  0%)      0/16(  0%)     0/16(  0%)
+C:      69/144( 47%)    14/ 72( 19%)     8/ 72( 11%)    5/16( 31%)      6/16( 37%)     0/16(  0%)
+D:       8/144(  5%)     1/ 72(  1%)     4/ 72(  5%)    0/16(  0%)      5/16( 31%)     0/16(  0%)
+E:       8/144(  5%)     0/ 72(  0%)     3/ 72(  4%)    1/16(  6%)      2/16( 12%)     0/16(  0%)
+F:      36/144( 25%)    11/ 72( 15%)     3/ 72(  4%)    0/16(  0%)      9/16( 56%)     0/16(  0%)
+
+
+Column FastTrack Interconnect:
+
+         FastTrack                                 
+Column  Interconnect    Input Pins     Output Pins     Bidir Pins
+01:      2/24(  8%)     1/4( 25%)      1/4( 25%)       0/4(  0%)
+02:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+03:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+04:      2/24(  8%)     0/4(  0%)      2/4( 50%)       0/4(  0%)
+05:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+06:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+07:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+08:      2/24(  8%)     2/4( 50%)      0/4(  0%)       0/4(  0%)
+09:      2/24(  8%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+10:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+11:      2/24(  8%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+12:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+13:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+14:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+15:      1/24(  4%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+16:      2/24(  8%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+17:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+18:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+19:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+20:      2/24(  8%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+21:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+22:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+23:      1/24(  4%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+24:      1/24(  4%)     1/4( 25%)      0/4(  0%)       0/4(  0%)
+25:      5/24( 20%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+26:      3/24( 12%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+27:      2/24(  8%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+28:      5/24( 20%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+29:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+30:      4/24( 16%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+31:      3/24( 12%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+32:      5/24( 20%)     0/4(  0%)      1/4( 25%)       0/4(  0%)
+33:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+34:      1/24(  4%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+35:      4/24( 16%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+36:      0/24(  0%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+EA:      3/24( 12%)     0/4(  0%)      0/4(  0%)       0/4(  0%)
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** CLOCK SIGNALS **
+
+Type     Fan-out       Name
+INPUT      170         CLK42
+DFF         21         :397
+DFF         17         AY_CCC7
+INPUT        5         AY_A_WR
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** CLEAR SIGNALS **
+
+Type     Fan-out       Name
+DFF         23         AY_SH_Q
+DFF         22         :387
+INPUT       18         /RESET
+DFF          7         AY_F_RES
+LCELL        3         :415
+DFF          2         AY_F_R1
+DFF          2         :356
+LCELL        1         :429
+
+
+Device-Specific Information:           c:\copy_d\asembler\altera\sp2000\ay.rpt
+ay
+
+** EQUATIONS **
+
+AY_A_WR  : INPUT;
+AY_D_WR  : INPUT;
+AY_T0    : INPUT;
+AY_T1    : INPUT;
+AY_T2    : INPUT;
+AY_T3    : INPUT;
+AY_T4    : INPUT;
+AY_T5    : INPUT;
+AY_T6    : INPUT;
+AY_T7    : INPUT;
+BEEPER   : INPUT;
+CLK42    : INPUT;
+D0       : INPUT;
+D1       : INPUT;
+D2       : INPUT;
+D3       : INPUT;
+D4       : INPUT;
+D5       : INPUT;
+D6       : INPUT;
+D7       : INPUT;
+/RESET   : INPUT;
+
+-- Node name is 'AY_AAX0' from file "ay.tdf" line 42, column 8
+-- Equation name is 'AY_AAX0', location is LC3_C11, type is buried.
+AY_AAX0  = DFFE( _EQ001, GLOBAL( AY_A_WR),  VCC,  VCC,  VCC);
+  _EQ001 =  D0 & !D1 &  D2 &  D3;
+
+-- Node name is 'AY_AA0' from file "ay.tdf" line 52, column 7
+-- Equation name is 'AY_AA0', location is LC7_A25, type is buried.
+AY_AA0   = DFFE( _EQ002, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ002 = !AY_ABLK &  AY_BINV & !AY_GF2 &  AY_VA0
+         # !AY_ABLK & !AY_BINV & !AY_GF2 & !AY_VA0
+         # !AY_ABLK &  AY_BINV &  AY_GF2 & !AY_VA0
+         # !AY_ABLK & !AY_BINV &  AY_GF2 &  AY_VA0;
+
+-- Node name is 'AY_AA1' from file "ay.tdf" line 52, column 7
+-- Equation name is 'AY_AA1', location is LC3_A25, type is buried.
+AY_AA1   = DFFE( _EQ003, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ003 = !AY_ABLK &  AY_BINV &  AY_GF2 & !AY_VA1
+         # !AY_ABLK & !AY_BINV &  AY_GF2 &  AY_VA1
+         # !AY_ABLK &  AY_BINV & !AY_GF2 &  AY_VA1
+         # !AY_ABLK & !AY_BINV & !AY_GF2 & !AY_VA1;
+
+-- Node name is 'AY_AA2' from file "ay.tdf" line 52, column 7
+-- Equation name is 'AY_AA2', location is LC6_A25, type is buried.
+AY_AA2   = DFFE( _EQ004, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ004 = !AY_ABLK &  AY_BINV &  AY_GF2 & !AY_VA2
+         # !AY_ABLK & !AY_BINV &  AY_GF2 &  AY_VA2
+         # !AY_ABLK &  AY_BINV & !AY_GF2 &  AY_VA2
+         # !AY_ABLK & !AY_BINV & !AY_GF2 & !AY_VA2;
+
+-- Node name is 'AY_AA3' from file "ay.tdf" line 52, column 7
+-- Equation name is 'AY_AA3', location is LC5_A25, type is buried.
+AY_AA3   = DFFE( _EQ005, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ005 = !AY_ABLK &  AY_BINV &  AY_GF2 & !AY_VA3
+         # !AY_ABLK & !AY_BINV &  AY_GF2 &  AY_VA3
+         # !AY_ABLK &  AY_BINV & !AY_GF2 &  AY_VA3
+         # !AY_ABLK & !AY_BINV & !AY_GF2 & !AY_VA3;
+
+-- Node name is 'AY_ABLK' from file "ay.tdf" line 289, column 13
+-- Equation name is 'AY_ABLK', location is LC1_A24, type is buried.
+AY_ABLK  = DFFE( _EQ006, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ006 = !AY_GF3 &  AY_VX;
+
+-- Node name is 'AY_ADR0' from file "ay.tdf" line 41, column 8
+-- Equation name is 'AY_ADR0', location is LC5_C11, type is buried.
+AY_ADR0  = DFFE( D0, GLOBAL( AY_A_WR),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_ADR1' from file "ay.tdf" line 41, column 8
+-- Equation name is 'AY_ADR1', location is LC3_C5, type is buried.
+AY_ADR1  = DFFE( D1, GLOBAL( AY_A_WR),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_ADR2' from file "ay.tdf" line 41, column 8
+-- Equation name is 'AY_ADR2', location is LC5_C1, type is buried.
+AY_ADR2  = DFFE( D2, GLOBAL( AY_A_WR),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_ADR3' from file "ay.tdf" line 41, column 8
+-- Equation name is 'AY_ADR3', location is LC4_C1, type is buried.
+AY_ADR3  = DFFE( D3, GLOBAL( AY_A_WR),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_AMP0' from file "ay.tdf" line 82, column 8
+-- Equation name is 'AY_AMP0', location is LC6_C28, type is buried.
+AY_AMP0  = DFFE( _EQ007, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ007 =  AY_AA0 &  AY_DAT4
+         #  AY_AA0 &  AY_DAT0
+         #  AY_DAT0 & !AY_DAT4;
+
+-- Node name is 'AY_AMP1' from file "ay.tdf" line 82, column 8
+-- Equation name is 'AY_AMP1', location is LC8_C28, type is buried.
+AY_AMP1  = DFFE( _EQ008, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ008 =  AY_AA1 &  AY_DAT4
+         #  AY_AA1 &  AY_DAT1
+         #  AY_DAT1 & !AY_DAT4;
+
+-- Node name is 'AY_AMP2' from file "ay.tdf" line 82, column 8
+-- Equation name is 'AY_AMP2', location is LC8_A25, type is buried.
+AY_AMP2  = DFFE( _EQ009, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ009 =  AY_AA2 &  AY_DAT4
+         #  AY_AA2 &  AY_DAT2
+         #  AY_DAT2 & !AY_DAT4;
+
+-- Node name is 'AY_AMP3' from file "ay.tdf" line 82, column 8
+-- Equation name is 'AY_AMP3', location is LC3_E32, type is buried.
+AY_AMP3  = DFFE( _EQ010, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ010 =  AY_AA3 &  AY_DAT4
+         #  AY_AA3 &  AY_DAT3
+         #  AY_DAT3 & !AY_DAT4;
+
+-- Node name is 'AY_AX0~1' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX0~1', location is LC4_C14, type is buried.
+-- synthesized logic cell 
+_LC4_C14 = LCELL( _EQ011);
+  _EQ011 = !AY_CCC0 & !AY_CCC1 &  AY_CCC2
+         #  AY_ADR0 &  AY_CCC0 & !AY_CCC1;
+
+-- Node name is 'AY_AX0' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX0', location is LC2_C14, type is buried.
+AY_AX0   = LCELL( _EQ012);
+  _EQ012 =  AY_CCC1 &  _EC2_C
+         #  _LC4_C14;
+
+-- Node name is 'AY_AX1~1' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX1~1', location is LC4_C5, type is buried.
+-- synthesized logic cell 
+_LC4_C5  = LCELL( _EQ013);
+  _EQ013 = !AY_CCC0 & !AY_CCC1 &  AY_CCC3
+         #  AY_ADR1 &  AY_CCC0 & !AY_CCC1;
+
+-- Node name is 'AY_AX1' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX1', location is LC1_C5, type is buried.
+AY_AX1   = LCELL( _EQ014);
+  _EQ014 =  AY_CCC1 &  _EC12_C
+         #  _LC4_C5;
+
+-- Node name is 'AY_AX2~1' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX2~1', location is LC6_C1, type is buried.
+-- synthesized logic cell 
+_LC6_C1  = LCELL( _EQ015);
+  _EQ015 = !AY_CCC0 & !AY_CCC1 &  AY_CCC4
+         #  AY_ADR2 &  AY_CCC0 & !AY_CCC1;
+
+-- Node name is 'AY_AX2' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX2', location is LC1_C1, type is buried.
+AY_AX2   = LCELL( _EQ016);
+  _EQ016 =  AY_CCC1 &  _EC4_C
+         #  _LC6_C1;
+
+-- Node name is 'AY_AX3~1' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX3~1', location is LC4_C15, type is buried.
+-- synthesized logic cell 
+_LC4_C15 = LCELL( _EQ017);
+  _EQ017 = !AY_CCC0 & !AY_CCC1 &  AY_CCC5
+         #  AY_ADR3 &  AY_CCC0 & !AY_CCC1;
+
+-- Node name is 'AY_AX3' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX3', location is LC3_C6, type is buried.
+AY_AX3   = LCELL( _EQ018);
+  _EQ018 =  AY_CCC1 &  _EC11_C
+         #  _LC4_C15;
+
+-- Node name is 'AY_AX4' from file "ay.tdf" line 180, column 13
+-- Equation name is 'AY_AX4', location is LC8_C15, type is buried.
+AY_AX4   = LCELL( _EQ019);
+  _EQ019 =  AY_CCC1 &  _EC3_C
+         # !AY_CCC0 & !AY_CCC1 &  AY_CCC6;
+
+-- Node name is 'AY_AX5' from file "ay.tdf" line 166, column 13
+-- Equation name is 'AY_AX5', location is LC5_C14, type is buried.
+AY_AX5   = LCELL( _EQ020);
+  _EQ020 = !AY_CCC0 & !AY_CCC1 &  AY_CCC7;
+
+-- Node name is 'AY_BBLK' from file "ay.tdf" line 286, column 13
+-- Equation name is 'AY_BBLK', location is LC5_A24, type is buried.
+AY_BBLK  = DFFE( _EQ021, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ021 = !AY_GF3 &  AY_VX
+         #  AY_GF0 &  AY_VX;
+
+-- Node name is 'AY_BINV' from file "ay.tdf" line 292, column 13
+-- Equation name is 'AY_BINV', location is LC8_A24, type is buried.
+AY_BINV  = DFFE( _EQ022, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ022 = !AY_GF0 &  AY_GF1 &  AY_GF3 &  AY_VX
+         #  AY_GF0 & !AY_GF1 &  AY_GF3 &  AY_VX;
+
+-- Node name is 'AY_C' from file "ay.tdf" line 63, column 2
+-- Equation name is 'AY_C', location is LC7_C32, type is buried.
+AY_C     = DFFE( _EQ023, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ023 = !_EC1_C & !_EC10_C & !_LC2_C32;
+
+-- Node name is 'AY_CCC0' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC0', location is LC1_C10, type is buried.
+AY_CCC0  = DFFE( AY_T0, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC1' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC1', location is LC2_C6, type is buried.
+AY_CCC1  = DFFE( AY_T1, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC2' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC2', location is LC8_C14, type is buried.
+AY_CCC2  = DFFE( AY_T2, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC3' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC3', location is LC6_C5, type is buried.
+AY_CCC3  = DFFE( AY_T3, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC4' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC4', location is LC1_C4, type is buried.
+AY_CCC4  = DFFE( AY_T4, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC5' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC5', location is LC5_C15, type is buried.
+AY_CCC5  = DFFE( AY_T5, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC6' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC6', location is LC1_C15, type is buried.
+AY_CCC6  = DFFE( AY_T6, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CCC7' from file "ay.tdf" line 61, column 8
+-- Equation name is 'AY_CCC7', location is LC8_E32, type is buried.
+AY_CCC7  = DFFE( AY_T7, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_CH_A0' from file "ay.tdf" line 86, column 9
+-- Equation name is 'AY_CH_A0', type is output 
+AY_CH_A0 =  _LC2_D23;
+
+-- Node name is 'AY_CH_A1' from file "ay.tdf" line 86, column 9
+-- Equation name is 'AY_CH_A1', type is output 
+AY_CH_A1 =  _LC4_D23;
+
+-- Node name is 'AY_CH_A2' from file "ay.tdf" line 86, column 9
+-- Equation name is 'AY_CH_A2', type is output 
+AY_CH_A2 =  _LC1_D23;
+
+-- Node name is 'AY_CH_A3' from file "ay.tdf" line 86, column 9
+-- Equation name is 'AY_CH_A3', type is output 
+AY_CH_A3 =  _LC6_E32;
+
+-- Node name is 'AY_CH_B0' from file "ay.tdf" line 87, column 9
+-- Equation name is 'AY_CH_B0', type is output 
+AY_CH_B0 =  _LC5_D23;
+
+-- Node name is 'AY_CH_B1' from file "ay.tdf" line 87, column 9
+-- Equation name is 'AY_CH_B1', type is output 
+AY_CH_B1 =  _LC4_A26;
+
+-- Node name is 'AY_CH_B2' from file "ay.tdf" line 87, column 9
+-- Equation name is 'AY_CH_B2', type is output 
+AY_CH_B2 =  _LC5_A31;
+
+-- Node name is 'AY_CH_B3' from file "ay.tdf" line 87, column 9
+-- Equation name is 'AY_CH_B3', type is output 
+AY_CH_B3 =  _LC3_A31;
+
+-- Node name is 'AY_CH_CS0' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS0', location is LC7_F13, type is buried.
+AY_CH_CS0 = DFFE( _EQ024, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ024 =  AY_DQX0 & !AY_DQX1 & !AY_DQX2 &  AY_DQX3
+         # !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX1 &  AY_DQX2 & !AY_DQX3;
+
+-- Node name is 'AY_CH_CS1' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS1', location is LC2_F9, type is buried.
+AY_CH_CS1 = DFFE( _EQ025, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ025 =  AY_DQX0 &  AY_DQX1 & !AY_DQX2
+         # !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX3;
+
+-- Node name is 'AY_CH_CS2' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS2', location is LC3_F13, type is buried.
+AY_CH_CS2 = DFFE( _EQ026, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ026 = !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX1 &  AY_DQX3
+         #  AY_DQX0 &  AY_DQX1 & !AY_DQX3
+         #  AY_DQX1 & !AY_DQX2 & !AY_DQX3;
+
+-- Node name is 'AY_CH_CS3' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS3', location is LC4_F13, type is buried.
+AY_CH_CS3 = DFFE( _EQ027, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ027 = !_LC2_F13
+         # !_LC5_F13
+         #  _LC6_F13
+         # !_LC8_F13;
+
+-- Node name is 'AY_CH_CS4' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS4', location is LC6_F9, type is buried.
+AY_CH_CS4 = DFFE( _EQ028, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ028 = !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         # !AY_DQX1 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 &  AY_DQX1 & !AY_DQX2 &  AY_DQX3
+         # !AY_DQX0 &  AY_DQX1 &  AY_DQX2
+         #  AY_DQX1 &  AY_DQX2 & !AY_DQX3;
+
+-- Node name is 'AY_CH_CS5' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS5', location is LC1_A26, type is buried.
+AY_CH_CS5 = DFFE( _EQ029, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ029 =  _LC2_A26
+         #  _LC3_A26;
+
+-- Node name is 'AY_CH_CS6' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS6', location is LC1_F13, type is buried.
+AY_CH_CS6 = DFFE( _EQ030, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ030 = !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX1 &  AY_DQX3;
+
+-- Node name is 'AY_CH_CS7' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS7', location is LC3_F9, type is buried.
+AY_CH_CS7 = DFFE( _EQ031, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ031 = !AY_DQX0 &  AY_DQX1 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX1 &  AY_DQX2 &  AY_DQX3;
+
+-- Node name is 'AY_CH_CS8' from file "ay.tdf" line 90, column 10
+-- Equation name is 'AY_CH_CS8', location is LC1_F27, type is buried.
+AY_CH_CS8 = DFFE( _EQ032, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ032 =  AY_DQX0 &  AY_DQX1 &  AY_DQX2 &  AY_DQX3;
+
+-- Node name is 'AY_CH_C0' from file "ay.tdf" line 88, column 9
+-- Equation name is 'AY_CH_C0', type is output 
+AY_CH_C0 =  _LC2_E32;
+
+-- Node name is 'AY_CH_C1' from file "ay.tdf" line 88, column 9
+-- Equation name is 'AY_CH_C1', type is output 
+AY_CH_C1 =  _LC8_A26;
+
+-- Node name is 'AY_CH_C2' from file "ay.tdf" line 88, column 9
+-- Equation name is 'AY_CH_C2', type is output 
+AY_CH_C2 =  _LC1_A31;
+
+-- Node name is 'AY_CH_C3' from file "ay.tdf" line 88, column 9
+-- Equation name is 'AY_CH_C3', type is output 
+AY_CH_C3 =  _LC7_A31;
+
+-- Node name is 'AY_CH_LX0' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX0', location is LC2_F17, type is buried.
+AY_CH_LX0 = DFFE( _EQ033, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ033 =  AY_CH_CS0 & !AY_CH_LX0
+         # !AY_CH_CS0 &  AY_CH_LX0;
+
+-- Node name is 'AY_CH_LX1' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX1', location is LC1_F10, type is buried.
+AY_CH_LX1 = DFFE( _EQ034, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ034 =  AY_CH_CS1 &  AY_CH_LX1 &  _LC6_F17
+         # !AY_CH_CS1 & !AY_CH_LX1 &  _LC6_F17
+         # !AY_CH_CS1 &  AY_CH_LX1 & !_LC6_F17
+         #  AY_CH_CS1 & !AY_CH_LX1 & !_LC6_F17;
+
+-- Node name is 'AY_CH_LX2' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX2', location is LC7_F10, type is buried.
+AY_CH_LX2 = DFFE( _EQ035, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ035 =  AY_CH_CS2 &  AY_CH_LX2 &  _LC4_F10
+         # !AY_CH_CS2 & !AY_CH_LX2 &  _LC4_F10
+         # !AY_CH_CS2 &  AY_CH_LX2 & !_LC4_F10
+         #  AY_CH_CS2 & !AY_CH_LX2 & !_LC4_F10;
+
+-- Node name is 'AY_CH_LX3' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX3', location is LC8_F10, type is buried.
+AY_CH_LX3 = DFFE( _EQ036, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ036 =  AY_CH_CS3 &  AY_CH_LX3 &  _LC6_F10
+         # !AY_CH_CS3 & !AY_CH_LX3 &  _LC6_F10
+         # !AY_CH_CS3 &  AY_CH_LX3 & !_LC6_F10
+         #  AY_CH_CS3 & !AY_CH_LX3 & !_LC6_F10;
+
+-- Node name is 'AY_CH_LX4' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX4', location is LC2_F2, type is buried.
+AY_CH_LX4 = DFFE( _EQ037, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ037 =  AY_CH_CS4 &  AY_CH_LX4 &  _LC5_F10
+         # !AY_CH_CS4 & !AY_CH_LX4 &  _LC5_F10
+         # !AY_CH_CS4 &  AY_CH_LX4 & !_LC5_F10
+         #  AY_CH_CS4 & !AY_CH_LX4 & !_LC5_F10;
+
+-- Node name is 'AY_CH_LX5' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX5', location is LC6_F2, type is buried.
+AY_CH_LX5 = DFFE( _EQ038, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ038 =  AY_CH_CS5 &  AY_CH_LX5 &  _LC5_F2
+         # !AY_CH_CS5 & !AY_CH_LX5 &  _LC5_F2
+         # !AY_CH_CS5 &  AY_CH_LX5 & !_LC5_F2
+         #  AY_CH_CS5 & !AY_CH_LX5 & !_LC5_F2;
+
+-- Node name is 'AY_CH_LX6' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX6', location is LC1_F2, type is buried.
+AY_CH_LX6 = DFFE( _EQ039, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ039 =  AY_CH_CS6 &  AY_CH_LX6 &  _LC7_F2
+         # !AY_CH_CS6 & !AY_CH_LX6 &  _LC7_F2
+         # !AY_CH_CS6 &  AY_CH_LX6 & !_LC7_F2
+         #  AY_CH_CS6 & !AY_CH_LX6 & !_LC7_F2;
+
+-- Node name is 'AY_CH_LX7' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX7', location is LC5_F9, type is buried.
+AY_CH_LX7 = DFFE( _EQ040, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ040 =  AY_CH_CS7 &  AY_CH_LX7 &  _LC4_F2
+         # !AY_CH_CS7 & !AY_CH_LX7 &  _LC4_F2
+         # !AY_CH_CS7 &  AY_CH_LX7 & !_LC4_F2
+         #  AY_CH_CS7 & !AY_CH_LX7 & !_LC4_F2;
+
+-- Node name is 'AY_CH_LX8' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX8', location is LC5_F27, type is buried.
+AY_CH_LX8 = DFFE( _EQ041, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ041 =  AY_CH_CS8 &  AY_CH_LX8 &  _LC4_F9
+         # !AY_CH_CS8 & !AY_CH_LX8 &  _LC4_F9
+         # !AY_CH_CS8 &  AY_CH_LX8 & !_LC4_F9
+         #  AY_CH_CS8 & !AY_CH_LX8 & !_LC4_F9;
+
+-- Node name is 'AY_CH_LX9' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX9', location is LC7_F27, type is buried.
+AY_CH_LX9 = DFFE( _EQ042, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ042 =  AY_CH_LX9 & !_LC6_F27
+         # !AY_CH_LX9 &  _LC6_F27;
+
+-- Node name is 'AY_CH_LX10' from file "ay.tdf" line 91, column 10
+-- Equation name is 'AY_CH_LX10', location is LC8_F27, type is buried.
+AY_CH_LX10 = DFFE( _EQ043, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC2_F20);
+  _EQ043 = !AY_CH_LX9 &  AY_CH_LX10
+         #  AY_CH_LX10 & !_LC6_F27
+         #  AY_CH_LX9 & !AY_CH_LX10 &  _LC6_F27;
+
+-- Node name is 'AY_CH_L0' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L0', type is output 
+AY_CH_L0 =  _LC3_F10;
+
+-- Node name is 'AY_CH_L1' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L1', type is output 
+AY_CH_L1 =  _LC6_F15;
+
+-- Node name is 'AY_CH_L2' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L2', type is output 
+AY_CH_L2 =  _LC2_F10;
+
+-- Node name is 'AY_CH_L3' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L3', type is output 
+AY_CH_L3 =  _LC8_F2;
+
+-- Node name is 'AY_CH_L4' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L4', type is output 
+AY_CH_L4 =  _LC3_F2;
+
+-- Node name is 'AY_CH_L5' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L5', type is output 
+AY_CH_L5 =  _LC1_F15;
+
+-- Node name is 'AY_CH_L6' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L6', type is output 
+AY_CH_L6 =  _LC1_F9;
+
+-- Node name is 'AY_CH_L7' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L7', type is output 
+AY_CH_L7 =  _LC2_F27;
+
+-- Node name is 'AY_CH_L8' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L8', type is output 
+AY_CH_L8 =  _LC4_F27;
+
+-- Node name is 'AY_CH_L9' from file "ay.tdf" line 93, column 9
+-- Equation name is 'AY_CH_L9', type is output 
+AY_CH_L9 =  _LC3_F27;
+
+-- Node name is 'AY_CH_MIX' from file "ay.tdf" line 80, column 2
+-- Equation name is 'AY_CH_MIX', location is LC7_C35, type is buried.
+AY_CH_MIX = DFFE( _EQ044, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ044 =  _EC12_C &  _LC2_C34
+         # !_EC12_C &  _LC7_C26;
+
+-- Node name is 'AY_CH_RX0' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX0', location is LC1_F17, type is buried.
+AY_CH_RX0 = DFFE( _EQ045, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ045 = !AY_CH_CS0 &  AY_CH_RX0
+         #  AY_CH_CS0 & !AY_CH_RX0;
+
+-- Node name is 'AY_CH_RX1' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX1', location is LC2_F1, type is buried.
+AY_CH_RX1 = DFFE( _EQ046, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ046 =  AY_CH_CS1 &  AY_CH_RX1 &  _LC3_F17
+         # !AY_CH_CS1 & !AY_CH_RX1 &  _LC3_F17
+         # !AY_CH_CS1 &  AY_CH_RX1 & !_LC3_F17
+         #  AY_CH_CS1 & !AY_CH_RX1 & !_LC3_F17;
+
+-- Node name is 'AY_CH_RX2' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX2', location is LC1_F1, type is buried.
+AY_CH_RX2 = DFFE( _EQ047, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ047 =  AY_CH_CS2 &  AY_CH_RX2 &  _LC6_F1
+         # !AY_CH_CS2 & !AY_CH_RX2 &  _LC6_F1
+         # !AY_CH_CS2 &  AY_CH_RX2 & !_LC6_F1
+         #  AY_CH_CS2 & !AY_CH_RX2 & !_LC6_F1;
+
+-- Node name is 'AY_CH_RX3' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX3', location is LC8_F1, type is buried.
+AY_CH_RX3 = DFFE( _EQ048, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ048 =  AY_CH_CS3 &  AY_CH_RX3 &  _LC7_F1
+         # !AY_CH_CS3 & !AY_CH_RX3 &  _LC7_F1
+         # !AY_CH_CS3 &  AY_CH_RX3 & !_LC7_F1
+         #  AY_CH_CS3 & !AY_CH_RX3 & !_LC7_F1;
+
+-- Node name is 'AY_CH_RX4' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX4', location is LC4_F4, type is buried.
+AY_CH_RX4 = DFFE( _EQ049, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ049 =  AY_CH_CS4 &  AY_CH_RX4 &  _LC4_F1
+         # !AY_CH_CS4 & !AY_CH_RX4 &  _LC4_F1
+         # !AY_CH_CS4 &  AY_CH_RX4 & !_LC4_F1
+         #  AY_CH_CS4 & !AY_CH_RX4 & !_LC4_F1;
+
+-- Node name is 'AY_CH_RX5' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX5', location is LC3_F4, type is buried.
+AY_CH_RX5 = DFFE( _EQ050, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ050 =  AY_CH_CS5 &  AY_CH_RX5 &  _LC5_F4
+         # !AY_CH_CS5 & !AY_CH_RX5 &  _LC5_F4
+         # !AY_CH_CS5 &  AY_CH_RX5 & !_LC5_F4
+         #  AY_CH_CS5 & !AY_CH_RX5 & !_LC5_F4;
+
+-- Node name is 'AY_CH_RX6' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX6', location is LC7_F4, type is buried.
+AY_CH_RX6 = DFFE( _EQ051, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ051 =  AY_CH_CS6 &  AY_CH_RX6 &  _LC6_F4
+         # !AY_CH_CS6 & !AY_CH_RX6 &  _LC6_F4
+         # !AY_CH_CS6 &  AY_CH_RX6 & !_LC6_F4
+         #  AY_CH_CS6 & !AY_CH_RX6 & !_LC6_F4;
+
+-- Node name is 'AY_CH_RX7' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX7', location is LC8_F9, type is buried.
+AY_CH_RX7 = DFFE( _EQ052, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ052 =  AY_CH_CS7 &  AY_CH_RX7 &  _LC2_F4
+         # !AY_CH_CS7 & !AY_CH_RX7 &  _LC2_F4
+         # !AY_CH_CS7 &  AY_CH_RX7 & !_LC2_F4
+         #  AY_CH_CS7 & !AY_CH_RX7 & !_LC2_F4;
+
+-- Node name is 'AY_CH_RX8' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX8', location is LC3_F31, type is buried.
+AY_CH_RX8 = DFFE( _EQ053, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ053 =  AY_CH_CS8 &  AY_CH_RX8 &  _LC7_F9
+         # !AY_CH_CS8 & !AY_CH_RX8 &  _LC7_F9
+         # !AY_CH_CS8 &  AY_CH_RX8 & !_LC7_F9
+         #  AY_CH_CS8 & !AY_CH_RX8 & !_LC7_F9;
+
+-- Node name is 'AY_CH_RX9' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX9', location is LC6_F31, type is buried.
+AY_CH_RX9 = DFFE( _EQ054, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ054 =  AY_CH_RX9 & !_LC4_F31
+         # !AY_CH_RX9 &  _LC4_F31;
+
+-- Node name is 'AY_CH_RX10' from file "ay.tdf" line 92, column 10
+-- Equation name is 'AY_CH_RX10', location is LC8_F31, type is buried.
+AY_CH_RX10 = DFFE( _EQ055, GLOBAL( CLK42), !_LC6_C15,  VCC,  _LC8_F17);
+  _EQ055 = !AY_CH_RX9 &  AY_CH_RX10
+         #  AY_CH_RX10 & !_LC4_F31
+         #  AY_CH_RX9 & !AY_CH_RX10 &  _LC4_F31;
+
+-- Node name is 'AY_CH_R0' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R0', type is output 
+AY_CH_R0 =  _LC3_F1;
+
+-- Node name is 'AY_CH_R1' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R1', type is output 
+AY_CH_R1 =  _LC4_F15;
+
+-- Node name is 'AY_CH_R2' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R2', type is output 
+AY_CH_R2 =  _LC5_F1;
+
+-- Node name is 'AY_CH_R3' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R3', type is output 
+AY_CH_R3 =  _LC8_F4;
+
+-- Node name is 'AY_CH_R4' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R4', type is output 
+AY_CH_R4 =  _LC3_F15;
+
+-- Node name is 'AY_CH_R5' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R5', type is output 
+AY_CH_R5 =  _LC1_F4;
+
+-- Node name is 'AY_CH_R6' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R6', type is output 
+AY_CH_R6 =  _LC5_F31;
+
+-- Node name is 'AY_CH_R7' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R7', type is output 
+AY_CH_R7 =  _LC2_F31;
+
+-- Node name is 'AY_CH_R8' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R8', type is output 
+AY_CH_R8 =  _LC7_F31;
+
+-- Node name is 'AY_CH_R9' from file "ay.tdf" line 94, column 9
+-- Equation name is 'AY_CH_R9', type is output 
+AY_CH_R9 =  _LC1_F31;
+
+-- Node name is 'AY_CH_VAL' from file "ay.tdf" line 360, column 2
+-- Equation name is 'AY_CH_VAL', type is output 
+AY_CH_VAL =  _LC3_C15;
+
+-- Node name is 'AY_CX' from file "ay.tdf" line 64, column 2
+-- Equation name is 'AY_CX', location is LC5_C24, type is buried.
+!AY_CX   = AY_CX~NOT;
+AY_CX~NOT = DFFE(!_LC4_C24, GLOBAL( CLK42), !_LC7_C24,  VCC,  _LC6_C24);
+
+-- Node name is 'AY_CXX' from file "ay.tdf" line 65, column 2
+-- Equation name is 'AY_CXX', location is LC2_C24, type is buried.
+!AY_CXX  = AY_CXX~NOT;
+AY_CXX~NOT = DFFE( _EQ056, GLOBAL( CLK42), !_LC7_C24,  VCC,  _LC6_C24);
+  _EQ056 =  _LC1_C24 & !_LC8_C24
+         # !_LC3_C24 & !_LC8_C24
+         # !_LC1_C24 & !_LC3_C24;
+
+-- Node name is 'AY_DAT_WR' from file "ay.tdf" line 71, column 2
+-- Equation name is 'AY_DAT_WR', location is LC1_C9, type is buried.
+AY_DAT_WR = DFFE( _EQ057, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ057 =  _EC1_C
+         # !AY_CCC1;
+
+-- Node name is 'AY_DAT0' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT0', location is LC3_C32, type is buried.
+AY_DAT0  = DFFE( _EQ058, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ058 =  _EC2_C & !_LC4_C32
+         # !_EC2_C &  _LC4_C32;
+
+-- Node name is 'AY_DAT1' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT1', location is LC4_C28, type is buried.
+AY_DAT1  = DFFE( _EQ059, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ059 = !_EC12_C & !_LC5_C28
+         #  _EC12_C &  _LC5_C28;
+
+-- Node name is 'AY_DAT2' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT2', location is LC1_C28, type is buried.
+AY_DAT2  = DFFE( _EQ060, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ060 = !_EC4_C & !_EC12_C & !_LC5_C28
+         #  _EC4_C &  _EC12_C
+         #  _EC4_C &  _LC5_C28;
+
+-- Node name is 'AY_DAT3' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT3', location is LC1_C32, type is buried.
+AY_DAT3  = DFFE( _EQ061, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ061 = !_EC11_C & !_LC8_C32
+         #  _EC11_C &  _LC8_C32;
+
+-- Node name is 'AY_DAT4' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT4', location is LC3_C28, type is buried.
+AY_DAT4  = DFFE( _EQ062, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ062 = !_EC3_C & !_LC7_C28
+         #  _EC3_C &  _LC7_C28;
+
+-- Node name is 'AY_DAT5' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT5', location is LC2_C28, type is buried.
+AY_DAT5  = DFFE( _EQ063, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ063 = !_EC3_C & !_EC9_C & !_LC7_C28
+         #  _EC3_C &  _EC9_C
+         #  _EC9_C &  _LC7_C28;
+
+-- Node name is 'AY_DAT6' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT6', location is LC3_C23, type is buried.
+AY_DAT6  = DFFE( _EQ064, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ064 = !_EC1_C & !_LC2_C32
+         #  _EC1_C &  _LC2_C32;
+
+-- Node name is 'AY_DAT7' from file "ay.tdf" line 72, column 8
+-- Equation name is 'AY_DAT7', location is LC5_C23, type is buried.
+AY_DAT7  = DFFE( _EQ065, GLOBAL( CLK42),  VCC,  VCC, !_LC7_C9);
+  _EQ065 = !_EC1_C & !_EC10_C & !_LC2_C32
+         #  _EC1_C &  _EC10_C
+         #  _EC10_C &  _LC2_C32;
+
+-- Node name is 'AY_DD0' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD0', location is LC1_C14, type is buried.
+AY_DD0   = DFFE( _EC2_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD1' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD1', location is LC2_C9, type is buried.
+AY_DD1   = DFFE( _EC12_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD2' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD2', location is LC2_C12, type is buried.
+AY_DD2   = DFFE( _EC4_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD3' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD3', location is LC1_C6, type is buried.
+AY_DD3   = DFFE( _EC11_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD4' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD4', location is LC6_C9, type is buried.
+AY_DD4   = DFFE( _EC3_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD5' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD5', location is LC5_C9, type is buried.
+AY_DD5   = DFFE( _EC9_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD6' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD6', location is LC8_C9, type is buried.
+AY_DD6   = DFFE( _EC1_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DD7' from file "ay.tdf" line 84, column 7
+-- Equation name is 'AY_DD7', location is LC4_C9, type is buried.
+AY_DD7   = DFFE( _EC10_C, GLOBAL( CLK42),  VCC,  VCC, !_LC3_C14);
+
+-- Node name is 'AY_DI0' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI0', location is LC1_C11, type is buried.
+AY_DI0   = LCELL( _EQ066);
+  _EQ066 =  AY_CCC0 & !AY_CCC1 &  BD0
+         # !AY_CCC0 &  AY_DAT0
+         #  AY_CCC1 &  AY_DAT0;
+
+-- Node name is 'AY_DI1' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI1', location is LC1_C34, type is buried.
+AY_DI1   = LCELL( _EQ067);
+  _EQ067 =  AY_CCC0 & !AY_CCC1 &  BD1
+         # !AY_CCC0 &  AY_DAT1
+         #  AY_CCC1 &  AY_DAT1;
+
+-- Node name is 'AY_DI2' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI2', location is LC6_C14, type is buried.
+AY_DI2   = LCELL( _EQ068);
+  _EQ068 =  AY_CCC0 & !AY_CCC1 &  BD2
+         # !AY_CCC0 &  AY_DAT2
+         #  AY_CCC1 &  AY_DAT2;
+
+-- Node name is 'AY_DI3' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI3', location is LC2_C35, type is buried.
+AY_DI3   = LCELL( _EQ069);
+  _EQ069 =  AY_CCC0 & !AY_CCC1 &  BD3
+         # !AY_CCC0 &  AY_DAT3
+         #  AY_CCC1 &  AY_DAT3;
+
+-- Node name is 'AY_DI4' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI4', location is LC2_C1, type is buried.
+AY_DI4   = LCELL( _EQ070);
+  _EQ070 =  AY_CCC0 & !AY_CCC1 &  BD4
+         # !AY_CCC0 &  AY_DAT4
+         #  AY_CCC1 &  AY_DAT4;
+
+-- Node name is 'AY_DI5' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI5', location is LC5_C5, type is buried.
+AY_DI5   = LCELL( _EQ071);
+  _EQ071 =  AY_CCC0 & !AY_CCC1 &  BD5
+         # !AY_CCC0 &  AY_DAT5
+         #  AY_CCC1 &  AY_DAT5;
+
+-- Node name is 'AY_DI6' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI6', location is LC2_C5, type is buried.
+AY_DI6   = LCELL( _EQ072);
+  _EQ072 =  AY_CCC0 & !AY_CCC1 &  BD6
+         # !AY_CCC0 &  AY_DAT6
+         #  AY_CCC1 &  AY_DAT6;
+
+-- Node name is 'AY_DI7' from file "ay.tdf" line 185, column 13
+-- Equation name is 'AY_DI7', location is LC6_C23, type is buried.
+AY_DI7   = LCELL( _EQ073);
+  _EQ073 =  AY_CCC0 & !AY_CCC1 &  BD7
+         # !AY_CCC0 &  AY_DAT7
+         #  AY_CCC1 &  AY_DAT7;
+
+-- Node name is 'AY_DQX0' from file "ay.tdf" line 78, column 8
+-- Equation name is 'AY_DQX0', location is LC1_C35, type is buried.
+AY_DQX0  = DFFE( _EQ074, GLOBAL( CLK42), !AY_SH_Q, !_LC5_C35,  AY_OUTSX);
+  _EQ074 =  AY_AMP0 &  AY_CH_MIX;
+
+-- Node name is 'AY_DQX1' from file "ay.tdf" line 78, column 8
+-- Equation name is 'AY_DQX1', location is LC6_C35, type is buried.
+AY_DQX1  = DFFE( _EQ075, GLOBAL( CLK42), !AY_SH_Q,  VCC,  AY_OUTSX);
+  _EQ075 =  AY_AMP1 &  AY_CH_MIX;
+
+-- Node name is 'AY_DQX2' from file "ay.tdf" line 78, column 8
+-- Equation name is 'AY_DQX2', location is LC3_C35, type is buried.
+AY_DQX2  = DFFE( _EQ076, GLOBAL( CLK42), !AY_SH_Q, !_LC5_C35,  AY_OUTSX);
+  _EQ076 =  AY_AMP2 &  AY_CH_MIX;
+
+-- Node name is 'AY_DQX3' from file "ay.tdf" line 78, column 8
+-- Equation name is 'AY_DQX3', location is LC4_C35, type is buried.
+AY_DQX3  = DFFE( _EQ077, GLOBAL( CLK42), !AY_SH_Q, !_LC5_C35,  AY_OUTSX);
+  _EQ077 =  AY_AMP3 &  AY_CH_MIX;
+
+-- Node name is 'AY_DQ10' from file "ay.tdf" line 74, column 8
+-- Equation name is 'AY_DQ10', location is LC6_D23, type is buried.
+AY_DQ10  = DFFE( _EQ078, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS1);
+  _EQ078 =  AY_AMP0 &  _LC3_C26;
+
+-- Node name is 'AY_DQ11' from file "ay.tdf" line 74, column 8
+-- Equation name is 'AY_DQ11', location is LC7_D23, type is buried.
+AY_DQ11  = DFFE( _EQ079, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS1);
+  _EQ079 =  AY_AMP1 &  _LC3_C26;
+
+-- Node name is 'AY_DQ12' from file "ay.tdf" line 74, column 8
+-- Equation name is 'AY_DQ12', location is LC8_D23, type is buried.
+AY_DQ12  = DFFE( _EQ080, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS1);
+  _EQ080 =  AY_AMP2 &  _LC3_C26;
+
+-- Node name is 'AY_DQ13' from file "ay.tdf" line 74, column 8
+-- Equation name is 'AY_DQ13', location is LC7_E32, type is buried.
+AY_DQ13  = DFFE( _EQ081, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS1);
+  _EQ081 =  AY_AMP3 &  _LC3_C26;
+
+-- Node name is 'AY_DQ20' from file "ay.tdf" line 75, column 8
+-- Equation name is 'AY_DQ20', location is LC3_D23, type is buried.
+AY_DQ20  = DFFE( _EQ082, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS2);
+  _EQ082 =  AY_AMP0 &  _LC3_C34;
+
+-- Node name is 'AY_DQ21' from file "ay.tdf" line 75, column 8
+-- Equation name is 'AY_DQ21', location is LC6_A26, type is buried.
+AY_DQ21  = DFFE( _EQ083, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS2);
+  _EQ083 =  AY_AMP1 &  _LC3_C34;
+
+-- Node name is 'AY_DQ22' from file "ay.tdf" line 75, column 8
+-- Equation name is 'AY_DQ22', location is LC6_A31, type is buried.
+AY_DQ22  = DFFE( _EQ084, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS2);
+  _EQ084 =  AY_AMP2 &  _LC3_C34;
+
+-- Node name is 'AY_DQ23' from file "ay.tdf" line 75, column 8
+-- Equation name is 'AY_DQ23', location is LC8_A31, type is buried.
+AY_DQ23  = DFFE( _EQ085, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS2);
+  _EQ085 =  AY_AMP3 &  _LC3_C34;
+
+-- Node name is 'AY_DQ30' from file "ay.tdf" line 76, column 8
+-- Equation name is 'AY_DQ30', location is LC4_E32, type is buried.
+AY_DQ30  = DFFE( _EQ086, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS3);
+  _EQ086 =  AY_AMP0 &  _LC2_C26;
+
+-- Node name is 'AY_DQ31' from file "ay.tdf" line 76, column 8
+-- Equation name is 'AY_DQ31', location is LC5_A26, type is buried.
+AY_DQ31  = DFFE( _EQ087, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS3);
+  _EQ087 =  AY_AMP1 &  _LC2_C26;
+
+-- Node name is 'AY_DQ32' from file "ay.tdf" line 76, column 8
+-- Equation name is 'AY_DQ32', location is LC2_A31, type is buried.
+AY_DQ32  = DFFE( _EQ088, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS3);
+  _EQ088 =  AY_AMP2 &  _LC2_C26;
+
+-- Node name is 'AY_DQ33' from file "ay.tdf" line 76, column 8
+-- Equation name is 'AY_DQ33', location is LC4_A31, type is buried.
+AY_DQ33  = DFFE( _EQ089, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS3);
+  _EQ089 =  AY_AMP3 &  _LC2_C26;
+
+-- Node name is 'AY_F_RES' from file "ay.tdf" line 153, column 13
+-- Equation name is 'AY_F_RES', location is LC1_A25, type is buried.
+AY_F_RES = DFFE( _LC2_A25,  AY_CCC7,  AY_F_R1,  VCC,  VCC);
+
+-- Node name is 'AY_F_R1' from file "ay.tdf" line 152, column 13
+-- Equation name is 'AY_F_R1', location is LC6_C11, type is buried.
+AY_F_R1  = DFFE( _EQ090, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ090 =  BWR
+         # !AY_AAX0;
+
+-- Node name is 'AY_GF0' from file "ay.tdf" line 45, column 7
+-- Equation name is 'AY_GF0', location is LC4_A24, type is buried.
+AY_GF0   = DFFE( AY_DAT0, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C30);
+
+-- Node name is 'AY_GF1' from file "ay.tdf" line 45, column 7
+-- Equation name is 'AY_GF1', location is LC7_A24, type is buried.
+AY_GF1   = DFFE( AY_DAT1, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C30);
+
+-- Node name is 'AY_GF2' from file "ay.tdf" line 45, column 7
+-- Equation name is 'AY_GF2', location is LC4_A25, type is buried.
+AY_GF2   = DFFE( AY_DAT2, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C30);
+
+-- Node name is 'AY_GF3' from file "ay.tdf" line 45, column 7
+-- Equation name is 'AY_GF3', location is LC3_A24, type is buried.
+AY_GF3   = DFFE( AY_DAT3, GLOBAL( CLK42),  VCC,  VCC,  _LC3_C30);
+
+-- Node name is 'AY_OUTSX' from file "ay.tdf" line 244, column 14
+-- Equation name is 'AY_OUTSX', location is LC6_C30, type is buried.
+AY_OUTSX = DFFE( _EQ091, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ091 =  _EC1_C & !_EC4_C &  _LC7_C30 &  _LC8_C30;
+
+-- Node name is 'AY_OUTS1' from file "ay.tdf" line 224, column 15
+-- Equation name is 'AY_OUTS1', location is LC4_F20, type is buried.
+AY_OUTS1 = DFFE( _EQ092, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ092 =  _EC2_C & !_EC4_C & !_EC12_C &  _LC1_C30;
+
+-- Node name is 'AY_OUTS1X' from file "ay.tdf" line 340, column 14
+-- Equation name is 'AY_OUTS1X', location is LC5_F20, type is buried.
+AY_OUTS1X = DFFE( AY_OUTS1, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_OUTS1Y' from file "ay.tdf" line 344, column 14
+-- Equation name is 'AY_OUTS1Y', location is LC7_F20, type is buried.
+AY_OUTS1Y = DFFE( _EQ093, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ093 =  AY_OUTS1
+         #  AY_OUTS1X;
+
+-- Node name is 'AY_OUTS2' from file "ay.tdf" line 231, column 15
+-- Equation name is 'AY_OUTS2', location is LC1_F20, type is buried.
+AY_OUTS2 = DFFE( _EQ094, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ094 = !_EC2_C & !_EC4_C &  _EC12_C &  _LC1_C30;
+
+-- Node name is 'AY_OUTS2X' from file "ay.tdf" line 341, column 14
+-- Equation name is 'AY_OUTS2X', location is LC3_F20, type is buried.
+AY_OUTS2X = DFFE( _EQ095, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ095 =  AY_OUTS2
+         #  AY_SH_Q;
+
+-- Node name is 'AY_OUTS3' from file "ay.tdf" line 238, column 15
+-- Equation name is 'AY_OUTS3', location is LC4_C30, type is buried.
+AY_OUTS3 = DFFE( _EQ096, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ096 =  _EC2_C & !_EC4_C &  _EC12_C &  _LC1_C30;
+
+-- Node name is 'AY_OUTS3X' from file "ay.tdf" line 342, column 14
+-- Equation name is 'AY_OUTS3X', location is LC1_E32, type is buried.
+AY_OUTS3X = DFFE( AY_OUTS3, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is 'AY_OUTS3Y' from file "ay.tdf" line 346, column 14
+-- Equation name is 'AY_OUTS3Y', location is LC5_E32, type is buried.
+AY_OUTS3Y = DFFE( _EQ097, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ097 =  AY_OUTS3
+         #  AY_OUTS3X;
+
+-- Node name is 'AY_OUT1' from file "ay.tdf" line 47, column 8
+-- Equation name is 'AY_OUT1', location is LC5_C25, type is buried.
+AY_OUT1  = DFFE( _EQ098, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS1);
+  _EQ098 = !AY_CX &  AY_OUT1
+         #  AY_CX & !AY_OUT1;
+
+-- Node name is 'AY_OUT2' from file "ay.tdf" line 47, column 8
+-- Equation name is 'AY_OUT2', location is LC4_C34, type is buried.
+AY_OUT2  = DFFE( _EQ099, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS2);
+  _EQ099 = !AY_CX &  AY_OUT2
+         #  AY_CX & !AY_OUT2;
+
+-- Node name is 'AY_OUT3' from file "ay.tdf" line 47, column 8
+-- Equation name is 'AY_OUT3', location is LC1_C25, type is buried.
+AY_OUT3  = DFFE( _EQ100, GLOBAL( CLK42),  VCC,  VCC,  AY_OUTS3);
+  _EQ100 = !AY_CX &  AY_OUT3
+         #  AY_CX & !AY_OUT3;
+
+-- Node name is 'AY_SH_Q' from file "ay.tdf" line 260, column 13
+-- Equation name is 'AY_SH_Q', location is LC2_C30, type is buried.
+AY_SH_Q  = DFFE( _EQ101, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ101 =  AY_CXX &  _EC4_C &  _LC1_C30 & !_LC7_C30;
+
+-- Node name is 'AY_SH0' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH0', location is LC1_B32, type is buried.
+!AY_SH0  = AY_SH0~NOT;
+AY_SH0~NOT = DFFE(!AY_SH1, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH1' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH1', location is LC8_B32, type is buried.
+!AY_SH1  = AY_SH1~NOT;
+AY_SH1~NOT = DFFE(!AY_SH2, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH2' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH2', location is LC7_B32, type is buried.
+!AY_SH2  = AY_SH2~NOT;
+AY_SH2~NOT = DFFE(!AY_SH3, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH3' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH3', location is LC6_B32, type is buried.
+!AY_SH3  = AY_SH3~NOT;
+AY_SH3~NOT = DFFE(!AY_SH4, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH4' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH4', location is LC1_B34, type is buried.
+!AY_SH4  = AY_SH4~NOT;
+AY_SH4~NOT = DFFE(!AY_SH5, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH5' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH5', location is LC1_B19, type is buried.
+!AY_SH5  = AY_SH5~NOT;
+AY_SH5~NOT = DFFE(!AY_SH6, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH6' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH6', location is LC8_B19, type is buried.
+!AY_SH6  = AY_SH6~NOT;
+AY_SH6~NOT = DFFE(!AY_SH7, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH7' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH7', location is LC7_B19, type is buried.
+!AY_SH7  = AY_SH7~NOT;
+AY_SH7~NOT = DFFE(!AY_SH8, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH8' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH8', location is LC6_B19, type is buried.
+!AY_SH8  = AY_SH8~NOT;
+AY_SH8~NOT = DFFE(!AY_SH9, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH9' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH9', location is LC5_B19, type is buried.
+!AY_SH9  = AY_SH9~NOT;
+AY_SH9~NOT = DFFE(!AY_SH10, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH10' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH10', location is LC4_B19, type is buried.
+!AY_SH10 = AY_SH10~NOT;
+AY_SH10~NOT = DFFE(!AY_SH11, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH11' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH11', location is LC3_B19, type is buried.
+!AY_SH11 = AY_SH11~NOT;
+AY_SH11~NOT = DFFE(!AY_SH12, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH12' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH12', location is LC2_B19, type is buried.
+!AY_SH12 = AY_SH12~NOT;
+AY_SH12~NOT = DFFE(!AY_SH13, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH13' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH13', location is LC2_B32, type is buried.
+!AY_SH13 = AY_SH13~NOT;
+AY_SH13~NOT = DFFE(!AY_SH14, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH14' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH14', location is LC5_B32, type is buried.
+!AY_SH14 = AY_SH14~NOT;
+AY_SH14~NOT = DFFE(!AY_SH15, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH15' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH15', location is LC4_B32, type is buried.
+!AY_SH15 = AY_SH15~NOT;
+AY_SH15~NOT = DFFE(!AY_SH16, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+
+-- Node name is 'AY_SH16' from file "ay.tdf" line 51, column 7
+-- Equation name is 'AY_SH16', location is LC3_B32, type is buried.
+!AY_SH16 = AY_SH16~NOT;
+AY_SH16~NOT = DFFE( _EQ102, GLOBAL( CLK42), GLOBAL( /RESET),  VCC,  AY_SH_Q);
+  _EQ102 =  AY_SH0 &  AY_SH3
+         # !AY_SH0 & !AY_SH3;
+
+-- Node name is 'AY_VAR' from file "ay.tdf" line 68, column 2
+-- Equation name is 'AY_VAR', location is LC3_A32, type is buried.
+AY_VAR   = DFFE(!AY_VAR, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+
+-- Node name is 'AY_VA0' from file "ay.tdf" line 67, column 7
+-- Equation name is 'AY_VA0', location is LC4_A32, type is buried.
+AY_VA0   = DFFE( _EQ103, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+  _EQ103 = !AY_VAR &  AY_VA0
+         #  AY_VAR & !AY_VA0;
+
+-- Node name is 'AY_VA1' from file "ay.tdf" line 67, column 7
+-- Equation name is 'AY_VA1', location is LC1_A32, type is buried.
+AY_VA1   = DFFE( _EQ104, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+  _EQ104 = !AY_VA0 &  AY_VA1
+         # !AY_VAR &  AY_VA1
+         #  AY_VAR &  AY_VA0 & !AY_VA1;
+
+-- Node name is 'AY_VA2' from file "ay.tdf" line 67, column 7
+-- Equation name is 'AY_VA2', location is LC6_A32, type is buried.
+AY_VA2   = DFFE( _EQ105, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+  _EQ105 =  AY_VA2 & !_LC7_A32
+         # !AY_VA2 &  _LC7_A32;
+
+-- Node name is 'AY_VA3' from file "ay.tdf" line 67, column 7
+-- Equation name is 'AY_VA3', location is LC5_A32, type is buried.
+AY_VA3   = DFFE( _EQ106, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+  _EQ106 = !AY_VA2 &  AY_VA3
+         #  AY_VA3 & !_LC7_A32
+         #  AY_VA2 & !AY_VA3 &  _LC7_A32;
+
+-- Node name is 'AY_VX' from file "ay.tdf" line 69, column 2
+-- Equation name is 'AY_VX', location is LC2_A32, type is buried.
+AY_VX    = DFFE( _EQ107, GLOBAL( CLK42),  AY_F_RES,  VCC,  _LC2_A24);
+  _EQ107 = !AY_VA3 &  AY_VX
+         #  AY_VX & !_LC8_A32
+         #  AY_VA3 & !AY_VX &  _LC8_A32;
+
+-- Node name is 'AY_WR' from file "ay.tdf" line 182, column 11
+-- Equation name is 'AY_WR', location is LC2_C11, type is buried.
+AY_WR    = LCELL( _EQ108);
+  _EQ108 =  AY_CCC1 & !_LC7_C11
+         #  AY_CCC0 & !AY_CCC1 & !BWR;
+
+-- Node name is 'AY_X_0' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_0', location is LC8_C26, type is buried.
+AY_X_0   = DFFE( AY_DAT0, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'AY_X_1' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_1', location is LC6_C34, type is buried.
+AY_X_1   = DFFE( AY_DAT1, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'AY_X_2' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_2', location is LC5_C26, type is buried.
+AY_X_2   = DFFE( AY_DAT2, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'AY_X_3' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_3', location is LC6_C26, type is buried.
+AY_X_3   = DFFE( AY_DAT3, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'AY_X_4' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_4', location is LC5_C34, type is buried.
+AY_X_4   = DFFE( AY_DAT4, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'AY_X_5' from file "ay.tdf" line 44, column 7
+-- Equation name is 'AY_X_5', location is LC4_C26, type is buried.
+AY_X_5   = DFFE( AY_DAT5, GLOBAL( CLK42),  VCC,  VCC,  _LC5_C30);
+
+-- Node name is 'BD0' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD0', location is LC8_C11, type is buried.
+BD0      = DFFE( D0, GLOBAL( CLK42),  VCC,  VCC,  AY_CCC1);
+
+-- Node name is 'BD1' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD1', location is LC8_C34, type is buried.
+BD1      = DFFE( D1, GLOBAL( CLK42),  VCC,  VCC,  AY_CCC1);
+
+-- Node name is 'BD2' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD2', location is LC7_C14, type is buried.
+BD2      = DFFE( D2, GLOBAL( CLK42),  VCC,  VCC,  AY_CCC1);
+
+-- Node name is 'BD3' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD3', location is LC8_C35, type is buried.
+BD3      = DFFE( D3, GLOBAL( CLK42),  VCC,  VCC,  AY_CCC1);
+
+-- Node name is 'BD4' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD4', location is LC8_C1, type is buried.
+BD4      = DFFE( D4, GLOBAL( CLK42), !_LC7_C1,  VCC,  AY_CCC1);
+
+-- Node name is 'BD5' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD5', location is LC7_C5, type is buried.
+BD5      = DFFE( D5, GLOBAL( CLK42), !_LC3_C1,  VCC,  AY_CCC1);
+
+-- Node name is 'BD6' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD6', location is LC8_C5, type is buried.
+BD6      = DFFE( D6, GLOBAL( CLK42), !_LC3_C1,  VCC,  AY_CCC1);
+
+-- Node name is 'BD7' from file "ay.tdf" line 31, column 4
+-- Equation name is 'BD7', location is LC7_C23, type is buried.
+BD7      = DFFE( D7, GLOBAL( CLK42), !_LC3_C1,  VCC,  AY_CCC1);
+
+-- Node name is 'BWR' from file "ay.tdf" line 32, column 2
+-- Equation name is 'BWR', location is LC4_C11, type is buried.
+BWR      = DFFE( AY_D_WR, GLOBAL( CLK42),  VCC,  VCC,  AY_CCC1);
+
+-- Node name is 'DO0' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO0', type is output 
+DO0      =  AY_DD0;
+
+-- Node name is 'DO1' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO1', type is output 
+DO1      =  AY_DD1;
+
+-- Node name is 'DO2' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO2', type is output 
+DO2      =  AY_DD2;
+
+-- Node name is 'DO3' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO3', type is output 
+DO3      =  AY_DD3;
+
+-- Node name is 'DO4' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO4', type is output 
+DO4      =  AY_DD4;
+
+-- Node name is 'DO5' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO5', type is output 
+DO5      =  AY_DD5;
+
+-- Node name is 'DO6' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO6', type is output 
+DO6      =  AY_DD6;
+
+-- Node name is 'DO7' from file "ay.tdf" line 316, column 4
+-- Equation name is 'DO7', type is output 
+DO7      =  AY_DD7;
+
+-- Node name is '~GND~' 
+-- Equation name is '~GND~', location is LC1_C3, type is buried.
+-- synthesized logic cell 
+_LC1_C3  = LCELL( GND);
+
+-- Node name is ':121' from file "ay.tdf" line 86, column 9
+-- Equation name is '_LC6_E32', type is buried 
+_LC6_E32 = DFFE( AY_DQ13,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':122' from file "ay.tdf" line 86, column 9
+-- Equation name is '_LC1_D23', type is buried 
+_LC1_D23 = DFFE( AY_DQ12,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':123' from file "ay.tdf" line 86, column 9
+-- Equation name is '_LC4_D23', type is buried 
+_LC4_D23 = DFFE( AY_DQ11,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':124' from file "ay.tdf" line 86, column 9
+-- Equation name is '_LC2_D23', type is buried 
+_LC2_D23 = DFFE( AY_DQ10,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':125' from file "ay.tdf" line 87, column 9
+-- Equation name is '_LC3_A31', type is buried 
+_LC3_A31 = DFFE( AY_DQ23,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':126' from file "ay.tdf" line 87, column 9
+-- Equation name is '_LC5_A31', type is buried 
+_LC5_A31 = DFFE( AY_DQ22,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':127' from file "ay.tdf" line 87, column 9
+-- Equation name is '_LC4_A26', type is buried 
+_LC4_A26 = DFFE( AY_DQ21,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':128' from file "ay.tdf" line 87, column 9
+-- Equation name is '_LC5_D23', type is buried 
+_LC5_D23 = DFFE( AY_DQ20,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':129' from file "ay.tdf" line 88, column 9
+-- Equation name is '_LC7_A31', type is buried 
+_LC7_A31 = DFFE( AY_DQ33,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':130' from file "ay.tdf" line 88, column 9
+-- Equation name is '_LC1_A31', type is buried 
+_LC1_A31 = DFFE( AY_DQ32,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':131' from file "ay.tdf" line 88, column 9
+-- Equation name is '_LC8_A26', type is buried 
+_LC8_A26 = DFFE( AY_DQ31,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':132' from file "ay.tdf" line 88, column 9
+-- Equation name is '_LC2_E32', type is buried 
+_LC2_E32 = DFFE( AY_DQ30,  AY_CCC7,  VCC,  VCC,  VCC);
+
+-- Node name is ':133' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC3_F27', type is buried 
+_LC3_F27 = DFFE( AY_CH_LX10,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':134' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC4_F27', type is buried 
+_LC4_F27 = DFFE( AY_CH_LX9,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':135' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC2_F27', type is buried 
+_LC2_F27 = DFFE( AY_CH_LX8,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':136' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC1_F9', type is buried 
+_LC1_F9  = DFFE( AY_CH_LX7,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':137' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC1_F15', type is buried 
+_LC1_F15 = DFFE( AY_CH_LX6,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':138' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC3_F2', type is buried 
+_LC3_F2  = DFFE( AY_CH_LX5,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':139' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC8_F2', type is buried 
+_LC8_F2  = DFFE( AY_CH_LX4,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':140' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC2_F10', type is buried 
+_LC2_F10 = DFFE( AY_CH_LX3,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':141' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC6_F15', type is buried 
+_LC6_F15 = DFFE( AY_CH_LX2,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':142' from file "ay.tdf" line 93, column 9
+-- Equation name is '_LC3_F10', type is buried 
+_LC3_F10 = DFFE( AY_CH_LX1,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':143' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC1_F31', type is buried 
+_LC1_F31 = DFFE( AY_CH_RX10,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':144' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC7_F31', type is buried 
+_LC7_F31 = DFFE( AY_CH_RX9,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':145' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC2_F31', type is buried 
+_LC2_F31 = DFFE( AY_CH_RX8,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':146' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC5_F31', type is buried 
+_LC5_F31 = DFFE( AY_CH_RX7,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':147' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC1_F4', type is buried 
+_LC1_F4  = DFFE( AY_CH_RX6,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':148' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC3_F15', type is buried 
+_LC3_F15 = DFFE( AY_CH_RX5,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':149' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC8_F4', type is buried 
+_LC8_F4  = DFFE( AY_CH_RX4,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':150' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC5_F1', type is buried 
+_LC5_F1  = DFFE( AY_CH_RX3,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':151' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC4_F15', type is buried 
+_LC4_F15 = DFFE( AY_CH_RX2,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':152' from file "ay.tdf" line 94, column 9
+-- Equation name is '_LC3_F1', type is buried 
+_LC3_F1  = DFFE( AY_CH_RX1,  _LC3_C15,  VCC,  VCC,  VCC);
+
+-- Node name is ':354' from file "ay.tdf" line 153, column 17
+-- Equation name is '_LC2_A25', type is buried 
+_LC2_A25 = DFFE( VCC,  AY_CCC7,  AY_F_R1,  VCC,  VCC);
+
+-- Node name is ':355' from file "ay.tdf" line 182, column 14
+-- Equation name is '_LC7_C11', type is buried 
+_LC7_C11 = LCELL( _EQ109);
+  _EQ109 = !_EC1_C
+         #  _EC9_C
+         # !AY_CXX &  _EC10_C;
+
+-- Node name is ':356' from file "ay.tdf" line 196, column 15
+-- Equation name is '_LC7_C24', type is buried 
+_LC7_C24 = DFFE( _EQ110, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ110 =  AY_CCC1 & !_EC1_C & !_EC9_C & !_EC10_C;
+
+-- Node name is ':358' from file "ay.tdf" line 202, column 27
+-- Equation name is '_LC6_C24', type is buried 
+_LC6_C24 = DFFE( _EQ111, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ111 =  AY_CCC1 &  _EC1_C &  _EC9_C &  _EC10_C
+         #  AY_CCC1 &  _EC1_C & !_EC9_C & !_EC10_C;
+
+-- Node name is ':359' from file "ay.tdf" line 204, column 5
+-- Equation name is '_LC1_C24', type is buried 
+_LC1_C24 = DFFE( _EQ112, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ112 =  _EC1_C & !_EC9_C & !_EC10_C;
+
+-- Node name is ':360' from file "ay.tdf" line 205, column 12
+-- Equation name is '_LC8_C23', type is buried 
+_LC8_C23 = LCELL( _EQ113);
+  _EQ113 = !AY_DAT0 & !AY_DAT1 &  _LC1_C23 & !_LC2_C23;
+
+-- Node name is ':361' from file "ay.tdf" line 208, column 13
+-- Equation name is '_LC4_C23', type is buried 
+_LC4_C23 = LCELL( _EQ114);
+  _EQ114 = !AY_DAT0 & !AY_DAT1 &  _LC1_C23 & !_LC2_C23;
+
+-- Node name is ':362' from file "ay.tdf" line 208, column 55
+-- Equation name is '_LC2_C19', type is buried 
+_LC2_C19 = DFFE( _EC2_C, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':364' from file "ay.tdf" line 211, column 12
+-- Equation name is '_LC3_C24', type is buried 
+_LC3_C24 = DFFE( _EQ115, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ115 =  _EC2_C & !/RESET
+         # !AY_F_RES & !_EC2_C;
+
+-- Node name is '~365~1' from file "ay.tdf" line 215, column 29
+-- Equation name is '~365~1', location is LC7_C9, type is buried.
+-- synthesized logic cell 
+!_LC7_C9 = _LC7_C9~NOT;
+_LC7_C9~NOT = LCELL(!_LC3_C9);
+
+-- Node name is ':365' from file "ay.tdf" line 215, column 29
+-- Equation name is '_LC3_C9', type is buried 
+_LC3_C9  = DFFE( AY_DAT_WR, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':366' from file "ay.tdf" line 216, column 49
+-- Equation name is '_LC4_C32', type is buried 
+_LC4_C32 = DFFE( _EQ116, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ116 =  _LC5_C32
+         #  AY_C &  _LC6_C32;
+
+-- Node name is ':367' from file "ay.tdf" line 216, column 54
+-- Equation name is '_LC5_C32', type is buried 
+_LC5_C32 = DFFE(!_EC9_C, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':368' from file "ay.tdf" line 216, column 86
+-- Equation name is '_LC6_C32', type is buried 
+_LC6_C32 = DFFE( _EC10_C, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':370' from file "ay.tdf" line 228, column 25
+-- Equation name is '_LC3_C26', type is buried 
+_LC3_C26 = LCELL( _EQ117);
+  _EQ117 =  AY_X_0 &  AY_X_3
+         #  AY_OUT1 &  AY_X_3
+         #  AY_SH0 &  AY_X_0
+         #  AY_OUT1 &  AY_SH0;
+
+-- Node name is ':372' from file "ay.tdf" line 235, column 26
+-- Equation name is '_LC3_C34', type is buried 
+_LC3_C34 = LCELL( _EQ118);
+  _EQ118 =  AY_X_1 &  AY_X_4
+         #  AY_OUT2 &  AY_X_4
+         #  AY_SH0 &  AY_X_1
+         #  AY_OUT2 &  AY_SH0;
+
+-- Node name is ':374' from file "ay.tdf" line 242, column 26
+-- Equation name is '_LC2_C26', type is buried 
+_LC2_C26 = LCELL( _EQ119);
+  _EQ119 =  AY_X_2 &  AY_X_5
+         #  AY_OUT3 &  AY_X_5
+         #  AY_SH0 &  AY_X_2
+         #  AY_OUT3 &  AY_SH0;
+
+-- Node name is ':376' from file "ay.tdf" line 251, column 31
+-- Equation name is '_LC5_C35', type is buried 
+_LC5_C35 = DFFE( _EQ120, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ120 =  AY_SH_Q &  BEEPER;
+
+-- Node name is ':377' from file "ay.tdf" line 255, column 27
+-- Equation name is '_LC7_C26', type is buried 
+_LC7_C26 = LCELL( _EQ121);
+  _EQ121 =  AY_X_0 &  AY_X_3
+         #  AY_OUT1 &  AY_X_3
+         #  AY_SH0 &  AY_X_0
+         #  AY_OUT1 &  AY_SH0;
+
+-- Node name is ':378' from file "ay.tdf" line 256, column 25
+-- Equation name is '_LC7_C34', type is buried 
+_LC7_C34 = LCELL( _EQ122);
+  _EQ122 =  AY_X_1 &  AY_X_4
+         #  AY_OUT2 &  AY_X_4
+         #  AY_SH0 &  AY_X_1
+         #  AY_OUT2 &  AY_SH0;
+
+-- Node name is ':379' from file "ay.tdf" line 257, column 25
+-- Equation name is '_LC1_C26', type is buried 
+_LC1_C26 = LCELL( _EQ123);
+  _EQ123 =  AY_X_2 &  AY_X_5
+         #  AY_OUT3 &  AY_X_5
+         #  AY_SH0 &  AY_X_2
+         #  AY_OUT3 &  AY_SH0;
+
+-- Node name is ':381' from file "ay.tdf" line 274, column 39
+-- Equation name is '_LC2_A24', type is buried 
+_LC2_A24 = DFFE( _EQ124, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ124 = !AY_BBLK &  AY_CX &  _EC4_C &  _LC6_A24;
+
+-- Node name is ':382' from file "ay.tdf" line 278, column 16
+-- Equation name is '_LC5_C30', type is buried 
+_LC5_C30 = DFFE( _EQ125, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ125 = !_EC2_C &  _EC4_C &  _EC12_C &  _LC1_C30;
+
+-- Node name is ':383' from file "ay.tdf" line 282, column 16
+-- Equation name is '_LC3_C30', type is buried 
+_LC3_C30 = DFFE( _EQ126, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ126 =  _EC2_C &  _EC4_C &  _EC12_C &  _LC1_C30;
+
+-- Node name is ':387' from file "ay.tdf" line 338, column 39
+-- Equation name is '_LC6_C15', type is buried 
+_LC6_C15 = DFFE( _EQ127, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ127 = !AY_CCC5 & !AY_CCC6 & !AY_CCC7 &  _LC2_C15;
+
+-- Node name is ':393' from file "ay.tdf" line 357, column 19
+-- Equation name is '_LC2_F20', type is buried 
+_LC2_F20 = DFFE( _LC8_F20, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':394' from file "ay.tdf" line 357, column 23
+-- Equation name is '_LC8_F20', type is buried 
+_LC8_F20 = DFFE( _EQ128, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ128 =  AY_OUTS1
+         #  AY_OUTS1Y
+         #  AY_OUTS2
+         #  AY_OUTS2X;
+
+-- Node name is ':395' from file "ay.tdf" line 358, column 19
+-- Equation name is '_LC8_F17', type is buried 
+_LC8_F17 = DFFE( _LC6_F20, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+
+-- Node name is ':396' from file "ay.tdf" line 358, column 23
+-- Equation name is '_LC6_F20', type is buried 
+_LC6_F20 = DFFE( _EQ129, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ129 =  AY_OUTS3
+         #  AY_OUTS2
+         #  AY_OUTS2X
+         #  AY_OUTS3Y;
+
+-- Node name is ':397' from file "ay.tdf" line 360, column 14
+-- Equation name is '_LC3_C15', type is buried 
+_LC3_C15 = DFFE( _EQ130, GLOBAL( CLK42),  VCC,  VCC,  VCC);
+  _EQ130 = !AY_CCC2 & !AY_CCC3 &  AY_CCC7 &  _LC7_C15;
+
+-- Node name is ':415' from file "ay.tdf" line 119, column 34
+-- Equation name is '_LC3_C1', type is buried 
+!_LC3_C1 = _LC3_C1~NOT;
+_LC3_C1~NOT = LCELL( _EQ131);
+  _EQ131 =  AY_ADR0 &  AY_ADR1 &  AY_ADR2
+         # !AY_ADR0 & !AY_ADR1
+         # !AY_ADR0 & !AY_ADR2
+         #  AY_ADR3;
+
+-- Node name is ':429' from file "ay.tdf" line 122, column 43
+-- Equation name is '_LC7_C1', type is buried 
+!_LC7_C1 = _LC7_C1~NOT;
+_LC7_C1~NOT = LCELL( _EQ132);
+  _EQ132 =  AY_ADR1 &  AY_ADR2
+         #  AY_ADR3
+         # !AY_ADR0;
+
+-- Node name is ':470' from file "ay.tdf" line 165, column 3
+-- Equation name is '_LC3_C14', type is buried 
+!_LC3_C14 = _LC3_C14~NOT;
+_LC3_C14~NOT = LCELL( _EQ133);
+  _EQ133 = !AY_CCC0 & !AY_CCC1;
+
+-- Node name is ':584' from file "ay.tdf" line 208, column 44
+-- Equation name is '_LC8_C24', type is buried 
+!_LC8_C24 = _LC8_C24~NOT;
+_LC8_C24~NOT = LCELL( _EQ134);
+  _EQ134 = !AY_CXX & !_LC2_C19
+         # !_LC2_C19 & !_LC4_C23
+         # !AY_C & !AY_CXX
+         # !AY_C & !_LC4_C23;
+
+-- Node name is ':591' from file "ay.tdf" line 211, column 10
+-- Equation name is '_LC4_C24', type is buried 
+!_LC4_C24 = _LC4_C24~NOT;
+_LC4_C24~NOT = LCELL( _EQ135);
+  _EQ135 =  _LC1_C24 & !_LC8_C23
+         # !AY_CX &  _LC1_C24
+         # !_LC3_C24 & !_LC8_C23
+         # !AY_CX & !_LC3_C24
+         # !_LC1_C24 & !_LC3_C24;
+
+-- Node name is ':605' from file "ay.tdf" line 216, column 34
+-- Equation name is '_LC5_C28', type is buried 
+_LC5_C28 = LCELL( _EQ136);
+  _EQ136 =  _EC2_C
+         # !_LC4_C32;
+
+-- Node name is ':621' from file "ay.tdf" line 216, column 34
+-- Equation name is '_LC8_C32', type is buried 
+!_LC8_C32 = _LC8_C32~NOT;
+_LC8_C32~NOT = LCELL( _EQ137);
+  _EQ137 = !_EC2_C & !_EC4_C & !_EC12_C &  _LC4_C32;
+
+-- Node name is ':627' from file "ay.tdf" line 216, column 34
+-- Equation name is '_LC7_C28', type is buried 
+_LC7_C28 = LCELL( _EQ138);
+  _EQ138 =  _EC11_C
+         #  _EC4_C
+         #  _EC12_C
+         #  _LC5_C28;
+
+-- Node name is ':637' from file "ay.tdf" line 216, column 34
+-- Equation name is '_LC2_C32', type is buried 
+!_LC2_C32 = _LC2_C32~NOT;
+_LC2_C32~NOT = LCELL( _EQ139);
+  _EQ139 = !_EC3_C & !_EC9_C & !_EC11_C & !_LC8_C32;
+
+-- Node name is ':656' from file "ay.tdf" line 221, column 30
+-- Equation name is '_LC2_C23', type is buried 
+!_LC2_C23 = _LC2_C23~NOT;
+_LC2_C23~NOT = LCELL( _EQ140);
+  _EQ140 = !AY_DAT3 & !AY_DAT4;
+
+-- Node name is '~712~1' from file "ay.tdf" line 257, column 23
+-- Equation name is '~712~1', location is LC2_C34, type is buried.
+-- synthesized logic cell 
+_LC2_C34 = LCELL( _EQ141);
+  _EQ141 = !_EC2_C &  _LC7_C34
+         #  _EC2_C &  _LC1_C26;
+
+-- Node name is ':724' from file "ay.tdf" line 275, column 50
+-- Equation name is '_LC7_A32', type is buried 
+_LC7_A32 = LCELL( _EQ142);
+  _EQ142 =  AY_VAR &  AY_VA0 &  AY_VA1;
+
+-- Node name is ':728' from file "ay.tdf" line 275, column 50
+-- Equation name is '_LC8_A32', type is buried 
+_LC8_A32 = LCELL( _EQ143);
+  _EQ143 =  AY_VA2 &  _LC7_A32;
+
+-- Node name is ':763' from file "ay.tdf" line 320, column 3
+-- Equation name is '_LC2_F13', type is buried 
+!_LC2_F13 = _LC2_F13~NOT;
+_LC2_F13~NOT = LCELL( _EQ144);
+  _EQ144 =  AY_DQX0 &  AY_DQX1 &  AY_DQX2 &  AY_DQX3;
+
+-- Node name is ':823' from file "ay.tdf" line 324, column 3
+-- Equation name is '_LC5_F13', type is buried 
+!_LC5_F13 = _LC5_F13~NOT;
+_LC5_F13~NOT = LCELL( _EQ145);
+  _EQ145 =  AY_DQX0 &  AY_DQX1 & !AY_DQX2 &  AY_DQX3;
+
+-- Node name is '~857~1' from file "ay.tdf" line 327, column 25
+-- Equation name is '~857~1', location is LC2_A26, type is buried.
+-- synthesized logic cell 
+_LC2_A26 = LCELL( _EQ146);
+  _EQ146 =  AY_DQX0 &  AY_DQX1 &  AY_DQX2 &  AY_DQX3
+         # !AY_DQX0 & !AY_DQX1 & !AY_DQX2 &  AY_DQX3;
+
+-- Node name is '~857~2' from file "ay.tdf" line 327, column 25
+-- Equation name is '~857~2', location is LC3_A26, type is buried.
+-- synthesized logic cell 
+_LC3_A26 = LCELL( _EQ147);
+  _EQ147 = !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX1 &  AY_DQX3;
+
+-- Node name is ':883' from file "ay.tdf" line 330, column 25
+-- Equation name is '_LC6_F13', type is buried 
+_LC6_F13 = LCELL( _EQ148);
+  _EQ148 =  AY_DQX0 & !AY_DQX1 & !AY_DQX2 &  AY_DQX3
+         # !AY_DQX0 &  AY_DQX2 &  AY_DQX3
+         #  AY_DQX0 & !AY_DQX1 &  AY_DQX2 & !AY_DQX3;
+
+-- Node name is ':891' from file "ay.tdf" line 331, column 3
+-- Equation name is '_LC8_F13', type is buried 
+!_LC8_F13 = _LC8_F13~NOT;
+_LC8_F13~NOT = LCELL( _EQ149);
+  _EQ149 = !AY_DQX0 & !AY_DQX1 &  AY_DQX2 & !AY_DQX3;
+
+-- Node name is ':940' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC6_F17', type is buried 
+_LC6_F17 = LCELL( _EQ150);
+  _EQ150 =  AY_CH_CS0 &  AY_CH_LX0;
+
+-- Node name is ':956' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC4_F10', type is buried 
+_LC4_F10 = LCELL( _EQ151);
+  _EQ151 =  AY_CH_CS0 &  AY_CH_LX0 &  AY_CH_LX1
+         #  AY_CH_CS0 &  AY_CH_CS1 &  AY_CH_LX0
+         #  AY_CH_CS1 &  AY_CH_LX1;
+
+-- Node name is ':966' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC6_F10', type is buried 
+_LC6_F10 = LCELL( _EQ152);
+  _EQ152 =  AY_CH_LX2 &  _LC4_F10
+         #  AY_CH_CS2 &  _LC4_F10
+         #  AY_CH_CS2 &  AY_CH_LX2;
+
+-- Node name is ':976' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC5_F10', type is buried 
+_LC5_F10 = LCELL( _EQ153);
+  _EQ153 =  AY_CH_LX3 &  _LC6_F10
+         #  AY_CH_CS3 &  _LC6_F10
+         #  AY_CH_CS3 &  AY_CH_LX3;
+
+-- Node name is ':987' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC5_F2', type is buried 
+_LC5_F2  = LCELL( _EQ154);
+  _EQ154 =  AY_CH_LX4 &  _LC5_F10
+         #  AY_CH_CS4 &  _LC5_F10
+         #  AY_CH_CS4 &  AY_CH_LX4;
+
+-- Node name is ':997' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC7_F2', type is buried 
+_LC7_F2  = LCELL( _EQ155);
+  _EQ155 =  AY_CH_LX5 &  _LC5_F2
+         #  AY_CH_CS5 &  _LC5_F2
+         #  AY_CH_CS5 &  AY_CH_LX5;
+
+-- Node name is ':1007' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC4_F2', type is buried 
+_LC4_F2  = LCELL( _EQ156);
+  _EQ156 =  AY_CH_LX6 &  _LC7_F2
+         #  AY_CH_CS6 &  _LC7_F2
+         #  AY_CH_CS6 &  AY_CH_LX6;
+
+-- Node name is ':1018' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC4_F9', type is buried 
+_LC4_F9  = LCELL( _EQ157);
+  _EQ157 =  AY_CH_LX7 &  _LC4_F2
+         #  AY_CH_CS7 &  _LC4_F2
+         #  AY_CH_CS7 &  AY_CH_LX7;
+
+-- Node name is ':1028' from file "ay.tdf" line 348, column 26
+-- Equation name is '_LC6_F27', type is buried 
+_LC6_F27 = LCELL( _EQ158);
+  _EQ158 =  AY_CH_LX8 &  _LC4_F9
+         #  AY_CH_CS8 &  _LC4_F9
+         #  AY_CH_CS8 &  AY_CH_LX8;
+
+-- Node name is ':1036' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC3_F17', type is buried 
+_LC3_F17 = LCELL( _EQ159);
+  _EQ159 =  AY_CH_CS0 &  AY_CH_RX0;
+
+-- Node name is ':1052' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC6_F1', type is buried 
+_LC6_F1  = LCELL( _EQ160);
+  _EQ160 =  AY_CH_CS0 &  AY_CH_RX0 &  AY_CH_RX1
+         #  AY_CH_CS0 &  AY_CH_CS1 &  AY_CH_RX0
+         #  AY_CH_CS1 &  AY_CH_RX1;
+
+-- Node name is ':1062' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC7_F1', type is buried 
+_LC7_F1  = LCELL( _EQ161);
+  _EQ161 =  AY_CH_RX2 &  _LC6_F1
+         #  AY_CH_CS2 &  _LC6_F1
+         #  AY_CH_CS2 &  AY_CH_RX2;
+
+-- Node name is ':1072' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC4_F1', type is buried 
+_LC4_F1  = LCELL( _EQ162);
+  _EQ162 =  AY_CH_RX3 &  _LC7_F1
+         #  AY_CH_CS3 &  _LC7_F1
+         #  AY_CH_CS3 &  AY_CH_RX3;
+
+-- Node name is ':1083' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC5_F4', type is buried 
+_LC5_F4  = LCELL( _EQ163);
+  _EQ163 =  AY_CH_RX4 &  _LC4_F1
+         #  AY_CH_CS4 &  _LC4_F1
+         #  AY_CH_CS4 &  AY_CH_RX4;
+
+-- Node name is ':1093' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC6_F4', type is buried 
+_LC6_F4  = LCELL( _EQ164);
+  _EQ164 =  AY_CH_RX5 &  _LC5_F4
+         #  AY_CH_CS5 &  _LC5_F4
+         #  AY_CH_CS5 &  AY_CH_RX5;
+
+-- Node name is ':1103' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC2_F4', type is buried 
+_LC2_F4  = LCELL( _EQ165);
+  _EQ165 =  AY_CH_RX6 &  _LC6_F4
+         #  AY_CH_CS6 &  _LC6_F4
+         #  AY_CH_CS6 &  AY_CH_RX6;
+
+-- Node name is ':1114' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC7_F9', type is buried 
+_LC7_F9  = LCELL( _EQ166);
+  _EQ166 =  AY_CH_RX7 &  _LC2_F4
+         #  AY_CH_CS7 &  _LC2_F4
+         #  AY_CH_CS7 &  AY_CH_RX7;
+
+-- Node name is ':1124' from file "ay.tdf" line 349, column 26
+-- Equation name is '_LC4_F31', type is buried 
+_LC4_F31 = LCELL( _EQ167);
+  _EQ167 =  AY_CH_RX8 &  _LC7_F9
+         #  AY_CH_CS8 &  _LC7_F9
+         #  AY_CH_CS8 &  AY_CH_RX8;
+
+-- Node name is '~1140~1' from file "ay.tdf" line 360, column 32
+-- Equation name is '~1140~1', location is LC7_C15, type is buried.
+-- synthesized logic cell 
+_LC7_C15 = LCELL( _EQ168);
+  _EQ168 =  AY_CCC4 &  AY_CCC5 &  AY_CCC6;
+
+-- Node name is '~1155~1' from file "ay.tdf" line 338, column 57
+-- Equation name is '~1155~1', location is LC2_C15, type is buried.
+-- synthesized logic cell 
+_LC2_C15 = LCELL( _EQ169);
+  _EQ169 = !AY_CCC2 & !AY_CCC3 & !AY_CCC4;
+
+-- Node name is '~1248~1' from file "ay.tdf" line 244, column 49
+-- Equation name is '~1248~1', location is LC7_C30, type is buried.
+-- synthesized logic cell 
+!_LC7_C30 = _LC7_C30~NOT;
+_LC7_C30~NOT = LCELL( _EQ170);
+  _EQ170 = !_EC2_C & !_EC12_C;
+
+-- Node name is '~1249~1' from file "ay.tdf" line 245, column 40
+-- Equation name is '~1249~1', location is LC8_C30, type is buried.
+-- synthesized logic cell 
+_LC8_C30 = LCELL( _EQ171);
+  _EQ171 =  AY_CCC1 &  _EC9_C & !_EC10_C;
+
+-- Node name is '~1289~1' from file "ay.tdf" line 224, column 49
+-- Equation name is '~1289~1', location is LC1_C30, type is buried.
+-- synthesized logic cell 
+_LC1_C30 = LCELL( _EQ172);
+  _EQ172 =  AY_CCC1 &  _EC1_C &  _EC9_C & !_EC10_C;
+
+-- Node name is '~1289~2' from file "ay.tdf" line 224, column 49
+-- Equation name is '~1289~2', location is LC6_A24, type is buried.
+-- synthesized logic cell 
+_LC6_A24 = LCELL( _EQ173);
+  _EQ173 =  _EC2_C & !_EC12_C &  _LC1_C30;
+
+-- Node name is '~1319~1' from file "ay.tdf" line 205, column 27
+-- Equation name is '~1319~1', location is LC1_C23, type is buried.
+-- synthesized logic cell 
+_LC1_C23 = LCELL( _EQ174);
+  _EQ174 = !AY_DAT2 & !AY_DAT5 & !AY_DAT6 & !AY_DAT7;
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_0' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC2_C', type is memory 
+_EC2_C   = MEMORY_SEGMENT( AY_DI0, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_1' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC12_C', type is memory 
+_EC12_C  = MEMORY_SEGMENT( AY_DI1, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_2' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC4_C', type is memory 
+_EC4_C   = MEMORY_SEGMENT( AY_DI2, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_3' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC11_C', type is memory 
+_EC11_C  = MEMORY_SEGMENT( AY_DI3, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_4' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC3_C', type is memory 
+_EC3_C   = MEMORY_SEGMENT( AY_DI4, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_5' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC9_C', type is memory 
+_EC9_C   = MEMORY_SEGMENT( AY_DI5, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_6' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC1_C', type is memory 
+_EC1_C   = MEMORY_SEGMENT( AY_DI6, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+-- Node name is '|lpm_ram_dq:90|altram:sram|segment0_7' from file "altram.tdf" line 111, column 12
+-- Equation name is '_EC10_C', type is memory 
+_EC10_C  = MEMORY_SEGMENT( AY_DI7, GLOBAL( CLK42), GLOBAL( CLK42), AY_WR, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, AY_AX0, AY_AX1, AY_AX2, AY_AX3, AY_AX4, AY_AX5, _LC1_C3,!_LC3_C14, VCC, VCC, VCC, VCC, VCC, VCC);
+
+
+
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+** TIMING ASSIGNMENTS **
+
+
+INFORMATION: One or more paths have been found between register controlled by different clocks--can't calculate fmax for those paths 
+
+                         User       Actual 
+Type  Location        Assignment    Value     Status   Critical Path
+
+fmax  <default>       100.00 MHz  49.01 MHz   Failed   CLK42 to register AY_CH_LX0.Q to register AY_CH_LX9.Q
+
+
+Project Information                    c:\copy_d\asembler\altera\sp2000\ay.rpt
+
+** COMPILATION SETTINGS & TIMES **
+
+Processing Menu Commands
+------------------------
+
+Design Doctor                             = off
+
+Logic Synthesis:
+
+   Synthesis Type Used                    = Multi-Level
+
+   Default Synthesis Style                = NORMAL
+
+      Logic option settings in 'NORMAL' style for 'ACEX1K' family
+
+      CARRY_CHAIN                         = ignore
+      CARRY_CHAIN_LENGTH                  = 32
+      CASCADE_CHAIN                       = ignore
+      CASCADE_CHAIN_LENGTH                = 2
+      DECOMPOSE_GATES                     = on
+      DUPLICATE_LOGIC_EXTRACTION          = on
+      MINIMIZATION                        = full
+      MULTI_LEVEL_FACTORING               = on
+      NOT_GATE_PUSH_BACK                  = on
+      REDUCE_LOGIC                        = on
+      REFACTORIZATION                     = on
+      REGISTER_OPTIMIZATION               = on
+      RESYNTHESIZE_NETWORK                = on
+      SLOW_SLEW_RATE                      = off
+      SUBFACTOR_EXTRACTION                = on
+      IGNORE_SOFT_BUFFERS                 = on
+      USE_LPM_FOR_AHDL_OPERATORS          = off
+
+   Other logic synthesis settings:
+
+      Automatic Global Clock              = on
+      Automatic Global Clear              = on
+      Automatic Global Preset             = on
+      Automatic Global Output Enable      = on
+      Automatic Fast I/O                  = off
+      Automatic Register Packing          = off
+      Automatic Open-Drain Pins           = on
+      Automatic Implement in EAB          = off
+      Optimize                            = 5
+
+Default Timing Specifications: 
+
+   fmax                                   = 100MHz
+
+Cut All Bidir Feedback Timing Paths       = on
+Cut All Clear & Preset Timing Paths       = on
+
+Ignore Timing Assignments                 = off
+
+Functional SNF Extractor                  = off
+
+Linked SNF Extractor                      = off
+Timing SNF Extractor                      = on
+Optimize Timing SNF                       = off
+Generate AHDL TDO File                    = off
+Fitter Settings                           = NORMAL
+Use Quartus Fitter                        = on
+Smart Recompile                           = off
+Total Recompile                           = off
+
+Interfaces Menu Commands
+------------------------
+
+EDIF Netlist Writer                       = off
+Verilog Netlist Writer                    = off
+VHDL Netlist Writer                       = off
+
+Compilation Times
+-----------------
+
+   Compiler Netlist Extractor             00:00:01
+   Database Builder                       00:00:00
+   Logic Synthesizer                      00:00:02
+   Partitioner                            00:00:01
+   Fitter                                 00:00:15
+   Timing SNF Extractor                   00:00:03
+   Assembler                              00:00:03
+   --------------------------             --------
+   Total Time                             00:00:25
+
+
+Memory Allocated
+-----------------
+
+Peak memory allocated during compilation  = 28,413K

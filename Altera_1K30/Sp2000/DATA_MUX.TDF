@@ -1,0 +1,202 @@
+
+	TITLE "DATA_MUX";
+
+INCLUDE "lpm_ram_dp";
+
+SUBDESIGN data_mux
+	(
+	CLK42		: INPUT;
+
+	DI[7..0]	: INPUT;	-- IN from Z80
+	DO[7..0]	: OUTPUT;	-- OUT to Z80
+	PDD[7..0]	: INPUT;	-- internal PLD ports
+
+	A[15..0]	: INPUT;	-- adress after ACCELERATOR
+
+	MDI[15..0]	: INPUT;	-- IN from SIMM & ports
+	MDO[15..0]	: OUTPUT;	-- OUT to SIMM & ports
+
+--	VDO[31..0]	: OUTPUT;
+
+	ACC_A_RD[8..0]	: INPUT;
+	ACC_A_WR[8..0]	: INPUT;
+	ACC_FN[3..0]	: INPUT;
+
+	ACC_MODE		: INPUT;
+	ACC_RAM_WR		: INPUT;
+
+	HDD_ENA		: INPUT;
+	HDD_FLIP	: INPUT;
+	HDD_DATA	: INPUT;
+
+	HIGH_PORT	: INPUT;
+
+	CAS			: INPUT;
+	/IOM		: INPUT;
+	/WR			: INPUT;
+	/IO			: INPUT;
+	/RD			: INPUT;
+	/M1			: INPUT;
+	/MR			: INPUT;
+
+	HDD_ACC		: INPUT;
+	HDD_ACC_END	: OUTPUT;
+
+	SYS_ROM		: INPUT;
+	)
+VARIABLE
+
+	ACC_RAM		: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8);
+
+	MUX_MDI[15..0]	: DFF;
+	MUX_MDO[15..0]	: NODE;
+
+	MUX_ACC[15..0]	: NODE;
+
+	ACC_FND[15..0]	: DFF;
+	ACC_E_DAT[15..0]: NODE;
+
+	ACC_H_WR		: NODE;
+	ACC_L_WR		: NODE;
+
+	MDI_H			: NODE;
+	MDI_L			: NODE;
+	MDO_H			: NODE;
+	MDO_L			: NODE;
+
+	HDDX[7..0]		: NODE;
+	HDDY[7..0]		: NODE;
+
+	HDDR[7..0]		: DFFE;
+
+	PDDX[7..0]		: NODE;
+
+	HDD_RAM		: LPM_RAM_DP WITH (LPM_WIDTH=16,LPM_WIDTHAD=8);
+	HDD_CT[7..0]	: DFF;
+
+	HDD_ACC1		: NODE;
+
+BEGIN
+
+	HDD_ACC1	= DFFE((A[] == B"00000000000X100X"),(/M1 or /MR),,,);
+
+
+	HDDR[].ena	= HDD_DATA;
+	HDDR[].clk	= HDD_ENA;
+
+	CASE /RD IS
+		WHEN 0 => HDDR[] = MDI[15..8];
+		WHEN 1 => HDDR[] = DI[];
+	END CASE;
+
+	CASE (HDD_ENA,HDD_FLIP,HIGH_PORT) IS
+		WHEN B"0X0" => PDDX[] = PDD[];
+		WHEN B"0X1" => PDDX[] = MDI[15..8];
+		WHEN B"10X" => PDDX[] = MDI[7..0];
+		WHEN B"11X" => PDDX[] = HDD_RAM.q[15..8];
+	END CASE;
+
+	CASE /IO IS
+		WHEN 0 => DO[] = PDDX[];
+		WHEN 1 => DO[] = MUX_MDI[7..0];
+	END CASE;
+
+
+	HDD_RAM.wren 		= HDD_DATA & !/RD;
+	HDD_RAM.data[] 		= MDI[];
+	HDD_RAM.wraddress[] = HDD_CT[];
+	HDD_RAM.wrclock		= CLK42;
+	HDD_RAM.wrclken		= VCC;
+	HDD_RAM.rden		= VCC;
+	HDD_RAM.rdaddress[] = HDD_CT[];
+	HDD_RAM.rdclock		= CLK42;
+	HDD_RAM.rdclken		= VCC;
+
+	HDD_CT[].clrn		= HDD_ACC;
+	HDD_CT[].clk		= !HDD_DATA;
+	HDD_CT[]			= HDD_CT[] + 1;
+
+	HDD_ACC_END			= HDD_CT[] == H"FF";
+
+	CASE HDD_DATA IS
+		WHEN 0 => HDDX[] = DI[];
+		WHEN 1 => HDDX[] = HDD_RAM.q[15..8];
+	END CASE;
+
+	CASE (HDD_DATA & HDD_ACC) IS
+		WHEN 0 => HDDY[] = DI[];
+		WHEN 1 => HDDY[] = HDD_RAM.q[7..0];
+	END CASE;
+
+	CASE ACC_MODE IS
+		WHEN 0 => MUX_ACC[] = (HDDX[],HDDY[]);
+				  MDO_L = GND;
+				  MDO_H = HDD_ENA;
+
+				  MDI_L = A0;
+				  MDI_H = GND;
+
+		WHEN 1 => MUX_ACC[] = ACC_RAM.q[];
+				  MDO_L = ACC_A_RD0;
+				  MDO_H = ACC_A_RD0;
+
+				  MDI_L = ACC_A_WR0;
+				  MDI_H = ACC_A_WR0;
+	END CASE;
+
+	CASE MDO_H IS
+		WHEN 0 => MUX_MDO[15..8] = MUX_ACC[7..0];
+		WHEN 1 => MUX_MDO[15..8] = MUX_ACC[15..8];
+	END CASE;
+
+	CASE MDO_L IS
+		WHEN 0 => MUX_MDO[7..0] = MUX_ACC[7..0];
+		WHEN 1 => MUX_MDO[7..0] = MUX_ACC[15..8];
+	END CASE;
+	MDO[] = MUX_MDO[];
+
+	MUX_MDI[].clk	= DFF(CAS,!CLK42,,);
+	CASE MDI_H IS
+		WHEN 1 => MUX_MDI[15..8] = MDI[15..8];
+		WHEN 0 => MUX_MDI[15..8] = MDI[7..0];
+	END CASE;
+
+	CASE MDI_L IS
+		WHEN 1 =>MUX_MDI[7..0] = MDI[15..8];
+		WHEN 0 =>MUX_MDI[7..0] = MDI[7..0];
+	END CASE;
+
+	ACC_FND[].clk = CLK42;
+	CASE ACC_FN[1..0] IS
+		WHEN 0 => ACC_FND[15..0] = MUX_MDI[];
+		WHEN 1 => ACC_FND[15..0] = MUX_MDI[] or  ACC_RAM.q[];
+		WHEN 2 => ACC_FND[15..0] = MUX_MDI[] xor ACC_RAM.q[];
+		WHEN 3 => ACC_FND[15..0] = MUX_MDI[] &	 ACC_RAM.q[];
+	END CASE;
+
+	ACC_H_WR = ACC_A_WR0;
+	ACC_L_WR = !ACC_A_WR0;
+
+	CASE ACC_H_WR IS
+		WHEN 1 => ACC_E_DAT[15..8] = ACC_FND[15..8];
+		WHEN 0 => ACC_E_DAT[15..8] = ACC_RAM.q[15..8];
+	END CASE;
+	CASE ACC_L_WR IS
+		WHEN 1 => ACC_E_DAT[7..0] = ACC_FND[7..0];
+		WHEN 0 => ACC_E_DAT[7..0] = ACC_RAM.q[7..0];
+	END CASE;
+
+	ACC_RAM.wren 		= ACC_RAM_WR;
+	ACC_RAM.data[] 		= ACC_E_DAT[];
+	ACC_RAM.wraddress[] = ACC_A_WR[8..1];
+	ACC_RAM.wrclock		= CLK42;
+	ACC_RAM.wrclken		= VCC;
+	ACC_RAM.rden		= VCC;
+	ACC_RAM.rdaddress[] = ACC_A_RD[8..1];
+	ACC_RAM.rdclock		= CLK42;
+	ACC_RAM.rdclken		= VCC;
+
+
+END;
+
+

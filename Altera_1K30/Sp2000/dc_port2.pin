@@ -1,0 +1,239 @@
+-- Copyright (C) 1988-2000 Altera Corporation
+-- Any megafunction design, and related net list (encrypted or decrypted),
+-- support information, device programming or simulation file, and any other
+-- associated documentation or information provided by Altera or a partner
+-- under Altera's Megafunction Partnership Program may be used only to
+-- program PLD devices (but not masked PLD devices) from Altera.  Any other
+-- use of such megafunction design, net list, support information, device
+-- programming or simulation file, or any other related documentation or
+-- information is prohibited for any other purpose, including, but not
+-- limited to modification, reverse engineering, de-compiling, or use with
+-- any other silicon devices, unless such use is explicitly licensed under
+-- a separate agreement with Altera or a megafunction partner.  Title to
+-- the intellectual property, including patents, copyrights, trademarks,
+-- trade secrets, or maskworks, embodied in any such megafunction design,
+-- net list, support information, device programming or simulation file, or
+-- any other related documentation or information provided by Altera or a
+-- megafunction partner, remains with Altera, the megafunction partner, or
+-- their respective licensors.  No other licenses, including any licenses
+-- needed under any third party's intellectual property, are provided herein.
+
+
+
+N.C. = No Connect. This pin has no internal connection to the device.
+VCCINT = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+VCCIO = Dedicated power pin, which MUST be connected to VCC (2.5 volts).
+GND = Dedicated ground pin or unused dedicated input, which MUST be connected to GND.
+RESERVED = Unused I/O pin, which MUST be left unconnected.
+
+----------------------------------------------------------------------------
+
+CHIP "dc_port2" ASSIGNED TO AN EP1K30QC208-3
+TCK                              : 1
+CONF_DONE                        : 2
+nCEO                             : 3
+TDO                              : 4
+VCCIO                            : 5
+GND                              : 6
+RESERVED                         : 7
+RESERVED                         : 8
+RESERVED                         : 9
+DCP0                             : 10
+RESERVED                         : 11
+RESERVED                         : 12
+RESERVED                         : 13
+RESERVED                         : 14
+RESERVED                         : 15
+RESERVED                         : 16
+RESERVED                         : 17
+RESERVED                         : 18
+RESERVED                         : 19
+GND                              : 20
+VCCINT                           : 21
+VCCIO                            : 22
+GND                              : 23
+RESERVED                         : 24
+PORT_MA2                         : 25
+PORT_MA10                        : 26
+DCP3                             : 27
+PORT_MA11                        : 28
+PORT_MA4                         : 29
+DCP5                             : 30
+DCP4                             : 31
+GND                              : 32
+VCCINT                           : 33
+VCCIO                            : 34
+GND                              : 35
+RESERVED                         : 36
+RESERVED                         : 37
+RESERVED                         : 38
+RESERVED                         : 39
+RESERVED                         : 40
+PORT_MA9                         : 41
+VCCIO                            : 42
+GND                              : 43
+RESERVED                         : 44
+RESERVED                         : 45
+RESERVED                         : 46
+RESERVED                         : 47
+VCCINT                           : 48
+GND                              : 49
+TMS                              : 50
+TRST                             : 51
+nSTATUS                          : 52
+DCP1                             : 53
+A6                               : 54
+RESERVED                         : 55
+RESERVED                         : 56
+A2                               : 57
+A15                              : 58
+GND                              : 59
+RESERVED                         : 60
+RESERVED                         : 61
+PORT_MA5                         : 62
+PORT_MA8                         : 63
+RESERVED                         : 64
+RESERVED                         : 65
+VCCIO                            : 66
+RESERVED                         : 67
+CNF1                             : 68
+/IOMM                            : 69
+RESERVED                         : 70
+RESERVED                         : 71
+VCCINT                           : 72
+RESERVED                         : 73
+/M1                              : 74
+SYS                              : 75
+GND                              : 76
+VCCINT                           : 77
+/IO                              : 78
+CLK42                            : 79
+A14                              : 80
+GND                              : 81
+GND                              : 82
+RESERVED                         : 83
+VCCIO                            : 84
+RESERVED                         : 85
+RESERVED                         : 86
+RESERVED                         : 87
+RESERVED                         : 88
+RESERVED                         : 89
+RESERVED                         : 90
+VCCINT                           : 91
+RESERVED                         : 92
+RESERVED                         : 93
+RESERVED                         : 94
+RESERVED                         : 95
+RESERVED                         : 96
+RESERVED                         : 97
+VCCIO                            : 98
+RESERVED                         : 99
+DCP6                             : 100
+RESERVED                         : 101
+RESERVED                         : 102
+RESERVED                         : 103
+RESERVED                         : 104
+nCONFIG                          : 105
+VCCINT                           : 106
+MSEL1                            : 107
+MSEL0                            : 108
+GND                              : 109
+VCCIO                            : 110
+RESERVED                         : 111
+RESERVED                         : 112
+RESERVED                         : 113
+RESERVED                         : 114
+RESERVED                         : 115
+RESERVED                         : 116
+GND                              : 117
+VCCIO                            : 118
+RESERVED                         : 119
+RESERVED                         : 120
+RESERVED                         : 121
+RESERVED                         : 122
+GND                              : 123
+VCCINT                           : 124
+/WR                              : 125
+DOS                              : 126
+A1                               : 127
+/IOM                             : 128
+GND                              : 129
+VCCINT                           : 130
+RESERVED                         : 131
+RESERVED                         : 132
+RESERVED                         : 133
+RESERVED                         : 134
+RESERVED                         : 135
+RESERVED                         : 136
+GND                              : 137
+VCCIO                            : 138
+RESERVED                         : 139
+RESERVED                         : 140
+RESERVED                         : 141
+RESERVED                         : 142
+RESERVED                         : 143
+RESERVED                         : 144
+GND                              : 145
+VCCIO                            : 146
+RESERVED                         : 147
+RESERVED                         : 148
+RESERVED                         : 149
+DCP7                             : 150
+GND                              : 151
+VCCINT                           : 152
+TDI                              : 153
+nCE                              : 154
+DCLK                             : 155
+DATA0                            : 156
+RESERVED                         : 157
+RESERVED                         : 158
+RESERVED                         : 159
+RESERVED                         : 160
+RESERVED                         : 161
+RESERVED                         : 162
+RESERVED                         : 163
+RESERVED                         : 164
+VCCIO                            : 165
+RESERVED                         : 166
+RESERVED                         : 167
+RESERVED                         : 168
+RESERVED                         : 169
+RESERVED                         : 170
+GND                              : 171
+RESERVED                         : 172
+RESERVED                         : 173
+RESERVED                         : 174
+RESERVED                         : 175
+RESERVED                         : 176
+RESERVED                         : 177
+VCCIO                            : 178
+RESERVED                         : 179
+RESERVED                         : 180
+GND                              : 181
+A7                               : 182
+A5                               : 183
+A0                               : 184
+VCCINT                           : 185
+RESERVED                         : 186
+RESERVED                         : 187
+GND                              : 188
+CNF0                             : 189
+RESERVED                         : 190
+RESERVED                         : 191
+A13                              : 192
+PORT_MA1                         : 193
+VCCIO                            : 194
+PORT_MA0                         : 195
+PORT_MA7                         : 196
+RESERVED                         : 197
+PORT_MA6                         : 198
+RESERVED                         : 199
+RESERVED                         : 200
+VCCINT                           : 201
+RESERVED                         : 202
+RESERVED                         : 203
+PORT_MA3                         : 204
+RESERVED                         : 205
+RESERVED                         : 206
+DCP2                             : 207
+PORT_X                           : 208
