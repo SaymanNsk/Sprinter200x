@@ -1,0 +1,564 @@
+001   0000             		DEVICE 	ZXSPECTRUM128
+002   0000             
+003   0000             		include "..\..\include\dss.inc"
+001+  0000             ;-------------------------
+002+  0000             ;dss functions defines
+003+  0000             ;file functions
+004+  0000             fopen		equ 11h
+005+  0000             fclose		equ 12h
+006+  0000             fread		equ 13h
+007+  0000             fwrite		equ 14h
+008+  0000             move_fp		equ 15h
+009+  0000             fgetattr	equ 16h
+010+  0000             fgetdt		equ 17h
+011+  0000             fsetdt		equ 18h
+012+  0000             fcreate		equ 0ah
+013+  0000             fcreaten	equ 0bh
+014+  0000             chdir		equ 1dh
+015+  0000             curdir		equ 1eh
+016+  0000             curdisk		equ 2
+017+  0000             
+018+  0000             _IORW		equ 0
+019+  0000             _IOREAD		equ 1
+020+  0000             _IOWRITE	equ 2
+021+  0000             
+022+  0000             ;memory functions
+023+  0000             setwin		equ 38h
+024+  0000             setwin1         equ 39h
+025+  0000             setwin2		equ 3ah
+026+  0000             setwin3		equ 3bh
+027+  0000             infomem		equ 3ch
+028+  0000             getmem		equ 3dh
+029+  0000             setmem		equ 3fh
+030+  0000             freemem		equ 3eh
+031+  0000             ;keyb functions
+032+  0000             waitkey		equ 30h
+033+  0000             scankey		equ 31h
+034+  0000             echokey		equ 32h
+035+  0000             quit            equ 41h
+036+  0000             getarg		equ 43h
+037+  0000             ;vmode functions
+038+  0000             setvmode	equ 50h
+039+  0000             getvmode	equ 51h
+040+  0000             selvpage	equ 54h
+041+  0000             ;screen and text functions
+042+  0000             pchar		equ 5bh
+043+  0000             pchars		equ 5ch
+044+  0000             ;other
+045+  0000             getver		equ 0
+046+  0000             systime		equ 21h
+047+  0000             ;end dss defines
+048+  0000             ;-------------------------
+049+  0000             ;hardware defines
+050+  0000             port_y		equ 89h		;port for Y coord
+051+  0000             _320p		equ 81h		;320 pixels mode
+052+  0000             rgmod		equ 0c9h
+053+  0000             border		equ 0feh
+054+  0000             rgscr		equ 0e9h
+055+  0000             rgacc		equ 0a9h
+056+  0000             
+057+  0000             norm_scr	equ 50h
+058+  0000             ;trans_scr	equ 54h
+059+  0000             trans_scr	equ 00001000b
+060+  0000             tmp_scr		equ 00000100b
+061+  0000             
+062+  0000             
+063+  0000             e_cache		equ 0fbh
+064+  0000             d_cache		equ 7bh
+065+  0000             sys_port3c	equ 3ch
+066+  0000             sys_port7c	equ 7ch
+067+  0000             
+068+  0000             cpu_w0		equ 82h		;cpu window 0 = addr 0000h
+069+  0000             cpu_w1		equ 0a2h	;... 1 = 4000h
+070+  0000             cpu_w2		equ 0c2h	;... 2 = 8000h
+071+  0000             cpu_w3		equ 0e2h	;... 3 = 0c000h
+072+  0000             ;end hardware defines
+073+  0000             ;-------------------------
+074+  0000             ;characters
+075+  0000             cr		equ 0dh
+076+  0000             lf		equ 0ah
+077+  0000             tab		equ 9
+078+  0000             space		equ 20h
+079+  0000             ;------------------------
+080+  0000             sys_port_on	equ 0x7c
+081+  0000             sys_port_off	equ 0x3c
+082+  0000             d_tbon		equ 3		; данные для включения turbo
+083+  0000             d_tboff		equ 2		; данные для включения turbo
+084+  0000             
+085+  0000             
+004   0000             		include "..\..\include\head.inc"
+001+  0000             		org 8100h-512
+002+  7F00             start_addr: 
+003+  7F00             		display "start_addr=",$
+004+  7F00             
+005+  7F00 45 58 45    		db "EXE"
+006+  7F03 00          		db 0
+007+  7F04 00 02       		dw 200h
+008+  7F06 00 00       		dw 0
+009+  7F08 00 00       		dw 0
+010+  7F0A 00 00       		dw 0
+011+  7F0C 00 00       		dw 0
+012+  7F0E 00 00       		dw 0
+013+  7F10 00 81       		dw begin
+014+  7F12 00 81       		dw begin
+015+  7F14 FF BF       		dw 0bfffh
+016+  7F16 00          		ds 490
+017+  8100             		
+018+  8100             ;		.PHASE 8100h
+019+  8100             		   
+020+  8100             
+005   8100             
+006   8100             PALETTE_BASE = 0x9000
+007   8100             
+008   8100             begin: 		
+009   8100 21 3E 83    		ld	hl,HelpString
+010   8103 0E 5C       		ld	c,pchars			; print text
+011   8105 D7          		rst	0x10
+012   8106             
+013   8106 CD 51 81    		call	SetVideoMode
+014   8109 CD 72 81    		call	SetPalettes
+015   810C CD 3E 82    		call	InitScreen
+016   810F             
+017   810F 76          .main_loop: 	halt					; v'sync, maybe :)
+018   8110             
+019   8110 21 00 90    .pal_base: 	ld	hl,PALETTE_BASE
+020   8113 11 00 00    		ld	de,0x0000
+021   8116 01 A4 FF    		ld	bc,0xFFA4
+022   8119 97          		sub     a
+023   811A CF          		rst	0x08			; load palette by BIOS
+024   811B             
+025   811B 2A 11 81    		ld	hl,(.pal_base + 1)
+026   811E 11 10 00    		ld	de,0x0010
+027   8121 01 80 02    .col_count: 	ld	bc,0x0A00/4
+028   8124 19          		add	hl,de
+029   8125 0B          		dec	bc
+030   8126 78          		ld	a,b
+031   8127 B1          		or	c
+032   8128 20 06       		jr	nz,.next
+033   812A 21 00 98    		ld	hl,PALETTE_BASE + 0x800
+034   812D 01 00 02    		ld	bc,0x0800/4
+035   8130 22 11 81    .next: 		ld	(.pal_base + 1), hl
+036   8133 ED 43 22 81 		ld	(.col_count + 1), bc
+037   8137             
+038   8137 0E 03       		ld	c,0x03			; test mouse button
+039   8139 F7          		rst	0x30
+040   813A CB 47       		bit	0,a			; left button is pressed?
+041   813C 20 09       		jr	nz,.exit
+042   813E 0E 31       		ld	c,scankey		; test keypress
+043   8140 D7          		rst	0x10
+044   8141 28 CC       		jr	z,.main_loop
+045   8143 FE 1B       		cp	0x1B			; ESC is pressed?
+046   8145 20 C8       		jr	nz,.main_loop
+047   8147             
+048   8147 CD 0B 83    .exit: 		call	CrearVideoRam
+049   814A CD 66 81    		call	ResVideoMode
+050   814D             
+051   814D 01 41 00    		ld	bc,0x0041		; c = quit cmd
+052   8150 D7          		rst	0x10      		; exit to OS...
+053   8151             
+054   8151             ;[]=======================================================================[]
+055   8151             ; set requist video mode 320x256x256
+056   8151 0E 51       SetVideoMode: 	ld	c,getvmode		; save previos vmode
+057   8153 D7          		rst	0x10
+058   8154 32 6D 81    		ld	(vmode + 1), a
+059   8157 78          		ld	a,b
+060   8158 32 6B 81    		ld	(vscrn + 1), a
+061   815B 97          		sub	a
+062   815C CD 0B 83    		call	CrearVideoRam
+063   815F 01 50 00    		ld	bc,0x0050		; set 320x256x256
+064   8162 3E 81       		ld	a,_320p
+065   8164 D7          		rst	0x10
+066   8165 C9          		ret
+067   8166             
+068   8166             ;[]=======================================================================[]
+069   8166             ; restore previos video mode
+070   8166 97          ResVideoMode: 	sub	a
+071   8167 CD 0B 83    		call	CrearVideoRam
+072   816A 06 00       vscrn: 		ld	b,0x00
+073   816C 3E 00       vmode: 		ld	a,0x00
+074   816E 0E 50       		ld	c,setvmode
+075   8170 D7          		rst	0x10			; set previos vmode
+076   8171 C9          		ret
+077   8172             
+078   8172             ;[]=======================================================================[]
+079   8172             ; generate palette
+080   8172 97          SetPalettes: 	sub	a
+081   8173 21 00 90    		ld	hl,PALETTE_BASE
+082   8176 11 01 90    		ld	de,PALETTE_BASE + 1
+083   8179 01 FF 03    		ld	bc,0x03FF
+084   817C 77          		ld	(hl),a
+085   817D ED B0       		ldir
+086   817F 23          		inc	hl
+087   8180             
+088   8180 11 00 00    		ld	de,0x0000
+089   8183 72          .loop0: 		ld	(hl),d
+090   8184 23          		inc	hl
+091   8185 73          		ld	(hl),e
+092   8186 23          		inc	hl
+093   8187 71          		ld	(hl),c
+094   8188 23          		inc	hl
+095   8189 77          		ld	(hl),a
+096   818A 23          		inc	hl
+097   818B 14          		inc	d
+098   818C 10 F5       		djnz	.loop0
+099   818E 11 00 FF    		ld	de,0xFF00
+100   8191 01 00 00    		ld	bc,0x0000
+101   8194 72          .loop1: 		ld	(hl),d
+102   8195 23          		inc	hl
+103   8196 73          		ld	(hl),e
+104   8197 23          		inc	hl
+105   8198 71          		ld	(hl),c
+106   8199 23          		inc	hl
+107   819A 77          		ld	(hl),a
+108   819B 23          		inc	hl
+109   819C 15          		dec	d
+110   819D 0C          		inc	c
+111   819E 10 F4       		djnz	.loop1
+112   81A0             
+113   81A0 11 00 00    		ld	de,0x0000
+114   81A3 01 FF 00    		ld	bc,0x00FF
+115   81A6 72          .loop2: 		ld	(hl),d
+116   81A7 23          		inc	hl
+117   81A8 73          		ld	(hl),e
+118   81A9 23          		inc	hl
+119   81AA 71          		ld	(hl),c
+120   81AB 23          		inc	hl
+121   81AC 77          		ld	(hl),a
+122   81AD 23          		inc	hl
+123   81AE 14          		inc	d
+124   81AF 1C          		inc	e
+125   81B0 0D          		dec	c
+126   81B1 10 F3       		djnz	.loop2
+127   81B3             
+128   81B3 11 FF FF    		ld	de,0xFFFF
+129   81B6 01 00 00    		ld	bc,0x0000
+130   81B9 72          .loop3: 		ld	(hl),d
+131   81BA 23          		inc	hl
+132   81BB 73          		ld	(hl),e
+133   81BC 23          		inc	hl
+134   81BD 71          		ld	(hl),c
+135   81BE 23          		inc	hl
+136   81BF 77          		ld	(hl),a
+137   81C0 23          		inc	hl
+138   81C1 1D          		dec	e
+139   81C2 0C          		inc	c
+140   81C3 10 F4       		djnz	.loop3
+141   81C5             
+142   81C5 11 00 FF    		ld	de,0xFF00
+143   81C8 01 FF 00    		ld	bc,0x00FF
+144   81CB 72          .loop4: 		ld	(hl),d
+145   81CC 23          		inc	hl
+146   81CD 73          		ld	(hl),e
+147   81CE 23          		inc	hl
+148   81CF 71          		ld	(hl),c
+149   81D0 23          		inc	hl
+150   81D1 77          		ld	(hl),a
+151   81D2 23          		inc	hl
+152   81D3 15          		dec	d
+153   81D4 1C          		inc	e
+154   81D5 10 F4       		djnz	.loop4
+155   81D7             
+156   81D7 11 FF 00    		ld	de,0x00FF
+157   81DA 01 FF 00    		ld	bc,0x00FF
+158   81DD 72          .loop5: 		ld	(hl),d
+159   81DE 23          		inc	hl
+160   81DF 73          		ld	(hl),e
+161   81E0 23          		inc	hl
+162   81E1 71          		ld	(hl),c
+163   81E2 23          		inc	hl
+164   81E3 77          		ld	(hl),a
+165   81E4 23          		inc	hl
+166   81E5 14          		inc	d
+167   81E6 1D          		dec	e
+168   81E7 0D          		dec	c
+169   81E8 10 F3       		djnz	.loop5
+170   81EA             
+171   81EA 11 00 FF    		ld	de,0xFF00
+172   81ED 01 00 00    		ld	bc,0x0000
+173   81F0 72          .loop6: 		ld	(hl),d
+174   81F1 23          		inc	hl
+175   81F2 73          		ld	(hl),e
+176   81F3 23          		inc	hl
+177   81F4 71          		ld	(hl),c
+178   81F5 23          		inc	hl
+179   81F6 77          		ld	(hl),a
+180   81F7 23          		inc	hl
+181   81F8 15          		dec	d
+182   81F9 1C          		inc	e
+183   81FA 10 F4       		djnz	.loop6
+184   81FC             
+185   81FC 11 FF 00    		ld	de,0x00FF
+186   81FF 01 00 00    		ld	bc,0x0000
+187   8202 72          .loop7: 		ld	(hl),d
+188   8203 23          		inc	hl
+189   8204 73          		ld	(hl),e
+190   8205 23          		inc	hl
+191   8206 71          		ld	(hl),c
+192   8207 23          		inc	hl
+193   8208 77          		ld	(hl),a
+194   8209 23          		inc	hl
+195   820A 1D          		dec	e
+196   820B 0C          		inc	c
+197   820C 10 F4       		djnz	.loop7
+198   820E             
+199   820E 11 00 00    		ld	de,0x0000
+200   8211 01 FF 00    		ld	bc,0x00FF
+201   8214 72          .loop8: 		ld	(hl),d
+202   8215 23          		inc	hl
+203   8216 73          		ld	(hl),e
+204   8217 23          		inc	hl
+205   8218 71          		ld	(hl),c
+206   8219 23          		inc	hl
+207   821A 77          		ld	(hl),a
+208   821B 23          		inc	hl
+209   821C 14          		inc	d
+210   821D 0D          		dec	c
+211   821E 10 F4       		djnz	.loop8
+212   8220             
+213   8220 11 00 FF    		ld	de,0xFF00
+214   8223 01 00 00    		ld	bc,0x0000
+215   8226 72          .loop9: 		ld	(hl),d
+216   8227 23          		inc	hl
+217   8228 73          		ld	(hl),e
+218   8229 23          		inc	hl
+219   822A 71          		ld	(hl),c
+220   822B 23          		inc	hl
+221   822C 77          		ld	(hl),a
+222   822D 23          		inc	hl
+223   822E 15          		dec	d
+224   822F 0C          		inc	c
+225   8230 10 F4       		djnz	.loop9
+226   8232             						; load fully black palette
+227   8232 21 00 90    		ld	hl,PALETTE_BASE
+228   8235 11 00 00    		ld	de,0x0000
+229   8238 01 A4 FF    		ld	bc,0xFFA4
+230   823B 97          		sub	a
+231   823C CF          		rst	0x08			; load palette by BIOS
+232   823D C9          		ret
+233   823E             
+234   823E             ;[]=======================================================================[]
+235   823E DB 89       InitScreen: 	in	a,(port_y)		; save inflective ports
+236   8240 4F          		ld	c,a
+237   8241 DB A2       		in	a,(cpu_w1)
+238   8243 47          		ld	b,a
+239   8244 C5          		push	bc
+240   8245 3E 50       		ld	a,norm_scr		; set video page to 0x4000-0x7FFF
+241   8247 D3 A2       		out	(cpu_w1),a
+242   8249             						; now i'll generate 207 circuits
+243   8249             						; for first quadrange
+244   8249             						;  |
+245   8249             						; -+-
+246   8249             						;  |a
+247   8249 21 CF 00    		ld	hl,207			; start radius 207, start color 0
+248   824C E5          .loop1: 		push	hl
+249   824D 7C          		ld	a,h
+250   824E CD AD 82    		call	QCircuit
+251   8251 E1          		pop	hl
+252   8252 24          		inc	h
+253   8253 2D          		dec	l
+254   8254 20 F6       		jr	nz,.loop1
+255   8256 5D          		ld	e,l			; SetPixel(0, 0)
+256   8257 4B          		ld	c,e
+257   8258 CD F4 82    		call	SetPixel
+258   825B             						; now i'll duplicate quadrange
+259   825B             						;  |
+260   825B             						; -+-
+261   825B             						; b|a
+262   825B 0E 80       		ld	c,128
+263   825D 21 A0 40    .loop2: 		ld	hl,0x4000 + 160
+264   8260 11 9F 40    		ld	de,0x4000 + 159
+265   8263 79          		ld	a,c
+266   8264 D3 89       		out	(port_y),a
+267   8266 06 A0       		ld	b,160
+268   8268 7E          .loop3: 		ld	a,(hl)
+269   8269 12          		ld	(de),a
+270   826A 23          		inc	hl
+271   826B 1B          		dec	de
+272   826C 10 FA       		djnz	.loop3
+273   826E 0C          		inc	c
+274   826F 20 EC       		jr	nz,.loop2
+275   8271             						; c|d
+276   8271             						; -+-
+277   8271             						; b|a
+278   8271 21 00 40    		ld	hl,0x4000
+279   8274 1E 7F       		ld	e,127
+280   8276 16 80       		ld	d,128
+281   8278 F3          		di
+282   8279 52          		ld	d,d			; set accel lenght to 160
+283   827A 3E A0       		ld	a,160
+284   827C 40          		ld	b,b
+285   827D 7A          .loop4: 		ld	a,d
+286   827E D3 89       		out	(port_y), a
+287   8280 6D          		ld	l,l
+288   8281 7E          		ld	a,(hl)
+289   8282 40          		ld	b,b
+290   8283 7B          		ld	a,e
+291   8284 D3 89       		out	(port_y), a
+292   8286 6D          		ld	l,l
+293   8287 77          		ld	(hl),a
+294   8288 40          		ld	b,b
+295   8289 1D          		dec	e
+296   828A 14          		inc	d
+297   828B 20 F0       		jr	nz,.loop4
+298   828D 21 A0 40    		ld	hl,0x4000 + 160
+299   8290 1E 7F       		ld	e,127
+300   8292 16 80       		ld	d,128
+301   8294 7A          .loop5: 		ld	a,d
+302   8295 D3 89       		out	(port_y), a
+303   8297 6D          		ld	l,l
+304   8298 7E          		ld	a,(hl)
+305   8299 40          		ld	b,b
+306   829A 7B          		ld	a,e
+307   829B D3 89       		out	(port_y), a
+308   829D 6D          		ld	l,l
+309   829E 77          		ld	(hl),a
+310   829F 40          		ld	b,b
+311   82A0 1D          		dec	e
+312   82A1 14          		inc	d
+313   82A2 20 F0       		jr	nz,.loop5
+314   82A4 FB          		ei
+315   82A5             
+316   82A5 C1          		pop	bc
+317   82A6 78          		ld	a,b
+318   82A7 D3 A2       		out	(cpu_w1),a
+319   82A9 79          		ld	a,c
+320   82AA D3 89       		out	(port_y),a		; restore ports
+321   82AC C9          		ret
+322   82AD             
+323   82AD             
+324   82AD             ;[]=======================================================================[]
+325   82AD             ; Fast circuit generator for first quadrange
+326   82AD             ; Original implementation for z80 (c)2002, Enin Anton
+327   82AD             ; Procedure based on Horn-Doros algorithm for circuits
+328   82AD             ; Input:
+329   82AD             ;	l - radius
+330   82AD             ;	a  - color
+331   82AD             ; Output:
+332   82AD             ;	-
+333   82AD             
+334   82AD D9          QCircuit: 	exx				; center 160, 128
+335   82AE 11 A0 40    		ld	de,0x4000 + 160	; 'de - center screen on x-axis
+336   82B1 4F          		ld	c,a			; 'c - color
+337   82B2 D9          		exx
+338   82B3             						; x = radius; y = 0; s = -radius;
+339   82B3 5D          		ld	e,l			; e - x
+340   82B4 16 00       		ld	d,0x00
+341   82B6 4A          		ld	c,d
+342   82B7 42          		ld	b,d			; c - y
+343   82B8 7D          		ld	a,l
+344   82B9 ED 44       		neg
+345   82BB 6F          		ld	l,a
+346   82BC 26 FF       		ld	h,0xFF			; hl - s
+347   82BE             .loop1: 
+348   82BE CD F4 82    		call	SetPixel
+349   82C1 23          		inc	hl
+350   82C2 09          		add	hl,bc
+351   82C3 09          		add	hl,bc			; s = s + 2*y + 1
+352   82C4 CB 7C       		bit	7,h
+353   82C6 20 09       		jr	nz,.nocorr1		; s >= 0 ?
+354   82C8 23          		inc	hl
+355   82C9 23          		inc	hl
+356   82CA B7          		or	a
+357   82CB ED 52       		sbc	hl,de
+358   82CD B7          		or	a
+359   82CE ED 52       		sbc	hl,de			; s = s - 2*x + 2
+360   82D0 1D          		dec	e			; x = x - 1
+361   82D1 0C          .nocorr1: 	inc	c			; y = y + 1
+362   82D2 7B          		ld	a,e
+363   82D3 B9          		cp	c
+364   82D4 30 E8       		jr	nc,.loop1
+365   82D6             
+366   82D6 19          		add	hl,de
+367   82D7 19          		add	hl,de			; s = s + 2*x
+368   82D8 79          		ld	a,c			; t = y
+369   82D9 4B          		ld	c,e			; y = x
+370   82DA 5F          		ld	e,a			; x = t
+371   82DB             .loop2: 
+372   82DB 23          		inc	hl
+373   82DC B7          		or	a
+374   82DD ED 52       		sbc	hl,de
+375   82DF B7          		or	a
+376   82E0 ED 52       		sbc	hl,de			; s = s - 2*x + 1
+377   82E2 F2 EA 82    		jp	p,.nocorr2		; s < 0 ?
+378   82E5 23          		inc	hl
+379   82E6 23          		inc	hl
+380   82E7 09          		add	hl,bc
+381   82E8 09          		add	hl,bc			; s = s + 2*y + 2
+382   82E9 0C          		inc	c			; y = y + 1
+383   82EA 1D          .nocorr2: 	dec	e			; x = x - 1
+384   82EB CD F4 82    		call	SetPixel
+385   82EE 7B          		ld	a,e
+386   82EF FE FF       		cp	-1
+387   82F1 20 E8       		jr	nz,.loop2
+388   82F3 C9          		ret
+389   82F4             
+390   82F4             ; SetPixel
+391   82F4             ; e - x, c - y
+392   82F4 7B          SetPixel: 	ld	a,e			; clip pixel on x-axis
+393   82F5 FE A0       		cp	160
+394   82F7 D0          		ret	nc
+395   82F8 79          		ld	a,c			; clip pixel on y-axis
+396   82F9 FE 80       		cp	128
+397   82FB D0          		ret	nc
+398   82FC C6 80       		add	a,128			; center screen on y-axis
+399   82FE D3 89       		out	(port_y), a
+400   8300 7B          		ld	a,e
+401   8301 D9          		exx
+402   8302 6F          		ld	l,a
+403   8303 26 00       		ld	h,0x00
+404   8305 19          		add	hl,de
+405   8306 71          		ld	(hl),c			; set 2 equal pixels
+406   8307 23          		inc	hl			; for disappear holes
+407   8308 71          		ld	(hl),c			; between circuits
+408   8309 D9          		exx
+409   830A C9          		ret
+410   830B             
+411   830B             ;[]=======================================================================[]
+412   830B             ; Clear video memory (first screen)
+413   830B 21 00 90    CrearVideoRam: 	ld	hl,PALETTE_BASE	; load fully black palette
+414   830E 11 00 00    		ld	de,0x0000
+415   8311 01 A4 FF    		ld	bc,0xFFA4
+416   8314 97          		sub	a
+417   8315 CF          		rst	0x08			; load palette by BIOS
+418   8316             
+419   8316 DB 89       		in	a,(port_y)		; store modify ports
+420   8318 4F          		ld	c,a
+421   8319 DB A2       		in	a,(cpu_w1)
+422   831B 47          		ld	b,a
+423   831C C5          		push	bc
+424   831D 3E 50       		ld	a,norm_scr
+425   831F D3 A2       		out	(cpu_w1),a
+426   8321 21 00 40    		ld	hl,0x4000
+427   8324 01 40 01    		ld	bc,320			; screen x size in bytes
+428   8327 5D          		ld	e,l
+429   8328 F3          		di
+430   8329 52          		ld	d,d
+431   832A 3E 00       		ld	a,0x00			; set accel lenght to 256 bytes
+432   832C 5B          .loop: 		ld	e,e			; fill vertical lines
+433   832D 73          		ld	(hl),e
+434   832E 40          		ld	b,b
+435   832F 23          		inc	hl
+436   8330 0B          		dec	bc
+437   8331 78          		ld	a,b
+438   8332 B1          		or	c
+439   8333 20 F7       		jr	nz,.loop
+440   8335 FB          		ei
+441   8336 C1          		pop	bc
+442   8337 78          		ld	a,b
+443   8338 D3 A2       		out	(cpu_w1),a
+444   833A 79          		ld	a, c
+445   833B D3 89       		out	(port_y), a		; restore modify ports
+446   833D C9          		ret
+447   833E             
+448   833E             ;[]=======================================================================[]
+449   833E             HelpString: 
+450   833E 0D 0A       		db	cr,lf
+451   8340             		db	"The 256color! Mini demo for Sprinter.",cr,lf
+451   8340 54686520323536636F6C6F7221204D696E692064656D6F20666F722053707269
+451   8360 6E7465722E0D0A
+452   8367             		db	"Created by Enin Anton.",cr,lf,0
+452   8367 4372656174656420627920456E696E20416E746F6E2E0D0A00
+453   8380             
+454   8380             code_end: 
+455   8380             
+456   8380             		savebin "256color.exe",start_addr,code_end-start_addr
