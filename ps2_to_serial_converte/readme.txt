@@ -5,7 +5,7 @@ http://www.phantom.sannata.ru/forum//index.php?t=17046
 
 Небольшая объяснительная:
 Сделано в Altium Designed 10.
-Гербера лежат в папке PS_2_COM_Sch_PCB/Project Outputs for Ver1.
-Прошивка лежит в папке PS2_COM_mouse_v.2.2.1.
+Гербера лежат в Project Outputs for Ver1 (архиве PS_2_COM_Sch_PCB.rar).
+Прошивка лежит в архиве  PS2_COM_mouse_v.2.2.1.rar
 USB разъём в данной плате используется только лишь для возможности запитать изделие от USB порта, либо от китайской "зарядки".
 Альтернативно для питания на плату можно распаять "выкидыш" с MOLEX-ом.
