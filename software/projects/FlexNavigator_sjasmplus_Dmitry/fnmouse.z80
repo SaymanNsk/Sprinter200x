@@ -1,0 +1,811 @@
+
+;[]----------------------------------------------------------[]
+ResFire	LD	A,(MouseFlag)
+	OR	A
+	RET	Z
+RsFire1	CALL	TestCMOS
+	LD	C,#03
+	RST	#30
+	OR	A
+	RET	Z
+	JR	RsFire1
+;[]----------------------------------------------------------[]
+;Проверка координат мыши по таблице
+;На вход:
+;	  IX - Адрес таблицы
+TestCoords
+	CALL	TestCMOS
+	LD	C,#03
+	RST	#30
+	EX	AF,AF'
+PrvTabl	LD	BC,#0000
+	LD	A,LX
+	CP	C
+	JR	NZ,TCoord0
+	LD	A,HX
+	CP	B
+	JR	Z,TCoord1
+TCoord0	LD	(PrvTabl+1),IX
+	CALL	ResMInvert
+	LD	BC,ResFire
+	PUSH	BC
+	SUB	A
+	LD	(RunFlag+1),A
+	JR	TCoords
+TCoord1
+	LD	A,#01
+	LD	(RunFlag+1),A
+	EX	AF,AF'
+	OR	A
+	JR	NZ,TCoords
+	PUSH	HL
+PrMousX	LD	BC,#0000
+	OR	A
+	SBC	HL,BC
+	POP	HL
+	JR	NZ,TCoords
+	EX	DE,HL
+	PUSH	HL
+PrMousY	LD	BC,#0000
+	OR	A
+	SBC	HL,BC
+	POP	HL
+	EX	DE,HL
+	RET	Z
+TCoords	LD	(PrMousX+1),HL
+	LD	(PrMousY+1),DE
+CoordLp	LD	C,(IX+#00)
+	LD	B,(IX+#01)
+	OR	A
+	SBC	HL,BC
+	ADD	HL,BC
+	JP	C,NxtCrds
+	LD	C,(IX+#02)
+	LD	B,(IX+#03)
+	SBC	HL,BC
+	ADD	HL,BC
+	JP	NC,NxtCrds
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	OR	A
+	EX	DE,HL
+	SBC	HL,BC
+	ADD	HL,BC
+	EX	DE,HL
+	JP	C,NxtCrds
+	LD	C,(IX+#06)
+	LD	B,(IX+#07)
+	EX	DE,HL
+	SBC	HL,BC
+	ADD	HL,BC
+	EX	DE,HL
+	JP	NC,NxtCrds
+	LD	C,A
+	LD	A,(MouseFlag)
+	OR	A
+	LD	A,C
+	JR	Z,CoordL1
+	BIT	2,(IX+#08)
+	CALL	NZ,SetSelect1
+CoordL1	BIT	3,(IX+#08)
+	CALL	NZ,SetSelect2
+RunFlag	LD	C,#00
+	DEC	C
+	JP	NZ,NxtCrds1
+	LD	C,A
+	LD	A,(MouseFlag)
+	OR	A
+	RET	Z
+	LD	A,C
+	OR	A		;нет огня
+	JR	Z,Execute1
+	BIT	0,A
+	JR	Z,Execute2
+	BIT	0,(IX+#08)
+	CALL	NZ,PushButton
+	CCF 
+	RET	NC
+	OR	A
+	BIT	1,(IX+#08)	;рабочая кнопка
+	RET	NZ
+	LD	C,(IX+#0C)	;запуск	по левой кнопке
+	LD	B,(IX+#0D)
+	LD	A,B
+	OR	C
+	JP	Z,NxtCrds1
+	BIT	5,(IX+#08)	;запуск	без возврата
+	JR	Z,$+3
+	POP	AF
+	PUSH	BC
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+	CALL	ResSelect2
+	OR	A
+	BIT	0,(IX+#09)
+	RET	Z
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+Execute1
+	LD	C,(IX+#0A)	;запуск	без огня
+	LD	B,(IX+#0B)
+	LD	A,B
+	OR	C
+	JR	Z,NxtCrds1
+	BIT	4,(IX+#08)	;запуск	без возврата
+	JR	Z,$+3
+	POP	AF
+	PUSH	BC
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+	CALL	ResSelect2
+	OR	A
+	BIT	7,(IX+#08)
+	RET	Z
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+Execute2
+	LD	C,(IX+#0E)	;запуск	по правой кнопке
+	LD	B,(IX+#0F)
+	LD	A,B
+	OR	C
+	JR	Z,NxtCrds1
+	BIT	6,(IX+#08)	;запуск	без возврата
+	JR	Z,$+3
+	POP	AF
+	PUSH	BC
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+	CALL	ResSelect2
+	OR	A
+	BIT	1,(IX+#09)
+	RET	Z
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+
+NxtCrds	LD	C,A
+	LD	A,(MouseFlag)
+	OR	A
+	LD	A,C
+	JR	Z,NxtCrds0
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+NxtCrds0
+	BIT	3,(IX+#08)
+	CALL	NZ,SetSelect2
+NxtCrds1
+	LD	BC,#0010
+	ADD	IX,BC
+	BIT	7,(IX+#01)	;конец таблицы
+	JP	Z,CoordLp
+	OR	A
+	RET 
+ResMInvert
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	AF
+	LD	BC,#0010
+ResCrds	RES	7,(IX+#09)
+	RES	6,(IX+#09)
+	ADD	IX,BC
+	BIT	7,(IX+#01)
+	JR	Z,ResCrds
+	POP	AF
+	POP	DE
+	POP	HL
+	POP	IX
+	RET 
+SetSelect1
+	BIT	7,(IX+#09)
+	RET	NZ
+	SET	7,(IX+#09)
+	PUSH	AF
+	PUSH	HL
+	PUSH	DE
+	PUSH	IX
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	LD	DE,#804F
+	CALL	InvertRectan
+	POP	IX
+	PUSH	IX
+NxCrds1	LD	BC,#0010
+	ADD	IX,BC
+	BIT	7,(IX+#01)
+	JR	NZ,NxCrds2
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+	JR	NxCrds1
+NxCrds2	POP	IX
+	POP	DE
+	POP	HL
+	POP	AF
+	RET 
+ResSelect1
+	BIT	7,(IX+#09)
+	RET	Z
+	RES	7,(IX+#09)
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	LD	DE,#4F80
+	CALL	InvertRectan
+	POP	DE
+	POP	HL
+	POP	IX
+	RET 
+SetSelect2
+	BIT	6,(IX+#09)
+	RET	NZ
+	SET	6,(IX+#09)
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	AF
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	LD	DE,#804F
+	CALL	InvertRectan
+	POP	AF
+	POP	DE
+	POP	HL
+	POP	IX
+	RET 
+ResSelect2
+	PUSH	HL
+	PUSH	DE
+	PUSH	IX
+	LD	IX,(PrvTabl+1)
+	LD	BC,#0010
+NxCrds3	BIT	3,(IX+#08)
+	JR	NZ,ResSel22
+	ADD	IX,BC
+	BIT	7,(IX+#01)
+	JR	NZ,ResSel2E
+	JR	NxCrds3
+ResSel22
+	BIT	6,(IX+#09)
+	JR	Z,ResSel2E
+	RES	6,(IX+#09)
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	LD	DE,#4F80
+	CALL	InvertRectan
+ResSel2E
+	POP	IX
+	POP	DE
+	POP	HL
+	RET 
+
+PushButton
+	PUSH	HL
+	PUSH	DE
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	E,(IX+#04)
+	LD	D,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	LD	C,A
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	B,A
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	CALL	PutPushBut
+	LD	A,#0A
+	LD	(PausePh+1),A
+PushLp	PUSH	IX
+	CALL	TestRun
+	POP	IX
+PushLp1	LD	C,#03
+	RST	#30
+	OR	A
+	JR	Z,PushButtEx
+	BIT	0,A
+	JR	Z,PushButtEx
+	LD	C,(IX+#00)
+	LD	B,(IX+#01)
+	OR	A
+	SBC	HL,BC
+	ADD	HL,BC
+	JR	C,PushButtEx
+	LD	C,(IX+#02)
+	LD	B,(IX+#03)
+	SBC	HL,BC
+	ADD	HL,BC
+	CCF 
+	JR	C,PushButtEx
+	EX	DE,HL
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	OR	A
+	SBC	HL,BC
+	ADD	HL,BC
+	JR	C,PushButtEx
+	LD	C,(IX+#06)
+	LD	B,(IX+#07)
+	SBC	HL,BC
+	CCF 
+	JR	C,PushButtEx
+PausePh	LD	A,#00
+	OR	A
+	JR	Z,PushLp
+	DEC	A
+	LD	(PausePh+1),A
+	HALT 
+	JR	PushLp1
+PushButtEx
+	POP	BC
+	POP	DE
+	POP	HL
+	PUSH	AF
+	CALL	PutPopBut
+	POP	AF
+	POP	DE
+	POP	HL
+	RET 
+TestRun
+	BIT	1,(IX+#08)
+	RET	Z
+	LD	C,(IX+#0C)
+	LD	B,(IX+#0D)
+	PUSH	BC
+	RET 
+PutPushBut
+	LD	A,#F7
+	JR	PutButt
+PutPopBut
+	LD	A,#7F
+PutButt	PUSH	IY
+	EX	AF,AF'
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	IN	A,(YPORT)
+	PUSH	AF
+	SRL	H
+	RR	L
+	SET	6,H
+	LD	LY,E
+	SRL	C
+	DEC	C
+	DEC	C
+	LD	A,C
+	LD	(ButLen3+1),A
+	LD	A,B
+	SUB	#02
+	LD	(ButLen1+1),A
+	LD	(ButLen2+1),A
+	ADD	A,LY
+	INC	A
+	LD	HY,A
+	EX	AF,AF'
+	PUSH	AF
+	AND	#F0
+	LD	E,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	OR	E
+	LD	D,A
+	POP	AF
+	AND	#0F
+	LD	E,A
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	E
+	LD	E,A
+	DI 
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	D,D
+ButLen1	LD	A,#00
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),E
+	INC	HL
+	LD	D,D
+ButLen3	LD	A,#00
+	LD	B,B
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	LD	A,HY
+	OUT	(YPORT),A
+	LD	C,C
+	LD	(HL),D
+	LD	B,B
+	LD	B,#00
+	ADD	HL,BC
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	(HL),D
+	INC	A
+	OUT	(YPORT),A
+	LD	D,D
+ButLen2	LD	A,#00
+	LD	E,E
+	LD	(HL),D
+	LD	B,B
+	LD	(HL),D
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	POP	AF
+	OUT	(PAGE1),A
+	POP	IY
+	RET 
+;[]----------------------------------------------------------[]
+SetCMOSPrint
+	EX	AF,AF'
+	LD	(CMOSposXT),HL
+	LD	(CMOSposYT),DE
+	LD	A,B
+	LD	(CMOSColorT),A
+	SUB	A
+	LD	L,A
+	LD	H,A
+	LD	(CMOSPrint),A
+	LD	(CMOSTime),HL
+	LD	(CMOSTime+2),A
+	LD	(CMOSData),HL
+	LD	(CMOSData+2),A
+	LD	HL,CMOSTimeT
+	LD	DE,CMOSDataT
+	LD	A,"0"
+	LD	B,#03
+	LD	(HL),A
+	INC	HL
+	LD	(HL),A
+	INC	HL
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	LD	(DE),A
+	INC	DE
+	INC	DE
+	DJNZ	$-10
+	EX	AF,AF'
+	LD	(CMOSOut),A
+	OR	A
+	JR	Z,TestCMOS
+	EXX 
+	LD	(CMOSposXD),HL
+	LD	(CMOSposYD),DE
+	LD	A,B
+	LD	(CMOSColorD),A
+	EXX 
+	JR	TestCMOS
+ResCMOSPrint
+	LD	A,#01
+	LD	(CMOSPrint),A
+	RET 
+TestCMOS
+	LD	A,(CMOSFlag)
+	OR	A
+	RET	Z
+	LD	A,(CMOSPrint)
+	OR	A
+	RET	NZ
+	PUSH	IX
+	HALT 
+	DI 
+	LD	C,#21
+	RST	#10
+	EI 
+	PUSH	DE
+	PUSH	IX
+	EX	DE,HL
+	LD	HL,(CMOSTime)
+	OR	A
+	SBC	HL,DE
+	JR	NZ,PrnCMOSTime
+	LD	A,(CMOSTime+2)
+	CP	B
+	JR	Z,TCMOS1
+PrnCMOSTime
+	EX	DE,HL
+	LD	(CMOSTime),HL
+	LD	A,B
+	LD	(CMOSTime+2),A
+	LD	DE,CMOSTimeT
+	LD	A,H
+	CALL	GetCMOS
+	INC	DE
+	LD	A,L
+	CALL	GetCMOS
+	INC	DE
+	LD	A,(CMOSTime+2)
+	CALL	GetCMOS
+	LD	HL,CMOSTimeT
+	LD	DE,(CMOSposXT)
+	LD	BC,(CMOSposYT)
+	LD	A,(CMOSColorT)
+	CALL	PrnTxtLnIFF
+TCMOS1	POP	IX
+	POP	DE
+	LD	A,(CMOSOut)
+	OR	A
+	JP	Z,TCMOSex
+	PUSH	IX
+	POP	HL
+	LD	BC,1900
+	OR	A
+	SBC	HL,BC
+	LD	B,L
+	LD	HL,(CMOSData)
+	OR	A
+	SBC	HL,DE
+	JR	NZ,PrnCMOSData
+	LD	A,(CMOSData+2)
+	CP	B
+	JP	Z,TCMOSex
+PrnCMOSData
+	EX	DE,HL
+	LD	(CMOSData),HL
+	LD	A,B
+	LD	(CMOSData+2),A
+	LD	DE,CMOSDataT
+	LD	A,H
+	CALL	GetCMOS
+	INC	DE
+	LD	A,L
+	CALL	GetCMOS
+	INC	DE
+	LD	A,(CMOSData+2)
+	CALL	GetCMOS
+	LD	A,(CMOSOut)
+	DEC	A
+	JR	NZ,TCMOS2
+	LD	HL,CMOSDataT
+	LD	DE,(CMOSposXD)
+	LD	BC,(CMOSposYD)
+	LD	A,(CMOSColorD)
+	CALL	PrnTxtLnIFF
+	JR	TCMOSex
+TCMOS2	LD	DE,CMOSDataT1
+	LD	A,H
+	CALL	ConvNumTxt8
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	LD	A,L
+	DEC	A
+	ADD	A,A
+	LD	L,A
+	ADD	A,A
+	ADD	A,L
+	LD	HL,Month
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,#20
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	INC	DE
+	PUSH	IX
+	POP	HL
+	CALL	ConvNumTxt16
+	SUB	A
+	LD	(DE),A
+	LD	HL,(CMOSposXD)
+	LD	(CMOSclX),HL
+	LD	HL,(CMOSposYD)
+	LD	(CMOSclY),HL
+	LD	A,(CMOSColorD)
+	AND	#F0
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	LD	(CMOScol),A
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02
+CMOSclX	DEFW	#0000
+CMOSclY	DEFW	#0000
+	DEFW	#004C
+	DEFW	#0008
+CMOScol	DEFB	#00
+	DEFB	#00
+	LD	HL,CMOSDataT1
+	LD	DE,(CMOSposXD)
+	LD	BC,(CMOSposYD)
+	LD	A,(CMOSColorD)
+	CALL	PrnTxtLnIFF
+TCMOSex	POP	IX
+	RET 
+CMOSPrint
+	DEFB	#01
+CMOSOut
+	DEFB	#00
+CMOSposXT
+	DEFW	#0000
+CMOSposYT
+	DEFW	#0000
+CMOSColorT
+	DEFB	#00
+CMOSTime
+	DEFS	3,0
+CMOSTimeT
+	DEFB	"00:00:00",0
+CMOSposXD
+	DEFW	#0000
+CMOSposYD
+	DEFW	#0000
+CMOSColorD
+	DEFB	#00
+CMOSData
+	DEFS	3,0
+CMOSDataT
+	DEFB	"00/00/00",0
+CMOSDataT1
+	DEFS	14," "
+GetCMOS
+	EX	DE,HL
+	LD	BC,#2F0A
+	INC	B
+	SUB	C
+	JR	NC,$-2
+	ADD	A,C
+	LD	(HL),B
+	INC	HL
+	ADD	A,"0"
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	RET 
+Month
+	DEFB	"Jan   "
+	DEFB	"Febr  "
+	DEFB	"March "
+	DEFB	"Apr   "
+	DEFB	"May   "
+	DEFB	"June  "
+	DEFB	"July  "
+	DEFB	"Aug   "
+	DEFB	"Sept  "
+	DEFB	"Oct   "
+	DEFB	"Nov   "
+	DEFB	"Dec   "
+;[]----------------------------------------------------------[]
+SetClock
+	LD	A,(MouseFlag)
+	OR	A
+	RET	Z
+	PUSH	IY
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	IX,ClockBMP
+	LD	HL,#0E09
+	LD	DE,#0704
+	LD	C,#09
+	RST	#30
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	POP	IY
+	HALT 
+	RET 
+ClockBMP
+	DEFB	#00,#00,#00,#00,#00,#00,#00,#00,#00
+	DEFB	#00,#FE,#FE,#FE,#FE,#FE,#FE,#FE,#00
+	DEFB	#00,#00,#00,#00,#00,#00,#00,#00,#00
+	DEFB	#FF,#00,#FE,#FE,#FE,#FE,#FE,#00,#FF
+	DEFB	#FF,#00,#FE,#FE,#FE,#00,#FE,#00,#FF
+	DEFB	#FF,#FF,#00,#FE,#F0,#FE,#00,#FF,#FF
+	DEFB	#FF,#FF,#FF,#00,#FE,#00,#FF,#FF,#FF
+	DEFB	#FF,#FF,#FF,#00,#FE,#00,#FF,#FF,#FF
+	DEFB	#FF,#FF,#00,#FE,#F0,#FE,#00,#FF,#FF
+	DEFB	#FF,#00,#FE,#FE,#FE,#00,#FE,#00,#FF
+	DEFB	#FF,#00,#FE,#FE,#FE,#FE,#FE,#00,#FF
+	DEFB	#00,#00,#00,#00,#00,#00,#00,#00,#00
+	DEFB	#00,#FE,#FE,#FE,#FE,#FE,#FE,#FE,#00
+	DEFB	#00,#00,#00,#00,#00,#00,#00,#00,#00
+SetMouse
+	LD	A,(MouseFlag)
+	OR	A
+	RET	Z
+	PUSH	IY
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	IX,MouseBMP
+	LD	HL,#0D09
+	LD	DE,#0000
+	LD	C,#09
+	RST	#30
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	POP	IY
+	HALT 
+	RET 
+MouseBMP
+	DEFB	#00,#00,#FF,#FF,#FF,#FF,#FF,#FF,#FF
+	DEFB	#00,#FE,#00,#FF,#FF,#FF,#FF,#FF,#FF
+	DEFB	#00,#FE,#FE,#00,#FF,#FF,#FF,#FF,#FF
+	DEFB	#00,#FE,#FE,#FE,#00,#FF,#FF,#FF,#FF
+	DEFB	#00,#FE,#FE,#FE,#FE,#00,#FF,#FF,#FF
+	DEFB	#00,#FE,#FE,#FE,#FE,#FE,#00,#FF,#FF
+	DEFB	#00,#FE,#FE,#FE,#FE,#FE,#FE,#00,#FF
+	DEFB	#00,#FE,#FE,#FE,#FE,#00,#00,#00,#00
+	DEFB	#00,#FE,#FE,#00,#FE,#00,#FF,#FF,#FF
+	DEFB	#00,#FE,#00,#00,#FE,#FE,#00,#FF,#FF
+	DEFB	#00,#00,#FF,#FF,#00,#FE,#00,#FF,#FF
+	DEFB	#00,#FF,#FF,#FF,#00,#FE,#FE,#00,#FF
+	DEFB	#FF,#FF,#FF,#FF,#FF,#00,#00,#FF,#FF
+
+

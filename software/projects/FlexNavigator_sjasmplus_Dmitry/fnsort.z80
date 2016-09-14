@@ -1,0 +1,657 @@
+
+;[]----------------------------------------------------------[]
+ReadDIR
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,ReadTree
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	SUB	A
+	LD	(IY+PanelFFl),A	     ;First pag
+	LD	(IY+PanelFFh),A
+	LD	(IY+PanelCFl),A	     ;Current f
+	LD	(IY+PanelCFh),A
+	LD	(IY+PanelEFl),A	     ;Equip fil
+	LD	(IY+PanelEFh),A
+	LD	(IY+PanelMFl),A	     ;Equip mark files
+	LD	(IY+PanelMFh),A
+	LD	(IY+PanelMBl1),A      ;Equip mark bytes
+	LD	(IY+PanelMBh1),A
+	LD	(IY+PanelMBl2),A      ;Equip mark bytes
+	LD	(IY+PanelMBh2),A
+	PUSH	IY
+	POP	HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	BIT	5,(IY+SortFlg)
+	JR	NZ,$+5
+	LD	HL,NORMmask
+	LD	DE,FILEmask
+	LD	C,#0D
+	LDIR 
+	LD	IX,#0000
+	LD	HL,#C000
+	LD	(AdrNxtFile),HL
+	LD	B,#08
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	CALL	FindFILES
+	LD	E,LX
+	LD	D,HX
+	LD	HL,(AdrNxtFile)
+	LD	B,#08
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	POP	AF
+	OUT	(#E2),A
+	LD	(IY+PanelEFl),E	     ;Equip fil
+	LD	(IY+PanelEFh),D
+	LD	A,(IY+SortFlg)
+	AND	#0F
+	CALL	NZ,SortDIR
+	RET 
+AdrNxtFile
+	DEFW	#0000
+FileAtribut
+	DEFB	#37
+NORMmask
+	DEFB	"*.*"
+	DEFS	10,0
+FILEmask
+	DEFS	#0D,0
+FindFILES
+	BIT	5,(IY+SortFlg)
+	JR	NZ,FindFILESm
+	LD	HL,FILEmask
+	LD	DE,WorkBuffer
+	LD	BC,#0019
+	LD	A,(FileAtribut)
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	RET	C
+FndFILE	CALL	InsFileInfo
+	RET	C
+	LD	DE,WorkBuffer
+	LD	BC,#001A
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	JR	NC,FndFILE
+	RET 
+FindFILESm
+	LD	HL,NORMmask
+	LD	DE,WorkBuffer
+	LD	BC,#0019
+	LD	A,(FileAtribut)
+	AND	%00010111
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	RET	C
+FFILEm1	LD	A,(WorkBuffer+32)
+	BIT	4,A
+	CALL	NZ,InsFileInfo
+	RET	C
+	LD	DE,WorkBuffer
+	LD	BC,#001A
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	JR	NC,FFILEm1
+	LD	HL,FILEmask
+	LD	DE,WorkBuffer
+	LD	BC,#0019
+	LD	A,(FileAtribut)
+	AND	%11100111
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	RET	C
+FFILEm2	CALL	InsFileInfo
+	RET	C
+	LD	DE,WorkBuffer
+	LD	BC,#001A
+	PUSH	IY
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	POP	IY
+	JR	NC,FFILEm2
+	RET 
+InsFileInfo
+	EX	DE,HL
+	LD	HL,(AdrNxtFile)
+	LD	BC,#0018
+	ADD	HL,BC
+	SBC	HL,BC
+	EX	DE,HL
+	RET	C
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	PUSH	HL
+	LD	BC,32
+	ADD	HL,BC
+	LD	B,(HL)
+	INC	HL
+	LD	A,B
+	EX	AF,AF'
+	LD	A,(HL)
+	INC	HL
+	LD	C,(HL)
+	DEC	HL
+	CP	"."
+	JR	NZ,InsF1
+	LD	A,#20
+	SUB	C
+	JR	NZ,InsF1
+InsFext	POP	HL
+	OR	A
+	RET 
+InsF1	BIT	4,B
+	JR	NZ,InsF2
+	OR	A
+	BIT	4,(IY+SortFlg)
+	CALL	NZ,TestExe
+	JR	C,InsFext
+	LD	B,#08
+	LD	A,(HL)
+	CALL	CorrBigChar
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	$-7
+	LD	A,#01
+	LD	(DE),A
+	INC	DE
+	LD	B,#03
+	LD	A,(HL)
+	CALL	CorrBigChar
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	$-7
+	JR	InsF3
+InsF2	LDI 
+	LDI 
+	LDI 
+	LDI 
+	LDI 
+	LDI 
+	LDI 
+	LDI 
+	LD	A,#01
+	LD	(DE),A
+	INC	DE
+	LDI 
+	LDI 
+	LDI 
+InsF3	SUB	A
+	LD	(DE),A
+	INC	DE
+	EX	AF,AF'
+	LD	(DE),A
+	INC	DE
+	POP	HL
+	PUSH	HL
+	LD	BC,28
+	ADD	HL,BC
+	LDI 
+	LDI 
+	LDI 
+	LDI 
+	POP	HL
+	PUSH	HL
+	LD	C,24
+	ADD	HL,BC
+	LD	A,(HL)
+	AND	#1F		;Число
+	LD	(DE),A
+	INC	DE
+	LD	C,(HL)
+	INC	HL
+	LD	B,(HL)
+       DUP     #05
+	SRL	B
+	RR	C
+       EDUP 
+	LD	A,C
+	AND	#0F		;Месяц
+	LD	(DE),A
+	INC	DE
+	LD	A,(HL)
+	SRL	A
+	ADD	A,80
+	SUB	100
+	JR	NC,$-2
+	ADD	A,100		;Год
+	LD	(DE),A
+	INC	DE
+	POP	HL
+	LD	BC,22
+	ADD	HL,BC
+	LD	C,(HL)
+	INC	HL
+	LD	B,(HL)
+	LD	A,B
+	AND	#F8
+	RRA 
+	RRA 
+	RRA 
+	LD	(DE),A		;Часы
+	INC	DE
+       DUP     #05
+	SRL	B
+	RR	C
+       EDUP 
+	LD	A,C
+	AND	#3F
+	LD	(DE),A		;Минуты
+	INC	DE
+	LD	(AdrNxtFile),DE
+	INC	IX
+	RET 
+
+TestExe	PUSH	HL
+	LD	A,L
+	ADD	A,8
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	INC	HL
+	CP	"E"
+	JR	NZ,TestExe1
+	LD	A,(HL)
+	INC	HL
+	CP	"X"
+	JR	NZ,TestExe1
+	LD	A,(HL)
+	CP	"E"
+	JR	NZ,TestExe1
+	POP	HL
+	OR	A
+	RET 
+TestExe1
+	POP	HL
+	PUSH	HL
+	LD	A,L
+	ADD	A,8
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	INC	HL
+	CP	"T"
+	JR	NZ,TestExeC
+	LD	A,(HL)
+	INC	HL
+	CP	"R"
+	JR	NZ,TestExeC
+	LD	A,(HL)
+	CP	"D"
+	JR	NZ,TestExeC
+	POP	HL
+	OR	A
+	RET 
+TestExeC
+	POP	HL
+	SCF 
+	RET 
+;Процедура коррекции буквы к маленькой букве
+CorrBigChar
+	CP	#41
+	RET	C
+	CP	#5B
+	JR	NC,CorrCh1
+	SET	5,A
+	RET 
+CorrCh1	CP	#80
+	RET	C
+	CP	#A0
+	RET	NC
+	ADD	A,#20
+	CP	#B0
+	RET	C
+	ADD	A,#30
+	RET 
+;Процедура коррекции буквы к большой букве
+CorrSmallChar
+	CP	#61
+	RET	C
+	CP	#7B
+	JR	NC,CorrCh2
+	RES	5,A
+	RET 
+CorrCh2	CP	#A0
+	RET	C
+	CP	#B0
+	JR	NC,CorrCh3
+	SUB	#20
+	RET 
+CorrCh3	CP	#E0
+	RET	C
+	SUB	#50
+	RET 
+;[]----------------------------------------------------------[]
+SortDIR
+	IN	A,(PAGE1)
+	LD	C,A
+	IN	A,(PAGE3)
+	LD	B,A
+	PUSH	BC
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,(BuffPg3)
+	OUT	(PAGE3),A
+	LD	HL,#C000
+	LD	(EndSort),HL
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	LD	(HL),A
+	LD	(BegSort),HL
+	LD	A,(IY+SortFlg)
+	RRA 
+	LD	HL,SortABC
+	JR	C,SortBeg
+	RRA 
+	LD	HL,SortExt
+	JR	C,SortBeg
+	RRA 
+	LD	HL,SortData
+	JR	C,SortBeg
+	LD	HL,SortSize
+SortBeg	LD	(Scall1+1),HL
+	LD	(Scall2+1),HL
+	LD	IX,#4001
+	LD	HL,#4001
+	PUSH	IX
+	PUSH	HL
+SortDIRlp1
+	LD	A,(HL)
+	OR	A
+	JR	Z,SortDIRnxt
+	BIT	4,(IX+#0D)
+	PUSH	HL
+Scall1	CALL	NZ,#0000
+	POP	HL
+	LD	BC,#0018
+	ADD	IX,BC
+	ADD	HL,BC
+	JR	SortDIRlp1
+SortDIRnxt
+	LD	HL,(EndSort)
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	LD	(HL),A
+	LD	(BegSort),HL
+	POP	HL
+	POP	IX
+SortDIRlp2
+	LD	A,(HL)
+	OR	A
+	JR	Z,SortDIRext
+	BIT	4,(IX+#0D)
+	PUSH	HL
+Scall2	CALL	Z,#0000
+	POP	HL
+	LD	BC,#0018
+	ADD	IX,BC
+	ADD	HL,BC
+	JR	SortDIRlp2
+SortDIRext
+	LD	HL,(EndSort)
+	LD	B,#08
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	IN	A,(PAGE1)
+	LD	(BuffPg3),A
+	IN	A,(PAGE3)
+	BIT	0,(IY+PanelFlg)
+	LD	HL,DIRpage1
+	JR	Z,$+5
+	LD	HL,DIRpage2
+	LD	(HL),A
+	POP	BC
+	LD	A,B
+	OUT	(PAGE3),A
+	LD	A,C
+	OUT	(PAGE1),A
+	RET 
+BegSort
+	DEFW	#0000
+EndSort
+	DEFW	#0000
+SortABC
+	EX	DE,HL
+	LD	HL,(BegSort)
+Sabc1	LD	A,(HL)
+	OR	A
+	JP	Z,SortDIRins
+	PUSH	DE
+	PUSH	HL
+	LD	B,12
+Sabc2	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,Sabc3
+	INC	DE
+	INC	HL
+	DJNZ	Sabc2
+Sabc3	POP	HL
+	POP	DE
+	JP	C,SortDIRins
+	LD	BC,#0018
+	ADD	HL,BC
+	JR	Sabc1
+SortExt
+	EX	DE,HL
+	LD	HL,(BegSort)
+Sext1	LD	A,(HL)
+	OR	A
+	JP	Z,SortDIRins
+	PUSH	DE
+	PUSH	HL
+	LD	BC,#0009
+	ADD	HL,BC
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	LD	B,03
+Sext2	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,Sext4
+	INC	DE
+	INC	HL
+	DJNZ	Sext2
+	POP	HL
+	POP	DE
+	PUSH	DE
+	PUSH	HL
+	LD	B,08
+Sext3	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,Sext4
+	INC	DE
+	INC	HL
+	DJNZ	Sext3
+Sext4	POP	HL
+	POP	DE
+	JP	C,SortDIRins
+	LD	BC,#0018
+	ADD	HL,BC
+	JR	Sext1
+SortData
+	EX	DE,HL
+	LD	HL,(BegSort)
+Sdata1	LD	A,(HL)
+	OR	A
+	JP	Z,SortDIRins
+	PUSH	DE
+	PUSH	HL
+	LD	BC,#0014
+	ADD	HL,BC
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	DEC	DE
+	DEC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	DEC	DE
+	DEC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	INC	HL
+	INC	HL
+	INC	HL
+	INC	DE
+	INC	DE
+	INC	DE
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	INC	DE
+	INC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	POP	HL
+	POP	DE
+	PUSH	DE
+	PUSH	HL
+	LD	B,12
+Sdata2	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SdataE
+	INC	DE
+	INC	HL
+	DJNZ	Sdata2
+SdataE	POP	HL
+	POP	DE
+	JR	C,SortDIRins
+	LD	BC,#0018
+	ADD	HL,BC
+	JR	Sdata1
+SortSize
+	EX	DE,HL
+	LD	HL,(BegSort)
+Ssize1	LD	A,(HL)
+	OR	A
+	JR	Z,SortDIRins
+	PUSH	DE
+	PUSH	HL
+	LD	BC,#0011
+	ADD	HL,BC
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SsizeE
+	DEC	DE
+	DEC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SsizeE
+	DEC	DE
+	DEC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SsizeE
+	DEC	DE
+	DEC	HL
+	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SsizeE
+	POP	HL
+	POP	DE
+	PUSH	DE
+	PUSH	HL
+	LD	B,12
+Ssize2	LD	A,(DE)	;(DE) <	(HL)  "C"
+	CP	(HL)	;(DE) >= (HL) "NC"
+	JR	NZ,SsizeE
+	INC	DE
+	INC	HL
+	DJNZ	Ssize2
+SsizeE	POP	HL
+	POP	DE
+	JR	C,SortDIRins
+	LD	BC,#0018
+	ADD	HL,BC
+	JR	Ssize1
+SortDIRins
+	DEC	HL
+	DEC	DE
+	PUSH	DE
+	PUSH	HL
+	EX	DE,HL
+	LD	HL,(EndSort)
+	PUSH	HL
+	OR	A
+	SBC	HL,DE
+	LD	B,H
+	LD	C,L
+	POP	DE
+	LD	HL,#0018
+	ADD	HL,DE
+	LD	(EndSort),HL
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	LD	(HL),A
+	DEC	HL
+	EX	DE,HL
+	LD	A,B
+	OR	C
+	CALL	NZ,MoveBytesUp
+	POP	DE
+	POP	HL
+	LD	BC,#0018
+	LDIR 
+	RET 
+
+

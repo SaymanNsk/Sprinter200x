@@ -1,0 +1,460 @@
+001   0000             		DEVICE ZXSPECTRUM128
+002   0000             		include	"fn_export.inc"
+001+  0000             FNIndef:  EQU 0x0000A7E6
+002+  0000             FunctPg:  EQU 0x0000A7E7
+003+  0000             EntryPoint:  EQU 0x00008600
+004+  0000             
+003   0000             		org	0x80EA
+004   80EA             ;		section	.text
+005   80EA             
+006   80EA 45 58 45    EXEhead: 	db	"EXE"
+007   80ED 00          		db	0			; +3
+008   80EE 16 00       		dw	EntryExec-EXEhead
+009   80F0 00 00       		dw	0x0000			; +4
+010   80F2 F4 02       		dw	EXEend-EntryExec	; +8
+011   80F4 00 00 00 00 		dw	0, 0			; +10
+012   80F8 00 00       		dw	0			; +14
+013   80FA 00 81       		dw	EntryExec		; +16
+014   80FC 00 81       		dw	EntryExec
+015   80FE FF 80       		dw	0x80FF
+016   8100             
+017   8100 F3          EntryExec: 	DI
+018   8101 DD 7E FD    		LD	A, (IX-0x03)		; file handle
+019   8104 32 1A 82    		LD	(.hFile), A		; save
+020   8107 21 23 82    		LD	HL, .copyright_str
+021   810A 0E 5C       		LD	C, 0x5C			; print text
+022   810C D7          		RST	0x10
+023   810D 0E 00       		LD	C, 0x00
+024   810F D7          		RST	0x10
+025   8110 7A          		LD	A, D
+026   8111 B7          		OR	A
+027   8112 20 0A       		JR	NZ, .next1
+028   8114 21 8C 82    		LD	HL, .incor_dos_str
+029   8117 0E 5C       		LD	C, 0x5C			; print text
+030   8119 D7          		RST	0x10
+031   811A 01 41 FF    		LD	BC, 0xFF41
+032   811D D7          		RST	0x10			; exit
+033   811E             .next1
+034   811E 01 3D 06    		LD	BC, 0x063D
+035   8121 D7          		RST	0x10			; need 6 memory pages
+036   8122 30 0A       		JR	NC, .next2		; CY - not enough memory
+037   8124 21 BC 82    		LD	HL, .no_memory_str
+038   8127 0E 5C       		LD	C, 0x5C			; print text
+039   8129 D7          		RST	0x10
+040   812A 01 41 FF    		LD	BC, 0xFF41
+041   812D D7          		RST	0x10			; exit
+042   812E             .next2
+043   812E 32 1B 82    		LD	(.hMem), A		; memory handle
+044   8131 21 1C 82    		LD	HL, .Buffer
+045   8134 0E C5       		LD	C, 0xC5
+046   8136 CF          		RST	0x08			; get memory pages list
+047   8137 3A 1C 82    		LD	A, (.MPg)		; set pages from 0xC000
+048   813A D3 E2       		OUT	(0xE2), A
+049   813C 21 F2 C0    		LD	HL, 0xffff-(FNMainEnd-FNMain)		;FNMAIN
+050   813F 11 0D 3F    		LD	DE, FNMainEnd-FNMain
+051   8142 3A 1A 82    		LD	A, (.hFile)
+052   8145 0E 13       		LD	C, 0x13
+053   8147 D7          		RST	0x10
+054   8148 DA 04 82    		JP	C, .disk_error
+055   814B 21 F2 C0    		LD	HL, 0xffff-(FNMainEnd-FNMain)		;Распаковка FNMAIN
+056   814E 11 00 85    		LD	DE, 0x8500
+057   8151 CD F7 82    		call	UnHrust
+058   8154             
+059   8154 3A 1D 82    		LD	A, (.FPg)
+060   8157 D3 E2       		OUT	(0xE2), A
+061   8159 21 A1 E5    		LD	HL, 0xffff-(FNFuncEnd-FNFunc)		;FNFUNCT
+062   815C 11 5E 1A    		LD	DE, FNFuncEnd-FNFunc
+063   815F 3A 1A 82    		LD	A, (.hFile)
+064   8162 0E 13       		LD	C, 0x13
+065   8164 D7          		RST	0x10
+066   8165 DA 04 82    		JP	C, .disk_error
+067   8168 21 A1 E5    		LD	HL, 0xffff-(FNFuncEnd-FNFunc)		;Распаковка FNFUNCT
+068   816B 11 00 C0    		LD	DE, 0xC000
+069   816E CD F7 82    		call	UnHrust
+070   8171             
+071   8171 3A 1E 82    		LD	A, (.VPg)		;FNVIEW
+072   8174 D3 E2       		OUT	(0xE2), A
+073   8176 21 76 F1    		LD	HL, 0xffff-(FNViewEnd-FNView)
+074   8179 11 89 0E    		LD	DE, FNViewEnd-FNView
+075   817C 3A 1A 82    		LD	A, (.hFile)
+076   817F 0E 13       		LD	C, 0x13
+077   8181 D7          		RST	0x10
+078   8182 DA 04 82    		JP	C, .disk_error
+079   8185 21 76 F1    		LD	HL, 0xffff-(FNViewEnd-FNView)		;Распаковка FNVIEW
+080   8188 11 00 C0    		LD	DE, 0xC000
+081   818B CD F7 82    		call	UnHrust
+082   818E             
+083   818E 3A 1F 82    		LD	A, (.EPg)		;FNEDIT
+084   8191 D3 E2       		OUT	(0xE2), A
+085   8193 21 E5 E9    		LD	HL, 0xffff-(FNEditEnd-FNEdit)
+086   8196 11 1A 16    		LD	DE, FNEditEnd-FNEdit
+087   8199 3A 1A 82    		LD	A, (.hFile)
+088   819C 0E 13       		LD	C, 0x13
+089   819E D7          		RST	0x10
+090   819F DA 04 82    		JP	C, .disk_error
+091   81A2 21 E5 E9    		LD	HL, 0xffff-(FNEditEnd-FNEdit)		;Распаковка FNEDIT
+092   81A5 11 00 C0    		LD	DE, 0xC000
+093   81A8 CD F7 82    		call	UnHrust
+094   81AB             
+095   81AB 3A 20 82    		LD	A, (.HPg)		;FNHELP
+096   81AE D3 E2       		OUT	(0xE2), A
+097   81B0 21 BF F3    		LD	HL, 0xffff-(FNHelpEnd-FNHelp)
+098   81B3 11 40 0C    		LD	DE, FNHelpEnd-FNHelp
+099   81B6 3A 1A 82    		LD	A, (.hFile)
+100   81B9 0E 13       		LD	C, 0x13
+101   81BB D7          		RST	0x10
+102   81BC DA 04 82    		JP	C, .disk_error
+103   81BF 21 BF F3    		LD	HL, 0xffff-(FNHelpEnd-FNHelp)		;Распаковка FNHELP
+104   81C2 11 00 C0    		LD	DE, 0xC000
+105   81C5 CD F7 82    		call	UnHrust
+106   81C8             
+107   81C8 3A 21 82    		LD	A, (.FNPg)		;FNFONT
+108   81CB D3 E2       		OUT	(0xE2), A
+109   81CD 21 48 F0    		LD	HL, 0xffff-(FNFontEnd-FNFont)
+110   81D0 11 B7 0F    		LD	DE, FNFontEnd-FNFont
+111   81D3 3A 1A 82    		LD	A, (.hFile)
+112   81D6 0E 13       		LD	C, 0x13
+113   81D8 D7          		RST	0x10
+114   81D9 DA 04 82    		JP	C, .disk_error
+115   81DC 21 48 F0    		LD	HL, 0xffff-(FNFontEnd-FNFont)		;Распаковка FNFONT
+116   81DF 11 00 C0    		LD	DE, 0xC000
+117   81E2 CD F7 82    		call	UnHrust
+118   81E5             
+119   81E5 3A 1A 82    		LD	A, (.hFile)
+120   81E8 0E 12       		LD	C, 0x12
+121   81EA D7          		RST	0x10			;close file
+122   81EB 3A 1C 82    		LD	A, (.MPg)
+123   81EE D3 E2       		OUT	(0xE2), A
+124   81F0 3A 1B 82    		LD	A, (.hMem)
+125   81F3 32 E6 A7    		LD	(FNIndef), A
+126   81F6 21 1D 82    		LD	HL, .FPg
+127   81F9 11 E7 A7    		LD	DE, FunctPg
+128   81FC 01 05 00    		LD	BC, 0x0005
+129   81FF ED B0       		LDIR
+130   8201 C3 00 86    		JP	EntryPoint
+131   8204             .disk_error: 
+132   8204 3A 1B 82    		LD	A, (.hMem)		; free memory
+133   8207 0E 3E       		LD	C, 0x3E
+134   8209 D7          		RST	0x10
+135   820A 3A 1A 82    		LD	A, (.hFile)
+136   820D 0E 12       		LD	C, 0x12
+137   820F D7          		RST	0x10			; close file
+138   8210 21 E1 82    		LD	HL, .load_err_str
+139   8213 0E 5C       		LD	C, 0x5C			; print text
+140   8215 D7          		RST	0x10
+141   8216 01 41 FF    		LD	BC, 0xFF41
+142   8219 D7          		RST	10h			; exit
+143   821A             
+144   821A 00          .hFile		db	0x00
+145   821B 00          .hMem		db	0x00
+146   821C             .Buffer
+147   821C 00          .MPg		db	0x00
+148   821D 00          .FPg		db	0x00
+149   821E 00          .VPg		db	0x00
+150   821F 00          .EPg		db	0x00
+151   8220 00          .HPg		db	0x00
+152   8221 00          .FNPg		db	0x00
+153   8222 00          		db	0x00
+154   8223             
+155   8223 0D 0A       .copyright_str: 	db	0x0D, 0x0A
+156   8225             		db	"The Flex Navigator, ver 1.10, Copyright (C) 1999 by Enin Anton, St-Petersburg.", 0x0D, 0x0A
+156   8225 54686520466C6578204E6176696761746F722C2076657220312E31302C20436F
+156   8245 7079726967687420284329203139393920627920456E696E20416E746F6E2C20
+156   8265 53742D506574657273627572672E0D0A
+157   8275             		db	"All rights reserved.", 0x0D, 0x0A, 0x00
+157   8275 416C6C207269676874732072657365727665642E0D0A00
+158   828C             .incor_dos_str: 	db	"Incorrect DOS version, need DOS 1.00 or high.", 0x0D, 0x0A, 0x00
+158   828C 496E636F727265637420444F532076657273696F6E2C206E65656420444F5320
+158   82AC 312E3030206F7220686967682E0D0A00
+159   82BC             .no_memory_str: 	db	"Not enough memory to load program.", 0x0D, 0x0A, 0x00
+159   82BC 4E6F7420656E6F756768206D656D6F727920746F206C6F61642070726F677261
+159   82DC 6D2E0D0A00
+160   82E1             .load_err_str: 	db	"Disk loading error.", 0x0D, 0x0A, 0x00
+160   82E1 4469736B206C6F6164696E67206572726F722E0D0A00
+161   82F7             
+162   82F7             ; Распаковщик (DeHrust)
+163   82F7             
+164   82F7 F3          UnHrust		di
+165   82F8 DD 21 F4 FF 		ld	ix,-12
+166   82FC DD 39       		add	ix,sp
+167   82FE D5          		push	de
+168   82FF F9          		ld	sp,hl
+169   8300 C1          		pop	bc
+170   8301 EB          		ex	de,hl
+171   8302 C1          		pop	bc
+172   8303 0B          		dec	bc
+173   8304 09          		add	hl,bc
+174   8305 EB          		ex	de,hl
+175   8306 C1          		pop	bc
+176   8307 0B          		dec	bc
+177   8308 09          		add	hl,bc
+178   8309 ED 52       		sbc	hl,de
+179   830B 19          		add	hl,de
+180   830C 38 02       		jr	c,loc1
+181   830E 54          		ld	d,h
+182   830F 5D          		ld	e,l
+183   8310 ED B8       loc1: 		lddr
+184   8312 EB          		ex	de,hl
+185   8313 DD 56 0B    		ld	d,(ix+11)
+186   8316 DD 5E 0A    		ld	e,(ix+10)
+187   8319 F9          		ld	sp,hl
+188   831A E1          		pop	hl
+189   831B E1          		pop	hl
+190   831C E1          		pop	hl
+191   831D 06 06       		ld	b,6
+192   831F 3B          loc2: 		dec	sp
+193   8320 F1          		pop	af
+194   8321 DD 77 06    		ld	(ix+6),a
+195   8324 DD 23       		inc	ix
+196   8326 10 F7       		djnz	loc2
+197   8328 D9          		exx
+198   8329 16 BF       		ld	d,0BFh
+199   832B 01 10 10    		ld	bc,1010h
+200   832E E1          		pop	hl
+201   832F 3B          loc3: 		dec	sp
+202   8330 F1          		pop	af
+203   8331 D9          		exx
+204   8332 12          loc4: 		ld	(de),a
+205   8333 13          		inc	de
+206   8334 D9          loc5: 		exx
+207   8335 29          loc6: 		add	hl,hl
+208   8336 10 02       		djnz	loc7
+209   8338 E1          		pop	hl
+210   8339 41          		ld	b,c
+211   833A 38 F3       loc7: 		jr	c,loc3
+212   833C 1E 01       		ld	e,1
+213   833E 3E 80       loc8: 		ld	a,80h
+214   8340 29          loc9: 		add	hl,hl
+215   8341 10 02       		djnz	loc10
+216   8343 E1          		pop	hl
+217   8344 41          		ld	b,c
+218   8345 17          loc10: 		rla
+219   8346 38 F8       		jr	c,loc9
+220   8348 FE 03       		cp	3
+221   834A 38 05       		jr	c,loc11
+222   834C 83          		add	a,e
+223   834D 5F          		ld	e,a
+224   834E A9          		xor	c
+225   834F 20 ED       		jr	nz,loc8
+226   8351 83          loc11: 		add	a,e
+227   8352 FE 04       		cp	4
+228   8354 28 5A       		jr	z,loc26
+229   8356 CE FF       		adc	a,0FFh
+230   8358 FE 02       		cp	2
+231   835A D9          		exx
+232   835B 4F          loc12: 		ld	c,a
+233   835C D9          loc13: 		exx
+234   835D 3E BF       		ld	a,0BFh
+235   835F 38 14       		jr	c,loc17
+236   8361 29          loc14: 		add	hl,hl
+237   8362 10 02       		djnz	loc15
+238   8364 E1          		pop	hl
+239   8365 41          		ld	b,c
+240   8366 17          loc15: 		rla
+241   8367 38 F8       		jr	c,loc14
+242   8369 28 05       		jr	z,loc16
+243   836B 3C          		inc	a
+244   836C 82          		add	a,d
+245   836D 30 08       		jr	nc,loc18
+246   836F 92          		sub	d
+247   8370 3C          loc16: 		inc	a
+248   8371 20 0C       		jr	nz,loc20
+249   8373 3E EF       		ld	a,0EFh
+250   8375 0F          loc17: 		rrca
+251   8376 BF          		cp	a
+252   8377 29          loc18: 		add	hl,hl
+253   8378 10 02       		djnz	loc19
+254   837A E1          		pop	hl
+255   837B 41          		ld	b,c
+256   837C 17          loc19: 		rla
+257   837D 38 F8       		jr	c,loc18
+258   837F D9          loc20: 		exx
+259   8380 26 FF       		ld	h,0FFh
+260   8382 28 06       		jr	z,loc21
+261   8384 67          		ld	h,a
+262   8385 3B          		dec	sp
+263   8386 3C          		inc	a
+264   8387 28 0C       		jr	z,loc24
+265   8389 F1          		pop	af
+266   838A 6F          loc21: 		ld	l,a
+267   838B 19          		add	hl,de
+268   838C ED B0       		ldir
+269   838E 18 A4       loc22: 		jr	loc5
+270   8390             		;
+271   8390 D9          loc23: 		exx
+272   8391 CB 0A       		rrc	d
+273   8393 18 A0       		jr	loc6
+274   8395             		;
+275   8395 F1          loc24: 		pop	af
+276   8396 FE E0       		cp	0E0h
+277   8398 38 F0       		jr	c,loc21
+278   839A 07          		rlca
+279   839B A9          		xor	c
+280   839C 3C          		inc	a
+281   839D 28 F1       		jr	z,loc23
+282   839F D6 10       		sub	10h
+283   83A1 6F          loc25: 		ld	l,a
+284   83A2 4F          		ld	c,a
+285   83A3 26 FF       		ld	h,0FFh
+286   83A5 19          		add	hl,de
+287   83A6 ED A0       		ldi
+288   83A8 3B          		dec	sp
+289   83A9 F1          		pop	af
+290   83AA 12          		ld	(de),a
+291   83AB 23          		inc	hl
+292   83AC 13          		inc	de
+293   83AD 7E          		ld	a,(hl)
+294   83AE 18 82       		jr	loc4
+295   83B0             		;
+296   83B0 3E 80       loc26: 		ld	a,80h
+297   83B2 29          loc27: 		add	hl,hl
+298   83B3 10 02       		djnz	loc28
+299   83B5 E1          		pop	hl
+300   83B6 41          		ld	b,c
+301   83B7 8F          loc28: 		adc	a,a
+302   83B8 20 19       		jr	nz,loc31
+303   83BA 38 F6       		jr	c,loc27
+304   83BC 3E FC       		ld	a,0FCh
+305   83BE 18 16       		jr	loc32
+306   83C0             		;
+307   83C0 3B          loc29: 		dec	sp
+308   83C1 C1          		pop	bc
+309   83C2 48          		ld	c,b
+310   83C3 47          		ld	b,a
+311   83C4 3F          		ccf
+312   83C5 18 95       		jr	loc13
+313   83C7             		;
+314   83C7 FE 0F       loc30: 		cp	0Fh
+315   83C9 38 F5       		jr	c,loc29
+316   83CB 20 8E       		jr	nz,loc12
+317   83CD C6 F4       		add	a,0F4h
+318   83CF DD F9       		ld	sp,ix
+319   83D1 18 14       		jr	loc34
+320   83D3             		;
+321   83D3 9F          loc31: 		sbc	a,a
+322   83D4 3E EF       		ld	a,0EFh
+323   83D6 29          loc32: 		add	hl,hl
+324   83D7 10 02       		djnz	loc33
+325   83D9 E1          		pop	hl
+326   83DA 41          		ld	b,c
+327   83DB 17          loc33: 		rla
+328   83DC 38 F8       		jr	c,loc32
+329   83DE D9          		exx
+330   83DF 20 C0       		jr	nz,loc25
+331   83E1 CB 7F       		bit	7,a
+332   83E3 28 E2       		jr	z,loc30
+333   83E5 D6 EA       		sub	0EAh
+334   83E7 EB          loc34: 		ex	de,hl
+335   83E8 D1          loc35: 		pop	de
+336   83E9 73          		ld	(hl),e
+337   83EA 23          		inc	hl
+338   83EB 72          		ld	(hl),d
+339   83EC 23          		inc	hl
+340   83ED 3D          		dec	a
+341   83EE 20 F8       		jr	nz,loc35
+342   83F0 EB          		ex	de,hl
+343   83F1 30 9B       		jr	nc,loc22
+344   83F3 C9          		ret
+345   83F4             
+346   83F4             EXEend: 
+347   83F4             
+348   83F4             		org #8500
+349   8500             FNMain
+350   8500             		insert	"bin\fnmain.hst"
+351   C40D             FNMainEnd
+352   C40D             		org #c000
+353   C000             FNFunc
+354   C000             		insert	"bin\fnfunc.hst"
+355   DA5E             FNFuncEnd
+356   DA5E             		org #c000
+357   C000             FNView
+358   C000             		insert	"bin\fnview.hst"
+359   CE89             FNViewEnd
+360   CE89             		org #c000
+361   C000             FNEdit
+362   C000             		insert	"bin\fnedit.hst"
+363   D61A             FNEditEnd
+364   D61A             		org #c000
+365   C000             FNHelp
+366   C000             		insert	"bin\fnhelp.hst"
+367   CC40             FNHelpEnd
+368   CC40             		org #c000
+369   C000             FNFont
+370   C000             		insert	"bin\fnfont.hst"
+371   CFB7             FNFontEnd
+372   CFB7             
+373   CFB7             
+374   CFB7             		savebin	"bin\fnloader.exe",EXEhead,EXEend-EXEhead
+
+Value    Label
+------ - -----------------------------------------------------------
+0xA7E6   FNIndef
+0xA7E7   FunctPg
+0x8600   EntryPoint
+0x80EA   EXEhead
+0x8100   EntryExec
+0x83F4   EXEend
+0x821A   EntryExec.hFile
+0x8223   EntryExec.copyright_str
+0x811E   EntryExec.next1
+0x828C   EntryExec.incor_dos_str
+0x812E   EntryExec.next2
+0x82BC   EntryExec.no_memory_str
+0x821B   EntryExec.hMem
+0x821C   EntryExec.Buffer
+0x821C   EntryExec.MPg
+0xC40D   FNMainEnd
+0x8500   FNMain
+0x8204   EntryExec.disk_error
+0x82F7   UnHrust
+0x821D   EntryExec.FPg
+0xDA5E   FNFuncEnd
+0xC000   FNFunc
+0x821E   EntryExec.VPg
+0xCE89   FNViewEnd
+0xC000   FNView
+0x821F   EntryExec.EPg
+0xD61A   FNEditEnd
+0xC000   FNEdit
+0x8220   EntryExec.HPg
+0xCC40   FNHelpEnd
+0xC000   FNHelp
+0x8221   EntryExec.FNPg
+0xCFB7   FNFontEnd
+0xC000   FNFont
+0x82E1   EntryExec.load_err_str
+0x8310   loc1
+0x831F   loc2
+0x832F   loc3
+0x8332   loc4
+0x8334   loc5
+0x8335   loc6
+0x833A   loc7
+0x833E   loc8
+0x8340   loc9
+0x8345   loc10
+0x8351   loc11
+0x83B0   loc26
+0x835B   loc12
+0x835C   loc13
+0x8375   loc17
+0x8361   loc14
+0x8366   loc15
+0x8370   loc16
+0x8377   loc18
+0x837F   loc20
+0x837C   loc19
+0x838A   loc21
+0x8395   loc24
+0x838E   loc22
+0x8390   loc23
+0x83A1   loc25
+0x83B2   loc27
+0x83B7   loc28
+0x83D3   loc31
+0x83D6   loc32
+0x83C0   loc29
+0x83C7   loc30
+0x83E7   loc34
+0x83DB   loc33
+0x83E8   loc35

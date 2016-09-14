@@ -1,0 +1,683 @@
+
+;[]==========================================================[]
+MarkFile
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	SET	6,H
+	LD	E,(HL)
+	POP	AF
+	OUT	(PAGE1),A
+	BIT	0,E
+	PUSH	AF
+	CALL	Z,SelectFile
+	POP	AF
+	CALL	NZ,UnSelectFile
+	CALL	CursDown
+	CALL	PrnFileInfo
+	LD	B,#07
+MarkFex	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	1,A
+	RET	Z
+	HALT 
+	DJNZ	MarkFex
+	RET 
+;[]==========================================================[]
+SelectFile
+	LD	LX,#01
+	JR	$+5
+UnSelectFile
+	LD	LX,#00
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	SET	6,H
+	PUSH	HL
+	LD	DE,#000E
+	ADD	HL,DE
+	LD	C,(HL)
+	POP	HL
+	BIT	4,C
+	JR	NZ,MrFile1
+	LD	B,(HL)
+	LD	A,LX
+	LD	(HL),A
+	LD	DE,WorkBuffer
+	PUSH	BC
+	LD	BC,#0018
+	LDIR 
+	POP	BC
+MrFile1	POP	AF
+	OUT	(PAGE1),A
+	BIT	4,C
+	RET	NZ
+	LD	A,B
+	CP	LX
+	RET	Z
+	BIT	0,(IY+ViewFlg)
+	JR	NZ,MarkFull
+	LD	L,(IY+PanelCFl)
+	LD	H,(IY+PanelCFh)
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	BIT	0,(IY+PanelFlg)
+	LD	DE,PositTAB1
+	JR	Z,$+5
+	LD	DE,PositTAB2
+	ADD	HL,DE
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	INC	HL
+	LD	C,(HL)
+	LD	B,#00
+	EX	DE,HL
+	LD	A,LX
+	OR	A
+	PUSH	AF
+	LD	D,InvPCol*#10+InvICol
+	LD	E,InvPCol*#10+InvSCol
+	JR	NZ,$+6
+	LD	D,InvPCol*#10+InvSCol
+	LD	E,InvPCol*#10+InvICol
+	LD	LX,#30
+	LD	HX,#08
+	DEC	HL
+	DEC	HL
+	CALL	InvertRectan
+	POP	AF
+	JR	NZ,MarkExit1
+	JR	MarkExit2
+MarkFull
+	LD	L,(IY+PanelCFl)
+	LD	H,(IY+PanelCFh)
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	BC,#003F
+	ADD	HL,BC
+	LD	C,L
+	LD	B,#00
+	BIT	0,(IY+PanelFlg)
+	LD	HL,#0006
+	JR	Z,$+5
+	LD	HL,#0146
+	LD	A,LX
+	OR	A
+	PUSH	AF
+	LD	D,InvPCol*#10+InvICol
+	LD	E,InvPCol*#10+InvSCol
+	JR	NZ,$+6
+	LD	D,InvPCol*#10+InvSCol
+	LD	E,InvPCol*#10+InvICol
+	LD	LX,#92
+	LD	HX,#08
+	CALL	InvertRectan
+	POP	AF
+	JR	Z,MarkExit2
+MarkExit1
+	LD	IX,WorkBuffer
+	LD	L,(IY+PanelMFl)
+	LD	H,(IY+PanelMFh)
+	INC	HL
+	LD	(IY+PanelMFl),L
+	LD	(IY+PanelMFh),H
+	LD	L,(IX+#0F)
+	LD	H,(IX+#10)
+	LD	E,(IY+PanelMBl1)
+	LD	D,(IY+PanelMBh1)
+	ADD	HL,DE
+	LD	(IY+PanelMBl1),L
+	LD	(IY+PanelMBh1),H
+	LD	L,(IX+#11)
+	LD	H,(IX+#12)
+	LD	E,(IY+PanelMBl2)
+	LD	D,(IY+PanelMBh2)
+	ADC	HL,DE
+	LD	(IY+PanelMBl2),L
+	LD	(IY+PanelMBh2),H
+	RET 
+MarkExit2
+	LD	IX,WorkBuffer
+	LD	L,(IY+PanelMFl)
+	LD	H,(IY+PanelMFh)
+	DEC	HL
+	LD	(IY+PanelMFl),L
+	LD	(IY+PanelMFh),H
+	LD	L,(IY+PanelMBl1)
+	LD	H,(IY+PanelMBh1)
+	LD	E,(IX+#0F)
+	LD	D,(IX+#10)
+	OR	A
+	SBC	HL,DE
+	LD	(IY+PanelMBl1),L
+	LD	(IY+PanelMBh1),H
+	LD	L,(IY+PanelMBl2)
+	LD	H,(IY+PanelMBh2)
+	LD	E,(IX+#11)
+	LD	D,(IX+#12)
+	SBC	HL,DE
+	LD	(IY+PanelMBl2),L
+	LD	(IY+PanelMBh2),H
+	RET 
+;[]==========================================================[]
+UnMarkGroup
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	SUB	A
+	JR	SelectGroup
+MarkGroup
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	A,#01
+SelectGroup
+	LD	(SelMode+2),A
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00D0,#0051
+	DEFW	#00E0,#003E
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00D8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0052,#0003
+	DEFB	#0F
+	DEFB	"Select mask",0
+	DEFB	#04	;UpRectan
+	DEFW	#0020,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#003C,#002D
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#04	;UpRectan
+	DEFW	#0078,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#008C,#002D
+	DEFB	#80
+	DEFB	"Cancel",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0019
+	DEFB	#80
+	DEFB	"Mark mask:",0
+	DEFB	#03	;”глубление
+	DEFW	#0046,#0016
+	DEFW	#0086,#000C
+	DEFB	#02	;Head place
+	DEFW	#0048,#0017
+	DEFW	#0082,#000A
+	DEFB	#0F
+	DEFB	#00
+	LD	IX,SMaskStr
+	LD	HL,SMaskTab
+	CALL	InputLine
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET	C
+	LD	A,(MaskLen)
+	OR	A
+	RET	Z
+	LD	B,A
+	LD	HL,CrSMask
+CorMask	LD	A,(HL)
+	CALL	CorrBigChar
+	LD	(HL),A
+	INC	HL
+	DJNZ	CorMask
+	LD	HL,CrSMask
+	LD	DE,SelMask
+	CALL	MakeMask
+	JR	C,MarkGNext
+	LD	HL,NORMmask
+	LD	DE,CrSMask
+	LD	BC,#000D
+	LDIR 
+	LD	HL,CrSMask
+	LD	DE,SelMask
+	CALL	MakeMask
+	RET 
+MarkGNext
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	IX,#4000
+	LD	HL,#4000
+	LD	DE,SelMask
+	EXX 
+	LD	L,(IY+PanelMBl1)
+	LD	H,(IY+PanelMBh1)
+	LD	E,(IY+PanelMBl2)
+	LD	D,(IY+PanelMBh2)
+	LD	C,(IY+PanelMFl)
+	LD	B,(IY+PanelMFh)
+	EXX 
+	PUSH	IY
+SelMode	LD	LY,#00
+	LD	HY,#00
+Select1	PUSH	DE
+	BIT	4,(IX+#0E)
+	JR	NZ,Select8
+	LD	A,LY
+	CP	(HL)
+	JR	Z,Select8
+	PUSH	HL
+	INC	HL
+	LD	B,08
+Select2	LD	A,(DE)
+	CP	"?"
+	JR	Z,Select3
+	CP	(HL)
+	JR	NZ,Select6
+Select3	INC	HL
+	INC	DE
+	DJNZ	Select2
+	INC	HL
+	LD	B,03
+Select4	LD	A,(DE)
+	CP	"?"
+	JR	Z,Select5
+	CP	(HL)
+	JR	NZ,Select6
+Select5	INC	HL
+	INC	DE
+	DJNZ	Select4
+Select6	POP	HL
+	JR	NZ,Select8
+	LD	HY,#01
+	LD	A,LY
+	LD	(HL),A
+	OR	A
+	JR	Z,Select7
+	EXX 
+	PUSH	BC
+	LD	C,(IX+#0F)
+	LD	B,(IX+#10)
+	ADD	HL,BC
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	EX	DE,HL
+	ADC	HL,BC
+	EX	DE,HL
+	POP	BC
+	INC	BC
+	EXX 
+	JR	Select8
+Select7	EXX 
+	PUSH	BC
+	LD	C,(IX+#0F)
+	LD	B,(IX+#10)
+	OR	A
+	SBC	HL,BC
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	POP	BC
+	DEC	BC
+	EXX 
+Select8	LD	DE,#0018
+	ADD	HL,DE
+	ADD	IX,DE
+	POP	DE
+	LD	A,(IX+#01)
+	OR	A
+	JR	NZ,Select1
+	LD	A,HY
+	EX	AF,AF'
+	POP	IY
+	POP	AF
+	OUT	(PAGE1),A
+	EXX 
+	LD	(IY+PanelMBl1),L
+	LD	(IY+PanelMBh1),H
+	LD	(IY+PanelMBl2),E
+	LD	(IY+PanelMBh2),D
+	LD	(IY+PanelMFl),C
+	LD	(IY+PanelMFh),B
+	EXX 
+	EX	AF,AF'
+	OR	A
+	RET	Z
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	RET 
+SMaskStr
+	DEFB	#0C,#00,#00,#00
+MaskLen	DEFB	#03
+	DEFW	#011A,#006A
+	DEFW	#0068
+	DEFB	#F0
+CrSMask	DEFB	"*.*"
+	DEFS	10,0
+SelMask
+	DEFB	"???????????"
+MakeMask
+	LD	BC,#0902
+SMaskLp	LD	A,(HL)
+	CP	#21
+	RET	C
+	CP	#22
+	RET	Z
+	CP	"*"
+	JR	Z,SMask1
+	CP	"+"
+	RET	Z
+	CP	","
+	RET	Z
+	CP	"."
+	JR	Z,SMask2
+	CP	"/"
+	RET	Z
+	CP	":"
+	RET	Z
+	CP	";"
+	RET	Z
+	CP	"<"
+	RET	Z
+	CP	"="
+	RET	Z
+	CP	">"
+	RET	Z
+	CP	"["
+	RET	Z
+	CP	"\\"
+	RET	Z
+	CP	"]"
+	RET	Z
+	CP	"|"
+	RET	Z
+	CALL	CorrBigChar
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	SMaskLp
+	AND	A
+	RET 
+SMask1
+	LD	A,"?"
+	INC	HL
+	DJNZ	SMask11
+	AND	A
+	RET 
+SMask11
+	LD	(DE),A
+	INC	DE
+	DJNZ	SMask11
+	INC	B
+	JR	SMaskLp
+SMask2
+	LD	A," "
+	INC	HL
+	DJNZ	SMask21
+	LD	B,#04
+	DEC	C
+	JR	NZ,SMaskLp
+	AND	A
+	RET 
+SMask21
+	LD	(DE),A
+	INC	DE
+	DJNZ	SMask21
+	LD	B,#04
+	DEC	C
+	JR	NZ,SMaskLp
+	AND	A
+	RET 
+;[]==========================================================[]
+SelectAll
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	IX,#4000
+	LD	BC,#0018
+	SUB	A
+	LD	L,A
+	LD	H,L
+	LD	E,L
+	LD	D,H
+	EXX 
+	LD	L,A
+	LD	H,L
+	EXX 
+SelAll0	BIT	4,(IX+#0E)
+	JR	NZ,SelAll1
+	SET	0,(IX+#00)
+	LD	C,(IX+#0F)
+	LD	B,(IX+#10)
+	ADD	HL,BC
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	EX	DE,HL
+	ADC	HL,BC
+	EX	DE,HL
+	EXX 
+	INC	HL
+	EXX 
+	LD	BC,#0018
+SelAll1	ADD	IX,BC
+	LD	A,(IX+#01)
+	OR	A
+	JR	NZ,SelAll0
+	POP	AF
+	OUT	(PAGE1),A
+	EXX 
+	LD	E,(IY+PanelMFl)
+	LD	D,(IY+PanelMFh)
+	OR	A
+	SBC	HL,DE
+	RET	Z
+	ADD	HL,DE
+	LD	(IY+PanelMFl),L
+	LD	(IY+PanelMFh),H
+	EXX 
+	LD	(IY+PanelMBl1),L
+	LD	(IY+PanelMBh1),H
+	LD	(IY+PanelMBl2),E
+	LD	(IY+PanelMBh2),D
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	RET 
+;[]==========================================================[]
+UnSelectAll
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	LD	A,(IY+PanelMFl)
+	OR	(IY+PanelMFh)
+	RET	Z
+	SUB	A
+	LD	(IY+PanelMFl),A	     ;Equip mark files
+	LD	(IY+PanelMFh),A
+	LD	(IY+PanelMBl1),A      ;Equip mark bytes
+	LD	(IY+PanelMBh1),A
+	LD	(IY+PanelMBl2),A      ;Equip mark bytes
+	LD	(IY+PanelMBh2),A
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	HL,#4000
+	LD	BC,#0019
+UnSelA1	RES	0,(HL)
+	ADD	HL,BC
+	LD	A,(HL)
+	DEC	HL
+	OR	A
+	JR	NZ,UnSelA1
+	POP	AF
+	OUT	(PAGE1),A
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	RET 
+;[]==========================================================[]
+InvertSelect
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	IX,#4000
+	LD	DE,#0018
+	LD	B,#00
+	EXX 
+	LD	L,(IY+PanelMBl1)
+	LD	H,(IY+PanelMBh1)
+	LD	E,(IY+PanelMBl2)
+	LD	D,(IY+PanelMBh2)
+	LD	C,(IY+PanelMFl)
+	LD	B,(IY+PanelMFh)
+	EXX 
+InvSel1	BIT	4,(IX+#0E)
+	JR	NZ,InvSel3
+	LD	B,#01
+	LD	A,(IX+#00)
+	XOR	#01
+	LD	(IX+#00),A
+	JR	Z,InvSel2
+	EXX 
+	PUSH	BC
+	LD	C,(IX+#0F)
+	LD	B,(IX+#10)
+	ADD	HL,BC
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	EX	DE,HL
+	ADC	HL,BC
+	EX	DE,HL
+	POP	BC
+	INC	BC
+	EXX 
+	JR	InvSel3
+InvSel2	EXX 
+	PUSH	BC
+	LD	C,(IX+#0F)
+	LD	B,(IX+#10)
+	OR	A
+	SBC	HL,BC
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	POP	BC
+	DEC	BC
+	EXX 
+InvSel3	ADD	IX,DE
+	LD	A,(IX+#01)
+	OR	A
+	JR	NZ,InvSel1
+	POP	AF
+	OUT	(PAGE1),A
+	EXX 
+	LD	(IY+PanelMBl1),L
+	LD	(IY+PanelMBh1),H
+	LD	(IY+PanelMBl2),E
+	LD	(IY+PanelMBh2),D
+	LD	(IY+PanelMFl),C
+	LD	(IY+PanelMFh),B
+	EXX 
+	LD	A,B
+	OR	A
+	RET	Z
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	RET 
+
+

@@ -1,0 +1,1761 @@
+
+;[]==========================================================[]
+PrnASCIIpage
+	LD	HL,PrnASCIIinfo
+	PUSH	HL
+	LD	HL,(PageShift)
+	LD	(TempShift),HL
+	LD	B,#1C
+PrnASCIIlp
+	PUSH	BC
+	CALL	PrnASCIIline   ;Выводим	строку в буф и на экран
+	POP	BC
+	JR	C,FillASCII    ;CY-Закончились байты для печати
+	LD	A,B
+	ADD	A,#08
+	LD	B,A
+	CP	#E4
+	JR	NZ,PrnASCIIlp
+	SUB	A
+	LD	(EmptyLines),A
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	GetString
+	RET 
+;Процедура отчистки нижней области экрана
+FillASCII
+	LD	A,#E4
+	SUB	B
+	LD	(FLenASC),A
+	JR	Z,FASCIIe	;Z-нет отчистки
+	LD	A,B
+	LD	(FPosASC),A
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02	;Head Place
+	DEFW	#0000
+FPosASC	DEFW	#0000
+	DEFW	#0270
+FLenASC	DEFW	#0000
+	DEFB	PanelCol
+	DEFB	#00
+FASCIIe	LD	A,(FLenASC)
+	SRL	A
+	SRL	A
+	SRL	A
+	LD	(EmptyLines),A
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	GetString
+	RET 
+;[]----------------------------------------------------------[]
+RefrASCIIpage
+	LD	HL,PrnASCIIinfo
+	PUSH	HL
+	CALL	ResCursor
+	LD	HL,(PageShift)
+	LD	(TempShift),HL
+	LD	B,#1C
+	LD	C,(IY+CursorY)
+RefrASCIIlp
+	PUSH	BC
+	LD	A,C
+	OR	A
+	JR	NZ,RfASCII
+	CALL	PrnASCIIstring
+	LD	HL,(TempShift)
+	CALL	SearchDown
+	LD	(TempShift),HL
+	JR	$+5
+RfASCII	CALL	PrnASCIIline   ;Выводим	строку в буф и на экран
+	POP	BC
+	RET	C	       ;CY-Закончились байты для печати
+	DEC	C
+	LD	A,B
+	ADD	A,#08
+	LD	B,A
+	CP	#E4
+	JR	NZ,RefrASCIIlp
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура печати тек.строки в буфер и на экран
+PrnASCIIline
+	LD	HX,B
+	LD	C,#F0
+	LD	HL,(FileLenght)
+	LD	DE,(TempShift)
+	OR	A
+	SBC	HL,DE
+	RET	C
+	LD	B,#F0
+	LD	A,H
+	OR	A
+	JR	NZ,PutASCIIln
+	OR	L
+	SCF 
+	RET	Z
+	LD	B,L
+PutASCIIln
+	LD	HL,TempBuffer
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	DE,(TempShift)
+	LD	A,D		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+PutASCIIlnLp
+	BIT	7,D
+	JR	Z,PutLnA1
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutLnA1	LD	A,(DE)
+	INC	DE
+	CP	#0D
+	JR	NZ,PutLineA1
+	BIT	7,D
+	JR	Z,PutLnA2
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutLnA2	LD	A,(DE)
+	CP	#0A
+	JR	NZ,PutLnExitA
+	INC	DE
+	JR	PutLnExitA
+PutLineA1
+	CP	#0A
+	JR	Z,PutLnExitA
+	CP	#09
+	JR	NZ,PutLineA2
+PutTabA	LD	(HL),#20
+	INC	L
+	LD	A,L
+	CP	C
+	JR	Z,PutLnEA1
+	AND	#07
+	JR	NZ,PutTabA
+	JR	PutLineA3-2
+PutLnEA0
+	BIT	7,D
+	JR	Z,PutLEA1
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutLEA1	LD	A,(DE)
+	CP	#0D
+	JR	Z,PutLineA3
+	INC	DE
+	CP	#0A
+	JR	Z,PutLnExitA
+PutLnEA1
+	DJNZ	PutLnEA0
+	JR	PutLineA3
+PutLineA2
+	LD	(HL),A
+	INC	L
+	LD	A,L
+	CP	C
+	JR	Z,PutLineA3
+	DJNZ	PutASCIIlnLp
+PutLineA3
+	BIT	7,D
+	JR	Z,PutLnA3
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutLnA3	LD	A,(DE)
+	CP	#0D
+	JR	NZ,PutLnExitA
+	INC	DE
+	BIT	7,D
+	JR	Z,PutLnA4
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutLnA4	LD	A,(DE)
+	CP	#0A
+	JR	NZ,PutLnExitA
+	INC	DE
+PutLnExitA
+	RES	6,D
+	EXX 
+	LD	A,E
+	EXX 
+	BIT	7,D
+	RES	7,D
+	JR	Z,$+3
+	INC	A
+	RRCA 
+	RRCA 
+	OR	D
+	LD	D,A
+	LD	(TempShift),DE
+	POP	AF
+	OUT	(PAGE1),A
+
+	LD	A,(IY+CursAddX)
+	ADD	A,#4E
+	SUB	L
+	JR	Z,PutLnExA
+	JR	C,PutLnExA
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+PutLnExA
+	LD	L,(IY+CursAddX)
+	LD	H,high TempBuffer
+	LD	DE,#0000
+	LD	B,#4E
+	LD	C,HX
+	LD	A,PanelCol*#10+FileCol
+	CALL	PrnTxtLnNormC
+	OR	A
+	RET 
+;[]==========================================================[]
+PrnASCIIstring
+	LD	HL,TempBuffer
+	LD	DE,LineBuffer
+	LD	A,(IY+LenString)
+	OR	A
+	JR	Z,PrASCIIexit
+	LD	B,A
+	LD	C,#F0
+PrASCIIstr1
+	LD	A,(DE)
+	INC	E
+	CP	#09
+	JR	NZ,PrASCIIstr2
+PutTabS	LD	(HL),#20
+	INC	L
+	LD	A,L
+	CP	C
+	JR	Z,PrASCIIexit
+	AND	#07
+	JR	NZ,PutTabS
+	JR	PrASCIIstr3
+PrASCIIstr2
+	LD	(HL),A
+	INC	L
+PrASCIIstr3
+	DJNZ	PrASCIIstr1
+PrASCIIexit
+	LD	A,(IY+CursAddX)
+	ADD	A,#4E
+	SUB	L
+	JR	Z,PrASCIIex1
+	JR	C,PrASCIIex1
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+PrASCIIex1
+	CALL	ResCursor
+	LD	L,(IY+CursAddX)
+	LD	H,high TempBuffer
+	LD	DE,#0000
+	LD	B,#4E
+	LD	A,(IY+CursorY)
+	ADD	A,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,#1C
+	LD	C,A
+	LD	A,PanelCol*#10+FileCol
+	CALL	PrnTxtLnNormC
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	RET 
+;[]==========================================================[]
+SearchUp
+	LD	B,#F0
+	LD	A,H
+	OR	A
+	JR	NZ,SearchUpBeg
+	OR	L
+	SCF 
+	RET	Z
+	LD	B,L
+SearchUpBeg
+	PUSH	HL
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,H		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	LD	E,A
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	LD	C,#00
+	LD	LX,C
+
+	INC	C
+	DEC	B
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp0
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp0	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchUp1+1
+	LD	A,B
+	OR	A
+	JR	Z,SrchUpEx
+	INC	C
+	DEC	B
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp1
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp1	LD	A,(HL)
+	CP	#0D
+	JR	Z,SearchUpLp
+	DEC	C
+	INC	B
+	INC	HL
+	BIT	7,H
+	JR	Z,SearchUpLp1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	JR	SearchUpLp1
+SearchUpLp
+	LD	A,B
+	OR	A
+	JR	Z,SrchUpEx
+SearchUpLp1
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp2
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp2	LD	A,(HL)
+	CP	#0A
+	JR	Z,SrchUpEx
+	CP	#0D
+	JR	Z,SrchUpEx
+	INC	LX
+	INC	C
+	DJNZ	SearchUpLp1
+SrchUpEx
+	POP	AF
+	OUT	(PAGE1),A
+	POP	HL
+	LD	B,#00
+	OR	A
+	SBC	HL,BC
+	RET 
+;[]----------------------------------------------------------[]
+SearchDown
+	LD	B,#F0
+	EX	DE,HL
+	LD	HL,(FileLenght)
+	OR	A
+	SBC	HL,DE
+	EX	DE,HL
+	RET	C
+	LD	A,D
+	OR	A
+	JR	NZ,SearchDnBeg
+	OR	E
+	SCF 
+	RET	Z
+	LD	B,E
+SearchDnBeg
+	PUSH	HL
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,H		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	LD	E,A
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	LD	C,#00
+	DEC	HL
+SearchDnLp
+	INC	C
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDn0
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDn0	LD	A,(HL)
+	CP	#0D
+	JR	NZ,SrchE1
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDn1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDn1	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchEEx
+	INC	C
+	JR	SrchEEx
+
+SrchE1	CP	#0A
+	JR	Z,SrchEEx
+	DJNZ	SearchDnLp
+
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDnE
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDnE	LD	A,(HL)
+	CP	#0D
+	JR	NZ,SrchEEx
+	INC	C
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDE1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDE1	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchEEx
+	INC	C
+SrchEEx	POP	AF
+	OUT	(PAGE1),A
+	POP	HL
+	LD	B,#00
+	ADD	HL,BC
+	RET 
+;[]==========================================================[]
+GetString
+	LD	HL,(FileLenght)
+	LD	DE,(LineShift)
+	OR	A
+	SBC	HL,DE
+	RET	C
+	LD	B,#F0
+	LD	C,B
+	LD	A,H
+	OR	A
+	JR	NZ,GetLine
+	LD	B,L
+
+GetLine	LD	HL,LineBuffer
+	LD	A,B
+	OR	A
+	JR	Z,GetLnE1
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	DE,(LineShift)
+	LD	A,D		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+GetLnLoop
+	BIT	7,D
+	JR	Z,GetLn1
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+GetLn1	LD	A,(DE)
+	INC	DE
+	CP	#0D
+	JR	Z,GetLnExit
+	CP	#0A
+	JR	Z,GetLnExit
+	LD	(HL),A
+	INC	L
+	DJNZ	GetLnLoop
+GetLnExit
+	POP	AF
+	OUT	(PAGE1),A
+GetLnE1	SUB	A
+	LD	(IY+ReadyStr),A
+	LD	A,L
+	LD	(IY+LenString),A
+	LD	(IY+PrvLenStr),A
+	SUB	(IY+StringX)
+	RET	NC
+	NEG 
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+	LD	A,(IY+StringX)
+	LD	(IY+LenString),A
+	RET 
+;[]----------------------------------------------------------[]
+PutString
+	LD	A,(IY+ReadyStr)
+	OR	A
+	RET	Z
+	LD	A,(IY+LenString)
+	OR	A
+	JR	Z,PutStr2
+	LD	L,A
+	LD	H,high LineBuffer
+PutStr1	DEC	L
+	LD	A,#20
+	CP	(HL)
+	JR	NZ,PutStr2
+	DEC	(IY+LenString)
+	LD	A,L
+	OR	A
+	JR	NZ,PutStr1
+PutStr2	LD	A,#C0
+	OUT	(YPORT),A
+	LD	A,(IY+PrvLenStr)
+	SUB	(IY+LenString)
+	CALL	NZ,CorrectFile
+PutStrN	SUB	A
+	LD	(IY+ReadyStr),A
+	LD	HL,LineBuffer
+	LD	A,(IY+LenString)
+	LD	(IY+PrvLenStr),A
+	OR	A
+	RET	Z
+	LD	B,A
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	DE,(LineShift)
+	LD	A,D		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+PutStringLp
+	BIT	7,D
+	JR	Z,PutStr3
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PutStr3	LD	A,(HL)
+	LD	(DE),A
+	INC	DE
+	INC	L
+	DJNZ	PutStringLp
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+CorrectFile
+	JR	NC,MinusBytes
+PlusBytes
+	NEG 
+	LD	C,A
+	LD	B,#00
+	LD	HL,(FileLenght)
+	LD	E,L
+	LD	D,H
+	ADD	HL,BC
+	LD	A,H
+	CP	#C0
+	JP	NC,NoMemSpace
+	LD	(FileLenght),HL
+	EX	DE,HL
+	PUSH	HL
+	LD	BC,(LineShift)
+	OR	A
+	SBC	HL,BC
+	LD	C,L
+	LD	B,H
+	POP	HL
+	DI 
+	EXX 
+	IN	A,(PAGE0)
+	LD	L,A
+	IN	A,(PAGE1)
+	LD	E,A
+	IN	A,(PAGE2)
+	LD	C,A
+	EXX 
+	LD	A,(PagesList)
+	OUT	(PAGE0),A
+	LD	A,(PagesList+1)
+	OUT	(PAGE1),A
+	LD	A,(PagesList+2)
+	OUT	(PAGE2),A
+	LD	A,B
+	OR	A
+	JR	Z,MovUp1
+	LD	D,D
+	LD	A,#00
+	LD	B,B
+MovUp0	DEC	H
+	DEC	D
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	LD	L,L
+	LD	(DE),A
+	LD	B,B
+	DEC	B
+	JR	NZ,MovUp0
+MovUp1	LD	A,C
+	OR	A
+	JR	Z,MoveUpE
+	LD	(LenUp+1),A
+	SBC	HL,BC
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	LD	D,D
+LenUp	LD	A,#00
+	LD	B,B
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	LD	L,L
+	LD	(DE),A
+	LD	B,B
+MoveUpE	EXX 
+	LD	A,C
+	OUT	(PAGE2),A
+	LD	A,E
+	OUT	(PAGE1),A
+	LD	A,L
+	OUT	(PAGE0),A
+	EXX 
+	EI 
+	RET 
+MinusBytes
+	LD	C,A
+	LD	B,#00
+	LD	HL,(LineShift)
+	PUSH	HL
+	ADD	HL,BC
+	PUSH	HL
+	EX	DE,HL
+	LD	HL,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	LD	(FileLenght),HL
+	LD	BC,(LineShift)
+	OR	A
+	SBC	HL,BC
+	LD	C,L
+	LD	B,H
+	POP	HL
+	POP	DE
+	DI 
+	EXX 
+	IN	A,(PAGE0)
+	LD	L,A
+	IN	A,(PAGE1)
+	LD	E,A
+	IN	A,(PAGE2)
+	LD	C,A
+	EXX 
+	LD	A,(PagesList)
+	OUT	(PAGE0),A
+	LD	A,(PagesList+1)
+	OUT	(PAGE1),A
+	LD	A,(PagesList+2)
+	OUT	(PAGE2),A
+	LD	A,B
+	OR	A
+	JR	Z,MovFl1
+	LD	D,D
+	LD	A,#00
+	LD	B,B
+MovFl0	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	LD	L,L
+	LD	(DE),A
+	LD	B,B
+	INC	H
+	INC	D
+	DEC	B
+	JR	NZ,MovFl0
+MovFl1	LD	A,C
+	OR	A
+	JR	Z,MoveFlE
+	LD	(LenFl+1),A
+	LD	D,D
+LenFl	LD	A,#00
+	LD	B,B
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	LD	L,L
+	LD	(DE),A
+	LD	B,B
+MoveFlE	EXX 
+	LD	A,C
+	OUT	(PAGE2),A
+	LD	A,E
+	OUT	(PAGE1),A
+	LD	A,L
+	OUT	(PAGE0),A
+	EXX 
+	EI 
+	RET 
+NoMemSpace
+	CALL	GetString
+	CALL	PrnASCIIstring
+	CALL	PrnASCIIinfo
+	INC	SP
+	INC	SP
+	RET 
+;[]==========================================================[]
+PrnASCIIinfo
+	LD	HL,LineT
+	LD	DE,ColT
+	LD	BC,FreeT
+	LD	A,#01
+       DUP     #04
+	LD	(HL),A
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	LD	(BC),A
+	INC	BC
+       EDUP 
+	LD	(HL),A
+	LD	(DE),A
+	LD	(BC),A
+	LD	HL,(CurLine)
+	LD	DE,LineT
+	INC	HL
+	CALL	ConvNumTxt16
+	LD	DE,ColT
+	LD	A,(IY+CursorX)
+	ADD	A,(IY+CursAddX)
+	INC	A
+	CALL	ConvNumTxt8
+	LD	HL,#C000
+	LD	DE,FreeT
+	LD	BC,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	CALL	ConvNumTxt16
+	LD	HL,ReadyNo
+	LD	A,(IY+ReadyFile)
+	OR	A
+	JR	Z,$+5
+	LD	HL,ReadyYes
+	LD	DE,#017E
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	HL,LineT
+	LD	DE,#01AE
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	HL,ColT
+	LD	DE,#01F8
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	HL,FreeT
+	LD	DE,#0248
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	IX,EditVBar
+	LD	HL,(ELines)
+	LD	DE,(EquipLines)
+	OR	A
+	SBC	HL,DE
+	JR	Z,TstLine
+	LD	(ELines),DE
+	CALL	InitScrBar
+	LD	HL,(CurLine)
+	LD	(CLine),HL
+	CALL	PrnVScrBar
+	JR	TstAddX
+TstLine	LD	HL,(CLine)
+	LD	DE,(CurLine)
+	OR	A
+	SBC	HL,DE
+	JR	Z,TstAddX
+	LD	(CLine),DE
+	CALL	PrnVScrBar
+TstAddX	LD	A,(CAddX)
+	SUB	(IY+CursorX)
+	CP	(IY+CursAddX)
+	RET	Z
+	LD	A,(IY+CursorX)
+	ADD	A,(IY+CursAddX)
+	LD	(CAddX),A
+	LD	IX,EditHBar
+	CALL	PrnHScrBar
+	RET 
+ReadyNo
+	DEFB	#01,0
+ReadyYes
+	DEFB	"*",0
+LineT
+	DEFS	6,0
+ColT
+	DEFS	6,0
+FreeT
+	DEFS	6,0
+
+
+
+;[]==========================================================[]
+TInsertSymbol
+	CP	#20
+	JR	NC,InsSymbol
+	CP	#08
+	JP	Z,BackSpace
+	CP	#0D
+	JP	Z,Enter
+	CP	#09
+	RET	NZ
+InsSymbol
+	EX	AF,AF'
+	LD	A,(IY+LenString)	;InpytSymb
+	CP	240			;Max len
+	RET	Z
+	SUB	(IY+StringX)
+	JR	Z,NotInsert
+;Ввод в	середину текста
+	LD	C,A
+	LD	B,#00
+	LD	L,(IY+LenString)
+	LD	H,high LineBuffer
+	LD	E,L
+	LD	D,H
+	DEC	HL
+	LDDR 
+NotInsert
+	LD	H,high LineBuffer
+	LD	L,(IY+StringX)
+	EX	AF,AF'
+	LD	(HL),A
+	INC	(IY+LenString)
+	LD	A,#01
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	CALL	PrnASCIIstring
+	JP	TCursorRight
+;[]----------------------------------------------------------[]
+;Enter
+Enter
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	JR	Z,EnterEnd
+	LD	C,A
+	LD	B,#00
+	LD	L,(IY+LenString)
+	LD	H,high LineBuffer
+	LD	E,L
+	LD	D,H
+	DEC	HL
+	INC	DE
+	LDDR 
+EnterEnd
+	LD	H,high LineBuffer
+	LD	L,(IY+StringX)
+	LD	(HL),#0D
+	INC	HL
+	LD	(HL),#0A
+	INC	(IY+LenString)
+	INC	(IY+LenString)
+	LD	A,#01
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	CALL	PutString
+	LD	HL,(EquipLines)
+	INC	HL
+	LD	(EquipLines),HL
+	CALL	PrnASCIIpage
+	SUB	A
+	LD	(IY+CursorX),A
+	LD	(IY+StringX),A
+	JP	TCursorDown
+;[]----------------------------------------------------------[]
+;BackSpace
+BackSpace
+	LD	A,(IY+StringX)
+	OR	A
+	RET	Z
+	LD	L,A
+	LD	H,high LineBuffer
+	LD	E,L
+	LD	D,H
+	DEC	DE
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	JR	Z,BackSp1
+	LD	C,A
+	LD	B,#00
+	LDIR 
+	SUB	A
+BackSp1	LD	(DE),A
+	INC	A
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	DEC	(IY+LenString)
+	CALL	PrnASCIIstring
+	JP	TCursorLeft
+;[]----------------------------------------------------------[]
+TDeleteSymbol
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	JR	Z,AddString
+	LD	C,A
+	LD	B,#00
+	LD	L,(IY+StringX)
+	LD	H,high LineBuffer
+	INC	HL
+	LD	E,L
+	LD	D,H
+	DEC	DE
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	INC	A
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	DEC	(IY+LenString)
+	CALL	PrnASCIIstring
+	CALL	PrnASCIIinfo
+	RET 
+AddString
+	CALL	PutStr2
+	LD	A,(IY+StringX)
+	CP	#F0
+	RET	Z
+	LD	HL,(LineShift)
+	CALL	SearchDown
+	LD	DE,(FileLenght)
+	OR	A
+	SBC	HL,DE
+	RET	Z
+	ADD	HL,DE
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,H		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	LD	E,A
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	DEC	HL
+	BIT	6,H
+	JR	NZ,AddStr0
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+AddStr0	LD	A,(HL)
+	CP	#0D
+	LD	B,#01
+	JR	Z,AddStr2
+	CP	#0A
+	LD	B,#00
+	JR	NZ,AddStr2
+	DEC	HL
+	BIT	6,H
+	JR	NZ,AddStr1
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+AddStr1	LD	A,(HL)
+	CP	#0D
+	LD	B,#01
+	JR	NZ,AddStr2
+	LD	B,#02
+AddStr2	POP	AF
+	OUT	(PAGE1),A
+	LD	A,B
+	OR	A
+	RET	Z
+	CALL	MinusBytes
+	CALL	PutStrN
+	LD	HL,(EquipLines)
+	DEC	HL
+	LD	(EquipLines),HL
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+;Delete	word
+TDeleteWord
+	LD	A,(IY+StringX)
+	OR	A
+	RET	Z
+	LD	C,A
+	LD	B,A
+	LD	L,A
+	LD	H,high LineBuffer
+	LD	A,(IY+LenString)
+	SUB	C
+	LD	E,A
+	PUSH	HL
+	DEC	L
+	DEC	C
+	LD	A,(HL)
+	CP	#09
+	JR	Z,DWord1
+	CP	#20
+	JR	Z,DWord1
+	CP	","
+	JR	Z,DWord1
+	CP	"."
+	JR	Z,DWord1
+	DEC	B
+	JR	Z,DWord2
+DWord0	DEC	L
+	DEC	C
+	LD	A,(HL)
+	CP	#09
+	JR	Z,DWord2-2
+	CP	#20
+	JR	Z,DWord2-2
+	CP	","
+	JR	Z,DWord2-2
+	CP	"."
+	JR	Z,DWord2-2
+	DJNZ	DWord0
+	JR	DWord2
+DWord1
+	LD	A,(HL)
+	CP	#09
+	JR	Z,$+14
+	CP	#20
+	JR	Z,$+10
+	CP	","
+	JR	Z,$+6
+	CP	"."
+	JR	NZ,DWord2-2
+	DEC	L
+	DEC	C
+	DJNZ	DWord1
+	INC	L
+	INC	C
+DWord2	LD	A,(IY+StringX)
+	LD	(IY+StringX),C
+	SUB	C
+	LD	C,A
+	EX	AF,AF'
+	LD	A,(IY+LenString)
+	SUB	C
+	LD	(IY+LenString),A
+	LD	C,E
+	LD	B,#00
+	EX	DE,HL
+	POP	HL
+	LD	A,C
+	OR	A
+	JR	Z,$+4
+	LDIR 
+	EX	DE,HL
+	EX	AF,AF'
+	LD	B,A
+	SUB	A
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+	INC	A
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	CALL	PrnASCIIstring
+	INC	(IY+StringX)
+	JP	TCursorLeft
+;[]----------------------------------------------------------[]
+;Курсор	влево на одно место
+TCursorLeft
+	LD	A,(IY+StringX)
+	OR	A
+	RET	Z
+	DEC	A
+	LD	(IY+StringX),A
+	LD	C,#00
+	JR	Z,CursLf3
+	LD	HL,LineBuffer
+	LD	B,A
+CursLf1	LD	A,(HL)
+	INC	HL
+	CP	#09
+	JR	NZ,CursLf2
+	LD	A,C
+	AND	#F8
+	ADD	A,#08
+	LD	C,A
+	DEC	C
+CursLf2	INC	C
+	DJNZ	CursLf1
+CursLf3	LD	B,(IY+CursAddX)
+CursLf4	LD	A,C
+	SUB	(IY+CursAddX)
+	JR	NC,CursLf5
+	LD	A,(IY+CursAddX)
+	SUB	Step
+	LD	(IY+CursAddX),A
+	JR	CursLf4
+CursLf5	LD	(IY+CursorX),A
+	LD	A,B
+	CP	(IY+CursAddX)
+	CALL	NZ,RefrASCIIpage
+	CALL	ResCursor
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	PrnASCIIinfo
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	RET	Z
+	LD	B,A
+	LD	L,(IY+LenString)
+	LD	H,high LineBuffer
+	LD	D,#00
+	LD	A,#20
+CursLf6	DEC	HL
+	CP	(HL)
+	RET	NZ
+	LD	(HL),D
+	DEC	(IY+LenString)
+	DJNZ	CursLf6
+	RET 
+;[]----------------------------------------------------------[]
+;Курсор	вправо на одно место
+TCursorRight
+	LD	A,(IY+CursorX)
+	ADD	A,(IY+CursAddX)
+	CP	240
+	RET	Z
+	LD	A,(IY+StringX)
+	CP	240
+	RET	Z
+	INC	A
+	LD	(IY+StringX),A
+	LD	C,#00
+	LD	HL,LineBuffer
+	OR	A
+	JR	Z,CursRg3
+	LD	B,A
+CursRg1	LD	A,(HL)
+	INC	HL
+	CP	#09
+	JR	NZ,CursRg2
+	LD	A,C
+	AND	#F8
+	ADD	A,#08
+	LD	C,A
+	DEC	C
+CursRg2	INC	C
+	DJNZ	CursRg1
+CursRg3	LD	B,(IY+CursAddX)
+CursRg4	LD	A,C
+	SUB	(IY+CursAddX)
+	CP	#4E
+	JR	C,CursRg5
+	LD	A,(IY+CursAddX)
+	ADD	A,Step
+	LD	(IY+CursAddX),A
+	JR	CursRg4
+CursRg5	LD	(IY+CursorX),A
+	LD	A,B
+	CP	(IY+CursAddX)
+	CALL	NZ,RefrASCIIpage
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	JR	NC,CursRg6
+	LD	L,(IY+LenString)
+	LD	H,high LineBuffer
+	LD	(HL),#20
+	INC	(IY+LenString)
+CursRg6	CALL	ResCursor
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	PrnASCIIinfo
+	RET 
+;[]----------------------------------------------------------[]
+;Word left
+TWordLeft
+	LD	A,(IY+StringX)
+	OR	A
+	RET	Z
+	LD	C,A
+	LD	B,A
+	LD	L,A
+	LD	H,high LineBuffer
+WordLf0	DEC	L
+	DEC	C
+	LD	A,(HL)
+	CP	#09
+	JR	Z,WordLf1
+	CP	#20
+	JR	Z,WordLf1
+	CP	","
+	JR	Z,WordLf1
+	CP	"."
+	JR	Z,WordLf1
+	DJNZ	WordLf0
+	JR	WordLf2
+WordLf1	LD	A,(HL)
+	CP	#09
+	JR	Z,$+14
+	CP	#20
+	JR	Z,$+10
+	CP	","
+	JR	Z,$+6
+	CP	"."
+	JR	NZ,WordLf2-1
+	DEC	L
+	DEC	C
+	DJNZ	WordLf1
+	INC	C
+WordLf2	LD	(IY+StringX),C
+	INC	(IY+StringX)
+	JP	TCursorLeft
+;[]----------------------------------------------------------[]
+;Word right
+TWordRight
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	RET	Z
+	LD	B,A
+	LD	L,(IY+StringX)
+	LD	H,high LineBuffer
+	LD	C,L
+WordRg0	LD	A,(HL)
+	CP	#09
+	JR	Z,WordRg1
+	CP	#20
+	JR	Z,WordRg1
+	CP	","
+	JR	Z,WordRg1
+	CP	"."
+	JR	Z,WordRg1
+	INC	L
+	INC	C
+	DJNZ	WordRg0
+	JR	WordRg2
+WordRg1	LD	A,(HL)
+	CP	#09
+	JR	Z,$+14
+	CP	#20
+	JR	Z,$+10
+	CP	","
+	JR	Z,$+6
+	CP	"."
+	JR	NZ,WordRg2
+	INC	L
+	INC	C
+	DJNZ	WordRg1
+WordRg2	LD	(IY+StringX),C
+	LD	A,C
+	OR	A
+	JP	Z,THomeString
+	DEC	(IY+StringX)
+	JP	TCursorRight
+;[]----------------------------------------------------------[]
+THomeString
+	LD	A,(IY+StringX)
+	OR	A
+	RET	Z
+	LD	B,(IY+CursAddX)
+	SUB	A
+	LD	(IY+StringX),A
+	LD	(IY+CursorX),A
+	LD	(IY+CursAddX),A
+	LD	A,B
+	CP	(IY+CursAddX)
+	CALL	NZ,RefrASCIIpage
+	CALL	ResCursor
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	PrnASCIIinfo
+	LD	A,(IY+LenString)
+	SUB	(IY+StringX)
+	RET	Z
+	LD	B,A
+	LD	L,(IY+LenString)
+	LD	H,high LineBuffer
+	LD	D,#00
+	LD	A,#20
+HomeStr	DEC	HL
+	CP	(HL)
+	RET	NZ
+	LD	(HL),D
+	DEC	(IY+LenString)
+	DJNZ	HomeStr
+	RET 
+;[]----------------------------------------------------------[]
+TEndString
+	LD	A,(IY+LenString)
+	OR	A
+	RET	Z
+	LD	B,A
+	LD	L,A
+	LD	H,high LineBuffer
+	LD	D,#00
+	LD	A,#20
+EndStr1	LD	(HL),D
+	DEC	HL
+	CP	(HL)
+	JR	NZ,EndStr2
+	DJNZ	EndStr1
+EndStr2	LD	(IY+LenString),B
+	LD	A,B
+	CP	(IY+StringX)
+	RET	Z
+	OR	A
+	JP	Z,THomeString
+	DEC	A
+	LD	(IY+StringX),A
+	JP	TCursorRight
+;[]----------------------------------------------------------[]
+TCursorUp
+	CALL	PutString
+	LD	HL,(LineShift)
+	LD	A,H
+	OR	L
+	RET	Z
+	LD	A,(IY+CursorY)
+	OR	A
+	JP	Z,TScrollUp
+	CALL	SearchUp
+	LD	(LineShift),HL
+	DEC	(IY+CursorY)
+	LD	HL,(CurLine)
+	DEC	HL
+	LD	(CurLine),HL
+	JP	CursorExit
+TCursorDown
+	CALL	PutString
+	LD	HL,(LineShift)
+	LD	DE,(FileLenght)
+	OR	A
+	SBC	HL,DE
+	RET	Z
+	ADD	HL,DE
+	CALL	SearchDown
+	LD	A,(IY+CursorY)
+	CP	#18
+	JP	Z,TScrollDown
+	LD	(LineShift),HL
+	INC	(IY+CursorY)
+	LD	HL,(CurLine)
+	INC	HL
+	LD	(CurLine),HL
+	JP	CursorExit
+TScrollUp
+	CALL	PutString
+	LD	HL,(PageShift)
+	LD	A,H
+	OR	L
+	JP	Z,TCursorUp
+	CALL	SearchUp
+	LD	(PageShift),HL
+	LD	(TempShift),HL
+	LD	HL,(LineShift)
+	CALL	SearchUp
+	LD	(LineShift),HL
+	LD	HL,(CurLine)
+	DEC	HL
+	LD	(CurLine),HL
+	CALL	ResCursor
+	CALL	ScrollSCRdown
+	LD	B,#1C
+	CALL	PrnASCIIline
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	JP	CursorExit
+TScrollDown
+	CALL	PutString
+	LD	HL,(PageShift)
+	LD	B,#19
+ScrlDn1	PUSH	BC
+	CALL	SearchDown
+	POP	BC
+	JP	C,TCursorDown
+	DJNZ	ScrlDn1
+	LD	(TempShift),HL
+	LD	HL,(PageShift)
+	CALL	SearchDown
+	LD	(PageShift),HL
+	LD	HL,(LineShift)
+	CALL	SearchDown
+	LD	(LineShift),HL
+	LD	HL,(CurLine)
+	INC	HL
+	LD	(CurLine),HL
+	CALL	ResCursor
+	CALL	ScrollSCRup
+	LD	B,#DC
+	CALL	PrnASCIIline
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+CursorExit
+	CALL	GetString
+	LD	HL,LineBuffer
+	LD	C,#00
+	LD	A,(IY+StringX)
+	OR	A
+	JR	Z,CursEx3
+	LD	B,A
+CursEx1	LD	A,(HL)
+	INC	HL
+	CP	#09
+	JR	NZ,CursEx2
+	LD	A,C
+	AND	#F8
+	ADD	A,#08
+	LD	C,A
+	DEC	C
+CursEx2	INC	C
+	DJNZ	CursEx1
+CursEx3	LD	B,(IY+CursAddX)
+	LD	(IY+CursAddX),#00
+CursEx4	LD	A,C
+	SUB	(IY+CursAddX)
+	CP	#4E
+	JR	C,CursEx5
+	LD	A,(IY+CursAddX)
+	ADD	A,Step
+	LD	(IY+CursAddX),A
+	JR	CursEx4
+CursEx5	LD	(IY+CursorX),A
+	LD	A,B
+	CP	(IY+CursAddX)
+	CALL	NZ,RefrASCIIpage
+	CALL	ResCursor
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	PrnASCIIinfo
+	RET 
+;[]----------------------------------------------------------[]
+TPageUp
+	CALL	PutString
+	LD	HL,(PageShift)
+	LD	A,H
+	OR	L
+	JP	Z,TBegFile
+	LD	DE,(CurLine)
+	LD	B,#19
+PageUp1	PUSH	DE
+	PUSH	BC
+	CALL	SearchUp
+	POP	BC
+	POP	DE
+	JR	C,$+5
+	DEC	DE
+	DJNZ	PageUp1
+	LD	(PageShift),HL
+	LD	(CurLine),DE
+	JR	PageExit
+TPageDown
+	CALL	PutString
+	LD	HL,(PageShift)
+	LD	DE,(CurLine)
+	LD	B,#19
+PageDn1	PUSH	DE
+	PUSH	BC
+	CALL	SearchDown
+	POP	BC
+	POP	DE
+	JP	C,TEndFile
+	INC	DE
+	DJNZ	PageDn1
+	LD	BC,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	JP	Z,TEndFile
+	ADD	HL,BC
+	LD	(PageShift),HL
+	LD	(CurLine),DE
+PageExit
+	LD	A,(IY+CursorY)
+	OR	A
+	JR	Z,PageEx3
+	LD	B,A
+PageEx1	PUSH	HL
+	PUSH	BC
+	CALL	SearchDown
+	POP	BC
+	POP	DE
+	JR	C,PageEx2
+	LD	E,L
+	LD	D,H
+	DJNZ	PageEx1
+	DEC	B
+PageEx2	INC	B
+	LD	A,(IY+CursorY)
+	SUB	B
+	LD	(IY+CursorY),A
+	LD	HL,(CurLine)
+	LD	A,L
+	SUB	B
+	LD	L,A
+	LD	A,H
+	SBC	A,#00
+	LD	H,A
+	LD	(CurLine),HL
+	EX	DE,HL
+PageEx3	LD	(LineShift),HL
+NewPage
+	CALL	GetString
+	LD	HL,LineBuffer
+	LD	C,#00
+	LD	A,(IY+StringX)
+	OR	A
+	JR	Z,PagePr3
+	LD	B,A
+PagePr1	LD	A,(HL)
+	INC	HL
+	CP	#09
+	JR	NZ,PagePr2
+	LD	A,C
+	AND	#F8
+	ADD	A,#08
+	LD	C,A
+	DEC	C
+PagePr2	INC	C
+	DJNZ	PagePr1
+PagePr3	LD	(IY+CursAddX),#00
+PagePr4	LD	A,C
+	SUB	(IY+CursAddX)
+	CP	#4E
+	JR	C,PagePr5
+	LD	A,(IY+CursAddX)
+	ADD	A,Step
+	LD	(IY+CursAddX),A
+	JR	PagePr4
+PagePr5	LD	(IY+CursorX),A
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+TBegFile
+	CALL	PutString
+	LD	HL,(LineShift)
+	LD	A,H
+	OR	L
+	RET	Z
+	LD	HL,#0000
+	LD	(PageShift),HL
+	LD	(LineShift),HL
+	LD	(CurLine),HL
+	LD	(IY+CursorY),L
+	JP	NewPage
+TEndFile
+	CALL	PutString
+	LD	HL,(PageShift)
+	LD	B,#19
+EndFl1	PUSH	BC
+	CALL	SearchDown
+	POP	BC
+	JR	C,EndFile1
+	DJNZ	EndFl1
+	LD	HL,(FileLenght)
+	LD	B,#19
+EndFl2	PUSH	BC
+	CALL	SearchUp
+	POP	BC
+	DJNZ	EndFl2
+	LD	(PageShift),HL
+	LD	(IY+CursorY),#18
+EndFlEx	LD	HL,(FileLenght)
+	CALL	SearchUp
+	LD	(LineShift),HL
+	LD	HL,(EquipLines)
+	DEC	HL
+	LD	(CurLine),HL
+	JP	NewPage
+EndFile1
+	LD	A,#18
+	SUB	B
+	CP	(IY+CursorY)
+	RET	Z
+	LD	(IY+CursorY),A
+	LD	HL,(FileLenght)
+	CALL	SearchUp
+	LD	(LineShift),HL
+	LD	HL,(EquipLines)
+	DEC	HL
+	LD	(CurLine),HL
+	JP	NewPage
+;[]----------------------------------------------------------[]
+TNewCrPos
+	PUSH	HL
+	PUSH	DE
+	CALL	PutString
+	POP	DE
+	POP	HL
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	LD	A,E
+	SUB	#1C
+	SRL	A
+	SRL	A
+	SRL	A
+	LD	D,A
+	LD	E,L
+	LD	HL,(PageShift)
+	OR	A
+	JR	Z,NewPos2
+	LD	B,A
+NewPos1	PUSH	DE
+	PUSH	BC
+	CALL	SearchDown
+	POP	BC
+	POP	DE
+	JP	C,TEndFile
+	DJNZ	NewPos1
+NewPos2	LD	(LineShift),HL
+	LD	HL,(CurLine)
+	LD	A,D
+	SUB	(IY+CursorY)
+	LD	(IY+CursorY),D
+	LD	C,A
+	LD	B,#00
+	JR	NC,$+3
+	DEC	B
+	ADD	HL,BC
+	LD	(CurLine),HL
+	SUB	A
+	LD	(IY+StringX),A
+	PUSH	DE
+	CALL	GetString
+	POP	DE
+	LD	C,#00
+	LD	A,E
+	ADD	A,(IY+CursAddX)
+	JR	Z,NewPos6
+	LD	E,A
+	LD	A,(IY+LenString)
+	OR	A
+	JR	Z,NewPos6
+	LD	B,A
+	LD	HL,LineBuffer
+NewPos3	LD	A,(HL)
+	INC	L
+	CP	#09
+	JR	NZ,NewPos4
+	LD	A,C
+	AND	#F8
+	ADD	A,#08
+	LD	C,A
+	DEC	C
+NewPos4	INC	C
+	LD	A,C
+	CP	E
+	JR	NC,NewPos5
+	DJNZ	NewPos3
+NewPos5	LD	(IY+StringX),L
+	LD	A,(IY+LenString)
+	SUB	L
+	JR	NC,NewPos6
+	NEG 
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+	LD	(IY+LenString),L
+NewPos6	LD	A,C
+	SUB	(IY+CursAddX)
+	LD	(IY+CursorX),A
+	CALL	ResCursor
+	LD	E,(IY+CursorX)
+	LD	D,(IY+CursorY)
+	CALL	SetCursor
+	CALL	PrnASCIIinfo
+	CALL	ResFire
+	RET 
+
+

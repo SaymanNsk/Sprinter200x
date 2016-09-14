@@ -1,0 +1,330 @@
+
+;[]==========================================================[]
+PrintFile
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A8,#0060
+	DEFW	#0130,#0032
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0128,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0084,#0003
+	DEFB	#0F
+	DEFB	"Print file",0
+	DEFB	#03	;Углубление
+	DEFW	#0010,#0010
+	DEFW	#0110,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#0011
+	DEFW	#010C,#000A
+	DEFB	#0F
+	DEFB	#04	;UpRectan
+	DEFW	#0074,#0020
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#008C,#0023
+	DEFB	#80
+	DEFB	"Stop",0
+	DEFB	#00
+	LD	IX,PrintTab
+	CALL	TestCoords
+	LD	IX,ProcessPrn
+	LD	HL,(FileLenght)
+	LD	DE,(FileLenght+2)
+	LD	A,L
+	LD	L,H
+	LD	H,E
+	LD	E,D
+	OR	A
+	JR	Z,InitPrn
+	INC	HL
+	LD	A,H
+	OR	L
+	JR	NZ,InitPrn
+	INC	E
+InitPrn	LD	(IX+ProcMAXl1),L
+	LD	(IX+ProcMAXh1),H
+	LD	(IX+ProcMAXl2),E
+	LD	(IX+ProcMAXh2),#00
+	CALL	InitProcess
+	LD	A,(ViewMode)
+	OR	A
+	JP	NZ,PrintHEX
+PrintASCII
+	LD	HL,#0000
+	LD	(TempShift),HL
+	LD	(TempShift+2),HL
+	LD	HL,(FileLenght)
+	LD	BC,(FileLenght+2)
+	IN	A,(PAGE1)
+	PUSH	AF
+	CALL	InitFPages
+PrnASCII
+	CALL	TestFPages
+	LD	A,(DE)
+	INC	DE
+	CALL	PrintCHAR
+	JR	C,PrnASCIIext
+	CALL	NxtPrnProc
+	LD	A,H
+	OR	L
+	JR	NZ,$+3
+	DEC	BC
+	DEC	HL
+	LD	A,H
+	OR	L
+	OR	B
+	OR	C
+	JR	NZ,PrnASCII
+	LD	DE,#0000
+	CALL	NxtPrnProc
+	HALT 
+	HALT 
+PrnASCIIext
+	POP	AF
+	OUT	(PAGE1),A
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+PrintHEX
+	LD	HL,#0000
+	LD	(TempShift),HL
+	LD	(TempShift+2),HL
+	LD	HL,LineBuffer
+	LD	BC,#5020
+	LD	(HL),C
+	INC	L
+	DJNZ	$-2
+PrintHEXlp
+	CALL	PrnHEXline
+	JR	C,PrintHEXext
+	LD	HL,(TempShift)
+	LD	DE,#0010	;Адрес дампа+16
+	ADD	HL,DE
+	LD	(TempShift),HL
+	LD	HL,(TempShift+2)
+	LD	E,D
+	ADC	HL,DE
+	LD	(TempShift+2),HL
+	JR	PrintHEXlp
+PrintHEXext
+	OR	A
+	JR	NZ,PrnHEXe
+	LD	DE,#0000
+	CALL	NxtPrnProc
+	HALT 
+	HALT 
+PrnHEXe	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+PrnHEXline
+	LD	LX,#00
+	LD	HL,(FileLenght)
+	LD	BC,(TempShift)
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	LD	HL,(FileLenght+2)
+	LD	BC,(TempShift+2)
+	SBC	HL,BC
+	LD	A,#00
+	RET	C
+	LD	B,#10
+	JR	NZ,PrnHLn
+	LD	A,D
+	OR	A
+	JR	NZ,PrnHLn
+	OR	E
+	LD	A,#00
+	SCF 
+	RET	Z
+	LD	A,E
+	CP	B
+	JR	NC,PrnHLn
+	LD	B,E
+
+PrnHLn	IN	A,(PAGE1)
+	PUSH	AF
+	CALL	InitFPages
+	LD	HL,LineBuffer+1	;буфер строки
+	EXX 
+	LD	HL,LineBuffer+#3F ;место для ASCII кодов
+	EXX 
+	LD	A,(TempShift+3)	;Кладем	смещение
+	CALL	PutHexNumb	;от начала фаила
+	LD	A,(TempShift+2)
+	CALL	PutHexNumb
+	LD	A,(TempShift+1)
+	CALL	PutHexNumb
+	LD	A,(TempShift)
+	CALL	PutHexNumb
+	LD	(HL),":"
+	INC	L
+	INC	L
+PrnHLoop
+	CALL	TestFPages
+	LD	A,(DE)
+	INC	DE
+	PUSH	AF
+	CALL	PutHexNumb
+	POP	AF
+	INC	L
+	EXX 
+	CP	#20
+	JR	NC,$+4
+	LD	A,"."
+	LD	(HL),A
+	INC	L
+	EXX 
+	INC	LX
+	LD	A,LX
+	CP	#04
+	JR	Z,PrHNx1
+	CP	#08
+	JR	Z,PrHNx1
+	CP	#0C
+	JR	NZ,$+3
+PrHNx1	INC	L
+	DJNZ	PrnHLoop
+	POP	AF
+	OUT	(PAGE1),A
+	LD	A,#10
+	SUB	LX
+	JR	Z,FillP2
+	LD	B,A
+	LD	C,#20
+FillP1	LD	(HL),C
+	INC	L
+	LD	(HL),C
+	INC	L
+	INC	L
+	EXX 
+	LD	(HL),#20
+	INC	L
+	EXX 
+	INC	LX
+	LD	A,LX		;В центре 2 пробела
+	CP	#04
+	JR	Z,FlPNx1
+	CP	#08
+	JR	Z,FlPNx1
+	CP	#0C
+	JR	NZ,$+3
+FlPNx1	INC	L
+	DJNZ	FillP1
+FillP2	LD	HL,LineBuffer
+	LD	B,#50
+PrnHEX	LD	A,(HL)
+	INC	HL
+	CALL	PrintCHAR
+	LD	A,#01
+	RET	C
+	DJNZ	PrnHEX
+	LD	A,#0D
+	CALL	PrintCHAR
+	RET	C
+	LD	A,#0A
+	CALL	PrintCHAR
+	RET 
+PrintCHAR
+	LD	LX,A
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	JR	Z,PrnCH1
+	LD	IX,PrintTab
+	CALL	TestCoords
+	JR	C,PrnCH2
+PrnCH1	LD	C,#31
+	RST	#10
+	LD	A,E
+PrnCH2	POP	DE
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	RET	C
+	JR	Z,PrnCHAR
+	CP	#1B
+	SCF 
+	RET	Z
+	RES	5,A
+	CP	"S"
+	JR	NZ,PrnCHAR
+StopPrint
+	SCF 
+	RET 
+PrnCHAR	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	A,LX
+	LD	C,#5F
+	RST	#10
+	POP	DE
+	LD	A,B
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	RET	NC
+	HALT 
+	JR	PrintCHAR
+PrintTab
+	DEFW #011C,#0164,#0080,#008E,#01,#0000,StopPrint,#0000
+	DEFW #8000
+NxtPrnProc
+	LD	A,E
+	OR	A
+	RET	NZ
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	IX,ProcessPrn
+	LD	L,(IX+ProcCURl1)
+	LD	H,(IX+ProcCURh1)
+	INC	HL
+	LD	(IX+ProcCURl1),L
+	LD	(IX+ProcCURh1),H
+	LD	A,H
+	OR	L
+	JR	NZ,NxtProc
+	LD	L,(IX+ProcCURl2)
+	LD	H,(IX+ProcCURh2)
+	INC	HL
+	LD	(IX+ProcCURl2),L
+	LD	(IX+ProcCURh2),H
+NxtProc	CALL	PrnProcess
+	POP	DE
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	RET 
+ProcessPrn
+	DEFW	#00BA
+	DEFW	#0071
+	DEFW	#010C
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFB	#4F
+
+

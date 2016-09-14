@@ -1,0 +1,619 @@
+
+;[]==========================================================[]
+DOSline
+	SUB	A
+	LD	(HistCurrent),A
+	LD	C,#37
+	RST	#10
+	BIT	4,B
+	JR	Z,DOSln0
+	LD	A,D
+	AND	#7F
+	CP	#02
+	JR	C,DOSlnEx
+	CP	#0E
+	JP	C,QSearch
+	CP	#10
+	JR	C,DOSlnEx
+	CP	#1A
+	JP	C,QSearch
+	CP	#1D
+	JR	C,DOSlnEx
+	CP	#26
+	JP	C,QSearch
+	CP	#2A
+	JR	C,DOSlnEx
+	CP	#31
+	JP	C,QSearch
+	JR	DOSlnEx
+DOSln0	LD	A,E
+	CP	#0D
+	JP	Z,RunDOSline
+	CP	#1B
+	JP	Z,ClrDOSln1
+	CP	#21
+	JR	NC,DOSloop
+	CP	#20
+	JR	NZ,DOSln1
+	LD	A,(DOSslen)
+	OR	A
+	JR	NZ,DOSloop
+	LD	C,#31
+	RST	#10
+	JP	MarkFile
+DOSln1	LD	A,D
+	CP	#A8
+	JR	Z,DOSloop
+	CP	#9A
+	JR	Z,DOSloop
+	CP	#9B
+	JR	Z,DOSloop
+	CP	#92
+	JR	Z,DOSloop
+DOSlnEx	LD	C,#31
+	RST	#10
+	RET 
+DOSloop	SUB	A
+	LD	(HistCurrent),A
+	LD	IX,DOSstr
+	LD	HL,DOSTab
+	CALL	DOSInputLine
+	RET	C
+	JR	Z,RunDOSline
+	LD	C,#37
+	RST	#10
+	LD	A,E
+	CP	#1B
+	RET	NZ
+	LD	A,(DOSslen)
+	OR	A
+	RET	Z
+	CALL	ClrDOSline
+	LD	C,#31
+	RST	#10
+	JR	DOSloop
+;[]----------------------------------------------------------[]
+ClrDOSln1
+	LD	C,#31
+	RST	#10
+	LD	A,(DOSslen)
+	OR	A
+	JP	Z,ShowDOSscreen
+ClrDOSline
+	SUB	A
+	LD	(HistCurrent),A
+	LD	A,(DOSslen)
+	OR	A
+	RET	Z
+	LD	HL,DOSinp
+	SUB	A
+	LD	B,#80
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	(DOSslen),A
+	LD	(DOSposX),A
+	LD	(DOSaddX),A
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02	;Head place
+	DEFW	#00FE,#00E5
+	DEFW	#017C,#000A
+	DEFB	PanelCol
+	DEFB	#00
+	RET 
+;[]----------------------------------------------------------[]
+RunDOSline
+	LD	C,#31
+	RST	#10
+	LD	A,(DOSslen)
+	OR	A
+	JP	Z,OpenFile
+	CALL	SaveDOSline
+	LD	HL,DOSinp
+	LD	A,(HL)
+	CP	#20
+	JP	Z,ClrDOSline
+	LD	A,(DOSslen)
+	LD	B,A
+	LD	C,#00
+	LD	A,#20
+RunDLn0	CP	(HL)
+	JR	Z,RunDLine
+	INC	HL
+	INC	C
+	DJNZ	RunDLn0
+RunDLine
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	JP	NZ,RunDOSexe
+	LD	HL,DOSinp
+	LD	DE,WorkBuffer
+	PUSH	DE
+	LD	B,#00
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	CALL	ClrDOSline
+	POP	HL
+	LD	A,(DOSinp+1)
+	CP	":"
+	JR	NZ,$+6
+	LD	(IY+BegPath),#00
+	CALL	NewDIRECTORY
+	LD	A,(TreeFlag)
+	OR	A
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,LeftPanel
+	LD	HL,RightPanel
+	JR	NZ,$+9
+	LD	IY,RightPanel
+	LD	HL,LeftPanel
+	LD	DE,BegPath
+	ADD	HL,DE
+	INC	HL
+	INC	HL
+	CALL	FindTreeDIR
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	PrnVScrBar
+	POP	IY
+	RET 
+RunDOSexe
+	LD	HL,DOSinp
+	DEC	HL
+RunDE1	INC	HL
+	LD	A,(HL)
+	CP	#21
+	JR	C,RunDOSexe1
+	CP	"."
+	JR	NZ,RunDE1
+	INC	HL
+	LD	A,(HL)
+	RES	5,A
+	CP	"F"
+	JR	NZ,RunDOSexe1
+	INC	HL
+	LD	A,(HL)
+	RES	5,A
+	CP	"L"
+	JR	NZ,RunDOSexe1
+	INC	HL
+	LD	A,(HL)
+	RES	5,A
+	CP	"X"
+	JR	NZ,RunDOSexe1
+	LD	HL,DOSinp
+	LD	DE,WorkBuffer
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	CALL	ClrDOSline
+	CALL	RunFLEX
+	CALL	C,DOSError
+	RET 
+RunDOSexe1
+	CALL	ResDrivers
+	SUB	A
+	CALL	ClearScreen
+	CALL	ResVModeE
+	LD	HL,BEGCOM
+	EX	(SP),HL
+	LD	HL,DOSinp
+	LD	BC,#0040
+	RST	#10
+	RET	NC
+	PUSH	AF
+	SUB	A
+	OUT	(BORDER),A
+	CALL	InitVMode
+	CALL	InitDrivers
+	CALL	InitScreen
+	CALL	ClrDOSline
+	SUB	A
+	CALL	InitPanels
+	POP	AF
+	CALL	DOSError
+	LD	HL,ComLoop
+	EX	(SP),HL
+	RET 
+;[]----------------------------------------------------------[]
+SaveDOSline
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,(HelpPg)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	IX,DOSstr
+	LD	HL,(HistSpace)
+	LD	C,(IX+#04)
+	LD	B,#00
+SavDOS0	OR	A
+	SBC	HL,BC
+	JR	C,$+4
+	JR	NZ,SavDOS1
+	LD	A,(HistCount)
+	DEC	A
+	LD	(HistCount),A
+	PUSH	BC
+	CALL	FindHistory
+	POP	BC
+	LD	DE,DOShistory+#200
+	OR	A
+	EX	DE,HL
+	SBC	HL,DE
+	JR	SavDOS0
+SavDOS1	DEC	HL
+	LD	(HistSpace),HL
+	PUSH	BC
+	LD	A,(HistCount)
+	CALL	FindHistory
+	LD	E,L
+	LD	D,H
+	ADD	HL,BC
+	INC	HL
+	EX	DE,HL
+	PUSH	HL
+	LD	BC,DOShistory
+	OR	A
+	SBC	HL,BC
+	LD	C,L
+	LD	B,H
+	POP	HL
+	LD	A,B
+	OR	C
+	JR	Z,$+6
+	DEC	HL
+	DEC	DE
+	LDDR 
+	POP	BC
+	LD	HL,DOSinp
+	LD	DE,DOShistory
+	LD	A,C
+	INC	A
+	LD	(DE),A
+	INC	DE
+	LDIR 
+	SUB	A
+	LD	(HistCurrent),A
+	POP	AF
+	OUT	(PAGE1),A
+	LD	HL,HistCount
+	INC	(HL)
+	RET 
+GetDOShistory
+	LD	IX,DOSstr
+	LD	HL,HistCount
+	LD	A,(HistCurrent)
+	INC	(HL)
+	DEC	(HL)
+	JP	Z,ClrDOSline
+	CP	(HL)
+	RET	Z
+	EX	AF,AF'
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,(HelpPg)
+	OUT	(PAGE1),A
+	EX	AF,AF'
+	PUSH	AF
+	CALL	FindHistory
+	LD	DE,DOSinp
+	LD	A,(HL)
+	INC	HL
+	DEC	A
+	LD	(IX+#04),A
+	LD	(IX+#02),A
+	LD	C,A
+	LD	B,#00
+	LDIR 
+	SUB	A
+	LD	(IX+#03),A
+	POP	AF
+	INC	A
+	LD	(HistCurrent),A
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+FindHistory
+	LD	HL,DOShistory
+	OR	A
+	RET	Z
+	LD	B,A
+	LD	D,#00
+	LD	E,(HL)
+	ADD	HL,DE
+	DJNZ	$-2
+	RET 
+;[]----------------------------------------------------------[]
+DOSInputLine
+	LD	(InpLnData),IX
+	LD	(InpMous+2),HL
+	RES	7,(IX+#01)
+	SET	6,(IX+#01)
+	LD	C,#37
+	RST	#10
+	JR	NZ,$+6
+	RES	6,(IX+#01)
+	CALL	InsInpLnCol
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#04)
+	ADD	HL,DE
+	LD	(HL),D
+	CALL	PrintInpLn+3
+DOSLineLp
+	HALT 
+	CALL	ChCursor
+	LD	IX,(InpMous+2)
+	CALL	TestCoords
+	LD	C,#37
+	RST	#10
+	JR	Z,DOSLineLp
+	RES	7,D
+	BIT	4,B
+	JR	NZ,DOSLineLp
+	LD	IX,DOSTable2
+	BIT	5,B
+	JR	NZ,DOSKeys
+	LD	IX,DOSTable1
+DOSKeys	LD	A,(IX+#00)
+	INC	IX
+	CP	#FF
+	JR	Z,DOSLineLp1
+	LD	L,A
+	LD	H,(IX+#00)
+	INC	IX
+	LD	C,(IX+#00)
+	INC	IX
+	LD	B,(IX+#00)
+	INC	IX
+	OR	A
+	SBC	HL,DE
+	JR	NZ,DOSKeys
+	LD	IX,(InpLnData)
+	RES	6,(IX+#01)
+	LD	A,E
+	CP	#1B
+	JR	NZ,DOSLnNx
+	CALL	ResCursor
+	LD	A,#01
+	OR	A
+	RET 
+DOSLnNx	LD	HL,DOSLineLp
+	PUSH	HL
+	PUSH	BC
+	PUSH	IX
+	LD	C,#31
+	RST	#10
+	POP	IX
+	RET 
+DOSLineLp1
+	LD	IX,(InpLnData)
+	LD	A,E
+	CP	#20
+	JR	NC,DOSLineLp2
+	BIT	6,(IX+#01)
+	JR	Z,DOSLnE0
+	PUSH	IX
+	LD	C,#31
+	RST	#10
+	POP	IX
+DOSLnE0	CALL	ResCursor
+	LD	A,#01
+	OR	A
+	RET 
+DOSLineLp2
+	RES	6,(IX+#01)
+	LD	HL,DOSLineLp
+	PUSH	HL
+	PUSH	IX
+	LD	C,#31
+	RST	#10
+	POP	IX
+	LD	A,E
+	JP	InsertSymbol
+DOSLnExtN
+	POP	HL
+	LD	IX,(InpLnData)
+	CALL	ResCursor
+	XOR	A
+	RET 
+DOSLnExtC
+	POP	HL
+	LD	IX,(InpLnData)
+	CALL	ResCursor
+	SCF 
+	RET 
+DOSTable1
+	DEFW	#011B,InpLnExtC
+	DEFW	#280D,InpLnExtN
+	DEFW	#5400,ILleft
+	DEFW	#5600,ILright
+	DEFW	#0E08,ILdelet
+	DEFW	#4F00,IL_del_
+	DEFW	#5700,ILhome
+	DEFW	#5100,ILend
+	DEFB	#FF
+DOSTable2
+	DEFW	#5400,ILwordL
+	DEFW	#5600,ILwordR
+	DEFW	#0E00,ILdelWR
+	DEFW	#2800,InsFileName
+	DEFW	#1A00,InsLeftPath
+	DEFW	#1B00,InsRightPath
+	DEFW	#1200,InsHistory
+	DEFB	#FF
+InsFileName
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	BIT	1,(IY+ViewFlg)
+	JR	Z,InsFN1
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	SET	6,H
+	INC	HL
+	INC	HL
+	LD	DE,TempName
+	LD	BC,#000D
+	LDIR 
+	JR	InsFN2
+InsFN1	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	SET	6,H
+	INC	HL
+	LD	DE,TempName
+	CALL	MakeDOSname
+InsFN2	POP	AF
+	OUT	(PAGE1),A
+	LD	HL,TempName
+	LD	A,(HL)
+	CP	"."
+	RET	Z
+	CP	"\\"
+	RET	Z
+	PUSH	HL
+	SUB	A
+	LD	C,A
+	INC	C
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(HL),#20
+	INC	HL
+	LD	(HL),A
+	INC	C
+	POP	HL
+	CALL	InsertWord
+	RET 
+TempName
+	DEFS	14,0
+InsLeftPath
+	LD	HL,LeftPanel+BegPath
+	JR	InsPath
+InsRightPath
+	LD	HL,RightPanel+BegPath
+InsPath	LD	DE,WorkBuffer+#100
+	PUSH	DE
+	SUB	A
+	LD	C,A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	JR	Z,$+5
+	LD	(DE),A
+	INC	DE
+	DEC	C
+	SUB	A
+	SUB	C
+	LD	C,A
+	POP	HL
+	CALL	InsertWord
+	RET 
+InsertWord
+	LD	A,(IX+#04)	;InpytSymb
+	ADD	A,C
+	RET	C
+	SUB	(IX+#00)	;Max len
+	RET	NC
+	PUSH	HL
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	JR	Z,NotInsWord
+;¬вод в	середину текста
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#04)
+	ADD	HL,DE
+	LD	E,L
+	LD	D,H
+	LD	B,#00
+	ADD	HL,BC
+	EX	DE,HL
+	DEC	HL
+	DEC	DE
+	PUSH	BC
+	LD	C,A
+	LDDR 
+	POP	BC
+NotInsWord
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	EX	DE,HL
+	POP	HL
+	PUSH	BC
+	LD	B,#00
+	LDIR 
+	POP	BC
+	LD	A,(IX+#04)
+	ADD	A,C
+	LD	(IX+#04),A
+	LD	A,(IX+#02)
+	ADD	A,C
+	LD	(IX+#02),A
+	CALL	PrintInpLn
+	RET 
+InsHistory
+	CALL	GetDOShistory
+	CALL	PrintInpLn
+	RET 
+;[]----------------------------------------------------------[]
+DOSstr
+	DEFB	#80,#00
+DOSposX	DEFB	#00
+DOSaddX	DEFB	#00
+DOSslen	DEFB	#00
+	DEFW	#0100,#00E7
+	DEFW	#0178
+	DEFB	PanelCol*#10+FileCol
+DOSinp	DEFS	#081,0
+
+HistSpace
+	DEFW	#200
+HistCount
+	DEFB	#00
+HistCurrent
+	DEFB	#00
+;[]----------------------------------------------------------[]
+
+

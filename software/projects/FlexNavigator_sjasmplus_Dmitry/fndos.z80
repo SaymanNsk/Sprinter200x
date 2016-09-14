@@ -1,0 +1,316 @@
+
+;[]----------------------------------------------------------[]
+BegDIRECTORY
+	LD	HL,BegDIR
+NewDIRECTORY
+	PUSH	HL
+	CALL	ResInvert
+	POP	HL
+	CALL	SetClock
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	CALL	C,DOSError
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	ADD	A,"A"
+	CP	(HL)
+	PUSH	AF
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	IY
+	RST	#10
+	POP	IY
+	POP	AF
+	JR	Z,NewDIRECT1
+	LD	A,(TreeFlag)
+	OR	A
+	JP	Z,InitPanel
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,InitPanel
+	BIT	0,(IY+PanelFlg)
+	LD	HL,LeftPanel+BegPath
+	LD	DE,RightPanel+BegPath
+	JR	Z,NewDIR0
+	LD	HL,RightPanel+BegPath
+	LD	DE,LeftPanel+BegPath
+NewDIR0	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	JP	InitPanels
+NewDIRECT1
+	BIT	1,(IY+ViewFlg)
+	PUSH	AF
+	CALL	NZ,NewDIRTree
+	POP	AF
+	CALL	Z,ReadDIR
+	CALL	PrintPath
+	BIT	7,(IY+PanelFlg)
+	CALL	NZ,PrintDOSPath
+	CALL	PrintDIR
+	CALL	SetInvert
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	InitScrBar
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+	CALL	SetMouse
+	RET 
+NewDIRTree
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	INC	HL
+	INC	HL
+	CALL	FindTreeDIR
+	CALL	MakeTreePath
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,RightPanel
+	JR	Z,$+6
+	LD	IY,LeftPanel
+	CALL	NewDIRECTORY
+	POP	IY
+	RET 
+;[]----------------------------------------------------------[]
+RefreshDIR
+	BIT	1,(IY+ViewFlg)
+	JR	NZ,RfDIRn1
+	CALL	ReadDIR
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	InitScrBar
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+RfDIRn1	LD	HL,LeftPanel+BegPath
+	LD	DE,RightPanel+BegPath
+RefrDIR	LD	A,(DE)
+	CP	(HL)
+	RET	NZ
+	INC	HL
+	INC	DE
+	LD	A,(HL)
+	OR	A
+	JR	NZ,RefrDIR
+	LD	A,(DE)
+	OR	A
+	RET	NZ
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,RightPanel
+	JR	Z,$+6
+	LD	IY,LeftPanel
+	BIT	1,(IY+ViewFlg)
+	JR	NZ,RefrDex
+	CALL	ReadDIR
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	InitScrBar
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+RefrDex	POP	IY
+	RET 
+;[]----------------------------------------------------------[]
+FindPrevFile
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	7,(IY+PanelFlg)
+	RET	Z
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	IX,#4000
+	LD	HL,#4001
+	LD	BC,#0000
+FndPrFile0
+	PUSH	HL
+	BIT	4,(IX+#0E)
+	JR	NZ,FndPrFileNxt
+	LD	DE,WorkBuffer
+	PUSH	DE
+	PUSH	BC
+	CALL	MakeDOSname
+	POP	BC
+	POP	HL
+	LD	DE,PrevFile
+FndPrFile1
+	LD	A,(DE)
+	OR	A
+	JR	Z,FndPrFileE
+	CP	(HL)
+	JR	NZ,FndPrFileNxt
+	INC	HL
+	INC	DE
+	JR	FndPrFile1
+FndPrFileNxt
+	POP	HL
+	LD	DE,#0018
+	ADD	HL,DE
+	ADD	IX,DE
+	INC	BC
+	LD	A,(HL)
+	OR	A
+	JR	NZ,FndPrFile0
+	JP	FndTreeExt
+FndPrFileE
+	LD	A,(HL)
+	OR	A
+	JR	NZ,FndPrFileNxt
+	JR	FndTree
+PrevFile
+	DEFS	13,0
+;[]----------------------------------------------------------[]
+FindPrevDIR
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	7,(IY+PanelFlg)
+	RET	Z
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	IX,#4000
+	LD	HL,#4001
+	LD	BC,#0000
+FndPrDIR0
+	PUSH	HL
+	BIT	4,(IX+#0E)
+	JR	Z,FndPrDIRnxt
+	LD	DE,WorkBuffer
+	PUSH	DE
+	PUSH	BC
+	CALL	MakeDOSname
+	POP	BC
+	POP	HL
+	LD	DE,PrevDIR
+FndPrDIR1
+	LD	A,(DE)
+	OR	A
+	JR	Z,FndPrDIRe
+	CP	(HL)
+	JR	NZ,FndPrDIRnxt
+	INC	HL
+	INC	DE
+	JR	FndPrDIR1
+FndPrDIRnxt
+	POP	HL
+	LD	DE,#0018
+	ADD	HL,DE
+	ADD	IX,DE
+	INC	BC
+	LD	A,(HL)
+	OR	A
+	JR	NZ,FndPrDIR0
+	JR	FndTreeExt
+FndPrDIRe
+	LD	A,(HL)
+	OR	A
+	JR	NZ,FndPrDIRnxt
+FndTree	INC	SP
+	INC	SP
+	LD	L,C
+	LD	H,B
+	LD	C,(IY+PanelFPl)
+	LD	B,(IY+PanelFPh)
+	LD	DE,#0000
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	JR	NC,$-6
+	ADD	HL,BC
+	LD	(IY+PanelCFl),L
+	LD	(IY+PanelCFh),H
+	LD	(IY+PanelFFl),E
+	LD	(IY+PanelFFh),D
+FndTreeExt
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+PrevDIR
+	DEFS	13,0
+;[]----------------------------------------------------------[]
+MakeDOSname
+	LD	BC,#0820
+MDN0	LD	A,(HL)
+	CP	C
+	JR	Z,MDN1
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	DJNZ	MDN0
+MDN1	LD	A,B
+	OR	A
+	JR	Z,$+5
+	INC	HL
+	DJNZ	$-1
+	LD	B,#03
+	INC	HL
+MDN2	LD	A,(HL)
+	CP	C
+	JR	Z,MDNe
+	LD	A,"."
+	LD	(DE),A
+	INC	DE
+MDN3	LD	A,(HL)
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	DJNZ	MDN3
+MDNe	SUB	A
+	LD	(DE),A
+	RET 
+
+
+
+

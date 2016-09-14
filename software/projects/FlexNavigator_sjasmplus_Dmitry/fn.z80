@@ -1,0 +1,335 @@
+	DEVICE ZXSPECTRUM128
+;[]=======================================================================[]
+;				FLEX NAVIGATOR			      	   ;
+;				     v1.11			           ;
+;			   Last	edition: 03/02/2000		           ;
+;[]=======================================================================[]
+; flex navigator equs
+
+	include "fnconst.inc"
+
+;[]-----------------------------------------------------------------------[]
+	org	0x8000
+;	section	.bss
+
+WorkBuffer:
+	ds	0x400			; work buffer for func/procs
+
+;[]-----------------------------------------------------------------------[]
+	org	0x8400
+;	section	.bss
+
+PagesList:
+	ds	0x100			; buffer for memory pages
+;[]-----------------------------------------------------------------------[]
+	org	0x8500
+;	section	.text
+StartOfFN
+;UI palette & stack memory
+PALETTE:
+	DB	0x00,0x00,0x00,0x00	;Black		00
+	DB	0x00,0x00,0xFF,0x00	;B.Red		01
+	DB	0x00,0x80,0x00,0x00	;Green		02
+	DB	0x00,0xFF,0xFF,0x00	;B.Yellow	03
+	DB	0x80,0x00,0x00,0x00	;Blue		04
+	DB	0xFF,0xFF,0x00,0x00	;Invert	paper	05
+	DB	0x80,0x00,0x00,0x00	;Invert	ink	06
+	DB	0x80,0x80,0x80,0x00	;BlackGray	07
+	DB	0xf5,0xf6,0xf7,0x00	;HighGray	08
+	DB	0x80,0x00,0x00,0x00	;Panel		09
+	DB	0xFF,0xFF,0x00,0x00	;Files		0A
+	DB	0x00,0xFF,0xFF,0x00	;Select	Files	0B
+	DB	0x00,0xFF,0xFF,0x00	;InvSel	Files	0C
+	DB	0xf5,0xf6,0xf7,0x00	;Reserved	0D
+	DB	0xFF,0xFF,0xFF,0x00	;White		0E
+	DB	0xFF,0xFF,0xFF,0x00	;White		0F
+
+	ds	0xC0		; stack  memory
+
+;[]=======================================================================[]
+	org	0x8600
+;	section	.text
+
+EntryPoint:
+	JP	StartPoint			; entry point
+
+; flex navigator UI
+
+	include "fnjump.z80"
+	include "fnwin.z80"
+	include "fnprint.z80"
+	include "fninput.z80"
+	include "fnbar.z80"
+	include "fnmouse.z80"
+	include "fnsys.z80"
+
+;[]=======================================================================[]
+;Старт
+StartPoint:
+	DI
+	LD	SP,0x85FF
+BEGCOM	SUB	A
+	OUT	(BORDER),A
+	LD	A,0xC0
+	OUT	(YPORT),A
+	CALL	InitVMode
+	CALL	InitDrivers
+BEGCOMv	CALL	InitScreen
+	CALL	ClrDOSline
+	SUB	A
+	CALL	InitPanels
+	CALL	ResFire
+ComLoop
+	LD	IX,MainCoordsL
+	BIT	0,(IY+PanelFlg)
+	JR	Z, .next
+	LD	IX,MainCoordsR
+.next	CALL	TestCoords
+	CALL	TestKeys
+	CALL	C,DOSline
+ComNext	LD	A,(TreeFlag)
+	OR	A
+	CALL	NZ,TestTree
+	JR	ComLoop
+
+;[]-----------------------------------------------------------------------[]
+TestKeys
+	LD	C,0x37
+	RST	0x10
+	JR	Z,KeyExit
+	RES	7,D
+	LD	A,B
+	AND	0x30
+	CP	0x30
+	RET	Z
+	LD	IX,SHIFTKeys
+	LD	A,B
+	AND	0xC0
+	JR	NZ,TstKeys
+	LD	IX,CTRLKeys
+	BIT	5,B
+	JR	NZ,TstKeys
+	LD	IX,ALTKeys
+	BIT	4,B
+	JR	NZ,TstKeys
+	LD	IX,ASCIIKeys
+TstKeys	LD	A,(IX+0x00)
+	INC	IX
+	CP	0xFF
+	SCF
+	RET	Z
+	LD	L,A
+	LD	H,(IX+0x00)
+	INC	IX
+	LD	C,(IX+0x00)
+	INC	IX
+	LD	B,(IX+0x00)
+	INC	IX
+	OR	A
+	SBC	HL,DE
+	JR	NZ,TstKeys
+	LD	(KeyCALL+1),BC
+	LD	C,0x31
+	RST	0x10
+KeyCALL	CALL	0x0000
+KeyExit	XOR	A
+	RET
+
+;[]-----------------------------------------------------------------------[]
+MouseOnOff
+	LD	A,(MouseFlag)
+	XOR	0x01
+	LD	(MouseFlag),A
+	LD	C,0x01
+	JR	NZ,$+4
+	LD	C,0x02
+	RST	0x30
+	RET
+
+;[]-----------------------------------------------------------------------[]
+ComExit
+	CALL	ResDrivers
+	CALL	ResVMode
+	LD	HL,.thanks
+	LD	C,0x5C
+	RST	0x10
+	LD	A,(FNIndef)
+	LD	C,0x3E
+	RST	0x10
+	LD	BC,0x0041
+	RST	0x10
+.thanks
+	DB	0x0D,0x0A,"Thank you for using Flex Navigator.",0x0D,0x0A
+	DB	0x00
+
+;[]=======================================================================[]
+; discription of flex navigator file panels
+LeftPanel:
+	DB	0x80	;Флаг панели 7бит - бит	выделенности
+			;	     0бит - номер панели
+	DB	0x00	;Флаг вида панели 0 - краткая панель
+			;	       бит0 - подробная	панель
+			;	       бит1 - дерево
+			;	       бит2 - ужатое дерево
+	DB	0x01	;Вид сортировки
+			;	       бит0 - по имени
+			;	       бит1 - по расширению
+			;	       бит2 - по размеру
+			;	       бит3 - по дате
+			;	       бит4 - execute file
+			;	       бит5 - file mask
+	DW	0x0004	;X позиция панели
+	DW	0x0000	;X позиция скролбара
+	DW	0x0000	;Y позиция скролбара
+	DW	0x0000	;Max длина скролбара
+	DW	0x0000	;тек.длина скролбара
+	DW	0x0000	;Адрес ячейки BarLeft
+	DW	0x0000	;Адрес ячейки BarRight
+	DW	0x0000	;Кол-во	файлов на странице
+	DW	0x0000	;Общее кол-во файлов
+	DW	0x0000	;Первый	файл на	странице
+	DW	0x0000	;Tекущий файл на странице
+	DW	0x0000	;Кол-во	маркированных файлов
+	DW	0x0000,0x0000	;Кол-во	маркированных байтов
+	DB	"*.*"	;Maска для файлов
+	ds	0x0A
+	ds	0x100	;Путь к	текущей	директории
+
+RightPanel:
+	DB	0x01	;Флаг панели 7бит - бит0выделенности
+			;	     0бит - номер панели
+	DB	0x00	;Флаг вида панели 0 - краткая панель
+			;	       бит0 - подробная	панель
+			;	       бит1 - дерево
+			;	       бит2 - ужатое дерево
+	DB	0x01	;Вид сортировки
+			;	       бит0 - по имени
+			;	       бит1 - по расширению
+			;	       бит2 - по размеру
+			;	       бит3 - по дате
+			;	       бит4 - execute file
+			;	       бит5 - file mask
+	DW	0x0144	;X позиция панели
+	DW	0x0000	;X позиция скролбара
+	DW	0x0000	;Y позиция скролбара
+	DW	0x0000	;Max длина скролбара
+	DW	0x0000	;тек.длина скролбара
+	DW	0x0000	;Адрес ячейки BarLeft
+	DW	0x0000	;Адрес ячейки BarRight
+	DW	0x0000	;Кол-во	файлов на странице
+	DW	0x0000	;Общее кол-во файлов
+	DW	0x0000	;Первый	файл на	странице
+	DW	0x0000	;Tекущий файл на странице
+	DW	0x0000	;Кол-во	маркированных файлов
+	DW	0x0000,0x0000	;Кол-во	маркированных байтов
+	DB	"*.*"	;Maска для файлов
+	ds	0x0A
+	ds	0x100	;Путь к	текущей	директории
+
+;[]-----------------------------------------------------------------------[]
+; flex navigator settings
+EquipDisks		;Кол-во	устройств
+	DB	0x00
+TreeFlag		;Флаг дерева
+	DB	0x00
+CMOSFlag		;Флаг CMOS 0 - нет
+	DB	0x00	;	   1 - есть
+MouseFlag		;Флаг мыши 0 - нет
+	DB	0x01	;	   1 - есть
+FNIndef			;Индеф.памяти где FN
+	DB	0x00
+FunctPg			;Страница с функциями FN
+	DB	0
+ViewPg			;Страница с FileViewer
+	DB	0
+EditPg			;Страница с FileEditor
+	DB	0
+HelpPg			;Страница FN HELP
+	DB	0
+FONTpage		;Страница шрифтов
+	DB	0
+BuffInd			;Индефикатор памяти под	буфера
+	DB	0x00
+WorkPage		;Страница для подгрузки	FLX просмотр.
+	DB	0x00	;			FLX утилит
+DIRpage1		;Страница каталога Левой панели
+	DB	0x00
+DIRpage2		;Страница каталога Правой панели
+	DB	0x00
+
+BuffPg1	DB	0x00	;Буферные страницы под интерфейс
+BuffPg2	DB	0x00
+BuffPg3	DB	0x00
+BuffPg4	DB	0x00
+	DB	0x00
+
+;[]=======================================================================[]
+
+	include "fnsort.z80"
+	include "fntree.z80"
+	include "fnpanel.z80"
+	include "fndos.z80"
+	include "fnwork.z80"
+	include "fnmenu.z80"
+	include "fnmark.z80"
+	include "fninit.z80"
+	include "fndosln.z80"
+	include "fntab.z80"
+end1:
+
+EndOfFN
+	savebin	"bin\fnmain.bin",StartOfFN,EndOfFN-StartOfFN
+;[]=======================================================================[]
+	org	0x4000
+;	section	.text
+StartOfFunc
+	include "fnfunct.z80"
+	include "fnmisc.z80"
+	include "fnsearch.z80"
+	include "fnconfig.z80"
+	include "fnerror.z80"
+	include "fntab1.z80"
+FlexDIRECTORY:
+	ds	0x100
+end2:
+
+	savebin	"bin\fnfunc.bin",StartOfFunc,end2-StartOfFunc
+;[]-----------------------------------------------------------------------[]
+	org	0x4000
+;	section	.text
+StartOfHelp
+DOShistory:
+	ds	0x200
+fn_ext:
+	ds	0x400
+fnview_ext:
+	ds	0x400
+fnedit_ext:
+	ds	0x400
+	include "fnext.z80"
+	include "fnhelp.z80"
+HelpText:
+	insert "fnhelp_t.bin"
+HelpTextEnd:
+
+end3:
+	savebin	"bin\fnhelp.bin",StartOfHelp,end3-StartOfHelp
+
+
+;[]=======================================================================[]
+	org	0xC000
+;	section	.data
+
+IFFFont
+	insert	"fnfont.bin"
+Font	equ 0xdb00
+;	insert	"iff_font.raw"
+;	ds	0xDB00-$
+;Font
+;	insert "font.raw"
+end4:
+
+	savebin	"bin\fnfont.bin",IFFFont,end4-IFFFont
+	export	FNIndef
+	export	FunctPg
+	export	EntryPoint

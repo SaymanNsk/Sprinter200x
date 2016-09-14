@@ -1,0 +1,28 @@
+#
+# MED project file
+#
+project=FlexNavigator(z80)
+workDir=C:\R-Lab\z80\FlexNavigator
+incDir=
+createTags=1
+Compile= Compile	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Make= Make	 make.bat	 	 [:][0-9]+[:]	 	 [ ]*\*\*\*.*	 (.*):[0-9]+:.*	 .*:([0-9]+):.*	 	 3	 15	 1	 1	 1	 0	 	 1	 make.bmp	 1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Debug= Debug	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Execute= Execute	 VBASDL.exe	 -1	 	 	 	 	 	 	 0	 15	 1	 1	 1	 0	 	 1	 run.bmp	 1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd1= Depend	 make.exe	 depend	 	 	 	 	 	 	 1	 15	 1	 1	 1	 0	 	 1	 execute.bmp	 1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd2= Clean	 make.exe	 clean	 	 	 	 	 	 	 1	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd3= Usercmd3	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd4= Usercmd4	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd5= Usercmd5	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd6= Usercmd6	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd7= Usercmd7	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd8= Usercmd8	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+Usercmd9= Usercmd9	 	 	 	 	 	 	 	 	 0	 15	 0	 1	 1	 0	 	 1	 	 -1	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+fileGroup1=build	
+options1=0	0	0	1	0	0	0
+filter1=
+files1=make.bat
+fileGroup2=asm files	
+options2=0	0	0	1	0	0	0
+filter2=
+files2=fnmain.z80

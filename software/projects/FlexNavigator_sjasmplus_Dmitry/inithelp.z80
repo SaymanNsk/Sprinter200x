@@ -1,0 +1,107 @@
+
+CHARTAB	EQU	#7F00
+SOURCE	EQU	#8000
+TARGET	EQU	#C000
+MAXSIZE	EQU	#01D0
+
+	ORG	#6000
+	DI 
+	LD	IY,SOURCE
+	LD	IX,TARGET
+ConvLoop
+	LD	HL,#0000
+	CALL	ConvertSTR
+	LD	A,(IY+#00)
+	OR	A
+	JR	NZ,ConvLoop
+	LD	(IX+#00),#FF
+	RET 
+	NOP 
+	NOP 
+LenLine
+	DEFB	#00
+
+ConvertSTR
+	SUB	A
+	LD	(LenLine),A
+ConvertLoop
+	LD	A,(IY+#00)
+	CP	#0D
+	JR	Z,ConvStrE
+	CALL	GetLenWord
+	ADD	HL,BC
+	LD	BC,MAXSIZE+1
+	OR	A
+	SBC	HL,BC
+	ADD	HL,BC
+	JR	NC,ConvStrE0
+	LD	LY,E
+	LD	HY,D
+	EXX 
+	LD	LX,E
+	LD	HX,D
+	EXX 
+	LD	(LenLine),A
+	JR	ConvertLoop
+ConvStrE
+	INC	IY
+	INC	IY
+	LD	A,(LenLine)
+	OR	A
+	JR	NZ,ConvertSTR
+ConvStrE0
+	LD	(IX+#00),#00
+	INC	IX
+	RET 
+
+GetLenWord
+	PUSH	IY
+	PUSH	IX
+	LD	A,(LenLine)
+	EX	AF,AF'
+	DEC	IY
+	DEC	IX
+	LD	BC,#0000
+LenWord1
+	INC	IY
+	INC	IX
+	LD	A,(IY+#00)
+	CP	#0D
+	JR	Z,LenWord2
+	LD	(IX+#00),A
+	LD	E,A
+	LD	D,'CHARTAB
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	EX	AF,AF'
+	INC	A
+	EX	AF,AF'
+	LD	A,E
+	CP	#20
+	JR	NZ,LenWord1
+	INC	IY
+	INC	IX
+LenWord2
+	EXX 
+	LD	E,LX
+	LD	D,HX
+	EXX 
+	LD	E,LY
+	LD	D,HY
+	EX	AF,AF'
+	POP	IX
+	POP	IY
+	RET 
+
+	ORG	#7F00
+-	INCBIN	"IFFFONTn",#100
+	ORG	#8000
+-	INCBIN	"FLEXHELP"
+	ORG	#6000
+
+

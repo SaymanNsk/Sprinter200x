@@ -1,0 +1,3 @@
+FNIndef: EQU 0x0000A7E6
+FunctPg: EQU 0x0000A7E7
+EntryPoint: EQU 0x00008600

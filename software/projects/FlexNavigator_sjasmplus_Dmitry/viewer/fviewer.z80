@@ -1,0 +1,1240 @@
+	device zxspectrum128
+	INCLUDE	"..\FNEQU.z80";,#0B
+	ORG	#C000;,VIEWpg
+StartOfViewer
+LineBuffer=WorkBuffer+#300
+;[]==========================================================[]
+FileViewer
+	CALL	LoadFile
+	RET	C
+	LD	IX,ViewingFile
+	SUB	A
+	LD	(ViewMode),A
+	LD	(ASCIIaddX),A
+	LD	HL,#0000
+	LD	(FileShift),HL
+	LD	(FileShift+2),HL
+	LD	L,(IX+28)
+	LD	H,(IX+29)
+	LD	(FileLenght),HL
+	LD	L,(IX+30)
+	LD	H,(IX+31)
+	LD	(FileLenght+2),HL
+	CALL	InitViewScr
+ViewerBegin
+	CALL	InitStatusLine
+	CALL	InitVProc
+	CALL	PrintVPage
+ViewerLoop
+	LD	A,(ViewMode)
+	OR	A
+	JR	NZ,HViewLoop
+TViewLoop
+	LD	IX,ASCIItab
+	CALL	TestCoords
+	LD	C,#31		;Ожидаем нажатия клавиш
+	RST	#10
+	JR	Z,TViewLoop
+	LD	A,E		;Е-ASCII код
+	CP	#1B		;Esc
+	JP	Z,ViewerExit
+	OR	A
+	JR	NZ,TViewLoop	;Ждем функцион.клавиши
+	LD	A,D
+	CP	#44
+	JP	Z,ViewerExit
+	LD	HL,TViewLoop
+	PUSH	HL
+	CP	#3B
+	JP	Z,About
+	CP	#3C
+	JP	Z,ChASCIImode
+	CP	#3E
+	JP	Z,ChViewer	;Просмотр в HEX
+	CP	#43
+	JP	Z,PrintFile
+	CP	#54
+	JP	Z,ScrollLeft
+	CP	#56
+	JP	Z,ScrollRght
+	CP	87		;Home
+	JP	Z,THome
+	CP	81		;End
+	JP	Z,TEnd
+	CP	88		;Стрелка вверх
+	JP	Z,TLineUp
+	CP	82		;Стрелка вниз
+	JP	Z,TLineDwn
+	CP	89		;PageUp
+	JP	Z,TPageUp
+	CP	83		;PageDown
+	JP	Z,TPageDwn
+	LD	A,B
+	AND	#30
+	CP	#30
+	RET	Z
+	BIT	5,B
+	RET	Z
+	LD	A,D
+	AND	#7F
+	CP	#57		;Ctrl+PageUp
+	JP	Z,TBegFile	;в начало файла
+	CP	#51		;Ctrl+PageDown
+	JP	Z,TEndFile	;в конец файла
+	RET 
+;--------------------------------------------------------------
+HViewLoop
+	LD	IX,HEXtab
+	CALL	TestCoords
+	LD	C,#31		;Ожидаем нажатия клавиш
+	RST	#10
+	JR	Z,HViewLoop
+	LD	A,E		;Е-ASCII код
+	CP	#1B		;Esc
+	JP	Z,ViewerExit
+	OR	A
+	JR	NZ,HViewLoop	;Ждем функцион.клавиши
+	LD	A,D		;
+	CP	#44		;F10
+	JP	Z,ViewerExit
+	LD	HL,HViewLoop
+	PUSH	HL
+	CP	#3B
+	JP	Z,About
+	CP	#3E		;F4
+	JP	Z,ChViewer	;Просмотр в тексте
+	CP	#3F		;F5
+	JP	Z,HGoTo		;Переход на адрес пользователя
+	CP	#43
+	JP	Z,PrintFile
+	CP	88		;Стрелка вверх
+	JP	Z,HLineUp
+	CP	82		;Стрелка вниз
+	JP	Z,HLineDwn
+	CP	89		;PageUp
+	JP	Z,HPageUp
+	CP	83		;PageDown
+	JP	Z,HPageDwn
+	LD	A,B
+	AND	#30
+	CP	#30
+	RET	Z
+	BIT	5,B
+	RET	Z
+	LD	A,D
+	AND	#7F
+	CP	#57		;Ctrl+PageUp
+	JP	Z,HBegFile	;в начало файла
+	CP	#51		;Ctrl+PageDown
+	JP	Z,HEndFile	;в конец файла
+	RET 
+;[]----------------------------------------------------------[]
+ChViewer
+	LD	HL,ViewerBegin
+	EX	(SP),HL
+	SUB	A
+	LD	(ASCIIaddX),A
+	LD	A,(ViewMode)
+	XOR	#01
+	LD	(ViewMode),A
+	RET	NZ
+	LD	HL,(FileShift)
+	LD	DE,(FileShift+2)
+	INC	HL
+	LD	A,H
+	OR	L
+	JR	NZ,$+3
+	INC	DE
+	CALL	SearchUp
+	LD	(FileShift),HL
+	LD	(FileShift+2),DE
+	RET 
+;[]==========================================================[]
+PrintVPage
+	LD	A,(ViewMode)
+	OR	A
+	JP	NZ,PrnHEXpage
+	JP	PrnASCIIpage
+;[]==========================================================[]
+ViewingFile
+	DEFS	#30,0
+ViewMode
+	DEFB	#00
+ASCIImode
+	DEFB	#01
+ASCIIaddX
+	DEFB	#00
+EmptyLines
+	DEFB	#00
+FileLenght
+	DEFS	4,0	;Длина файла (32бит)
+FileShift
+	DEFS	4,0	;Смещение от начала файла (32бит)
+TempShift
+	DEFS	4,0	;Временная ячейка смещения (32бит)
+NextShift
+	DEFS	4,0	;Следующая страница для	ASCII (32бит)
+MemIndef
+	DEFB	#00
+FHandle
+	DEFB	#00
+ReadLen
+	DEFS	4,0
+;[]==========================================================[]
+ViewerExit
+	LD	A,(MemIndef)
+	LD	C,#3E
+	RST	#10
+	OR	A
+	RET 
+;[]==========================================================[]
+LoadFile
+	CALL	SetClock
+	LD	DE,ViewingFile
+	LD	BC,#0119
+	LD	A,#37
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JP	C,LoadExit
+	LD	HL,ViewingFile+33
+	LD	A,(HL)
+LoadFl0	CALL	CorrBigChar
+	LD	(HL),A
+	INC	HL
+	LD	A,(HL)
+	OR	A
+	JR	NZ,LoadFl0
+	LD	IX,ViewingFile
+	LD	H,(IX+28)
+	LD	A,(IX+29)
+	LD	E,(IX+30)
+	LD	D,(IX+31)
+	LD	L,#00
+	SLA	A
+	RL	E
+	RL	D
+	RL	L
+	SLA	A
+	RL	E
+	RL	D
+	RL	L
+	OR	H
+	LD	H,#00
+	EX	DE,HL
+	JR	Z,$+3
+	INC	HL
+	LD	A,H
+	OR	L
+	JR	NZ,LoadFl1
+	INC	HL
+LoadFl1	LD	A,D
+	OR	E
+	LD	A,#1E
+	PUSH	AF
+	CALL	NZ,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	SCF 
+	JP	NZ,LoadExit
+	LD	C,#3C
+	PUSH	HL
+	RST	#10
+	POP	DE
+	LD	L,C
+	LD	H,B
+	OR	A
+	SBC	HL,DE
+	LD	A,#1E
+	PUSH	DE
+	PUSH	AF
+	CALL	C,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	POP	DE
+	JP	C,LoadExit
+	LD	IX,ProcessView
+	LD	(IX+ProcMAXl1),E
+	LD	(IX+ProcMAXh1),D
+	SUB	A
+	LD	(IX+ProcMAXl2),A
+	LD	(IX+ProcMAXh2),A
+	PUSH	DE
+	CALL	InitProcess
+	POP	DE
+	LD	B,E
+	LD	C,#3D
+	RST	#10
+	LD	(MemIndef),A
+	LD	HL,PagesList
+	LD	C,#C5
+	RST	#08
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A0,#0058
+	DEFW	#0140,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0138,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0003
+	DEFB	#0F
+	DEFB	"FN File Viewer v1.02",0
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0010
+	DEFB	#80
+	DEFB	"Reading:",0
+	DEFB	#03	;Углубление
+	DEFW	#0010,#001C
+	DEFW	#0120,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#001D
+	DEFW	#011C,#000A
+	DEFB	#0F
+	DEFB	#00
+	LD	C,#02
+	RST	#10
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	HL
+	RST	#10
+	POP	HL
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	INC	HL
+	JR	Z,$+4
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	LD	HL,ViewingFile+33
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#0100
+	LD	HL,WorkBuffer
+	LD	DE,#00D8
+	LD	BC,#0068
+	LD	A,#80
+	CALL	PrnRangPathL
+
+	LD	HL,ViewingFile+33
+	LD	A,#01
+	LD	C,#11
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JP	C,NoRead
+	LD	(FHandle),A
+	LD	IX,ViewingFile
+	LD	L,(IX+28)
+	LD	H,(IX+29)
+	LD	(ReadLen),HL
+	LD	L,(IX+30)
+	LD	H,(IX+31)
+	LD	(ReadLen+2),HL
+	LD	A,#C0
+	OUT	(YPORT),A
+
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	HL,PagesList
+	LD	A,(HL)
+ReadLp1	INC	HL
+	PUSH	HL
+	OUT	(PAGE1),A
+	LD	C,#31
+	RST	#10
+	LD	HL,#011B
+	OR	A
+	SBC	HL,DE
+	JP	Z,ReadAbort
+	LD	HL,(ReadLen)
+	LD	DE,(ReadLen+2)
+	LD	BC,#4000
+	OR	A
+	SBC	HL,BC
+	LD	B,#00
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	JR	C,ReadEnd
+	LD	(ReadLen),HL
+	LD	(ReadLen+2),DE
+	LD	HL,#4000
+	LD	DE,#4000
+	LD	A,(FHandle)
+	LD	C,#13
+	RST	#10
+	CALL	NextProcess
+	POP	HL
+	LD	A,(HL)
+	CP	#FF
+	JR	NZ,ReadLp1
+	POP	AF
+	OUT	(PAGE1),A
+	JR	ReadExit
+ReadEnd
+	LD	HL,#4000
+	LD	DE,(ReadLen)
+	LD	A,D
+	OR	E
+	JR	Z,ReadEn1
+	LD	A,(FHandle)
+	LD	C,#13
+	RST	#10
+	CALL	NextProcess
+ReadEn1	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+ReadExit
+	LD	A,(FHandle)
+	LD	C,#12
+	RST	#10
+	OR	A
+LoadExit
+	HALT 
+	HALT 
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	PUSH	AF
+	CALL	SetMouse
+	POP	AF
+	RET 
+ReadAbort
+	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+NoRead	LD	A,(MemIndef)
+	LD	C,#3E
+	RST	#10
+	SCF 
+	JR	LoadExit
+NextProcess
+	LD	IX,ProcessView
+	LD	L,(IX+ProcCURl1)
+	LD	H,(IX+ProcCURh1)
+	INC	HL
+	LD	(IX+ProcCURl1),L
+	LD	(IX+ProcCURh1),H
+	LD	A,H
+	OR	L
+	JR	NZ,NextPr1
+	LD	L,(IX+ProcCURl2)
+	LD	H,(IX+ProcCURh2)
+	INC	HL
+	LD	(IX+ProcCURl2),L
+	LD	(IX+ProcCURh2),H
+NextPr1	CALL	PrnProcess
+	RET 
+;[]----------------------------------------------------------[]
+ProcessView
+	DEFW	#00B2
+	DEFW	#0075
+	DEFW	#011C
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFB	#4F
+CorrBigChar
+	CP	#41
+	RET	C
+	CP	#5B
+	JR	NC,CorrCh1
+	SET	5,A
+	RET 
+CorrCh1	CP	#80
+	RET	C
+	CP	#A0
+	RET	NC
+	SET	5,A
+	CP	#90
+	RET	C
+	SET	6,A
+	RES	4,A
+	RET 
+;[]==========================================================[]
+InitViewScr
+	LD	HL,FLen
+	LD	B,#10
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	HL,FClast
+	LD	B,#05
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	DE,FLen
+	LD	IX,ViewingFile
+	LD	L,(IX+28)
+	LD	H,(IX+29)
+	LD	C,(IX+30)
+	LD	B,(IX+31)
+	CALL	ConvNumTxt32
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+	LD	DE,FData
+	CALL	GetData
+	LD	DE,FTime
+	CALL	GetTime
+	LD	L,(IX+26)
+	LD	H,(IX+27)
+	LD	DE,FClast
+	CALL	ConvNumTxt16
+	LD	HL,FAtributs
+	LD	DE,FAttrib
+	LD	C,(IX+32)
+	LD	B,#08
+InitVS0	RL	C
+	LD	A,"-"
+	JR	NC,$+3
+	LD	A,(HL)
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	InitVS0
+	CALL	MakeWindow
+	DEFB	#00	;Main window
+	DEFW	#0000,#0000
+	DEFW	#0280,#0100
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0278,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0003
+	DEFB	#0F
+	DEFB	"  FN File Viewer v1.02",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#000D
+	DEFW	#0280
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0011
+	DEFB	#80
+	DEFB	"Viewing:",0
+
+	DEFB	#07	;Vertical line
+	DEFW	#023E,#0010
+	DEFW	#000A
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#001B
+	DEFW	#0280
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00E3
+	DEFW	#0280
+
+	DEFB	#02	;Head Place
+	DEFW	#0000,#001C
+	DEFW	#0280,#00C8
+	DEFB	PanelCol
+
+	DEFB	#01	;Text Line
+	DEFW	#0008,#00E7
+	DEFB	#80
+	DEFB	"Len:  "
+FLen	DEFB	"                ",0
+
+	DEFB	#07	;Vertical line
+	DEFW	#00A0,#00E6
+	DEFW	#000A
+
+	DEFB	#01	;Text Line
+	DEFW	#00AC,#00E7
+	DEFB	#80
+	DEFB	"Create data:  "
+FData	DEFB	"          "
+FTime	DEFB	"     ",0
+
+	DEFB	#07	;Vertical line
+	DEFW	#0150,#00E6
+	DEFW	#000A
+
+	DEFB	#01	;Text Line
+	DEFW	#015C,#00E7
+	DEFB	#80
+	DEFB	"First claster:  "
+FClast	DEFB	"     ",0
+
+	DEFB	#07	;Vertical line
+	DEFW	#01E0,#00E6
+	DEFW	#000A
+
+	DEFB	#01	;Text Line
+	DEFW	#01EC,#00E7
+	DEFB	#80
+	DEFB	"File attribut:  "
+FAttrib	DEFB	"        ",0
+
+	DEFB	#00
+
+	LD	C,#02
+	RST	#10
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	HL
+	RST	#10
+	POP	HL
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	INC	HL
+	JR	Z,$+4
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	LD	HL,ViewingFile+33
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#0200
+	LD	HL,WorkBuffer
+	LD	DE,#0034
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnRangPathL
+	LD	HL,#01FC
+	LD	DE,#0003
+	LD	B,#08
+	EXX 
+	LD	HL,#022E
+	LD	DE,#0003
+	LD	B,#08
+	EXX 
+	LD	A,#02
+	CALL	SetCMOSPrint
+	RET 
+FAtributs
+	DEFB	"--ad-shr"
+GetData
+;Дата
+	EX	DE,HL
+	LD	A,(IX+24)
+	AND	#1F
+	CALL	Get8Bit
+	LD	(HL),"."
+	INC	HL
+	LD	A,(IX+24)
+	LD	C,(IX+25)
+	LD	B,5
+	SRL	C
+	RRA 
+	DJNZ	$-3
+	AND	#0F
+	CALL	Get8Bit
+	LD	(HL),"."
+	INC	HL
+	LD	A,(IX+25)      ;Год
+	SRL	A
+	ADD	A,80
+	SUB	100
+	JR	NC,$-2
+	ADD	A,100		;Год
+	CALL	Get8Bit
+	EX	DE,HL
+	RET 
+GetTime
+;Время
+	EX	DE,HL
+	LD	A,(IX+23)	;Часы
+	AND	#F8
+	RRA 
+	RRA 
+	RRA 
+	CALL	Get8Bit
+	LD	(HL),":"
+	INC	HL
+	LD	A,(IX+22)
+	LD	C,(IX+23)
+	LD	B,5
+	SRL	C
+	RRA 
+	DJNZ	$-3
+	AND	#3F
+	CALL	Get8Bit
+	EX	DE,HL
+	RET 
+Get8Bit
+	LD	B,#2F
+	INC	B
+	SUB	10
+	JR	NC,$-3
+	ADD	A,10
+	LD	(HL),B
+	INC	HL
+	ADD	A,"0"
+	LD	(HL),A
+	INC	HL
+	RET 
+Bytes
+	DEFB	"bytes"
+;[]==========================================================[]
+InitStatusLine
+	LD	A,(ViewMode)
+	OR	A
+	JP	NZ,HEXstatus
+ASCIIstatus
+	LD	HL,UnWrapT
+	LD	DE,#005E
+	LD	A,(ASCIImode)
+	OR	A
+	JR	Z,$+8
+	LD	HL,WrapT
+	LD	DE,#0064
+	LD	(ASCIIx),DE
+	LD	DE,ASCIIm
+	LD	BC,#0009
+	LDIR 
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00F1
+	DEFW	#0280
+
+	DEFB	#02
+	DEFW	#0002,#00F3
+	DEFW	#027C,#000C
+	DEFB	#08
+	DEFB	#04	;UpRectan
+	DEFW	#0000,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0012,#00F5
+	DEFB	#80
+	DEFB	"F1 About",0
+	DEFB	#04	;UpRectan
+	DEFW	#0050,#00F2
+	DEFW	#0050,#000E
+	DEFB	#02	;UpRectan
+	DEFW	#0052,#00F3
+	DEFW	#004C,#000C
+	DEFB	#08
+	DEFB	#01	;Text Line
+ASCIIx	DEFW	#005E,#00F5
+	DEFB	#80
+ASCIIm	DEFB	"F2 UnWrap",0
+	DEFB	#04	;UpRectan
+	DEFW	#00A0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00B8,#00F5
+	DEFB	#80
+	DEFB	"F4 Hex",0
+	DEFB	#04	;UpRectan
+	DEFW	#01E0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#01F6,#00F5
+	DEFB	#80
+	DEFB	"F9 Print",0
+	DEFB	#04	;UpRectan
+	DEFW	#0230,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0244,#00F5
+	DEFB	#80
+	DEFB	"F10 Quit",0
+	DEFB	#00
+	RET 
+UnWrapT
+	DEFB	"F2 UnWrap"
+WrapT
+	DEFB	"F2 Wrap  "
+HEXstatus
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00F1
+	DEFW	#0280
+
+	DEFB	#02
+	DEFW	#0002,#00F3
+	DEFW	#027C,#000C
+	DEFB	#08
+	DEFB	#04	;UpRectan
+	DEFW	#0000,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0012,#00F5
+	DEFB	#80
+	DEFB	"F1 About",0
+	DEFB	#04	;UpRectan
+	DEFW	#00A0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00B6,#00F5
+	DEFB	#80
+	DEFB	"F4 ASCII",0
+	DEFB	#04	;UpRectan
+	DEFW	#00F0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0102,#00F5
+	DEFB	#80
+	DEFB	"F5 Go to",0
+	DEFB	#04	;UpRectan
+	DEFW	#01E0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#01F6,#00F5
+	DEFB	#80
+	DEFB	"F9 Print",0
+	DEFB	#04	;UpRectan
+	DEFW	#0230,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0244,#00F5
+	DEFB	#80
+	DEFB	"F10 Quit",0
+	DEFB	#00
+	RET 
+;[]==========================================================[]
+About
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A0,#0048
+	DEFW	#0140,#0055
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0138,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0090,#0003
+	DEFB	#0F
+	DEFB	"About",0
+	DEFB	#01	;Text Line
+	DEFW	#0060,#0012
+	DEFB	#80
+	DEFB	"Flex Navigator File Viewer",0
+	DEFB	#01	;Text Line
+	DEFW	#0090,#001C
+	DEFB	#80
+	DEFB	"v1.02",0
+	DEFB	#01	;Text Line
+	DEFW	#0012,#0028
+	DEFB	#80
+	DEFB	"Programming:  Enin Anton      "
+	DEFB	"Release data:  03/02/2000",0
+	DEFB	#01	;Text Line
+	DEFW	#0044,#0035
+	DEFB	#80
+	DEFB	"All right reserved. "
+	DEFB	"Copyright (C)2000",0
+	DEFB	#04	;UpRectan
+	DEFW	#007C,#0042
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#009A,#0045
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+AboutLoop
+	LD	IX,AboutTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,AboutLoop
+	LD	A,B
+	OR	A
+	JR	NZ,AboutLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,AboutExt
+	CP	#0D
+	JR	Z,AboutExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,AboutLoop
+AboutExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+;[]==========================================================[]
+ScrollSCRup
+	LD	DE,#241C
+	JR	ScrlSCRDnUp
+ScrollSCRdown
+	LD	DE,#1C24
+;На вход:
+;	 D  - Y	откуда
+;	 Е  - Y	куда
+ScrlSCRDnUp
+	DI 
+	LD	C,#83
+	PUSH	DE
+	RST	#30
+	POP	DE
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,#4000
+	LD	BC,320
+	LD	D,D
+	LD	A,#C0
+	LD	B,B
+ScSCRN1	LD	A,D
+	OUT	(YPORT),A
+	LD	A,A
+	LD	A,(HL)
+	LD	B,B
+	LD	A,E
+	OUT	(YPORT),A
+	LD	A,A
+	LD	(HL),A
+	LD	B,B
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,ScSCRN1
+	POP	AF
+	OUT	(PAGE1),A
+	EI 
+	RET 
+;[]==========================================================[]
+InitFPages
+	PUSH	HL
+	LD	DE,(TempShift)
+	LD	HL,(TempShift+2)
+	LD	A,D		;Выделяем номер	страницы
+	RLA 
+	RL	L
+	RLA 
+	RL	L
+	LD	A,L
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+	POP	HL
+	RET 
+TestFPages
+	BIT	7,D
+	RET	Z
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RET 
+GetFPages
+	PUSH	HL
+	RES	6,D
+	EXX 
+	LD	A,E
+	EXX 
+	BIT	7,D
+	RES	7,D
+	JR	Z,$+3
+	INC	A
+	LD	L,A
+	SUB	A
+	LD	H,A
+	SRL	L
+	RRA 
+	SRL	L
+	RRA 
+	OR	D
+	LD	D,A
+	LD	(TempShift),DE
+	LD	(TempShift+2),HL
+	POP	HL
+	RET 
+;[]==========================================================[]
+;Процедура инициализация таблицы процентов
+InitVProc
+	LD	A,#01
+	LD	(ProcFlag),A	;Флаг вывода процентов
+	LD	A,(ViewMode)
+	OR	A
+	JR	NZ,InProcHex
+InProcASCII			;Проценты для TextWrap
+	LD	HL,(FileLenght)
+	LD	DE,(FileLenght+2)
+	LD	B,#19
+InProcA	PUSH	BC
+	CALL	SearchUp
+	POP	BC
+	RET	C
+	DJNZ	InProcA
+	JR	InitProc
+InProcHex			;Проценты для Hex
+	LD	HL,(FileLenght)
+	LD	DE,(FileLenght+2)
+	LD	BC,#0190
+	OR	A
+	SBC	HL,BC
+	LD	BC,#0000
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	RET	C
+	LD	A,H
+	OR	L
+	OR	D
+	OR	E
+	RET	Z
+;Процедура инициализации таблицы процентов
+;На вход:
+;	  DE+HL	- Длина	файла-1страница
+InitProc
+	PUSH	HL
+	PUSH	DE
+	EX	DE,HL
+	LD	BC,100		;Длина файла/100 (%)
+	CALL	Divis32
+	LD	(Coeff1+1),DE	;Получаем кол-во байт на
+	LD	(Coeff2+1),HL	;один процент
+	LD	IX,ProcentTab
+	LD	HL,#0000
+	LD	E,L
+	LD	D,H
+	LD	BC,#6300	;Генерим таблицу
+	LD	(IX+#00),L
+	INC	IX
+	LD	(IX+#00),H
+	INC	IX
+	LD	(IX+#00),E
+	INC	IX
+	LD	(IX+#00),D
+	INC	IX
+	LD	(IX+#00),C
+	INC	IX
+	INC	C
+CoeffLoop			;для каждого процента
+	PUSH	BC
+Coeff1	LD	BC,#0000
+	ADD	HL,BC
+	LD	(IX+#00),L
+	INC	IX
+	LD	(IX+#00),H
+	INC	IX
+	EX	DE,HL
+Coeff2	LD	BC,#0000
+	ADC	HL,BC
+	EX	DE,HL
+	POP	BC
+	LD	(IX+#00),E
+	INC	IX
+	LD	(IX+#00),D
+	INC	IX
+	LD	(IX+#00),C
+	INC	IX
+	INC	C
+	DJNZ	CoeffLoop
+	POP	DE
+	POP	HL
+	LD	(IX+#00),L	;Макс.процент
+	INC	IX
+	LD	(IX+#00),H
+	INC	IX
+	LD	(IX+#00),E
+	INC	IX
+	LD	(IX+#00),D
+	INC	IX
+	LD	(IX+#00),C
+	SUB	A
+	LD	(ProcFlag),A
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура просчета и печати проценто
+PrintVProc
+	LD	HL,PutProcent
+	PUSH	HL	;Выходим на печать
+	LD	A,(ProcFlag)
+	OR	A
+	LD	A,100
+	RET	NZ		;Уже все 100%
+	LD	IX,ProcentTab+250 ;Серидина таблицы проц.50%
+	LD	HL,(FileShift)	;Текущее смещение
+	LD	DE,(FileShift+2)
+	CALL	TestProcent	;В какой половине наход.?
+	JR	C,LowTest	;<50%
+	LD	A,(IX+#04)
+	RET	Z		;=50%
+	LD	IX,ProcentTab+375 ;Таблица с 75%
+	CALL	TestProcent	;В какой половине наход.?
+	JR	C,Test2		;50%<X<75%
+;Процедура поиска процента вверх по таблице
+Test1	LD	A,(IX+#04)	;Текущий процент
+	RET	Z		;X=%
+	RET	C		;X<%
+	CP	100		;Конечный процент
+	RET	Z
+	LD	BC,#0005	;Ищем вверх по таблице
+	ADD	IX,BC		;Нужный	процент
+	CALL	TestProcent
+	JR	Test1
+;Процедура поиска процента вниз	по таблице
+Test2	LD	A,(IX+#04)	;Текущий процент
+	RET	Z		;X=%
+	RET	NC		;X>%
+	OR	A
+	RET	Z
+	LD	BC,-#0005	;Ищем вниз по таблице
+	ADD	IX,BC		;Нужный	процент
+	CALL	TestProcent
+	JR	Test2
+;X<50%
+LowTest	LD	IX,ProcentTab+125 ;Таблица с 25%
+	CALL	TestProcent	;В какой половине наход.?
+	JR	C,Test2		;01%<X<25%
+	JR	Test1		;25%<X<50%
+;Процедура тестирования	текущего смещения
+;На вход:
+;	  DE+HL	- Текущее смещение
+;На выход:
+;	  Z - Тек.смещ=процент
+;	  C - Тек.смещ<процент
+;	 NC - Тек.смещ>процент
+TestProcent
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	C,(IX+#00)
+	LD	B,(IX+#01)
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	LD	C,(IX+#02)
+	LD	B,(IX+#03)
+	SBC	HL,BC
+	JR	NZ,$+4
+	LD	A,D
+	OR	E
+	POP	BC
+	POP	DE
+	POP	HL
+	RET 
+;Процедура вывода процентов
+PutProcent
+	LD	HL,ProcText
+	PUSH	HL
+	LD	BC,#2F00
+	INC	B
+	SUB	100
+	JR	NC,$-3
+	ADD	A,100
+	EX	AF,AF'
+	LD	A,B
+	CP	"0"
+	JR	Z,$+4
+	SET	0,C
+	BIT	0,C
+	JR	NZ,$+4
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	EX	AF,AF'
+	LD	B,#2F
+	INC	B
+	SUB	10
+	JR	NC,$-3
+	ADD	A,10
+	EX	AF,AF'
+	LD	A,B
+	CP	"0"
+	JR	Z,$+4
+	SET	0,C
+	BIT	0,C
+	JR	NZ,$+4
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	EX	AF,AF'
+	ADD	A,"0"
+	LD	(HL),A
+	POP	HL
+	LD	DE,#0250
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnTxtLnNorm
+	RET 
+ProcText
+	DEFB	"   %",0
+ProcFlag
+	DEFB	#00
+ProcentTab
+	DEFS	505,0
+;[]==========================================================[]
+	INCLUDE	"FVTEXT.z80";,#0C
+	INCLUDE	"FVHEX.z80";,#0D
+	INCLUDE	"FVPRN.z80";,#0E
+;[]==========================================================[]
+ASCIItab
+    DEFW #0050,#0230,#001C,#007F,#00,#0000,TLineUpMs,TBegFile
+    DEFW #0050,#0230,#0080,#00E4,#00,#0000,TLineDwnMs,TEndFile
+    DEFW #0000,#0050,#001C,#00E4,#00,#0000,TPageUpMs,ScrollLeft
+    DEFW #0230,#0280,#001C,#00E4,#00,#0000,TPageDwnMs,ScrollRght
+    DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+    DEFW #0050,#00A0,#00F2,#0100,#01,#0000,ChASCIImode,#0000
+    DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChViewer,#0000
+    DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+    DEFW #0230,#0280,#00F2,#0100,#21,#0000,ViewerExit,#0000
+    DEFW #8000
+HEXtab
+      DEFW #0050,#0230,#001C,#007F,#00,#0000,HLineUpMs,HBegFile
+      DEFW #0050,#0230,#0080,#00E4,#00,#0000,HLineDwnMs,HEndFile
+      DEFW #0000,#0050,#001C,#00E4,#00,#0000,HPageUpMs,#0000
+      DEFW #0230,#0280,#001C,#00E4,#00,#0000,HPageDwnMs,#0000
+      DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+      DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChViewer,#0000
+      DEFW #00F0,#0140,#00F2,#0100,#01,#0000,HGoTo,#0000
+      DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+      DEFW #0230,#0280,#00F2,#0100,#21,#0000,ViewerExit,#0000
+      DEFW #8000
+AboutTab
+	DEFW #011C,#0164,#008A,#0098,#21,#0000,AboutExt,#0000
+	DEFW #0000,#00A0,#0000,#0100,#20,#0000,AboutExt,#0000
+	DEFW #01E0,#0280,#0000,#0100,#20,#0000,AboutExt,#0000
+	DEFW #0000,#0280,#0000,#0048,#20,#0000,AboutExt,#0000
+	DEFW #0000,#0280,#009D,#0100,#20,#0000,AboutExt,#0000
+	DEFW #8000
+;[]==========================================================[]
+end
+	savebin "..\bin\fnview.bin",StartOfViewer,end-StartOfViewer
+       ORG     #7F00
+
+

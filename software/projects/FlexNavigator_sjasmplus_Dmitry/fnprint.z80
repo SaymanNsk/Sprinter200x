@@ -1,0 +1,639 @@
+
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256
+;с обрезанием левого края текста
+;На вход:
+;	   IX -	Кол-во пикселей	под вывод строки
+;	   HL -	адрес текстовой	строки
+;	   DE -	позиция	вывода по X
+;	   BC -	позиция	вывода по Y
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnRangPathL
+	PUSH	DE
+	PUSH	BC
+	PUSH	AF
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	BC,#0000
+	LD	D,high IFFFont-#C0
+	PUSH	HL
+	LD	A,(HL)
+PrRangL	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	OR	A
+	JR	NZ,PrRangL
+	PUSH	IX
+	POP	HL
+	SBC	HL,BC
+	LD	C,L
+	LD	B,H
+	POP	HL
+	JR	NC,PrRngLE
+	LD	A,C
+	SUB	#1A
+	LD	LX,A
+	LD	A,B
+	SBC	A,#00
+	LD	HX,A
+	LD	A,(HL)
+	EX	AF,AF'
+	INC	HL
+	INC	HL
+PrRngL0	LD	BC,#0000
+	INC	HL
+	LD	A,(HL)
+PrRngL1	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	CP	"\\"
+	JR	NZ,PrRngL1
+	ADD	IX,BC
+	JR	NC,PrRngL0
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"\\"
+	DEC	HL
+	LD	(HL),":"
+	DEC	HL
+	EX	AF,AF'
+	LD	(HL),A
+PrRngLE	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	AF
+	POP	BC
+	POP	DE
+	JP	PrnTxtLnIFF
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256
+;с обрезанием левого края текста
+;На вход:
+;	   IX -	Кол-во пикселей	под вывод строки
+;	   HL -	адрес текстовой	строки
+;	   DE -	позиция	вывода по X
+;	   BC -	позиция	вывода по Y
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnRangPathR
+	PUSH	AF
+	PUSH	BC
+	PUSH	DE
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	BC,#0000
+	LD	D,high IFFFont-#C0
+	PUSH	HL
+	LD	A,(HL)
+PrRangR	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	OR	A
+	JR	NZ,PrRangR
+	PUSH	IX
+	POP	HL
+	SBC	HL,BC
+	EX	DE,HL
+	POP	HL
+	JR	NC,PrRngRE
+	LD	A,E
+	SUB	#1A
+	LD	LX,A
+	LD	A,D
+	SBC	A,#00
+	LD	HX,A
+	LD	D,high IFFFont-#C0
+	LD	A,(HL)
+	EX	AF,AF'
+	INC	HL
+	INC	HL
+PrRngR0	LD	BC,#0000
+	INC	HL
+	LD	A,(HL)
+PrRngR1	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	CP	"\\"
+	JR	NZ,PrRngR1
+	ADD	IX,BC
+	JR	NC,PrRngR0
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"\\"
+	DEC	HL
+	LD	(HL),":"
+	DEC	HL
+	EX	AF,AF'
+	LD	(HL),A
+	LD	BC,#0000
+	PUSH	HL
+	LD	A,(HL)
+PrRngR2	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	OR	A
+	JR	NZ,PrRngR2
+	POP	HL
+PrRngRE	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	DE
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	POP	BC
+	POP	AF
+	JP	PrnTxtLnIFF
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256
+;с обрезанием левого края текста
+;На вход:
+;	   IX -	Кол-во пикселей	под вывод строки
+;	   HL -	адрес текстовой	строки
+;	   DE -	центр вывода по	X
+;	   BC -	позиция	вывода по Y
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnRangPathC
+	PUSH	BC
+	PUSH	AF
+	PUSH	DE
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+PrnRangC
+	LD	BC,#0000
+	LD	D,high IFFFont-#C0
+	PUSH	HL
+	LD	A,(HL)
+PrRangC	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	OR	A
+	JR	NZ,PrRangC
+	PUSH	IX
+	POP	HL
+	SBC	HL,BC
+	EX	DE,HL
+	POP	HL
+	JR	NC,PrRngCE
+	PUSH	IX
+	LD	A,E
+	SUB	#1A
+	LD	LX,A
+	LD	A,D
+	SBC	A,#00
+	LD	HX,A
+	LD	A,(HL)
+	EX	AF,AF'
+	INC	HL
+	INC	HL
+	LD	D,high IFFFont-#C0
+PrRngC0	LD	BC,#0000
+	INC	HL
+	LD	A,(HL)
+PrRngC1	INC	HL
+	LD	E,A
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	LD	A,(HL)
+	CP	"\\"
+	JR	NZ,PrRngC1
+	ADD	IX,BC
+	JR	NC,PrRngC0
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"."
+	DEC	HL
+	LD	(HL),"\\"
+	DEC	HL
+	LD	(HL),":"
+	DEC	HL
+	EX	AF,AF'
+	LD	(HL),A
+	POP	IX
+	JR	PrnRangC
+PrRngCE	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	DE
+	EX	DE,HL
+	SRL	B
+	RR	C
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	POP	AF
+	POP	BC
+	JP	PrnTxtLnIFF
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256;
+;в режиме IFF шрифта
+;На вход:
+;	   HL -	адрес текстовой	строки
+;	   DE -	позиция	вывода по X
+;	   BC -	позиция	вывода по Y
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnTxtLnIFF
+	PUSH	IY
+	LD	LY,C		;Y координата
+	LD	B,A
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	IN	A,(PAGE1)
+	LD	HY,A
+	DI 
+	EXX 
+	LD	C,#83
+	RST	#30
+	EXX 
+	CALL	InsPrintColor
+	PUSH	DE		;X координата
+	EXX 
+	POP	BC
+	SRL	B
+	RR	C
+	SET	6,B
+	LD	HL,PrnPAPp	;PAPER буфер
+	LD	DE,PrnINKp	;INK буфер
+	EXX 
+	LD	C,L		;Адрес строки
+	LD	B,H
+;Итак:
+;	BC - Aдрес строки
+;      'HL - буфер PAPER
+;      'DE - буфер INK
+;      'BC - X координата печати в видео ОЗУ
+;	LY - Y координата печати
+
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,D
+	LD	A,#08
+	LD	B,B
+	LD	A,(BC)
+	INC	BC
+	OR	A
+	JR	Z,PrnIFFe
+PrnIFFloop
+	LD	L,A
+	LD	H,high IFFFont-#C0
+	PUSH	BC
+	LD	B,(HL)		;длина символа
+	INC	H
+	LD	E,(HL)
+	INC	H
+	LD	D,(HL)
+	LD	HL,#0008
+	EX	DE,HL
+	LD	A,#50
+	OUT	(PAGE1),A
+PrnIFFlp1
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	EXX 
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	L,L
+	OR	(HL)
+	LD	B,B
+	EX	DE,HL
+	LD	L,L
+	XOR	(HL)
+	LD	A,A
+	LD	(BC),A
+	LD	B,B
+	EX	DE,HL
+	INC	BC
+	EXX 
+	ADD	HL,DE
+	DJNZ	PrnIFFlp1
+	POP	BC
+	LD	A,HY
+	OUT	(PAGE1),A
+	LD	A,(BC)
+	INC	BC
+	OR	A
+	JR	NZ,PrnIFFloop
+PrnIFFe	LD	L,C		;Адрес строки
+	LD	H,B
+	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	POP	IY
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256;
+;На вход:
+;	   HL -	адрес текстовой	строки
+;	   DE -	позиция	вывода по X
+;	   BC -	позиция	вывода по Y
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnTxtLnNorm
+	PUSH	IY
+	LD	LY,C		;Y координата
+	LD	B,A
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	IN	A,(PAGE1)
+	LD	HY,A
+	DI 
+	EXX 
+	LD	C,#83
+	RST	#30
+	EXX 
+	CALL	InsPrintColor
+	PUSH	DE		;X координата
+	EXX 
+	POP	BC
+	SRL	B
+	RR	C
+	SET	6,B
+	LD	HL,PrnPAPp	;PAPER буфер
+	LD	DE,PrnINKp	;INK буфер
+	EXX 
+	LD	C,L		;Адрес строки
+	LD	B,H
+;Итак:
+;	BC - Aдрес строки
+;      'HL - буфер PAPER
+;      'DE - буфер INK
+;      'BC - X координата печати в видео ОЗУ
+;	LY - Y координата печати
+
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,D
+	LD	A,#08
+	LD	B,B
+	LD	A,(BC)
+	INC	BC
+	OR	A
+	JR	Z,PrnNORe
+PrnNORloop
+	LD	L,A
+	LD	H,high Font-#C0
+	PUSH	BC
+	LD	E,(HL)
+	INC	H
+	LD	A,(HL)
+	ADD	A,high Font-#C0
+	LD	D,A
+	LD	HL,#0008
+	EX	DE,HL
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	B,#04
+PrnNORlp1
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	EXX 
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	L,L
+	OR	(HL)
+	LD	B,B
+	EX	DE,HL
+	LD	L,L
+	XOR	(HL)
+	LD	A,A
+	LD	(BC),A
+	LD	B,B
+	EX	DE,HL
+	INC	BC
+	EXX 
+	ADD	HL,DE
+	DJNZ	PrnNORlp1
+	POP	BC
+	LD	A,HY
+	OUT	(PAGE1),A
+	LD	A,(BC)
+	INC	BC
+	OR	A
+	JR	NZ,PrnNORloop
+PrnNORe	LD	L,C		;Адрес строки
+	LD	H,B
+	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	POP	IY
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура вывода текстовых строк на графический экран 640x256;
+;На вход:
+;	   HL -	адрес текстовой	строки
+;	   DE -	позиция	вывода по X
+;	    C -	позиция	вывода по Y
+;	    B -	кол-во печатаемых символов
+;	    A -	цвет печати  (7-4бит PAPER, 3-0бит INK)
+;		(конец строки -	0)
+PrnTxtLnNormC
+	PUSH	IY
+	LD	LY,C		;Y координата
+	LD	HY,B		;кол-во	симв
+	LD	B,A
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	EXX 
+	LD	C,#83
+	RST	#30
+	EXX 
+	CALL	InsPrintColor
+	PUSH	DE		;X координата
+	EXX 
+	POP	BC
+	SRL	B
+	RR	C
+	SET	6,B
+	LD	HL,PrnPAPp	;PAPER буфер
+	LD	DE,PrnINKp	;INK буфер
+	EXX 
+	LD	C,L		;Адрес строки
+	LD	B,H
+;Итак:
+;	BC - Aдрес строки
+;      'HL - буфер PAPER
+;      'DE - буфер INK
+;      'BC - X координата печати в видео ОЗУ
+;	LY - Y координата печати
+
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,D
+	LD	A,#08
+	LD	B,B
+PrnNORloopC
+	LD	A,(BC)
+	INC	BC
+	LD	L,A
+	LD	H,high Font-#C0
+	PUSH	BC
+	LD	E,(HL)
+	INC	H
+	LD	A,(HL)
+	ADD	A,high Font-#C0
+	LD	D,A
+	LD	HL,#0008
+	EX	DE,HL
+	LD	B,#04
+PrnNORlp1c
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	EXX 
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	L,L
+	OR	(HL)
+	LD	B,B
+	EX	DE,HL
+	LD	L,L
+	XOR	(HL)
+	LD	A,A
+	LD	(BC),A
+	LD	B,B
+	EX	DE,HL
+	INC	BC
+	EXX 
+	ADD	HL,DE
+	DJNZ	PrnNORlp1c
+	POP	BC
+	DEC	HY
+	JR	NZ,PrnNORloopC
+	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	POP	AF
+	OUT	(YPORT),A
+	POP	IY
+	RET 
+
+InsPrintColor
+	LD	A,B
+PrvCOLp	CP	#00
+	RET	Z
+	LD	(PrvCOLp+1),A
+	AND	#0F		;INK
+	LD	C,A
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	C
+	EXX 
+	LD	HL,PrnINKp	;INK буфер
+	CPL 
+       DUP     #07
+	LD	(HL),A
+	INC	HL
+       EDUP 
+	LD	(HL),A
+	EXX 
+	LD	A,B
+	AND	#F0		;PAPER
+	LD	B,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	OR	B
+	EXX 
+	LD	DE,PrnPAPp	;PAPER буфер
+	XOR	(HL)		;XOR с INK
+       DUP     #07
+	LD	(DE),A
+	INC	DE
+       EDUP 
+	LD	(DE),A
+	EXX 
+	RET 
+
+PrnINKp	DEFS	8,0
+PrnPAPp	DEFS	8,0
+
+

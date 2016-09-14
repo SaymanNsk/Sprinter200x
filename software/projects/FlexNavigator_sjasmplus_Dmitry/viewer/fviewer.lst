@@ -1,0 +1,3536 @@
+0001   0000             	device zxspectrum128
+0002   0000             	INCLUDE	"..\FNEQU.z80";,#0B
+0001+  0000             
+0002+  0000             ;[]----------------------------------------------------------[]
+0003+  0000             
+0004+  0000             BORDER	EQU	#FE
+0005+  0000             YPORT	EQU	#89
+0006+  0000             PAGE0	EQU	#82
+0007+  0000             PAGE1	EQU	#A2
+0008+  0000             PAGE2	EQU	#C2
+0009+  0000             PAGE3	EQU	#E2
+0010+  0000             
+0011+  0000             PanelCol EQU	#09
+0012+  0000             FileCol	 EQU	#0A
+0013+  0000             SFileCol EQU	#0B
+0014+  0000             InvSCol	 EQU	#0C
+0015+  0000             InvPCol	 EQU	#05
+0016+  0000             InvICol	 EQU	#06
+0017+  0000             
+0018+  0000             BarXl	 EQU	+#00
+0019+  0000             BarXh	 EQU	+#01
+0020+  0000             BarYl	 EQU	+#02
+0021+  0000             BarYh	 EQU	+#03
+0022+  0000             BarMaxLl EQU	+#04
+0023+  0000             BarMaxLh EQU	+#05
+0024+  0000             BarLENl	 EQU	+#06
+0025+  0000             BarLENh	 EQU	+#07
+0026+  0000             BarLEFTl EQU	+#08
+0027+  0000             BarLEFTh EQU	+#09
+0028+  0000             BarRGHTl EQU	+#0A
+0029+  0000             BarRGHTh EQU	+#0B
+0030+  0000             BarPAGEl EQU	+#0C
+0031+  0000             BarPAGEh EQU	+#0D
+0032+  0000             BarMAXl	 EQU	+#0E
+0033+  0000             BarMAXh	 EQU	+#0F
+0034+  0000             BarFRSTl EQU	+#10
+0035+  0000             BarFRSTh EQU	+#11
+0036+  0000             
+0037+  0000             ProcXl	  EQU	 +#00
+0038+  0000             ProcXh	  EQU	 +#01
+0039+  0000             ProcYl	  EQU	 +#02
+0040+  0000             ProcYh	  EQU	 +#03
+0041+  0000             ProcMaxLl EQU	 +#04
+0042+  0000             ProcMaxLh EQU	 +#05
+0043+  0000             ProcCOEFl EQU	 +#06
+0044+  0000             ProcCOEFh EQU	 +#07
+0045+  0000             ProcCORRl EQU	 +#08
+0046+  0000             ProcCORRh EQU	 +#09
+0047+  0000             ProcMAXl1 EQU	 +#0A
+0048+  0000             ProcMAXh1 EQU	 +#0B
+0049+  0000             ProcMAXl2 EQU	 +#0C
+0050+  0000             ProcMAXh2 EQU	 +#0D
+0051+  0000             ProcCURl1 EQU	 +#0E
+0052+  0000             ProcCURh1 EQU	 +#0F
+0053+  0000             ProcCURl2 EQU	 +#10
+0054+  0000             ProcCURh2 EQU	 +#11
+0055+  0000             ProcCOLOR EQU	 +#12
+0056+  0000             
+0057+  0000             WorkBuffer	EQU	#8000
+0058+  0000             PagesList	EQU	#8400
+0059+  0000             ClearScreen	EQU	#8603
+0060+  0000             MakeWindow	EQU	#8606
+0061+  0000             InvertRectan	EQU	#8609
+0062+  0000             PrnTxtLnIFF	EQU	#860C
+0063+  0000             PrnTxtLnNorm	EQU	#860F
+0064+  0000             PrnTxtLnNormC	EQU	#8612
+0065+  0000             PrnRangPathL	EQU	#8615
+0066+  0000             PrnRangPathR	EQU	#8618
+0067+  0000             PrnRangPathC	EQU	#861B
+0068+  0000             InputLine	EQU	#861E
+0069+  0000             InpLnExtN	EQU	#8621
+0070+  0000             InpLnExtC	EQU	#8624
+0071+  0000             
+0072+  0000             InitScrBar	EQU	#862A
+0073+  0000             PrnHScrBar	EQU	#862D
+0074+  0000             PrnVScrBar	EQU	#8630
+0075+  0000             InitProcess	EQU	#8633
+0076+  0000             PrnProcess	EQU	#8636
+0077+  0000             
+0078+  0000             ResFire		EQU	#8648
+0079+  0000             TestCoords	EQU	#864B
+0080+  0000             SetCMOSPrint	EQU	#864E
+0081+  0000             ResCMOSPrint	EQU	#8651
+0082+  0000             SetClock	EQU	#8654
+0083+  0000             SetMouse	EQU	#8657
+0084+  0000             
+0085+  0000             MoveBytes	EQU	#8669
+0086+  0000             MoveBytesUp	EQU	#866C
+0087+  0000             Mult8		EQU	#866F
+0088+  0000             Mult16X8	EQU	#8672
+0089+  0000             Mult16		EQU	#8675
+0090+  0000             Mult16X16	EQU	#8678
+0091+  0000             Mult32		EQU	#867B
+0092+  0000             Divis16X16	EQU	#867E
+0093+  0000             Divis24X16	EQU	#8681
+0094+  0000             Divis32X16	EQU	#8684
+0095+  0000             Divis32		EQU	#8687
+0096+  0000             ConvNumTxt32	EQU	#868A
+0097+  0000             ConvNumTxt16	EQU	#868D
+0098+  0000             ConvNumTxt8	EQU	#8690
+0099+  0000             ConvTxtNum32	EQU	#8693
+0100+  0000             ConvTxtNum16	EQU	#8696
+0101+  0000             
+0102+  0000             DOSError	EQU	#86A8
+0103+  0000             
+0104+  0000             
+0003   0000             	ORG	#C000;,VIEWpg
+0004   C000             StartOfViewer
+0005   C000             LineBuffer=WorkBuffer+#300
+0006   C000             ;[]==========================================================[]
+0007   C000             FileViewer
+0008   C000 CD 91 C1    	CALL	LoadFile
+0009   C003 D8          	RET	C
+0010   C004 DD 21 3F C1 	LD	IX,ViewingFile
+0011   C008 97          	SUB	A
+0012   C009 32 6F C1    	LD	(ViewMode),A
+0013   C00C 32 71 C1    	LD	(ASCIIaddX),A
+0014   C00F 21 00 00    	LD	HL,#0000
+0015   C012 22 77 C1    	LD	(FileShift),HL
+0016   C015 22 79 C1    	LD	(FileShift+2),HL
+0017   C018 DD 6E 1C    	LD	L,(IX+28)
+0018   C01B DD 66 1D    	LD	H,(IX+29)
+0019   C01E 22 73 C1    	LD	(FileLenght),HL
+0020   C021 DD 6E 1E    	LD	L,(IX+30)
+0021   C024 DD 66 1F    	LD	H,(IX+31)
+0022   C027 22 75 C1    	LD	(FileLenght+2),HL
+0023   C02A CD BD C3    	CALL	InitViewScr
+0024   C02D             ViewerBegin
+0025   C02D CD E4 C5    	CALL	InitStatusLine
+0026   C030 CD B6 C8    	CALL	InitVProc
+0027   C033 CD 35 C1    	CALL	PrintVPage
+0028   C036             ViewerLoop
+0029   C036 3A 6F C1    	LD	A,(ViewMode)
+0030   C039 B7          	OR	A
+0031   C03A 20 72       	JR	NZ,HViewLoop
+0032   C03C             TViewLoop
+0033   C03C DD 21 30 D8 	LD	IX,ASCIItab
+0034   C040 CD 4B 86    	CALL	TestCoords
+0035   C043 0E 31       	LD	C,#31		;Ожидаем нажатия клавиш
+0036   C045 D7          	RST	#10
+0037   C046 28 F4       	JR	Z,TViewLoop
+0038   C048 7B          	LD	A,E		;Е-ASCII код
+0039   C049 FE 1B       	CP	#1B		;Esc
+0040   C04B CA 89 C1    	JP	Z,ViewerExit
+0041   C04E B7          	OR	A
+0042   C04F 20 EB       	JR	NZ,TViewLoop	;Ждем функцион.клавиши
+0043   C051 7A          	LD	A,D
+0044   C052 FE 44       	CP	#44
+0045   C054 CA 89 C1    	JP	Z,ViewerExit
+0046   C057 21 3C C0    	LD	HL,TViewLoop
+0047   C05A E5          	PUSH	HL
+0048   C05B FE 3B       	CP	#3B
+0049   C05D CA 42 C7    	JP	Z,About
+0050   C060 FE 3C       	CP	#3C
+0051   C062 CA 94 CD    	JP	Z,ChASCIImode
+0052   C065 FE 3E       	CP	#3E
+0053   C067 CA 0C C1    	JP	Z,ChViewer	;Просмотр в HEX
+0054   C06A FE 43       	CP	#43
+0055   C06C CA CC D5    	JP	Z,PrintFile
+0056   C06F FE 54       	CP	#54
+0057   C071 CA A6 CD    	JP	Z,ScrollLeft
+0058   C074 FE 56       	CP	#56
+0059   C076 CA B8 CD    	JP	Z,ScrollRght
+0060   C079 FE 57       	CP	87		;Home
+0061   C07B CA CB CD    	JP	Z,THome
+0062   C07E FE 51       	CP	81		;End
+0063   C080 CA DD CD    	JP	Z,TEnd
+0064   C083 FE 58       	CP	88		;Стрелка вверх
+0065   C085 CA 0E CE    	JP	Z,TLineUp
+0066   C088 FE 52       	CP	82		;Стрелка вниз
+0067   C08A CA 70 CE    	JP	Z,TLineDwn
+0068   C08D FE 59       	CP	89		;PageUp
+0069   C08F CA DE CE    	JP	Z,TPageUp
+0070   C092 FE 53       	CP	83		;PageDown
+0071   C094 CA 1F CF    	JP	Z,TPageDwn
+0072   C097 78          	LD	A,B
+0073   C098 E6 30       	AND	#30
+0074   C09A FE 30       	CP	#30
+0075   C09C C8          	RET	Z
+0076   C09D CB 68       	BIT	5,B
+0077   C09F C8          	RET	Z
+0078   C0A0 7A          	LD	A,D
+0079   C0A1 E6 7F       	AND	#7F
+0080   C0A3 FE 57       	CP	#57		;Ctrl+PageUp
+0081   C0A5 CA 47 CF    	JP	Z,TBegFile	;в начало файла
+0082   C0A8 FE 51       	CP	#51		;Ctrl+PageDown
+0083   C0AA CA 64 CF    	JP	Z,TEndFile	;в конец файла
+0084   C0AD C9          	RET 
+0085   C0AE             ;--------------------------------------------------------------
+0086   C0AE             HViewLoop
+0087   C0AE DD 21 C2 D8 	LD	IX,HEXtab
+0088   C0B2 CD 4B 86    	CALL	TestCoords
+0089   C0B5 0E 31       	LD	C,#31		;Ожидаем нажатия клавиш
+0090   C0B7 D7          	RST	#10
+0091   C0B8 28 F4       	JR	Z,HViewLoop
+0092   C0BA 7B          	LD	A,E		;Е-ASCII код
+0093   C0BB FE 1B       	CP	#1B		;Esc
+0094   C0BD CA 89 C1    	JP	Z,ViewerExit
+0095   C0C0 B7          	OR	A
+0096   C0C1 20 EB       	JR	NZ,HViewLoop	;Ждем функцион.клавиши
+0097   C0C3 7A          	LD	A,D		;
+0098   C0C4 FE 44       	CP	#44		;F10
+0099   C0C6 CA 89 C1    	JP	Z,ViewerExit
+0100   C0C9 21 AE C0    	LD	HL,HViewLoop
+0101   C0CC E5          	PUSH	HL
+0102   C0CD FE 3B       	CP	#3B
+0103   C0CF CA 42 C7    	JP	Z,About
+0104   C0D2 FE 3E       	CP	#3E		;F4
+0105   C0D4 CA 0C C1    	JP	Z,ChViewer	;Просмотр в тексте
+0106   C0D7 FE 3F       	CP	#3F		;F5
+0107   C0D9 CA CE D3    	JP	Z,HGoTo		;Переход на адрес пользователя
+0108   C0DC FE 43       	CP	#43
+0109   C0DE CA CC D5    	JP	Z,PrintFile
+0110   C0E1 FE 58       	CP	88		;Стрелка вверх
+0111   C0E3 CA 37 D2    	JP	Z,HLineUp
+0112   C0E6 FE 52       	CP	82		;Стрелка вниз
+0113   C0E8 CA 84 D2    	JP	Z,HLineDwn
+0114   C0EB FE 59       	CP	89		;PageUp
+0115   C0ED CA EC D2    	JP	Z,HPageUp
+0116   C0F0 FE 53       	CP	83		;PageDown
+0117   C0F2 CA 32 D3    	JP	Z,HPageDwn
+0118   C0F5 78          	LD	A,B
+0119   C0F6 E6 30       	AND	#30
+0120   C0F8 FE 30       	CP	#30
+0121   C0FA C8          	RET	Z
+0122   C0FB CB 68       	BIT	5,B
+0123   C0FD C8          	RET	Z
+0124   C0FE 7A          	LD	A,D
+0125   C0FF E6 7F       	AND	#7F
+0126   C101 FE 57       	CP	#57		;Ctrl+PageUp
+0127   C103 CA 64 D3    	JP	Z,HBegFile	;в начало файла
+0128   C106 FE 51       	CP	#51		;Ctrl+PageDown
+0129   C108 CA 81 D3    	JP	Z,HEndFile	;в конец файла
+0130   C10B C9          	RET 
+0131   C10C             ;[]----------------------------------------------------------[]
+0132   C10C             ChViewer
+0133   C10C 21 2D C0    	LD	HL,ViewerBegin
+0134   C10F E3          	EX	(SP),HL
+0135   C110 97          	SUB	A
+0136   C111 32 71 C1    	LD	(ASCIIaddX),A
+0137   C114 3A 6F C1    	LD	A,(ViewMode)
+0138   C117 EE 01       	XOR	#01
+0139   C119 32 6F C1    	LD	(ViewMode),A
+0140   C11C C0          	RET	NZ
+0141   C11D 2A 77 C1    	LD	HL,(FileShift)
+0142   C120 ED 5B 79 C1 	LD	DE,(FileShift+2)
+0143   C124 23          	INC	HL
+0144   C125 7C          	LD	A,H
+0145   C126 B5          	OR	L
+0146   C127 20 01       	JR	NZ,$+3
+0147   C129 13          	INC	DE
+0148   C12A CD 9A CF    	CALL	SearchUp
+0149   C12D 22 77 C1    	LD	(FileShift),HL
+0150   C130 ED 53 79 C1 	LD	(FileShift+2),DE
+0151   C134 C9          	RET 
+0152   C135             ;[]==========================================================[]
+0153   C135             PrintVPage
+0154   C135 3A 6F C1    	LD	A,(ViewMode)
+0155   C138 B7          	OR	A
+0156   C139 C2 EE D0    	JP	NZ,PrnHEXpage
+0157   C13C C3 26 CC    	JP	PrnASCIIpage
+0158   C13F             ;[]==========================================================[]
+0159   C13F             ViewingFile
+0160   C13F 00          	DEFS	#30,0
+0161   C16F             ViewMode
+0162   C16F 00          	DEFB	#00
+0163   C170             ASCIImode
+0164   C170 01          	DEFB	#01
+0165   C171             ASCIIaddX
+0166   C171 00          	DEFB	#00
+0167   C172             EmptyLines
+0168   C172 00          	DEFB	#00
+0169   C173             FileLenght
+0170   C173 00          	DEFS	4,0	;Длина файла (32бит)
+0171   C177             FileShift
+0172   C177 00          	DEFS	4,0	;Смещение от начала файла (32бит)
+0173   C17B             TempShift
+0174   C17B 00          	DEFS	4,0	;Временная ячейка смещения (32бит)
+0175   C17F             NextShift
+0176   C17F 00          	DEFS	4,0	;Следующая страница для	ASCII (32бит)
+0177   C183             MemIndef
+0178   C183 00          	DEFB	#00
+0179   C184             FHandle
+0180   C184 00          	DEFB	#00
+0181   C185             ReadLen
+0182   C185 00          	DEFS	4,0
+0183   C189             ;[]==========================================================[]
+0184   C189             ViewerExit
+0185   C189 3A 83 C1    	LD	A,(MemIndef)
+0186   C18C 0E 3E       	LD	C,#3E
+0187   C18E D7          	RST	#10
+0188   C18F B7          	OR	A
+0189   C190 C9          	RET 
+0190   C191             ;[]==========================================================[]
+0191   C191             LoadFile
+0192   C191 CD 54 86    	CALL	SetClock
+0193   C194 11 3F C1    	LD	DE,ViewingFile
+0194   C197 01 19 01    	LD	BC,#0119
+0195   C19A 3E 37       	LD	A,#37
+0196   C19C D7          	RST	#10
+0197   C19D F5          	PUSH	AF
+0198   C19E DC A8 86    	CALL	C,DOSError
+0199   C1A1 F1          	POP	AF
+0200   C1A2 DA 50 C3    	JP	C,LoadExit
+0201   C1A5 21 60 C1    	LD	HL,ViewingFile+33
+0202   C1A8 7E          	LD	A,(HL)
+0203   C1A9 CD A3 C3    LoadFl0	CALL	CorrBigChar
+0204   C1AC 77          	LD	(HL),A
+0205   C1AD 23          	INC	HL
+0206   C1AE 7E          	LD	A,(HL)
+0207   C1AF B7          	OR	A
+0208   C1B0 20 F7       	JR	NZ,LoadFl0
+0209   C1B2 DD 21 3F C1 	LD	IX,ViewingFile
+0210   C1B6 DD 66 1C    	LD	H,(IX+28)
+0211   C1B9 DD 7E 1D    	LD	A,(IX+29)
+0212   C1BC DD 5E 1E    	LD	E,(IX+30)
+0213   C1BF DD 56 1F    	LD	D,(IX+31)
+0214   C1C2 2E 00       	LD	L,#00
+0215   C1C4 CB 27       	SLA	A
+0216   C1C6 CB 13       	RL	E
+0217   C1C8 CB 12       	RL	D
+0218   C1CA CB 15       	RL	L
+0219   C1CC CB 27       	SLA	A
+0220   C1CE CB 13       	RL	E
+0221   C1D0 CB 12       	RL	D
+0222   C1D2 CB 15       	RL	L
+0223   C1D4 B4          	OR	H
+0224   C1D5 26 00       	LD	H,#00
+0225   C1D7 EB          	EX	DE,HL
+0226   C1D8 28 01       	JR	Z,$+3
+0227   C1DA 23          	INC	HL
+0228   C1DB 7C          	LD	A,H
+0229   C1DC B5          	OR	L
+0230   C1DD 20 01       	JR	NZ,LoadFl1
+0231   C1DF 23          	INC	HL
+0232   C1E0 7A          LoadFl1	LD	A,D
+0233   C1E1 B3          	OR	E
+0234   C1E2 3E 1E       	LD	A,#1E
+0235   C1E4 F5          	PUSH	AF
+0236   C1E5 C4 A8 86    	CALL	NZ,DOSError	;!!!!!!!!!!!! Нет памяти
+0237   C1E8 F1          	POP	AF
+0238   C1E9 37          	SCF 
+0239   C1EA C2 50 C3    	JP	NZ,LoadExit
+0240   C1ED 0E 3C       	LD	C,#3C
+0241   C1EF E5          	PUSH	HL
+0242   C1F0 D7          	RST	#10
+0243   C1F1 D1          	POP	DE
+0244   C1F2 69          	LD	L,C
+0245   C1F3 60          	LD	H,B
+0246   C1F4 B7          	OR	A
+0247   C1F5 ED 52       	SBC	HL,DE
+0248   C1F7 3E 1E       	LD	A,#1E
+0249   C1F9 D5          	PUSH	DE
+0250   C1FA F5          	PUSH	AF
+0251   C1FB DC A8 86    	CALL	C,DOSError	;!!!!!!!!!!!! Нет памяти
+0252   C1FE F1          	POP	AF
+0253   C1FF D1          	POP	DE
+0254   C200 DA 50 C3    	JP	C,LoadExit
+0255   C203 DD 21 90 C3 	LD	IX,ProcessView
+0256   C207 DD 73 0A    	LD	(IX+ProcMAXl1),E
+0257   C20A DD 72 0B    	LD	(IX+ProcMAXh1),D
+0258   C20D 97          	SUB	A
+0259   C20E DD 77 0C    	LD	(IX+ProcMAXl2),A
+0260   C211 DD 77 0D    	LD	(IX+ProcMAXh2),A
+0261   C214 D5          	PUSH	DE
+0262   C215 CD 33 86    	CALL	InitProcess
+0263   C218 D1          	POP	DE
+0264   C219 43          	LD	B,E
+0265   C21A 0E 3D       	LD	C,#3D
+0266   C21C D7          	RST	#10
+0267   C21D 32 83 C1    	LD	(MemIndef),A
+0268   C220 21 00 84    	LD	HL,PagesList
+0269   C223 0E C5       	LD	C,#C5
+0270   C225 CF          	RST	#08
+0271   C226 CD 06 86    	CALL	MakeWindow
+0272   C229 01          	DEFB	#01
+0273   C22A A0 00 58 00 	DEFW	#00A0,#0058
+0274   C22E 40 01 30 00 	DEFW	#0140,#0030
+0275   C232 02          	DEFB	#02	;Head place
+0276   C233 04 00 02 00 	DEFW	#0004,#0002
+0277   C237 38 01 0A 00 	DEFW	#0138,#000A
+0278   C23B 00          	DEFB	#00
+0279   C23C 01          	DEFB	#01	;Text Line
+0280   C23D 70 00 03 00 	DEFW	#0070,#0003
+0281   C241 0F          	DEFB	#0F
+0282   C242             	DEFB	"FN File Viewer v1.02",0
+0282   C242 464E2046696C65205669657765722076312E303200
+0283   C257 01          	DEFB	#01	;Text Line
+0284   C258 08 00 10 00 	DEFW	#0008,#0010
+0285   C25C 80          	DEFB	#80
+0286   C25D             	DEFB	"Reading:",0
+0286   C25D 52656164696E673A00
+0287   C266 03          	DEFB	#03	;Углубление
+0288   C267 10 00 1C 00 	DEFW	#0010,#001C
+0289   C26B 20 01 0C 00 	DEFW	#0120,#000C
+0290   C26F 02          	DEFB	#02	;Head place
+0291   C270 12 00 1D 00 	DEFW	#0012,#001D
+0292   C274 1C 01 0A 00 	DEFW	#011C,#000A
+0293   C278 0F          	DEFB	#0F
+0294   C279 00          	DEFB	#00
+0295   C27A 0E 02       	LD	C,#02
+0296   C27C D7          	RST	#10
+0297   C27D 21 00 80    	LD	HL,WorkBuffer
+0298   C280 C6 41       	ADD	A,"A"
+0299   C282 77          	LD	(HL),A
+0300   C283 23          	INC	HL
+0301   C284 36 3A       	LD	(HL),":"
+0302   C286 23          	INC	HL
+0303   C287 0E 1E       	LD	C,#1E
+0304   C289 E5          	PUSH	HL
+0305   C28A D7          	RST	#10
+0306   C28B E1          	POP	HL
+0307   C28C 97          	SUB	A
+0308   C28D 23          	INC	HL
+0309   C28E BE          	CP	(HL)
+0310   C28F 20 FC       	JR	NZ,$-2
+0311   C291 2B          	DEC	HL
+0312   C292 3E 5C       	LD	A,"\\"
+0313   C294 BE          	CP	(HL)
+0314   C295 23          	INC	HL
+0315   C296 28 02       	JR	Z,$+4
+0316   C298 77          	LD	(HL),A
+0317   C299 23          	INC	HL
+0318   C29A EB          	EX	DE,HL
+0319   C29B 21 60 C1    	LD	HL,ViewingFile+33
+0320   C29E 97          	SUB	A
+0321   C29F ED A0       	LDI 
+0322   C2A1 BE          	CP	(HL)
+0323   C2A2 20 FB       	JR	NZ,$-3
+0324   C2A4 12          	LD	(DE),A
+0325   C2A5 DD 21 00 01 	LD	IX,#0100
+0326   C2A9 21 00 80    	LD	HL,WorkBuffer
+0327   C2AC 11 D8 00    	LD	DE,#00D8
+0328   C2AF 01 68 00    	LD	BC,#0068
+0329   C2B2 3E 80       	LD	A,#80
+0330   C2B4 CD 15 86    	CALL	PrnRangPathL
+0331   C2B7             
+0332   C2B7 21 60 C1    	LD	HL,ViewingFile+33
+0333   C2BA 3E 01       	LD	A,#01
+0334   C2BC 0E 11       	LD	C,#11
+0335   C2BE D7          	RST	#10
+0336   C2BF F5          	PUSH	AF
+0337   C2C0 DC A8 86    	CALL	C,DOSError
+0338   C2C3 F1          	POP	AF
+0339   C2C4 DA 61 C3    	JP	C,NoRead
+0340   C2C7 32 84 C1    	LD	(FHandle),A
+0341   C2CA DD 21 3F C1 	LD	IX,ViewingFile
+0342   C2CE DD 6E 1C    	LD	L,(IX+28)
+0343   C2D1 DD 66 1D    	LD	H,(IX+29)
+0344   C2D4 22 85 C1    	LD	(ReadLen),HL
+0345   C2D7 DD 6E 1E    	LD	L,(IX+30)
+0346   C2DA DD 66 1F    	LD	H,(IX+31)
+0347   C2DD 22 87 C1    	LD	(ReadLen+2),HL
+0348   C2E0 3E C0       	LD	A,#C0
+0349   C2E2 D3 89       	OUT	(YPORT),A
+0350   C2E4             
+0351   C2E4 DB A2       	IN	A,(PAGE1)
+0352   C2E6 F5          	PUSH	AF
+0353   C2E7 21 00 84    	LD	HL,PagesList
+0354   C2EA 7E          	LD	A,(HL)
+0355   C2EB 23          ReadLp1	INC	HL
+0356   C2EC E5          	PUSH	HL
+0357   C2ED D3 A2       	OUT	(PAGE1),A
+0358   C2EF 0E 31       	LD	C,#31
+0359   C2F1 D7          	RST	#10
+0360   C2F2 21 1B 01    	LD	HL,#011B
+0361   C2F5 B7          	OR	A
+0362   C2F6 ED 52       	SBC	HL,DE
+0363   C2F8 CA 5D C3    	JP	Z,ReadAbort
+0364   C2FB 2A 85 C1    	LD	HL,(ReadLen)
+0365   C2FE ED 5B 87 C1 	LD	DE,(ReadLen+2)
+0366   C302 01 00 40    	LD	BC,#4000
+0367   C305 B7          	OR	A
+0368   C306 ED 42       	SBC	HL,BC
+0369   C308 06 00       	LD	B,#00
+0370   C30A EB          	EX	DE,HL
+0371   C30B ED 42       	SBC	HL,BC
+0372   C30D EB          	EX	DE,HL
+0373   C30E 38 21       	JR	C,ReadEnd
+0374   C310 22 85 C1    	LD	(ReadLen),HL
+0375   C313 ED 53 87 C1 	LD	(ReadLen+2),DE
+0376   C317 21 00 40    	LD	HL,#4000
+0377   C31A 11 00 40    	LD	DE,#4000
+0378   C31D 3A 84 C1    	LD	A,(FHandle)
+0379   C320 0E 13       	LD	C,#13
+0380   C322 D7          	RST	#10
+0381   C323 CD 6A C3    	CALL	NextProcess
+0382   C326 E1          	POP	HL
+0383   C327 7E          	LD	A,(HL)
+0384   C328 FE FF       	CP	#FF
+0385   C32A 20 BF       	JR	NZ,ReadLp1
+0386   C32C F1          	POP	AF
+0387   C32D D3 A2       	OUT	(PAGE1),A
+0388   C32F 18 18       	JR	ReadExit
+0389   C331             ReadEnd
+0390   C331 21 00 40    	LD	HL,#4000
+0391   C334 ED 5B 85 C1 	LD	DE,(ReadLen)
+0392   C338 7A          	LD	A,D
+0393   C339 B3          	OR	E
+0394   C33A 28 09       	JR	Z,ReadEn1
+0395   C33C 3A 84 C1    	LD	A,(FHandle)
+0396   C33F 0E 13       	LD	C,#13
+0397   C341 D7          	RST	#10
+0398   C342 CD 6A C3    	CALL	NextProcess
+0399   C345 E1          ReadEn1	POP	HL
+0400   C346 F1          	POP	AF
+0401   C347 D3 A2       	OUT	(PAGE1),A
+0402   C349             ReadExit
+0403   C349 3A 84 C1    	LD	A,(FHandle)
+0404   C34C 0E 12       	LD	C,#12
+0405   C34E D7          	RST	#10
+0406   C34F B7          	OR	A
+0407   C350             LoadExit
+0408   C350 76          	HALT 
+0409   C351 76          	HALT 
+0410   C352 CD 06 86    	CALL	MakeWindow
+0411   C355 7F          	DEFB	#7F
+0412   C356 00          	DEFB	#00
+0413   C357 F5          	PUSH	AF
+0414   C358 CD 57 86    	CALL	SetMouse
+0415   C35B F1          	POP	AF
+0416   C35C C9          	RET 
+0417   C35D             ReadAbort
+0418   C35D E1          	POP	HL
+0419   C35E F1          	POP	AF
+0420   C35F D3 A2       	OUT	(PAGE1),A
+0421   C361 3A 83 C1    NoRead	LD	A,(MemIndef)
+0422   C364 0E 3E       	LD	C,#3E
+0423   C366 D7          	RST	#10
+0424   C367 37          	SCF 
+0425   C368 18 E6       	JR	LoadExit
+0426   C36A             NextProcess
+0427   C36A DD 21 90 C3 	LD	IX,ProcessView
+0428   C36E DD 6E 0E    	LD	L,(IX+ProcCURl1)
+0429   C371 DD 66 0F    	LD	H,(IX+ProcCURh1)
+0430   C374 23          	INC	HL
+0431   C375 DD 75 0E    	LD	(IX+ProcCURl1),L
+0432   C378 DD 74 0F    	LD	(IX+ProcCURh1),H
+0433   C37B 7C          	LD	A,H
+0434   C37C B5          	OR	L
+0435   C37D 20 0D       	JR	NZ,NextPr1
+0436   C37F DD 6E 10    	LD	L,(IX+ProcCURl2)
+0437   C382 DD 66 11    	LD	H,(IX+ProcCURh2)
+0438   C385 23          	INC	HL
+0439   C386 DD 75 10    	LD	(IX+ProcCURl2),L
+0440   C389 DD 74 11    	LD	(IX+ProcCURh2),H
+0441   C38C CD 36 86    NextPr1	CALL	PrnProcess
+0442   C38F C9          	RET 
+0443   C390             ;[]----------------------------------------------------------[]
+0444   C390             ProcessView
+0445   C390 B2 00       	DEFW	#00B2
+0446   C392 75 00       	DEFW	#0075
+0447   C394 1C 01       	DEFW	#011C
+0448   C396 00 00       	DEFW	#0000
+0449   C398 00 00       	DEFW	#0000
+0450   C39A 00 00       	DEFW	#0000
+0451   C39C 00 00       	DEFW	#0000
+0452   C39E 00 00       	DEFW	#0000
+0453   C3A0 00 00       	DEFW	#0000
+0454   C3A2 4F          	DEFB	#4F
+0455   C3A3             CorrBigChar
+0456   C3A3 FE 41       	CP	#41
+0457   C3A5 D8          	RET	C
+0458   C3A6 FE 5B       	CP	#5B
+0459   C3A8 30 03       	JR	NC,CorrCh1
+0460   C3AA CB EF       	SET	5,A
+0461   C3AC C9          	RET 
+0462   C3AD FE 80       CorrCh1	CP	#80
+0463   C3AF D8          	RET	C
+0464   C3B0 FE A0       	CP	#A0
+0465   C3B2 D0          	RET	NC
+0466   C3B3 CB EF       	SET	5,A
+0467   C3B5 FE 90       	CP	#90
+0468   C3B7 D8          	RET	C
+0469   C3B8 CB F7       	SET	6,A
+0470   C3BA CB A7       	RES	4,A
+0471   C3BC C9          	RET 
+0472   C3BD             ;[]==========================================================[]
+0473   C3BD             InitViewScr
+0474   C3BD 21 96 C4    	LD	HL,FLen
+0475   C3C0 06 10       	LD	B,#10
+0476   C3C2 3E 20       	LD	A,#20
+0477   C3C4 77          	LD	(HL),A
+0478   C3C5 23          	INC	HL
+0479   C3C6 10 FC       	DJNZ	$-2
+0480   C3C8 21 EF C4    	LD	HL,FClast
+0481   C3CB 06 05       	LD	B,#05
+0482   C3CD 77          	LD	(HL),A
+0483   C3CE 23          	INC	HL
+0484   C3CF 10 FC       	DJNZ	$-2
+0485   C3D1 11 96 C4    	LD	DE,FLen
+0486   C3D4 DD 21 3F C1 	LD	IX,ViewingFile
+0487   C3D8 DD 6E 1C    	LD	L,(IX+28)
+0488   C3DB DD 66 1D    	LD	H,(IX+29)
+0489   C3DE DD 4E 1E    	LD	C,(IX+30)
+0490   C3E1 DD 46 1F    	LD	B,(IX+31)
+0491   C3E4 CD 8A 86    	CALL	ConvNumTxt32
+0492   C3E7 3E 20       	LD	A,#20
+0493   C3E9 12          	LD	(DE),A
+0494   C3EA 13          	INC	DE
+0495   C3EB 21 DF C5    	LD	HL,Bytes
+0496   C3EE 01 05 00    	LD	BC,#0005
+0497   C3F1 ED B0       	LDIR 
+0498   C3F3 11 C2 C4    	LD	DE,FData
+0499   C3F6 CD 79 C5    	CALL	GetData
+0500   C3F9 11 CC C4    	LD	DE,FTime
+0501   C3FC CD AC C5    	CALL	GetTime
+0502   C3FF DD 6E 1A    	LD	L,(IX+26)
+0503   C402 DD 66 1B    	LD	H,(IX+27)
+0504   C405 11 EF C4    	LD	DE,FClast
+0505   C408 CD 8D 86    	CALL	ConvNumTxt16
+0506   C40B 21 71 C5    	LD	HL,FAtributs
+0507   C40E 11 12 C5    	LD	DE,FAttrib
+0508   C411 DD 4E 20    	LD	C,(IX+32)
+0509   C414 06 08       	LD	B,#08
+0510   C416 CB 11       InitVS0	RL	C
+0511   C418 3E 2D       	LD	A,"-"
+0512   C41A 30 01       	JR	NC,$+3
+0513   C41C 7E          	LD	A,(HL)
+0514   C41D 12          	LD	(DE),A
+0515   C41E 23          	INC	HL
+0516   C41F 13          	INC	DE
+0517   C420 10 F4       	DJNZ	InitVS0
+0518   C422 CD 06 86    	CALL	MakeWindow
+0519   C425 00          	DEFB	#00	;Main window
+0520   C426 00 00 00 00 	DEFW	#0000,#0000
+0521   C42A 80 02 00 01 	DEFW	#0280,#0100
+0522   C42E 02          	DEFB	#02	;Head place
+0523   C42F 04 00 02 00 	DEFW	#0004,#0002
+0524   C433 78 02 0A 00 	DEFW	#0278,#000A
+0525   C437 00          	DEFB	#00
+0526   C438 01          	DEFB	#01	;Text Line
+0527   C439 08 00 03 00 	DEFW	#0008,#0003
+0528   C43D 0F          	DEFB	#0F
+0529   C43E             	DEFB	"  FN File Viewer v1.02",0
+0529   C43E 2020464E2046696C65205669657765722076312E303200
+0530   C455 06          	DEFB	#06	;Horizontal line
+0531   C456 00 00 0D 00 	DEFW	#0000,#000D
+0532   C45A 80 02       	DEFW	#0280
+0533   C45C 01          	DEFB	#01	;Text Line
+0534   C45D 08 00 11 00 	DEFW	#0008,#0011
+0535   C461 80          	DEFB	#80
+0536   C462             	DEFB	"Viewing:",0
+0536   C462 56696577696E673A00
+0537   C46B             
+0538   C46B 07          	DEFB	#07	;Vertical line
+0539   C46C 3E 02 10 00 	DEFW	#023E,#0010
+0540   C470 0A 00       	DEFW	#000A
+0541   C472             
+0542   C472 06          	DEFB	#06	;Horizontal line
+0543   C473 00 00 1B 00 	DEFW	#0000,#001B
+0544   C477 80 02       	DEFW	#0280
+0545   C479             
+0546   C479 06          	DEFB	#06	;Horizontal line
+0547   C47A 00 00 E3 00 	DEFW	#0000,#00E3
+0548   C47E 80 02       	DEFW	#0280
+0549   C480             
+0550   C480 02          	DEFB	#02	;Head Place
+0551   C481 00 00 1C 00 	DEFW	#0000,#001C
+0552   C485 80 02 C8 00 	DEFW	#0280,#00C8
+0553   C489 09          	DEFB	PanelCol
+0554   C48A             
+0555   C48A 01          	DEFB	#01	;Text Line
+0556   C48B 08 00 E7 00 	DEFW	#0008,#00E7
+0557   C48F 80          	DEFB	#80
+0558   C490             	DEFB	"Len:  "
+0558   C490 4C656E3A2020
+0559   C496             FLen	DEFB	"                ",0
+0559   C496 2020202020202020202020202020202000
+0560   C4A7             
+0561   C4A7 07          	DEFB	#07	;Vertical line
+0562   C4A8 A0 00 E6 00 	DEFW	#00A0,#00E6
+0563   C4AC 0A 00       	DEFW	#000A
+0564   C4AE             
+0565   C4AE 01          	DEFB	#01	;Text Line
+0566   C4AF AC 00 E7 00 	DEFW	#00AC,#00E7
+0567   C4B3 80          	DEFB	#80
+0568   C4B4             	DEFB	"Create data:  "
+0568   C4B4 43726561746520646174613A2020
+0569   C4C2             FData	DEFB	"          "
+0569   C4C2 20202020202020202020
+0570   C4CC             FTime	DEFB	"     ",0
+0570   C4CC 202020202000
+0571   C4D2             
+0572   C4D2 07          	DEFB	#07	;Vertical line
+0573   C4D3 50 01 E6 00 	DEFW	#0150,#00E6
+0574   C4D7 0A 00       	DEFW	#000A
+0575   C4D9             
+0576   C4D9 01          	DEFB	#01	;Text Line
+0577   C4DA 5C 01 E7 00 	DEFW	#015C,#00E7
+0578   C4DE 80          	DEFB	#80
+0579   C4DF             	DEFB	"First claster:  "
+0579   C4DF 466972737420636C61737465723A2020
+0580   C4EF             FClast	DEFB	"     ",0
+0580   C4EF 202020202000
+0581   C4F5             
+0582   C4F5 07          	DEFB	#07	;Vertical line
+0583   C4F6 E0 01 E6 00 	DEFW	#01E0,#00E6
+0584   C4FA 0A 00       	DEFW	#000A
+0585   C4FC             
+0586   C4FC 01          	DEFB	#01	;Text Line
+0587   C4FD EC 01 E7 00 	DEFW	#01EC,#00E7
+0588   C501 80          	DEFB	#80
+0589   C502             	DEFB	"File attribut:  "
+0589   C502 46696C652061747472696275743A2020
+0590   C512             FAttrib	DEFB	"        ",0
+0590   C512 202020202020202000
+0591   C51B             
+0592   C51B 00          	DEFB	#00
+0593   C51C             
+0594   C51C 0E 02       	LD	C,#02
+0595   C51E D7          	RST	#10
+0596   C51F 21 00 80    	LD	HL,WorkBuffer
+0597   C522 C6 41       	ADD	A,"A"
+0598   C524 77          	LD	(HL),A
+0599   C525 23          	INC	HL
+0600   C526 36 3A       	LD	(HL),":"
+0601   C528 23          	INC	HL
+0602   C529 0E 1E       	LD	C,#1E
+0603   C52B E5          	PUSH	HL
+0604   C52C D7          	RST	#10
+0605   C52D E1          	POP	HL
+0606   C52E 97          	SUB	A
+0607   C52F 23          	INC	HL
+0608   C530 BE          	CP	(HL)
+0609   C531 20 FC       	JR	NZ,$-2
+0610   C533 2B          	DEC	HL
+0611   C534 3E 5C       	LD	A,"\\"
+0612   C536 BE          	CP	(HL)
+0613   C537 23          	INC	HL
+0614   C538 28 02       	JR	Z,$+4
+0615   C53A 77          	LD	(HL),A
+0616   C53B 23          	INC	HL
+0617   C53C EB          	EX	DE,HL
+0618   C53D 21 60 C1    	LD	HL,ViewingFile+33
+0619   C540 97          	SUB	A
+0620   C541 ED A0       	LDI 
+0621   C543 BE          	CP	(HL)
+0622   C544 20 FB       	JR	NZ,$-3
+0623   C546 12          	LD	(DE),A
+0624   C547 DD 21 00 02 	LD	IX,#0200
+0625   C54B 21 00 80    	LD	HL,WorkBuffer
+0626   C54E 11 34 00    	LD	DE,#0034
+0627   C551 01 11 00    	LD	BC,#0011
+0628   C554 3E 80       	LD	A,#80
+0629   C556 CD 15 86    	CALL	PrnRangPathL
+0630   C559 21 FC 01    	LD	HL,#01FC
+0631   C55C 11 03 00    	LD	DE,#0003
+0632   C55F 06 08       	LD	B,#08
+0633   C561 D9          	EXX 
+0634   C562 21 2E 02    	LD	HL,#022E
+0635   C565 11 03 00    	LD	DE,#0003
+0636   C568 06 08       	LD	B,#08
+0637   C56A D9          	EXX 
+0638   C56B 3E 02       	LD	A,#02
+0639   C56D CD 4E 86    	CALL	SetCMOSPrint
+0640   C570 C9          	RET 
+0641   C571             FAtributs
+0642   C571             	DEFB	"--ad-shr"
+0642   C571 2D2D61642D736872
+0643   C579             GetData
+0644   C579             ;Дата
+0645   C579 EB          	EX	DE,HL
+0646   C57A DD 7E 18    	LD	A,(IX+24)
+0647   C57D E6 1F       	AND	#1F
+0648   C57F CD CF C5    	CALL	Get8Bit
+0649   C582 36 2E       	LD	(HL),"."
+0650   C584 23          	INC	HL
+0651   C585 DD 7E 18    	LD	A,(IX+24)
+0652   C588 DD 4E 19    	LD	C,(IX+25)
+0653   C58B 06 05       	LD	B,5
+0654   C58D CB 39       	SRL	C
+0655   C58F 1F          	RRA 
+0656   C590 10 FB       	DJNZ	$-3
+0657   C592 E6 0F       	AND	#0F
+0658   C594 CD CF C5    	CALL	Get8Bit
+0659   C597 36 2E       	LD	(HL),"."
+0660   C599 23          	INC	HL
+0661   C59A DD 7E 19    	LD	A,(IX+25)      ;Год
+0662   C59D CB 3F       	SRL	A
+0663   C59F C6 50       	ADD	A,80
+0664   C5A1 D6 64       	SUB	100
+0665   C5A3 30 FC       	JR	NC,$-2
+0666   C5A5 C6 64       	ADD	A,100		;Год
+0667   C5A7 CD CF C5    	CALL	Get8Bit
+0668   C5AA EB          	EX	DE,HL
+0669   C5AB C9          	RET 
+0670   C5AC             GetTime
+0671   C5AC             ;Время
+0672   C5AC EB          	EX	DE,HL
+0673   C5AD DD 7E 17    	LD	A,(IX+23)	;Часы
+0674   C5B0 E6 F8       	AND	#F8
+0675   C5B2 1F          	RRA 
+0676   C5B3 1F          	RRA 
+0677   C5B4 1F          	RRA 
+0678   C5B5 CD CF C5    	CALL	Get8Bit
+0679   C5B8 36 3A       	LD	(HL),":"
+0680   C5BA 23          	INC	HL
+0681   C5BB DD 7E 16    	LD	A,(IX+22)
+0682   C5BE DD 4E 17    	LD	C,(IX+23)
+0683   C5C1 06 05       	LD	B,5
+0684   C5C3 CB 39       	SRL	C
+0685   C5C5 1F          	RRA 
+0686   C5C6 10 FB       	DJNZ	$-3
+0687   C5C8 E6 3F       	AND	#3F
+0688   C5CA CD CF C5    	CALL	Get8Bit
+0689   C5CD EB          	EX	DE,HL
+0690   C5CE C9          	RET 
+0691   C5CF             Get8Bit
+0692   C5CF 06 2F       	LD	B,#2F
+0693   C5D1 04          	INC	B
+0694   C5D2 D6 0A       	SUB	10
+0695   C5D4 30 FB       	JR	NC,$-3
+0696   C5D6 C6 0A       	ADD	A,10
+0697   C5D8 70          	LD	(HL),B
+0698   C5D9 23          	INC	HL
+0699   C5DA C6 30       	ADD	A,"0"
+0700   C5DC 77          	LD	(HL),A
+0701   C5DD 23          	INC	HL
+0702   C5DE C9          	RET 
+0703   C5DF             Bytes
+0704   C5DF 6279746573  	DEFB	"bytes"
+0705   C5E4             ;[]==========================================================[]
+0706   C5E4             InitStatusLine
+0707   C5E4 3A 6F C1    	LD	A,(ViewMode)
+0708   C5E7 B7          	OR	A
+0709   C5E8 C2 B3 C6    	JP	NZ,HEXstatus
+0710   C5EB             ASCIIstatus
+0711   C5EB 21 A1 C6    	LD	HL,UnWrapT
+0712   C5EE 11 5E 00    	LD	DE,#005E
+0713   C5F1 3A 70 C1    	LD	A,(ASCIImode)
+0714   C5F4 B7          	OR	A
+0715   C5F5 28 06       	JR	Z,$+8
+0716   C5F7 21 AA C6    	LD	HL,WrapT
+0717   C5FA 11 64 00    	LD	DE,#0064
+0718   C5FD ED 53 4A C6 	LD	(ASCIIx),DE
+0719   C601 11 4F C6    	LD	DE,ASCIIm
+0720   C604 01 09 00    	LD	BC,#0009
+0721   C607 ED B0       	LDIR 
+0722   C609 CD 06 86    	CALL	MakeWindow
+0723   C60C 80          	DEFB	#80
+0724   C60D 06          	DEFB	#06	;Horizontal line
+0725   C60E 00 00 F1 00 	DEFW	#0000,#00F1
+0726   C612 80 02       	DEFW	#0280
+0727   C614             
+0728   C614 02          	DEFB	#02
+0729   C615 02 00 F3 00 	DEFW	#0002,#00F3
+0730   C619 7C 02 0C 00 	DEFW	#027C,#000C
+0731   C61D 08          	DEFB	#08
+0732   C61E 04          	DEFB	#04	;UpRectan
+0733   C61F 00 00 F2 00 	DEFW	#0000,#00F2
+0734   C623 50 00 0E 00 	DEFW	#0050,#000E
+0735   C627 01          	DEFB	#01	;Text Line
+0736   C628 12 00 F5 00 	DEFW	#0012,#00F5
+0737   C62C 80          	DEFB	#80
+0738   C62D             	DEFB	"F1 About",0
+0738   C62D 46312041626F757400
+0739   C636 04          	DEFB	#04	;UpRectan
+0740   C637 50 00 F2 00 	DEFW	#0050,#00F2
+0741   C63B 50 00 0E 00 	DEFW	#0050,#000E
+0742   C63F 02          	DEFB	#02	;UpRectan
+0743   C640 52 00 F3 00 	DEFW	#0052,#00F3
+0744   C644 4C 00 0C 00 	DEFW	#004C,#000C
+0745   C648 08          	DEFB	#08
+0746   C649 01          	DEFB	#01	;Text Line
+0747   C64A 5E 00 F5 00 ASCIIx	DEFW	#005E,#00F5
+0748   C64E 80          	DEFB	#80
+0749   C64F             ASCIIm	DEFB	"F2 UnWrap",0
+0749   C64F 463220556E5772617000
+0750   C659 04          	DEFB	#04	;UpRectan
+0751   C65A A0 00 F2 00 	DEFW	#00A0,#00F2
+0752   C65E 50 00 0E 00 	DEFW	#0050,#000E
+0753   C662 01          	DEFB	#01	;Text Line
+0754   C663 B8 00 F5 00 	DEFW	#00B8,#00F5
+0755   C667 80          	DEFB	#80
+0756   C668             	DEFB	"F4 Hex",0
+0756   C668 46342048657800
+0757   C66F 04          	DEFB	#04	;UpRectan
+0758   C670 E0 01 F2 00 	DEFW	#01E0,#00F2
+0759   C674 50 00 0E 00 	DEFW	#0050,#000E
+0760   C678 01          	DEFB	#01	;Text Line
+0761   C679 F6 01 F5 00 	DEFW	#01F6,#00F5
+0762   C67D 80          	DEFB	#80
+0763   C67E             	DEFB	"F9 Print",0
+0763   C67E 4639205072696E7400
+0764   C687 04          	DEFB	#04	;UpRectan
+0765   C688 30 02 F2 00 	DEFW	#0230,#00F2
+0766   C68C 50 00 0E 00 	DEFW	#0050,#000E
+0767   C690 01          	DEFB	#01	;Text Line
+0768   C691 44 02 F5 00 	DEFW	#0244,#00F5
+0769   C695 80          	DEFB	#80
+0770   C696             	DEFB	"F10 Quit",0
+0770   C696 463130205175697400
+0771   C69F 00          	DEFB	#00
+0772   C6A0 C9          	RET 
+0773   C6A1             UnWrapT
+0774   C6A1             	DEFB	"F2 UnWrap"
+0774   C6A1 463220556E57726170
+0775   C6AA             WrapT
+0776   C6AA             	DEFB	"F2 Wrap  "
+0776   C6AA 463220577261702020
+0777   C6B3             HEXstatus
+0778   C6B3 CD 06 86    	CALL	MakeWindow
+0779   C6B6 80          	DEFB	#80
+0780   C6B7 06          	DEFB	#06	;Horizontal line
+0781   C6B8 00 00 F1 00 	DEFW	#0000,#00F1
+0782   C6BC 80 02       	DEFW	#0280
+0783   C6BE             
+0784   C6BE 02          	DEFB	#02
+0785   C6BF 02 00 F3 00 	DEFW	#0002,#00F3
+0786   C6C3 7C 02 0C 00 	DEFW	#027C,#000C
+0787   C6C7 08          	DEFB	#08
+0788   C6C8 04          	DEFB	#04	;UpRectan
+0789   C6C9 00 00 F2 00 	DEFW	#0000,#00F2
+0790   C6CD 50 00 0E 00 	DEFW	#0050,#000E
+0791   C6D1 01          	DEFB	#01	;Text Line
+0792   C6D2 12 00 F5 00 	DEFW	#0012,#00F5
+0793   C6D6 80          	DEFB	#80
+0794   C6D7             	DEFB	"F1 About",0
+0794   C6D7 46312041626F757400
+0795   C6E0 04          	DEFB	#04	;UpRectan
+0796   C6E1 A0 00 F2 00 	DEFW	#00A0,#00F2
+0797   C6E5 50 00 0E 00 	DEFW	#0050,#000E
+0798   C6E9 01          	DEFB	#01	;Text Line
+0799   C6EA B6 00 F5 00 	DEFW	#00B6,#00F5
+0800   C6EE 80          	DEFB	#80
+0801   C6EF             	DEFB	"F4 ASCII",0
+0801   C6EF 463420415343494900
+0802   C6F8 04          	DEFB	#04	;UpRectan
+0803   C6F9 F0 00 F2 00 	DEFW	#00F0,#00F2
+0804   C6FD 50 00 0E 00 	DEFW	#0050,#000E
+0805   C701 01          	DEFB	#01	;Text Line
+0806   C702 02 01 F5 00 	DEFW	#0102,#00F5
+0807   C706 80          	DEFB	#80
+0808   C707             	DEFB	"F5 Go to",0
+0808   C707 463520476F20746F00
+0809   C710 04          	DEFB	#04	;UpRectan
+0810   C711 E0 01 F2 00 	DEFW	#01E0,#00F2
+0811   C715 50 00 0E 00 	DEFW	#0050,#000E
+0812   C719 01          	DEFB	#01	;Text Line
+0813   C71A F6 01 F5 00 	DEFW	#01F6,#00F5
+0814   C71E 80          	DEFB	#80
+0815   C71F             	DEFB	"F9 Print",0
+0815   C71F 4639205072696E7400
+0816   C728 04          	DEFB	#04	;UpRectan
+0817   C729 30 02 F2 00 	DEFW	#0230,#00F2
+0818   C72D 50 00 0E 00 	DEFW	#0050,#000E
+0819   C731 01          	DEFB	#01	;Text Line
+0820   C732 44 02 F5 00 	DEFW	#0244,#00F5
+0821   C736 80          	DEFB	#80
+0822   C737             	DEFB	"F10 Quit",0
+0822   C737 463130205175697400
+0823   C740 00          	DEFB	#00
+0824   C741 C9          	RET 
+0825   C742             ;[]==========================================================[]
+0826   C742             About
+0827   C742 CD 06 86    	CALL	MakeWindow
+0828   C745 01          	DEFB	#01
+0829   C746 A0 00 48 00 	DEFW	#00A0,#0048
+0830   C74A 40 01 55 00 	DEFW	#0140,#0055
+0831   C74E 02          	DEFB	#02	;Head place
+0832   C74F 04 00 02 00 	DEFW	#0004,#0002
+0833   C753 38 01 0A 00 	DEFW	#0138,#000A
+0834   C757 00          	DEFB	#00
+0835   C758 01          	DEFB	#01	;Text Line
+0836   C759 90 00 03 00 	DEFW	#0090,#0003
+0837   C75D 0F          	DEFB	#0F
+0838   C75E             	DEFB	"About",0
+0838   C75E 41626F757400
+0839   C764 01          	DEFB	#01	;Text Line
+0840   C765 60 00 12 00 	DEFW	#0060,#0012
+0841   C769 80          	DEFB	#80
+0842   C76A             	DEFB	"Flex Navigator File Viewer",0
+0842   C76A 466C6578204E6176696761746F722046696C652056696577657200
+0843   C785 01          	DEFB	#01	;Text Line
+0844   C786 90 00 1C 00 	DEFW	#0090,#001C
+0845   C78A 80          	DEFB	#80
+0846   C78B             	DEFB	"v1.02",0
+0846   C78B 76312E303200
+0847   C791 01          	DEFB	#01	;Text Line
+0848   C792 12 00 28 00 	DEFW	#0012,#0028
+0849   C796 80          	DEFB	#80
+0850   C797             	DEFB	"Programming:  Enin Anton      "
+0850   C797 50726F6772616D6D696E673A2020456E696E20416E746F6E202020202020
+0851   C7B5             	DEFB	"Release data:  03/02/2000",0
+0851   C7B5 52656C6561736520646174613A202030332F30322F3230303000
+0852   C7CF 01          	DEFB	#01	;Text Line
+0853   C7D0 44 00 35 00 	DEFW	#0044,#0035
+0854   C7D4 80          	DEFB	#80
+0855   C7D5             	DEFB	"All right reserved. "
+0855   C7D5 416C6C2072696768742072657365727665642E20
+0856   C7E9             	DEFB	"Copyright (C)2000",0
+0856   C7E9 436F70797269676874202843293230303000
+0857   C7FB 04          	DEFB	#04	;UpRectan
+0858   C7FC 7C 00 42 00 	DEFW	#007C,#0042
+0859   C800 48 00 0E 00 	DEFW	#0048,#000E
+0860   C804 01          	DEFB	#01	;Text Line
+0861   C805 9A 00 45 00 	DEFW	#009A,#0045
+0862   C809 80          	DEFB	#80
+0863   C80A 4F 6B 00    	DEFB	"Ok",0
+0864   C80D 00          	DEFB	#00
+0865   C80E             AboutLoop
+0866   C80E DD 21 54 D9 	LD	IX,AboutTab
+0867   C812 CD 4B 86    	CALL	TestCoords
+0868   C815 0E 31       	LD	C,#31
+0869   C817 D7          	RST	#10
+0870   C818 28 F4       	JR	Z,AboutLoop
+0871   C81A 78          	LD	A,B
+0872   C81B B7          	OR	A
+0873   C81C 20 F0       	JR	NZ,AboutLoop
+0874   C81E 7B          	LD	A,E
+0875   C81F FE 1B       	CP	#1B
+0876   C821 28 0A       	JR	Z,AboutExt
+0877   C823 FE 0D       	CP	#0D
+0878   C825 28 06       	JR	Z,AboutExt
+0879   C827 CB AF       	RES	5,A
+0880   C829 FE 4F       	CP	"O"
+0881   C82B 20 E1       	JR	NZ,AboutLoop
+0882   C82D             AboutExt
+0883   C82D CD 06 86    	CALL	MakeWindow
+0884   C830 7F          	DEFB	#7F
+0885   C831 00          	DEFB	#00
+0886   C832 C9          	RET 
+0887   C833             ;[]==========================================================[]
+0888   C833             ScrollSCRup
+0889   C833 11 1C 24    	LD	DE,#241C
+0890   C836 18 03       	JR	ScrlSCRDnUp
+0891   C838             ScrollSCRdown
+0892   C838 11 24 1C    	LD	DE,#1C24
+0893   C83B             ;На вход:
+0894   C83B             ;	 D  - Y	откуда
+0895   C83B             ;	 Е  - Y	куда
+0896   C83B             ScrlSCRDnUp
+0897   C83B F3          	DI 
+0898   C83C 0E 83       	LD	C,#83
+0899   C83E D5          	PUSH	DE
+0900   C83F F7          	RST	#30
+0901   C840 D1          	POP	DE
+0902   C841 DB A2       	IN	A,(PAGE1)
+0903   C843 F5          	PUSH	AF
+0904   C844 3E 50       	LD	A,#50
+0905   C846 D3 A2       	OUT	(PAGE1),A
+0906   C848 21 00 40    	LD	HL,#4000
+0907   C84B 01 40 01    	LD	BC,320
+0908   C84E 52          	LD	D,D
+0909   C84F 3E C0       	LD	A,#C0
+0910   C851 40          	LD	B,B
+0911   C852 7A          ScSCRN1	LD	A,D
+0912   C853 D3 89       	OUT	(YPORT),A
+0913   C855 7F          	LD	A,A
+0914   C856 7E          	LD	A,(HL)
+0915   C857 40          	LD	B,B
+0916   C858 7B          	LD	A,E
+0917   C859 D3 89       	OUT	(YPORT),A
+0918   C85B 7F          	LD	A,A
+0919   C85C 77          	LD	(HL),A
+0920   C85D 40          	LD	B,B
+0921   C85E 23          	INC	HL
+0922   C85F 0B          	DEC	BC
+0923   C860 78          	LD	A,B
+0924   C861 B1          	OR	C
+0925   C862 20 EE       	JR	NZ,ScSCRN1
+0926   C864 F1          	POP	AF
+0927   C865 D3 A2       	OUT	(PAGE1),A
+0928   C867 FB          	EI 
+0929   C868 C9          	RET 
+0930   C869             ;[]==========================================================[]
+0931   C869             InitFPages
+0932   C869 E5          	PUSH	HL
+0933   C86A ED 5B 7B C1 	LD	DE,(TempShift)
+0934   C86E 2A 7D C1    	LD	HL,(TempShift+2)
+0935   C871 7A          	LD	A,D		;Выделяем номер	страницы
+0936   C872 17          	RLA 
+0937   C873 CB 15       	RL	L
+0938   C875 17          	RLA 
+0939   C876 CB 15       	RL	L
+0940   C878 7D          	LD	A,L
+0941   C879 D9          	EXX 
+0942   C87A 5F          	LD	E,A		;DE - Адрес страницы в списке
+0943   C87B 16 84       	LD	D,high PagesList
+0944   C87D 1A          	LD	A,(DE)		;Тек.страница
+0945   C87E D3 A2       	OUT	(PAGE1),A
+0946   C880 D9          	EXX 
+0947   C881 CB BA       	RES	7,D		;Вкл.с #4000
+0948   C883 CB F2       	SET	6,D
+0949   C885 E1          	POP	HL
+0950   C886 C9          	RET 
+0951   C887             TestFPages
+0952   C887 CB 7A       	BIT	7,D
+0953   C889 C8          	RET	Z
+0954   C88A CB BA       	RES	7,D
+0955   C88C CB F2       	SET	6,D
+0956   C88E D9          	EXX 
+0957   C88F 1C          	INC	E		;DE - Адрес страницы в списке
+0958   C890 1A          	LD	A,(DE)		;Тек.страница
+0959   C891 D3 A2       	OUT	(PAGE1),A
+0960   C893 D9          	EXX 
+0961   C894 C9          	RET 
+0962   C895             GetFPages
+0963   C895 E5          	PUSH	HL
+0964   C896 CB B2       	RES	6,D
+0965   C898 D9          	EXX 
+0966   C899 7B          	LD	A,E
+0967   C89A D9          	EXX 
+0968   C89B CB 7A       	BIT	7,D
+0969   C89D CB BA       	RES	7,D
+0970   C89F 28 01       	JR	Z,$+3
+0971   C8A1 3C          	INC	A
+0972   C8A2 6F          	LD	L,A
+0973   C8A3 97          	SUB	A
+0974   C8A4 67          	LD	H,A
+0975   C8A5 CB 3D       	SRL	L
+0976   C8A7 1F          	RRA 
+0977   C8A8 CB 3D       	SRL	L
+0978   C8AA 1F          	RRA 
+0979   C8AB B2          	OR	D
+0980   C8AC 57          	LD	D,A
+0981   C8AD ED 53 7B C1 	LD	(TempShift),DE
+0982   C8B1 22 7D C1    	LD	(TempShift+2),HL
+0983   C8B4 E1          	POP	HL
+0984   C8B5 C9          	RET 
+0985   C8B6             ;[]==========================================================[]
+0986   C8B6             ;Процедура инициализация таблицы процентов
+0987   C8B6             InitVProc
+0988   C8B6 3E 01       	LD	A,#01
+0989   C8B8 32 2C CA    	LD	(ProcFlag),A	;Флаг вывода процентов
+0990   C8BB 3A 6F C1    	LD	A,(ViewMode)
+0991   C8BE B7          	OR	A
+0992   C8BF 20 13       	JR	NZ,InProcHex
+0993   C8C1             InProcASCII			;Проценты для TextWrap
+0994   C8C1 2A 73 C1    	LD	HL,(FileLenght)
+0995   C8C4 ED 5B 75 C1 	LD	DE,(FileLenght+2)
+0996   C8C8 06 19       	LD	B,#19
+0997   C8CA C5          InProcA	PUSH	BC
+0998   C8CB CD 9A CF    	CALL	SearchUp
+0999   C8CE C1          	POP	BC
+1000   C8CF D8          	RET	C
+1001   C8D0 10 F8       	DJNZ	InProcA
+1002   C8D2 18 1A       	JR	InitProc
+1003   C8D4             InProcHex			;Проценты для Hex
+1004   C8D4 2A 73 C1    	LD	HL,(FileLenght)
+1005   C8D7 ED 5B 75 C1 	LD	DE,(FileLenght+2)
+1006   C8DB 01 90 01    	LD	BC,#0190
+1007   C8DE B7          	OR	A
+1008   C8DF ED 42       	SBC	HL,BC
+1009   C8E1 01 00 00    	LD	BC,#0000
+1010   C8E4 EB          	EX	DE,HL
+1011   C8E5 ED 42       	SBC	HL,BC
+1012   C8E7 EB          	EX	DE,HL
+1013   C8E8 D8          	RET	C
+1014   C8E9 7C          	LD	A,H
+1015   C8EA B5          	OR	L
+1016   C8EB B2          	OR	D
+1017   C8EC B3          	OR	E
+1018   C8ED C8          	RET	Z
+1019   C8EE             ;Процедура инициализации таблицы процентов
+1020   C8EE             ;На вход:
+1021   C8EE             ;	  DE+HL	- Длина	файла-1страница
+1022   C8EE             InitProc
+1023   C8EE E5          	PUSH	HL
+1024   C8EF D5          	PUSH	DE
+1025   C8F0 EB          	EX	DE,HL
+1026   C8F1 01 64 00    	LD	BC,100		;Длина файла/100 (%)
+1027   C8F4 CD 87 86    	CALL	Divis32
+1028   C8F7 ED 53 26 C9 	LD	(Coeff1+1),DE	;Получаем кол-во байт на
+1029   C8FB 22 35 C9    	LD	(Coeff2+1),HL	;один процент
+1030   C8FE DD 21 2D CA 	LD	IX,ProcentTab
+1031   C902 21 00 00    	LD	HL,#0000
+1032   C905 5D          	LD	E,L
+1033   C906 54          	LD	D,H
+1034   C907 01 00 63    	LD	BC,#6300	;Генерим таблицу
+1035   C90A DD 75 00    	LD	(IX+#00),L
+1036   C90D DD 23       	INC	IX
+1037   C90F DD 74 00    	LD	(IX+#00),H
+1038   C912 DD 23       	INC	IX
+1039   C914 DD 73 00    	LD	(IX+#00),E
+1040   C917 DD 23       	INC	IX
+1041   C919 DD 72 00    	LD	(IX+#00),D
+1042   C91C DD 23       	INC	IX
+1043   C91E DD 71 00    	LD	(IX+#00),C
+1044   C921 DD 23       	INC	IX
+1045   C923 0C          	INC	C
+1046   C924             CoeffLoop			;для каждого процента
+1047   C924 C5          	PUSH	BC
+1048   C925 01 00 00    Coeff1	LD	BC,#0000
+1049   C928 09          	ADD	HL,BC
+1050   C929 DD 75 00    	LD	(IX+#00),L
+1051   C92C DD 23       	INC	IX
+1052   C92E DD 74 00    	LD	(IX+#00),H
+1053   C931 DD 23       	INC	IX
+1054   C933 EB          	EX	DE,HL
+1055   C934 01 00 00    Coeff2	LD	BC,#0000
+1056   C937 ED 4A       	ADC	HL,BC
+1057   C939 EB          	EX	DE,HL
+1058   C93A C1          	POP	BC
+1059   C93B DD 73 00    	LD	(IX+#00),E
+1060   C93E DD 23       	INC	IX
+1061   C940 DD 72 00    	LD	(IX+#00),D
+1062   C943 DD 23       	INC	IX
+1063   C945 DD 71 00    	LD	(IX+#00),C
+1064   C948 DD 23       	INC	IX
+1065   C94A 0C          	INC	C
+1066   C94B 10 D7       	DJNZ	CoeffLoop
+1067   C94D D1          	POP	DE
+1068   C94E E1          	POP	HL
+1069   C94F DD 75 00    	LD	(IX+#00),L	;Макс.процент
+1070   C952 DD 23       	INC	IX
+1071   C954 DD 74 00    	LD	(IX+#00),H
+1072   C957 DD 23       	INC	IX
+1073   C959 DD 73 00    	LD	(IX+#00),E
+1074   C95C DD 23       	INC	IX
+1075   C95E DD 72 00    	LD	(IX+#00),D
+1076   C961 DD 23       	INC	IX
+1077   C963 DD 71 00    	LD	(IX+#00),C
+1078   C966 97          	SUB	A
+1079   C967 32 2C CA    	LD	(ProcFlag),A
+1080   C96A C9          	RET 
+1081   C96B             ;[]----------------------------------------------------------[]
+1082   C96B             ;Процедура просчета и печати проценто
+1083   C96B             PrintVProc
+1084   C96B 21 DE C9    	LD	HL,PutProcent
+1085   C96E E5          	PUSH	HL	;Выходим на печать
+1086   C96F 3A 2C CA    	LD	A,(ProcFlag)
+1087   C972 B7          	OR	A
+1088   C973 3E 64       	LD	A,100
+1089   C975 C0          	RET	NZ		;Уже все 100%
+1090   C976 DD 21 27 CB 	LD	IX,ProcentTab+250 ;Серидина таблицы проц.50%
+1091   C97A 2A 77 C1    	LD	HL,(FileShift)	;Текущее смещение
+1092   C97D ED 5B 79 C1 	LD	DE,(FileShift+2)
+1093   C981 CD C1 C9    	CALL	TestProcent	;В какой половине наход.?
+1094   C984 38 30       	JR	C,LowTest	;<50%
+1095   C986 DD 7E 04    	LD	A,(IX+#04)
+1096   C989 C8          	RET	Z		;=50%
+1097   C98A DD 21 A4 CB 	LD	IX,ProcentTab+375 ;Таблица с 75%
+1098   C98E CD C1 C9    	CALL	TestProcent	;В какой половине наход.?
+1099   C991 38 12       	JR	C,Test2		;50%<X<75%
+1100   C993             ;Процедура поиска процента вверх по таблице
+1101   C993 DD 7E 04    Test1	LD	A,(IX+#04)	;Текущий процент
+1102   C996 C8          	RET	Z		;X=%
+1103   C997 D8          	RET	C		;X<%
+1104   C998 FE 64       	CP	100		;Конечный процент
+1105   C99A C8          	RET	Z
+1106   C99B 01 05 00    	LD	BC,#0005	;Ищем вверх по таблице
+1107   C99E DD 09       	ADD	IX,BC		;Нужный	процент
+1108   C9A0 CD C1 C9    	CALL	TestProcent
+1109   C9A3 18 EE       	JR	Test1
+1110   C9A5             ;Процедура поиска процента вниз	по таблице
+1111   C9A5 DD 7E 04    Test2	LD	A,(IX+#04)	;Текущий процент
+1112   C9A8 C8          	RET	Z		;X=%
+1113   C9A9 D0          	RET	NC		;X>%
+1114   C9AA B7          	OR	A
+1115   C9AB C8          	RET	Z
+1116   C9AC 01 FB FF    	LD	BC,-#0005	;Ищем вниз по таблице
+1117   C9AF DD 09       	ADD	IX,BC		;Нужный	процент
+1118   C9B1 CD C1 C9    	CALL	TestProcent
+1119   C9B4 18 EF       	JR	Test2
+1120   C9B6             ;X<50%
+1121   C9B6 DD 21 AA CA LowTest	LD	IX,ProcentTab+125 ;Таблица с 25%
+1122   C9BA CD C1 C9    	CALL	TestProcent	;В какой половине наход.?
+1123   C9BD 38 E6       	JR	C,Test2		;01%<X<25%
+1124   C9BF 18 D2       	JR	Test1		;25%<X<50%
+1125   C9C1             ;Процедура тестирования	текущего смещения
+1126   C9C1             ;На вход:
+1127   C9C1             ;	  DE+HL	- Текущее смещение
+1128   C9C1             ;На выход:
+1129   C9C1             ;	  Z - Тек.смещ=процент
+1130   C9C1             ;	  C - Тек.смещ<процент
+1131   C9C1             ;	 NC - Тек.смещ>процент
+1132   C9C1             TestProcent
+1133   C9C1 E5          	PUSH	HL
+1134   C9C2 D5          	PUSH	DE
+1135   C9C3 C5          	PUSH	BC
+1136   C9C4 DD 4E 00    	LD	C,(IX+#00)
+1137   C9C7 DD 46 01    	LD	B,(IX+#01)
+1138   C9CA B7          	OR	A
+1139   C9CB ED 42       	SBC	HL,BC
+1140   C9CD EB          	EX	DE,HL
+1141   C9CE DD 4E 02    	LD	C,(IX+#02)
+1142   C9D1 DD 46 03    	LD	B,(IX+#03)
+1143   C9D4 ED 42       	SBC	HL,BC
+1144   C9D6 20 02       	JR	NZ,$+4
+1145   C9D8 7A          	LD	A,D
+1146   C9D9 B3          	OR	E
+1147   C9DA C1          	POP	BC
+1148   C9DB D1          	POP	DE
+1149   C9DC E1          	POP	HL
+1150   C9DD C9          	RET 
+1151   C9DE             ;Процедура вывода процентов
+1152   C9DE             PutProcent
+1153   C9DE 21 27 CA    	LD	HL,ProcText
+1154   C9E1 E5          	PUSH	HL
+1155   C9E2 01 00 2F    	LD	BC,#2F00
+1156   C9E5 04          	INC	B
+1157   C9E6 D6 64       	SUB	100
+1158   C9E8 30 FB       	JR	NC,$-3
+1159   C9EA C6 64       	ADD	A,100
+1160   C9EC 08          	EX	AF,AF'
+1161   C9ED 78          	LD	A,B
+1162   C9EE FE 30       	CP	"0"
+1163   C9F0 28 02       	JR	Z,$+4
+1164   C9F2 CB C1       	SET	0,C
+1165   C9F4 CB 41       	BIT	0,C
+1166   C9F6 20 02       	JR	NZ,$+4
+1167   C9F8 3E 20       	LD	A,#20
+1168   C9FA 77          	LD	(HL),A
+1169   C9FB 23          	INC	HL
+1170   C9FC 08          	EX	AF,AF'
+1171   C9FD 06 2F       	LD	B,#2F
+1172   C9FF 04          	INC	B
+1173   CA00 D6 0A       	SUB	10
+1174   CA02 30 FB       	JR	NC,$-3
+1175   CA04 C6 0A       	ADD	A,10
+1176   CA06 08          	EX	AF,AF'
+1177   CA07 78          	LD	A,B
+1178   CA08 FE 30       	CP	"0"
+1179   CA0A 28 02       	JR	Z,$+4
+1180   CA0C CB C1       	SET	0,C
+1181   CA0E CB 41       	BIT	0,C
+1182   CA10 20 02       	JR	NZ,$+4
+1183   CA12 3E 20       	LD	A,#20
+1184   CA14 77          	LD	(HL),A
+1185   CA15 23          	INC	HL
+1186   CA16 08          	EX	AF,AF'
+1187   CA17 C6 30       	ADD	A,"0"
+1188   CA19 77          	LD	(HL),A
+1189   CA1A E1          	POP	HL
+1190   CA1B 11 50 02    	LD	DE,#0250
+1191   CA1E 01 11 00    	LD	BC,#0011
+1192   CA21 3E 80       	LD	A,#80
+1193   CA23 CD 0F 86    	CALL	PrnTxtLnNorm
+1194   CA26 C9          	RET 
+1195   CA27             ProcText
+1196   CA27 2020202500  	DEFB	"   %",0
+1197   CA2C             ProcFlag
+1198   CA2C 00          	DEFB	#00
+1199   CA2D             ProcentTab
+1200   CA2D 00          	DEFS	505,0
+1201   CC26             ;[]==========================================================[]
+1202   CC26             	INCLUDE	"FVTEXT.z80";,#0C
+0001+  CC26             
+0002+  CC26             ;[]---------------------------------------------------------[]
+0003+  CC26             PrnASCIIpage
+0004+  CC26 21 6B C9    	LD	HL,PrintVProc
+0005+  CC29 E5          	PUSH	HL
+0006+  CC2A 2A 77 C1    	LD	HL,(FileShift)
+0007+  CC2D 22 7B C1    	LD	(TempShift),HL
+0008+  CC30 2A 79 C1    	LD	HL,(FileShift+2)
+0009+  CC33 22 7D C1    	LD	(TempShift+2),HL
+0010+  CC36 06 1C       	LD	B,#1C
+0011+  CC38             PrnASCIIlp
+0012+  CC38 C5          	PUSH	BC
+0013+  CC39 CD 8C CC    	CALL	PutASCIIline   ;Выводим	строку в буф и на экран
+0014+  CC3C C1          	POP	BC
+0015+  CC3D 38 19       	JR	C,FillASCIIdn  ;CY-Закончились байты для печати
+0016+  CC3F 78          	LD	A,B
+0017+  CC40 C6 08       	ADD	A,#08
+0018+  CC42 47          	LD	B,A
+0019+  CC43 FE E4       	CP	#E4
+0020+  CC45 20 F1       	JR	NZ,PrnASCIIlp
+0021+  CC47 2A 7B C1    	LD	HL,(TempShift)
+0022+  CC4A 22 7F C1    	LD	(NextShift),HL
+0023+  CC4D 2A 7D C1    	LD	HL,(TempShift+2)
+0024+  CC50 22 81 C1    	LD	(NextShift+2),HL
+0025+  CC53 97          	SUB	A
+0026+  CC54 32 72 C1    	LD	(EmptyLines),A
+0027+  CC57 C9          	RET 
+0028+  CC58             ;Процедура отчистки нижней области экрана
+0029+  CC58             FillASCIIdn
+0030+  CC58 3E E4       	LD	A,#E4
+0031+  CC5A 90          	SUB	B
+0032+  CC5B 32 6F CC    	LD	(FLenASC),A
+0033+  CC5E 28 13       	JR	Z,FASCIIe	;Z-нет отчистки
+0034+  CC60 78          	LD	A,B
+0035+  CC61 32 6B CC    	LD	(FPosASC),A
+0036+  CC64 CD 06 86    	CALL	MakeWindow
+0037+  CC67 80          	DEFB	#80
+0038+  CC68 02          	DEFB	#02	;Head Place
+0039+  CC69 00 00       	DEFW	#0000
+0040+  CC6B 00 00       FPosASC	DEFW	#0000
+0041+  CC6D 80 02       	DEFW	#0280
+0042+  CC6F 00 00       FLenASC	DEFW	#0000
+0043+  CC71 09          	DEFB	PanelCol
+0044+  CC72 00          	DEFB	#00
+0045+  CC73 2A 7B C1    FASCIIe	LD	HL,(TempShift)
+0046+  CC76 22 7F C1    	LD	(NextShift),HL
+0047+  CC79 2A 7D C1    	LD	HL,(TempShift+2)
+0048+  CC7C 22 81 C1    	LD	(NextShift+2),HL
+0049+  CC7F 3A 6F CC    	LD	A,(FLenASC)
+0050+  CC82 CB 3F       	SRL	A
+0051+  CC84 CB 3F       	SRL	A
+0052+  CC86 CB 3F       	SRL	A
+0053+  CC88 32 72 C1    	LD	(EmptyLines),A
+0054+  CC8B C9          	RET 
+0055+  CC8C             ;Процедура печати тек.строки в буфер и на экран
+0056+  CC8C             PutASCIIline
+0057+  CC8C DD 60       	LD	HX,B
+0058+  CC8E 3A 70 C1    	LD	A,(ASCIImode)
+0059+  CC91 B7          	OR	A
+0060+  CC92 0E 50       	LD	C,#50
+0061+  CC94 28 02       	JR	Z,$+4
+0062+  CC96 0E F0       	LD	C,#F0
+0063+  CC98 C5          	PUSH	BC
+0064+  CC99 2A 73 C1    	LD	HL,(FileLenght)
+0065+  CC9C ED 4B 7B C1 	LD	BC,(TempShift)
+0066+  CCA0 B7          	OR	A
+0067+  CCA1 ED 42       	SBC	HL,BC
+0068+  CCA3 EB          	EX	DE,HL
+0069+  CCA4 2A 75 C1    	LD	HL,(FileLenght+2)
+0070+  CCA7 ED 4B 7D C1 	LD	BC,(TempShift+2)
+0071+  CCAB ED 42       	SBC	HL,BC
+0072+  CCAD C1          	POP	BC
+0073+  CCAE D8          	RET	C
+0074+  CCAF 06 F0       	LD	B,#F0
+0075+  CCB1 20 08       	JR	NZ,PutLine
+0076+  CCB3 7A          	LD	A,D
+0077+  CCB4 B7          	OR	A
+0078+  CCB5 20 04       	JR	NZ,PutLine
+0079+  CCB7 B3          	OR	E
+0080+  CCB8 37          	SCF 
+0081+  CCB9 C8          	RET	Z
+0082+  CCBA 43          	LD	B,E
+0083+  CCBB             
+0084+  CCBB 21 00 83    PutLine	LD	HL,LineBuffer
+0085+  CCBE DB A2       	IN	A,(PAGE1)
+0086+  CCC0 F5          	PUSH	AF
+0087+  CCC1 CD 69 C8    	CALL	InitFPages
+0088+  CCC4             PutLnLoop
+0089+  CCC4 CD 87 C8    	CALL	TestFPages
+0090+  CCC7 1A          	LD	A,(DE)
+0091+  CCC8 13          	INC	DE
+0092+  CCC9 FE 0D       	CP	#0D
+0093+  CCCB 20 0B       	JR	NZ,PutLine1
+0094+  CCCD CD 87 C8    	CALL	TestFPages
+0095+  CCD0 1A          	LD	A,(DE)
+0096+  CCD1 FE 0A       	CP	#0A
+0097+  CCD3 20 32       	JR	NZ,PutLnExit
+0098+  CCD5 13          	INC	DE
+0099+  CCD6 18 2F       	JR	PutLnExit
+0100+  CCD8             PutLine1
+0101+  CCD8 FE 0A       	CP	#0A
+0102+  CCDA 28 2B       	JR	Z,PutLnExit
+0103+  CCDC FE 09       	CP	#09
+0104+  CCDE 20 0D       	JR	NZ,PutLine2
+0105+  CCE0 36 20       PutTab	LD	(HL),#20
+0106+  CCE2 2C          	INC	L
+0107+  CCE3 7D          	LD	A,L
+0108+  CCE4 B9          	CP	C
+0109+  CCE5 28 0C       	JR	Z,PutLine3
+0110+  CCE7 E6 07       	AND	#07
+0111+  CCE9 20 F5       	JR	NZ,PutTab
+0112+  CCEB 18 06       	JR	PutLine3
+0113+  CCED             PutLine2
+0114+  CCED 77          	LD	(HL),A
+0115+  CCEE 7D          	LD	A,L
+0116+  CCEF B9          	CP	C
+0117+  CCF0 28 01       	JR	Z,PutLine3
+0118+  CCF2 2C          	INC	L
+0119+  CCF3             PutLine3
+0120+  CCF3 10 CF       	DJNZ	PutLnLoop
+0121+  CCF5             
+0122+  CCF5 CD 87 C8    	CALL	TestFPages
+0123+  CCF8 1A          	LD	A,(DE)
+0124+  CCF9 FE 0D       	CP	#0D
+0125+  CCFB 20 0A       	JR	NZ,PutLnExit
+0126+  CCFD 13          	INC	DE
+0127+  CCFE CD 87 C8    	CALL	TestFPages
+0128+  CD01 1A          	LD	A,(DE)
+0129+  CD02 FE 0A       	CP	#0A
+0130+  CD04 20 01       	JR	NZ,PutLnExit
+0131+  CD06 13          	INC	DE
+0132+  CD07             PutLnExit
+0133+  CD07 F1          	POP	AF
+0134+  CD08 D3 A2       	OUT	(PAGE1),A
+0135+  CD0A CD 95 C8    	CALL	GetFPages
+0136+  CD0D 3A 70 C1    	LD	A,(ASCIImode)
+0137+  CD10 B7          	OR	A
+0138+  CD11 20 1D       	JR	NZ,PutLineUWR
+0139+  CD13 3E 50       	LD	A,#50
+0140+  CD15 95          	SUB	L
+0141+  CD16 28 07       	JR	Z,PutLine4
+0142+  CD18 47          	LD	B,A
+0143+  CD19 3E 20       	LD	A,#20
+0144+  CD1B 77          	LD	(HL),A
+0145+  CD1C 2C          	INC	L
+0146+  CD1D 10 FC       	DJNZ	$-2
+0147+  CD1F             PutLine4
+0148+  CD1F 21 00 83    	LD	HL,LineBuffer
+0149+  CD22 11 00 00    	LD	DE,#0000
+0150+  CD25 06 50       	LD	B,#50
+0151+  CD27 DD 4C       	LD	C,HX
+0152+  CD29 3E 9A       	LD	A,PanelCol*#10+FileCol
+0153+  CD2B CD 12 86    	CALL	PrnTxtLnNormC
+0154+  CD2E B7          	OR	A
+0155+  CD2F C9          	RET 
+0156+  CD30             PutLineUWR
+0157+  CD30 DD 4C       	LD	C,HX
+0158+  CD32 7D          	LD	A,L
+0159+  CD33 32 6D CD    	LD	(SaveUW+1),A
+0160+  CD36 3A 71 C1    	LD	A,(ASCIIaddX)
+0161+  CD39 C6 50       	ADD	A,#50
+0162+  CD3B 95          	SUB	L
+0163+  CD3C 28 09       	JR	Z,PutLnUW1
+0164+  CD3E 38 07       	JR	C,PutLnUW1
+0165+  CD40 47          	LD	B,A
+0166+  CD41 3E 20       	LD	A,#20
+0167+  CD43 77          	LD	(HL),A
+0168+  CD44 2C          	INC	L
+0169+  CD45 10 FC       	DJNZ	$-2
+0170+  CD47             PutLnUW1
+0171+  CD47 1E 00       	LD	E,#00
+0172+  CD49 06 50       	LD	B,#50
+0173+  CD4B 26 83       	LD	H,high LineBuffer
+0174+  CD4D 3A 71 C1    	LD	A,(ASCIIaddX)
+0175+  CD50 6F          	LD	L,A		;смещение от начала строки
+0176+  CD51 B7          	OR	A
+0177+  CD52 28 17       	JR	Z,PutLnUW2
+0178+  CD54 E5          	PUSH	HL
+0179+  CD55 C5          	PUSH	BC
+0180+  CD56 21 92 CD    	LD	HL,SpaceLeft
+0181+  CD59 16 00       	LD	D,#00
+0182+  CD5B 06 01       	LD	B,#01
+0183+  CD5D 3E 93       	LD	A,PanelCol*#10+#03	;(Yellow)
+0184+  CD5F CD 12 86    	CALL	PrnTxtLnNormC
+0185+  CD62 C1          	POP	BC
+0186+  CD63 E1          	POP	HL
+0187+  CD64 2C          	INC	L
+0188+  CD65 05          	DEC	B
+0189+  CD66 3A 71 C1    	LD	A,(ASCIIaddX)
+0190+  CD69 1E 08       	LD	E,#08
+0191+  CD6B             PutLnUW2
+0192+  CD6B 57          	LD	D,A
+0193+  CD6C 3E 00       SaveUW	LD	A,#00
+0194+  CD6E 92          	SUB	D
+0195+  CD6F 38 18       	JR	C,PutLnUW3
+0196+  CD71 FE 51       	CP	#51
+0197+  CD73 38 14       	JR	C,PutLnUW3
+0198+  CD75 E5          	PUSH	HL
+0199+  CD76 D5          	PUSH	DE
+0200+  CD77 C5          	PUSH	BC
+0201+  CD78 21 93 CD    	LD	HL,SpaceRight
+0202+  CD7B 11 78 02    	LD	DE,#0278
+0203+  CD7E 06 01       	LD	B,#01
+0204+  CD80 3E 93       	LD	A,PanelCol*#10+#03	;(Yellow)
+0205+  CD82 CD 12 86    	CALL	PrnTxtLnNormC
+0206+  CD85 C1          	POP	BC
+0207+  CD86 D1          	POP	DE
+0208+  CD87 E1          	POP	HL
+0209+  CD88 05          	DEC	B
+0210+  CD89             PutLnUW3
+0211+  CD89 16 00       	LD	D,#00
+0212+  CD8B 3E 9A       	LD	A,PanelCol*#10+FileCol	;(Yellow)
+0213+  CD8D CD 12 86    	CALL	PrnTxtLnNormC
+0214+  CD90 B7          	OR	A
+0215+  CD91 C9          	RET 
+0216+  CD92             SpaceLeft
+0217+  CD92 1B          	DEFB	#1B
+0218+  CD93             SpaceRight
+0219+  CD93 1A          	DEFB	#1A
+0220+  CD94             ;[]==========================================================[]
+0221+  CD94             ChASCIImode
+0222+  CD94 21 2D C0    	LD	HL,ViewerBegin
+0223+  CD97 E3          	EX	(SP),HL
+0224+  CD98 3A 70 C1    	LD	A,(ASCIImode)
+0225+  CD9B EE 01       	XOR	#01
+0226+  CD9D 32 70 C1    	LD	(ASCIImode),A
+0227+  CDA0 C8          	RET	Z
+0228+  CDA1 97          	SUB	A
+0229+  CDA2 32 71 C1    	LD	(ASCIIaddX),A
+0230+  CDA5 C9          	RET 
+0231+  CDA6             ;[]----------------------------------------------------------[]
+0232+  CDA6             ScrollLeft
+0233+  CDA6 3A 70 C1    	LD	A,(ASCIImode)
+0234+  CDA9 B7          	OR	A
+0235+  CDAA C8          	RET	Z
+0236+  CDAB 3A 71 C1    	LD	A,(ASCIIaddX)
+0237+  CDAE B7          	OR	A
+0238+  CDAF C8          	RET	Z
+0239+  CDB0 3D          	DEC	A
+0240+  CDB1 32 71 C1    	LD	(ASCIIaddX),A
+0241+  CDB4 CD 26 CC    	CALL	PrnASCIIpage
+0242+  CDB7 C9          	RET 
+0243+  CDB8             ;[]----------------------------------------------------------[]
+0244+  CDB8             ScrollRght
+0245+  CDB8 3A 70 C1    	LD	A,(ASCIImode)
+0246+  CDBB B7          	OR	A
+0247+  CDBC C8          	RET	Z
+0248+  CDBD 3A 71 C1    	LD	A,(ASCIIaddX)
+0249+  CDC0 FE A0       	CP	#A0
+0250+  CDC2 C8          	RET	Z
+0251+  CDC3 3C          	INC	A
+0252+  CDC4 32 71 C1    	LD	(ASCIIaddX),A
+0253+  CDC7 CD 26 CC    	CALL	PrnASCIIpage
+0254+  CDCA C9          	RET 
+0255+  CDCB             ;[]----------------------------------------------------------[]
+0256+  CDCB             THome
+0257+  CDCB 3A 70 C1    	LD	A,(ASCIImode)
+0258+  CDCE B7          	OR	A
+0259+  CDCF C8          	RET	Z
+0260+  CDD0 3A 71 C1    	LD	A,(ASCIIaddX)
+0261+  CDD3 B7          	OR	A
+0262+  CDD4 C8          	RET	Z
+0263+  CDD5 97          	SUB	A
+0264+  CDD6 32 71 C1    	LD	(ASCIIaddX),A
+0265+  CDD9 CD 26 CC    	CALL	PrnASCIIpage
+0266+  CDDC C9          	RET 
+0267+  CDDD             ;[]----------------------------------------------------------[]
+0268+  CDDD             TEnd
+0269+  CDDD 3A 70 C1    	LD	A,(ASCIImode)
+0270+  CDE0 B7          	OR	A
+0271+  CDE1 C8          	RET	Z
+0272+  CDE2 3A 71 C1    	LD	A,(ASCIIaddX)
+0273+  CDE5 FE A0       	CP	#A0
+0274+  CDE7 C8          	RET	Z
+0275+  CDE8 3E A0       	LD	A,#A0
+0276+  CDEA 32 71 C1    	LD	(ASCIIaddX),A
+0277+  CDED CD 26 CC    	CALL	PrnASCIIpage
+0278+  CDF0 C9          	RET 
+0279+  CDF1             ;[]----------------------------------------------------------[]
+0280+  CDF1             TLineUpMs
+0281+  CDF1 CD 0E CE    	CALL	TLineUp
+0282+  CDF4 D8          	RET	C
+0283+  CDF5 06 0A       	LD	B,#0A
+0284+  CDF7 C5          TUpMs1	PUSH	BC
+0285+  CDF8 0E 03       	LD	C,#03
+0286+  CDFA F7          	RST	#30
+0287+  CDFB C1          	POP	BC
+0288+  CDFC CB 47       	BIT	0,A
+0289+  CDFE C8          	RET	Z
+0290+  CDFF 76          	HALT 
+0291+  CE00 10 F5       	DJNZ	TUpMs1
+0292+  CE02 CD 0E CE    TUpMs2	CALL	TLineUp
+0293+  CE05 D8          	RET	C
+0294+  CE06 0E 03       	LD	C,#03
+0295+  CE08 F7          	RST	#30
+0296+  CE09 CB 47       	BIT	0,A
+0297+  CE0B C8          	RET	Z
+0298+  CE0C 18 F4       	JR	TUpMs2
+0299+  CE0E             TLineUp
+0300+  CE0E 2A 77 C1    	LD	HL,(FileShift)
+0301+  CE11 ED 5B 79 C1 	LD	DE,(FileShift+2)
+0302+  CE15 7C          	LD	A,H
+0303+  CE16 B5          	OR	L
+0304+  CE17 B2          	OR	D
+0305+  CE18 B3          	OR	E
+0306+  CE19 37          	SCF 
+0307+  CE1A C8          	RET	Z
+0308+  CE1B CD 9A CF    	CALL	SearchUp
+0309+  CE1E 22 77 C1    	LD	(FileShift),HL
+0310+  CE21 ED 53 79 C1 	LD	(FileShift+2),DE
+0311+  CE25 22 7B C1    	LD	(TempShift),HL
+0312+  CE28 ED 53 7D C1 	LD	(TempShift+2),DE
+0313+  CE2C 21 72 C1    	LD	HL,EmptyLines
+0314+  CE2F 7E          	LD	A,(HL)
+0315+  CE30 35          	DEC	(HL)
+0316+  CE31 B7          	OR	A
+0317+  CE32 20 12       	JR	NZ,TLineU1
+0318+  CE34 34          	INC	(HL)
+0319+  CE35 2A 7F C1    	LD	HL,(NextShift)
+0320+  CE38 ED 5B 81 C1 	LD	DE,(NextShift+2)
+0321+  CE3C CD 9A CF    	CALL	SearchUp
+0322+  CE3F 22 7F C1    	LD	(NextShift),HL
+0323+  CE42 ED 53 81 C1 	LD	(NextShift+2),DE
+0324+  CE46 CD 38 C8    TLineU1	CALL	ScrollSCRdown
+0325+  CE49 06 1C       	LD	B,#1C
+0326+  CE4B CD 8C CC    	CALL	PutASCIIline	    ;Создаем и печатаем	строку
+0327+  CE4E CD 6B C9    	CALL	PrintVProc
+0328+  CE51 B7          	OR	A
+0329+  CE52 C9          	RET 
+0330+  CE53             ;[]----------------------------------------------------------[]
+0331+  CE53             TLineDwnMs
+0332+  CE53 CD 70 CE    	CALL	TLineDwn
+0333+  CE56 D8          	RET	C
+0334+  CE57 06 0A       	LD	B,#0A
+0335+  CE59 C5          TDnMs1	PUSH	BC
+0336+  CE5A 0E 03       	LD	C,#03
+0337+  CE5C F7          	RST	#30
+0338+  CE5D C1          	POP	BC
+0339+  CE5E CB 47       	BIT	0,A
+0340+  CE60 C8          	RET	Z
+0341+  CE61 76          	HALT 
+0342+  CE62 10 F5       	DJNZ	TDnMs1
+0343+  CE64 CD 70 CE    TDnMs2	CALL	TLineDwn
+0344+  CE67 D8          	RET	C
+0345+  CE68 0E 03       	LD	C,#03
+0346+  CE6A F7          	RST	#30
+0347+  CE6B CB 47       	BIT	0,A
+0348+  CE6D C8          	RET	Z
+0349+  CE6E 18 F4       	JR	TDnMs2
+0350+  CE70             TLineDwn
+0351+  CE70 2A 7F C1    	LD	HL,(NextShift)
+0352+  CE73 ED 5B 81 C1 	LD	DE,(NextShift+2)
+0353+  CE77 ED 4B 73 C1 	LD	BC,(FileLenght)
+0354+  CE7B B7          	OR	A
+0355+  CE7C ED 42       	SBC	HL,BC
+0356+  CE7E ED 4B 75 C1 	LD	BC,(FileLenght+2)
+0357+  CE82 EB          	EX	DE,HL
+0358+  CE83 ED 42       	SBC	HL,BC
+0359+  CE85 3F          	CCF 
+0360+  CE86 D8          	RET	C
+0361+  CE87 2A 77 C1    	LD	HL,(FileShift)
+0362+  CE8A ED 5B 79 C1 	LD	DE,(FileShift+2)
+0363+  CE8E CD 3F D0    	CALL	SearchDown
+0364+  CE91 22 77 C1    	LD	(FileShift),HL
+0365+  CE94 ED 53 79 C1 	LD	(FileShift+2),DE
+0366+  CE98 2A 7F C1    	LD	HL,(NextShift)
+0367+  CE9B ED 5B 81 C1 	LD	DE,(NextShift+2)
+0368+  CE9F 22 7B C1    	LD	(TempShift),HL
+0369+  CEA2 ED 53 7D C1 	LD	(TempShift+2),DE
+0370+  CEA6 CD 33 C8    	CALL	ScrollSCRup
+0371+  CEA9 06 DC       	LD	B,#DC
+0372+  CEAB CD 8C CC    	CALL	PutASCIIline	    ;Создаем и печатаем	строку
+0373+  CEAE 2A 7B C1    	LD	HL,(TempShift)
+0374+  CEB1 ED 5B 7D C1 	LD	DE,(TempShift+2)
+0375+  CEB5 22 7F C1    	LD	(NextShift),HL
+0376+  CEB8 ED 53 81 C1 	LD	(NextShift+2),DE
+0377+  CEBC CD 6B C9    	CALL	PrintVProc
+0378+  CEBF B7          	OR	A
+0379+  CEC0 C9          	RET 
+0380+  CEC1             ;[]----------------------------------------------------------[]
+0381+  CEC1             TPageUpMs
+0382+  CEC1 CD DE CE    	CALL	TPageUp
+0383+  CEC4 D8          	RET	C
+0384+  CEC5 06 0A       	LD	B,#0A
+0385+  CEC7 C5          TUpMs1p	PUSH	BC
+0386+  CEC8 0E 03       	LD	C,#03
+0387+  CECA F7          	RST	#30
+0388+  CECB C1          	POP	BC
+0389+  CECC CB 47       	BIT	0,A
+0390+  CECE C8          	RET	Z
+0391+  CECF 76          	HALT 
+0392+  CED0 10 F5       	DJNZ	TUpMs1p
+0393+  CED2 CD DE CE    TUpMs2p	CALL	TPageUp
+0394+  CED5 D8          	RET	C
+0395+  CED6 0E 03       	LD	C,#03
+0396+  CED8 F7          	RST	#30
+0397+  CED9 CB 47       	BIT	0,A
+0398+  CEDB C8          	RET	Z
+0399+  CEDC 18 F4       	JR	TUpMs2p
+0400+  CEDE             TPageUp
+0401+  CEDE 2A 77 C1    	LD	HL,(FileShift)
+0402+  CEE1 ED 5B 79 C1 	LD	DE,(FileShift+2)
+0403+  CEE5 7C          	LD	A,H
+0404+  CEE6 B5          	OR	L
+0405+  CEE7 B2          	OR	D
+0406+  CEE8 B3          	OR	E
+0407+  CEE9 37          	SCF 
+0408+  CEEA C8          	RET	Z
+0409+  CEEB 06 19       	LD	B,#19
+0410+  CEED C5          TPageU1	PUSH	BC
+0411+  CEEE CD 9A CF    	CALL	SearchUp
+0412+  CEF1 C1          	POP	BC
+0413+  CEF2 38 02       	JR	C,TPageU2
+0414+  CEF4 10 F7       	DJNZ	TPageU1
+0415+  CEF6 22 77 C1    TPageU2	LD	(FileShift),HL
+0416+  CEF9 ED 53 79 C1 	LD	(FileShift+2),DE
+0417+  CEFD CD 26 CC    	CALL	PrnASCIIpage
+0418+  CF00 B7          	OR	A
+0419+  CF01 C9          	RET 
+0420+  CF02             ;[]----------------------------------------------------------[]
+0421+  CF02             TPageDwnMs
+0422+  CF02 CD 1F CF    	CALL	TPageDwn
+0423+  CF05 D8          	RET	C
+0424+  CF06 06 0A       	LD	B,#0A
+0425+  CF08 C5          TDnMs1p	PUSH	BC
+0426+  CF09 0E 03       	LD	C,#03
+0427+  CF0B F7          	RST	#30
+0428+  CF0C C1          	POP	BC
+0429+  CF0D CB 47       	BIT	0,A
+0430+  CF0F C8          	RET	Z
+0431+  CF10 76          	HALT 
+0432+  CF11 10 F5       	DJNZ	TDnMs1p
+0433+  CF13 CD 1F CF    TDnMs2p	CALL	TPageDwn
+0434+  CF16 D8          	RET	C
+0435+  CF17 0E 03       	LD	C,#03
+0436+  CF19 F7          	RST	#30
+0437+  CF1A CB 47       	BIT	0,A
+0438+  CF1C C8          	RET	Z
+0439+  CF1D 18 F4       	JR	TDnMs2p
+0440+  CF1F             TPageDwn
+0441+  CF1F 2A 7F C1    	LD	HL,(NextShift)
+0442+  CF22 ED 5B 81 C1 	LD	DE,(NextShift+2)
+0443+  CF26 ED 4B 73 C1 	LD	BC,(FileLenght)
+0444+  CF2A B7          	OR	A
+0445+  CF2B ED 42       	SBC	HL,BC
+0446+  CF2D ED 4B 75 C1 	LD	BC,(FileLenght+2)
+0447+  CF31 EB          	EX	DE,HL
+0448+  CF32 ED 42       	SBC	HL,BC
+0449+  CF34 3F          	CCF 
+0450+  CF35 D8          	RET	C
+0451+  CF36 2A 7F C1    	LD	HL,(NextShift)
+0452+  CF39 22 77 C1    	LD	(FileShift),HL
+0453+  CF3C 2A 81 C1    	LD	HL,(NextShift+2)
+0454+  CF3F 22 79 C1    	LD	(FileShift+2),HL
+0455+  CF42 CD 26 CC    	CALL	PrnASCIIpage
+0456+  CF45 B7          	OR	A
+0457+  CF46 C9          	RET 
+0458+  CF47             ;[]----------------------------------------------------------[]
+0459+  CF47             TBegFile
+0460+  CF47 21 48 86    	LD	HL,ResFire
+0461+  CF4A E5          	PUSH	HL
+0462+  CF4B 2A 77 C1    	LD	HL,(FileShift)
+0463+  CF4E ED 5B 79 C1 	LD	DE,(FileShift+2)
+0464+  CF52 7C          	LD	A,H
+0465+  CF53 B2          	OR	D
+0466+  CF54 B5          	OR	L
+0467+  CF55 B3          	OR	E
+0468+  CF56 C8          	RET	Z
+0469+  CF57 21 00 00    	LD	HL,#0000
+0470+  CF5A 22 77 C1    	LD	(FileShift),HL
+0471+  CF5D 22 79 C1    	LD	(FileShift+2),HL
+0472+  CF60 CD 26 CC    	CALL	PrnASCIIpage
+0473+  CF63 C9          	RET 
+0474+  CF64             ;[]----------------------------------------------------------[]
+0475+  CF64             TEndFile
+0476+  CF64 21 48 86    	LD	HL,ResFire
+0477+  CF67 E5          	PUSH	HL
+0478+  CF68 2A 7F C1    	LD	HL,(NextShift)
+0479+  CF6B ED 5B 81 C1 	LD	DE,(NextShift+2)
+0480+  CF6F ED 4B 73 C1 	LD	BC,(FileLenght)
+0481+  CF73 B7          	OR	A
+0482+  CF74 ED 42       	SBC	HL,BC
+0483+  CF76 ED 4B 75 C1 	LD	BC,(FileLenght+2)
+0484+  CF7A EB          	EX	DE,HL
+0485+  CF7B ED 42       	SBC	HL,BC
+0486+  CF7D D0          	RET	NC
+0487+  CF7E 2A 73 C1    	LD	HL,(FileLenght)
+0488+  CF81 ED 5B 75 C1 	LD	DE,(FileLenght+2)
+0489+  CF85 06 19       	LD	B,#19
+0490+  CF87 C5          TEndFl1	PUSH	BC
+0491+  CF88 CD 9A CF    	CALL	SearchUp
+0492+  CF8B C1          	POP	BC
+0493+  CF8C D8          	RET	C
+0494+  CF8D 10 F8       	DJNZ	TEndFl1
+0495+  CF8F 22 77 C1    	LD	(FileShift),HL
+0496+  CF92 ED 53 79 C1 	LD	(FileShift+2),DE
+0497+  CF96 CD 26 CC    	CALL	PrnASCIIpage
+0498+  CF99 C9          	RET 
+0499+  CF9A             ;[]==========================================================[]
+0500+  CF9A             SearchUp
+0501+  CF9A 06 F0       	LD	B,#F0
+0502+  CF9C 7A          	LD	A,D
+0503+  CF9D B3          	OR	E
+0504+  CF9E 20 08       	JR	NZ,SearchUpBeg
+0505+  CFA0 7C          	LD	A,H
+0506+  CFA1 B7          	OR	A
+0507+  CFA2 20 04       	JR	NZ,SearchUpBeg
+0508+  CFA4 B5          	OR	L
+0509+  CFA5 37          	SCF 
+0510+  CFA6 C8          	RET	Z
+0511+  CFA7 45          	LD	B,L
+0512+  CFA8             SearchUpBeg
+0513+  CFA8 DB A2       	IN	A,(PAGE1)
+0514+  CFAA F5          	PUSH	AF
+0515+  CFAB E5          	PUSH	HL
+0516+  CFAC D5          	PUSH	DE
+0517+  CFAD 7C          	LD	A,H		;Выделяем номер	страницы
+0518+  CFAE 17          	RLA 
+0519+  CFAF CB 13       	RL	E
+0520+  CFB1 17          	RLA 
+0521+  CFB2 CB 13       	RL	E
+0522+  CFB4 16 84       	LD	D,high PagesList
+0523+  CFB6 1A          	LD	A,(DE)		;Тек.страница
+0524+  CFB7 D3 A2       	OUT	(PAGE1),A
+0525+  CFB9 CB BC       	RES	7,H
+0526+  CFBB CB F4       	SET	6,H
+0527+  CFBD 0E 00       	LD	C,#00
+0528+  CFBF DD 69       	LD	LX,C
+0529+  CFC1             
+0530+  CFC1 0C          	INC	C
+0531+  CFC2 05          	DEC	B
+0532+  CFC3 2B          	DEC	HL
+0533+  CFC4 CB 74       	BIT	6,H
+0534+  CFC6 20 06       	JR	NZ,SrchUp0
+0535+  CFC8 1D          	DEC	E
+0536+  CFC9 1A          	LD	A,(DE)
+0537+  CFCA D3 A2       	OUT	(PAGE1),A
+0538+  CFCC CB F4       	SET	6,H
+0539+  CFCE 7E          SrchUp0	LD	A,(HL)
+0540+  CFCF FE 0A       	CP	#0A
+0541+  CFD1 20 12       	JR	NZ,SrchUp1+1
+0542+  CFD3 78          	LD	A,B
+0543+  CFD4 B7          	OR	A
+0544+  CFD5 28 40       	JR	Z,SrchUpEx
+0545+  CFD7 0C          	INC	C
+0546+  CFD8 05          	DEC	B
+0547+  CFD9 2B          	DEC	HL
+0548+  CFDA CB 74       	BIT	6,H
+0549+  CFDC 20 06       	JR	NZ,SrchUp1
+0550+  CFDE 1D          	DEC	E
+0551+  CFDF 1A          	LD	A,(DE)
+0552+  CFE0 D3 A2       	OUT	(PAGE1),A
+0553+  CFE2 CB F4       	SET	6,H
+0554+  CFE4 7E          SrchUp1	LD	A,(HL)
+0555+  CFE5 FE 0D       	CP	#0D
+0556+  CFE7 28 11       	JR	Z,SearchUpLp
+0557+  CFE9 0D          	DEC	C
+0558+  CFEA 04          	INC	B
+0559+  CFEB 23          	INC	HL
+0560+  CFEC CB 7C       	BIT	7,H
+0561+  CFEE 28 0E       	JR	Z,SearchUpLp1
+0562+  CFF0 1C          	INC	E
+0563+  CFF1 1A          	LD	A,(DE)
+0564+  CFF2 D3 A2       	OUT	(PAGE1),A
+0565+  CFF4 CB BC       	RES	7,H
+0566+  CFF6 CB F4       	SET	6,H
+0567+  CFF8 18 04       	JR	SearchUpLp1
+0568+  CFFA             SearchUpLp
+0569+  CFFA 78          	LD	A,B
+0570+  CFFB B7          	OR	A
+0571+  CFFC 28 19       	JR	Z,SrchUpEx
+0572+  CFFE             SearchUpLp1
+0573+  CFFE 2B          	DEC	HL
+0574+  CFFF CB 74       	BIT	6,H
+0575+  D001 20 06       	JR	NZ,SrchUp2
+0576+  D003 1D          	DEC	E
+0577+  D004 1A          	LD	A,(DE)
+0578+  D005 D3 A2       	OUT	(PAGE1),A
+0579+  D007 CB F4       	SET	6,H
+0580+  D009 7E          SrchUp2	LD	A,(HL)
+0581+  D00A FE 0A       	CP	#0A
+0582+  D00C 28 09       	JR	Z,SrchUpEx
+0583+  D00E FE 0D       	CP	#0D
+0584+  D010 28 05       	JR	Z,SrchUpEx
+0585+  D012 DD 2C       	INC	LX
+0586+  D014 0C          	INC	C
+0587+  D015 10 E7       	DJNZ	SearchUpLp1
+0588+  D017             SrchUpEx
+0589+  D017 D1          	POP	DE
+0590+  D018 E1          	POP	HL
+0591+  D019 06 00       	LD	B,#00
+0592+  D01B B7          	OR	A
+0593+  D01C ED 42       	SBC	HL,BC
+0594+  D01E 48          	LD	C,B
+0595+  D01F EB          	EX	DE,HL
+0596+  D020 ED 42       	SBC	HL,BC
+0597+  D022 EB          	EX	DE,HL
+0598+  D023 F1          	POP	AF
+0599+  D024 D3 A2       	OUT	(PAGE1),A
+0600+  D026 3A 70 C1    	LD	A,(ASCIImode)
+0601+  D029 B7          	OR	A
+0602+  D02A C0          	RET	NZ
+0603+  D02B DD 7D       	LD	A,LX
+0604+  D02D FE 51       	CP	#51
+0605+  D02F 3F          	CCF 
+0606+  D030 D0          	RET	NC
+0607+  D031 0E 50       	LD	C,#50
+0608+  D033             SrchUpEx0
+0609+  D033 09          	ADD	HL,BC
+0610+  D034 30 01       	JR	NC,$+3
+0611+  D036 13          	INC	DE
+0612+  D037 D6 50       	SUB	#50
+0613+  D039 FE 51       	CP	#51
+0614+  D03B 30 F6       	JR	NC,SrchUpEx0
+0615+  D03D B7          	OR	A
+0616+  D03E C9          	RET 
+0617+  D03F             ;[]----------------------------------------------------------[]
+0618+  D03F             SearchDown
+0619+  D03F 22 6E D0    	LD	(SrchHL+1),HL
+0620+  D042 ED 53 71 D0 	LD	(SrchDE+1),DE
+0621+  D046 3A 70 C1    	LD	A,(ASCIImode)
+0622+  D049 B7          	OR	A
+0623+  D04A 06 50       	LD	B,#50
+0624+  D04C 28 02       	JR	Z,$+4
+0625+  D04E 06 F0       	LD	B,#F0
+0626+  D050 C5          	PUSH	BC
+0627+  D051 4D          	LD	C,L
+0628+  D052 44          	LD	B,H
+0629+  D053 2A 73 C1    	LD	HL,(FileLenght)
+0630+  D056 B7          	OR	A
+0631+  D057 ED 42       	SBC	HL,BC
+0632+  D059 4B          	LD	C,E
+0633+  D05A 42          	LD	B,D
+0634+  D05B EB          	EX	DE,HL
+0635+  D05C 2A 75 C1    	LD	HL,(FileLenght+2)
+0636+  D05F ED 42       	SBC	HL,BC
+0637+  D061 C1          	POP	BC
+0638+  D062 D8          	RET	C
+0639+  D063 20 08       	JR	NZ,SearchDnBeg
+0640+  D065 7A          	LD	A,D
+0641+  D066 B7          	OR	A
+0642+  D067 20 04       	JR	NZ,SearchDnBeg
+0643+  D069 B3          	OR	E
+0644+  D06A 37          	SCF 
+0645+  D06B C8          	RET	Z
+0646+  D06C 43          	LD	B,E
+0647+  D06D             SearchDnBeg
+0648+  D06D 21 00 00    SrchHL	LD	HL,#0000
+0649+  D070 11 00 00    SrchDE	LD	DE,#0000
+0650+  D073 DB A2       	IN	A,(PAGE1)
+0651+  D075 F5          	PUSH	AF
+0652+  D076 E5          	PUSH	HL
+0653+  D077 D5          	PUSH	DE
+0654+  D078 7C          	LD	A,H		;Выделяем номер	страницы
+0655+  D079 17          	RLA 
+0656+  D07A CB 13       	RL	E
+0657+  D07C 17          	RLA 
+0658+  D07D CB 13       	RL	E
+0659+  D07F 16 84       	LD	D,high PagesList
+0660+  D081 1A          	LD	A,(DE)		;Тек.страница
+0661+  D082 D3 A2       	OUT	(PAGE1),A
+0662+  D084 CB BC       	RES	7,H
+0663+  D086 CB F4       	SET	6,H
+0664+  D088 0E 00       	LD	C,#00
+0665+  D08A 2B          	DEC	HL
+0666+  D08B             SearchDnLp
+0667+  D08B 0C          	INC	C
+0668+  D08C 23          	INC	HL
+0669+  D08D CB 7C       	BIT	7,H
+0670+  D08F 28 08       	JR	Z,SrchDn0
+0671+  D091 1C          	INC	E
+0672+  D092 1A          	LD	A,(DE)
+0673+  D093 D3 A2       	OUT	(PAGE1),A
+0674+  D095 CB BC       	RES	7,H
+0675+  D097 CB F4       	SET	6,H
+0676+  D099 7E          SrchDn0	LD	A,(HL)
+0677+  D09A FE 0D       	CP	#0D
+0678+  D09C 20 15       	JR	NZ,SrchE1
+0679+  D09E 23          	INC	HL
+0680+  D09F CB 7C       	BIT	7,H
+0681+  D0A1 28 08       	JR	Z,SrchDn1
+0682+  D0A3 1C          	INC	E
+0683+  D0A4 1A          	LD	A,(DE)
+0684+  D0A5 D3 A2       	OUT	(PAGE1),A
+0685+  D0A7 CB BC       	RES	7,H
+0686+  D0A9 CB F4       	SET	6,H
+0687+  D0AB 7E          SrchDn1	LD	A,(HL)
+0688+  D0AC FE 0A       	CP	#0A
+0689+  D0AE 20 2F       	JR	NZ,SrchEEx
+0690+  D0B0 0C          	INC	C
+0691+  D0B1 18 2C       	JR	SrchEEx
+0692+  D0B3             
+0693+  D0B3 FE 0A       SrchE1	CP	#0A
+0694+  D0B5 28 28       	JR	Z,SrchEEx
+0695+  D0B7 10 D2       	DJNZ	SearchDnLp
+0696+  D0B9             
+0697+  D0B9 23          	INC	HL
+0698+  D0BA CB 7C       	BIT	7,H
+0699+  D0BC 28 08       	JR	Z,SrchDnE
+0700+  D0BE 1C          	INC	E
+0701+  D0BF 1A          	LD	A,(DE)
+0702+  D0C0 D3 A2       	OUT	(PAGE1),A
+0703+  D0C2 CB BC       	RES	7,H
+0704+  D0C4 CB F4       	SET	6,H
+0705+  D0C6 7E          SrchDnE	LD	A,(HL)
+0706+  D0C7 FE 0D       	CP	#0D
+0707+  D0C9 20 14       	JR	NZ,SrchEEx
+0708+  D0CB 0C          	INC	C
+0709+  D0CC 23          	INC	HL
+0710+  D0CD CB 7C       	BIT	7,H
+0711+  D0CF 28 08       	JR	Z,SrchDE1
+0712+  D0D1 1C          	INC	E
+0713+  D0D2 1A          	LD	A,(DE)
+0714+  D0D3 D3 A2       	OUT	(PAGE1),A
+0715+  D0D5 CB BC       	RES	7,H
+0716+  D0D7 CB F4       	SET	6,H
+0717+  D0D9 7E          SrchDE1	LD	A,(HL)
+0718+  D0DA FE 0A       	CP	#0A
+0719+  D0DC 20 01       	JR	NZ,SrchEEx
+0720+  D0DE 0C          	INC	C
+0721+  D0DF D1          SrchEEx	POP	DE
+0722+  D0E0 E1          	POP	HL
+0723+  D0E1 06 00       	LD	B,#00
+0724+  D0E3 09          	ADD	HL,BC
+0725+  D0E4 48          	LD	C,B
+0726+  D0E5 EB          	EX	DE,HL
+0727+  D0E6 ED 4A       	ADC	HL,BC
+0728+  D0E8 EB          	EX	DE,HL
+0729+  D0E9 F1          	POP	AF
+0730+  D0EA D3 A2       	OUT	(PAGE1),A
+0731+  D0EC B7          	OR	A
+0732+  D0ED C9          	RET 
+0733+  D0EE             
+0734+  D0EE             
+0735+  D0EE             
+1203   D0EE             	INCLUDE	"FVHEX.z80";,#0D
+0001+  D0EE             
+0002+  D0EE             ;--------------------------------------------------------------
+0003+  D0EE             ;Процедура печати страницы дампа с тек.смещ. от	начала файла
+0004+  D0EE             ;На вход:
+0005+  D0EE             ;	   None
+0006+  D0EE             ;На выход:
+0007+  D0EE             ;	   None
+0008+  D0EE             PrnHEXpage
+0009+  D0EE 21 6B C9    	LD	HL,PrintVProc
+0010+  D0F1 E5          	PUSH	HL
+0011+  D0F2 2A 77 C1    	LD	HL,(FileShift)
+0012+  D0F5 7D          	LD	A,L
+0013+  D0F6 E6 F0       	AND	#F0
+0014+  D0F8 6F          	LD	L,A
+0015+  D0F9 22 77 C1    	LD	(FileShift),HL
+0016+  D0FC 22 7B C1    	LD	(TempShift),HL	;Запоминаем тек.смещение
+0017+  D0FF 2A 79 C1    	LD	HL,(FileShift+2)
+0018+  D102 22 7D C1    	LD	(TempShift+2),HL
+0019+  D105 21 00 83    	LD	HL,LineBuffer
+0020+  D108 01 20 50    	LD	BC,#5020
+0021+  D10B 71          	LD	(HL),C
+0022+  D10C 2C          	INC	L
+0023+  D10D 10 FC       	DJNZ	$-2
+0024+  D10F 06 1C       	LD	B,#1C		;Изнач.позиция печати
+0025+  D111 C5          PrnHEXl	PUSH	BC
+0026+  D112 CD 51 D1    	CALL	PutHLine ;Выводим строку в буфер и на экран
+0027+  D115 C1          	POP	BC
+0028+  D116 38 1C       	JR	C,FillDwnHex	;CY-Закончились	байты для печати
+0029+  D118 2A 7B C1    	LD	HL,(TempShift)
+0030+  D11B 11 10 00    	LD	DE,#0010	;Адрес дампа+16
+0031+  D11E 19          	ADD	HL,DE
+0032+  D11F 22 7B C1    	LD	(TempShift),HL
+0033+  D122 2A 7D C1    	LD	HL,(TempShift+2)
+0034+  D125 5A          	LD	E,D
+0035+  D126 ED 5A       	ADC	HL,DE
+0036+  D128 22 7D C1    	LD	(TempShift+2),HL
+0037+  D12B 78          	LD	A,B
+0038+  D12C C6 08       	ADD	A,#08
+0039+  D12E 47          	LD	B,A
+0040+  D12F FE E4       	CP	#E4
+0041+  D131 20 DE       	JR	NZ,PrnHEXl
+0042+  D133 C9          	RET 
+0043+  D134             ;Процедура отчистки нижней области экрана
+0044+  D134             FillDwnHex
+0045+  D134 78          	LD	A,B
+0046+  D135 FE E4       	CP	#E4
+0047+  D137 C8          	RET	Z	;Z-нет отчистки
+0048+  D138 32 48 D1    	LD	(FPosHex),A
+0049+  D13B 3E E4       	LD	A,#E4
+0050+  D13D 90          	SUB	B
+0051+  D13E 32 4C D1    	LD	(FLenHex),A
+0052+  D141 CD 06 86    	CALL	MakeWindow
+0053+  D144 80          	DEFB	#80
+0054+  D145 02          	DEFB	#02	;Head Place
+0055+  D146 00 00       	DEFW	#0000
+0056+  D148 00 00       FPosHex	DEFW	#0000
+0057+  D14A 80 02       	DEFW	#0280
+0058+  D14C 00 00       FLenHex	DEFW	#0000
+0059+  D14E 09          	DEFB	PanelCol
+0060+  D14F 00          	DEFB	#00
+0061+  D150 C9          	RET 
+0062+  D151             ;Процедура печати тек.строки в буфер и на экран
+0063+  D151             PutHLine
+0064+  D151 DD 2E 00    	LD	LX,#00
+0065+  D154 DD 60       	LD	HX,B
+0066+  D156 2A 73 C1    	LD	HL,(FileLenght)
+0067+  D159 ED 4B 7B C1 	LD	BC,(TempShift)
+0068+  D15D B7          	OR	A
+0069+  D15E ED 42       	SBC	HL,BC
+0070+  D160 EB          	EX	DE,HL
+0071+  D161 2A 75 C1    	LD	HL,(FileLenght+2)
+0072+  D164 ED 4B 7D C1 	LD	BC,(TempShift+2)
+0073+  D168 ED 42       	SBC	HL,BC
+0074+  D16A D8          	RET	C
+0075+  D16B 06 10       	LD	B,#10
+0076+  D16D 20 0C       	JR	NZ,PutHLn
+0077+  D16F 7A          	LD	A,D
+0078+  D170 B7          	OR	A
+0079+  D171 20 08       	JR	NZ,PutHLn
+0080+  D173 B3          	OR	E
+0081+  D174 37          	SCF 
+0082+  D175 C8          	RET	Z
+0083+  D176 7B          	LD	A,E
+0084+  D177 B8          	CP	B
+0085+  D178 30 01       	JR	NC,PutHLn
+0086+  D17A 43          	LD	B,E
+0087+  D17B             
+0088+  D17B DB A2       PutHLn	IN	A,(PAGE1)
+0089+  D17D F5          	PUSH	AF
+0090+  D17E CD 69 C8    	CALL	InitFPages
+0091+  D181 21 01 83    	LD	HL,LineBuffer+1	;буфер строки
+0092+  D184 D9          	EXX 
+0093+  D185 21 3F 83    	LD	HL,LineBuffer+#3F ;место для ASCII кодов
+0094+  D188 D9          	EXX 
+0095+  D189 3A 7E C1    	LD	A,(TempShift+3)	;Кладем	смещение
+0096+  D18C CD FF D1    	CALL	PutHexNumb	;от начала фаила
+0097+  D18F 3A 7D C1    	LD	A,(TempShift+2)
+0098+  D192 CD FF D1    	CALL	PutHexNumb
+0099+  D195 3A 7C C1    	LD	A,(TempShift+1)
+0100+  D198 CD FF D1    	CALL	PutHexNumb
+0101+  D19B 3A 7B C1    	LD	A,(TempShift)
+0102+  D19E CD FF D1    	CALL	PutHexNumb
+0103+  D1A1 36 3A       	LD	(HL),":"
+0104+  D1A3 2C          	INC	L
+0105+  D1A4 2C          	INC	L
+0106+  D1A5             PutHLoop
+0107+  D1A5 CD 87 C8    	CALL	TestFPages
+0108+  D1A8 1A          	LD	A,(DE)
+0109+  D1A9 13          	INC	DE
+0110+  D1AA D9          	EXX 
+0111+  D1AB 77          	LD	(HL),A
+0112+  D1AC 2C          	INC	L
+0113+  D1AD D9          	EXX 
+0114+  D1AE CD FF D1    	CALL	PutHexNumb	;Процедура конверта
+0115+  D1B1 2C          	INC	L
+0116+  D1B2 DD 2C       	INC	LX		;Увелич.кол-во введенных байтов
+0117+  D1B4 DD 7D       	LD	A,LX
+0118+  D1B6 FE 04       	CP	#04
+0119+  D1B8 28 08       	JR	Z,PtHNx1
+0120+  D1BA FE 08       	CP	#08
+0121+  D1BC 28 04       	JR	Z,PtHNx1
+0122+  D1BE FE 0C       	CP	#0C
+0123+  D1C0 20 01       	JR	NZ,$+3
+0124+  D1C2 2C          PtHNx1	INC	L
+0125+  D1C3 10 E0       	DJNZ	PutHLoop
+0126+  D1C5 F1          	POP	AF
+0127+  D1C6 D3 A2       	OUT	(PAGE1),A
+0128+  D1C8             ;Процедура отчистки закончившихся байтов
+0129+  D1C8 3E 10       FillHex	LD	A,#10		;Макс.байтов
+0130+  D1CA DD 95       	SUB	LX		;Тек.кол-во байтов
+0131+  D1CC 28 20       	JR	Z,FillE2
+0132+  D1CE 47          	LD	B,A
+0133+  D1CF 0E 20       	LD	C,#20
+0134+  D1D1 71          FillE1	LD	(HL),C
+0135+  D1D2 2C          	INC	L
+0136+  D1D3 71          	LD	(HL),C
+0137+  D1D4 2C          	INC	L
+0138+  D1D5 2C          	INC	L
+0139+  D1D6 D9          	EXX 
+0140+  D1D7 36 20       	LD	(HL),#20
+0141+  D1D9 2C          	INC	L
+0142+  D1DA D9          	EXX 
+0143+  D1DB DD 2C       	INC	LX
+0144+  D1DD DD 7D       	LD	A,LX		;В центре 2 пробела
+0145+  D1DF FE 04       	CP	#04
+0146+  D1E1 28 08       	JR	Z,FlHNx1
+0147+  D1E3 FE 08       	CP	#08
+0148+  D1E5 28 04       	JR	Z,FlHNx1
+0149+  D1E7 FE 0C       	CP	#0C
+0150+  D1E9 20 01       	JR	NZ,$+3
+0151+  D1EB 2C          FlHNx1	INC	L
+0152+  D1EC 10 E3       	DJNZ	FillE1
+0153+  D1EE 21 00 83    FillE2	LD	HL,LineBuffer
+0154+  D1F1 11 00 00    	LD	DE,#0000
+0155+  D1F4 06 50       	LD	B,#50
+0156+  D1F6 DD 4C       	LD	C,HX
+0157+  D1F8 3E 9A       	LD	A,PanelCol*#10+FileCol
+0158+  D1FA CD 12 86    	CALL	PrnTxtLnNormC
+0159+  D1FD B7          	OR	A
+0160+  D1FE C9          	RET		;CY-была последняя строка
+0161+  D1FF             ;Процедура преобразования 8битовых чисел в шестнадц. текст
+0162+  D1FF             ;На вход:
+0163+  D1FF             ;	 HL - адрес буфера
+0164+  D1FF             ;	  А - байт
+0165+  D1FF             ;На выход:
+0166+  D1FF             ;	  буфер	с текст.числом
+0167+  D1FF             PutHexNumb
+0168+  D1FF F5          	PUSH	AF
+0169+  D200 0F          	RRCA 
+0170+  D201 0F          	RRCA 
+0171+  D202 0F          	RRCA 
+0172+  D203 0F          	RRCA 
+0173+  D204 E6 0F       	AND	#0F
+0174+  D206 C6 90       	ADD	A,#90
+0175+  D208 27          	DAA 
+0176+  D209 CE 40       	ADC	A,#40
+0177+  D20B 27          	DAA 
+0178+  D20C 77          	LD	(HL),A
+0179+  D20D 2C          	INC	L
+0180+  D20E F1          	POP	AF
+0181+  D20F E6 0F       	AND	#0F
+0182+  D211 C6 90       	ADD	A,#90
+0183+  D213 27          	DAA 
+0184+  D214 CE 40       	ADC	A,#40
+0185+  D216 27          	DAA 
+0186+  D217 77          	LD	(HL),A
+0187+  D218 2C          	INC	L
+0188+  D219 C9          	RET 
+0189+  D21A             ;--------------------------------------------------------------
+0190+  D21A             ;Процедуры обработки View
+0191+  D21A             ;
+0192+  D21A             ;На строку вверх
+0193+  D21A             ;
+0194+  D21A             HLineUpMs
+0195+  D21A CD 37 D2    	CALL	HLineUp
+0196+  D21D D8          	RET	C
+0197+  D21E 06 0A       	LD	B,#0A
+0198+  D220 C5          HUpMs1	PUSH	BC
+0199+  D221 0E 03       	LD	C,#03
+0200+  D223 F7          	RST	#30
+0201+  D224 C1          	POP	BC
+0202+  D225 CB 47       	BIT	0,A
+0203+  D227 C8          	RET	Z
+0204+  D228 76          	HALT 
+0205+  D229 10 F5       	DJNZ	HUpMs1
+0206+  D22B CD 37 D2    HUpMs2	CALL	HLineUp
+0207+  D22E D8          	RET	C
+0208+  D22F 0E 03       	LD	C,#03
+0209+  D231 F7          	RST	#30
+0210+  D232 CB 47       	BIT	0,A
+0211+  D234 C8          	RET	Z
+0212+  D235 18 F4       	JR	HUpMs2
+0213+  D237             
+0214+  D237 2A 77 C1    HLineUp	LD	HL,(FileShift)
+0215+  D23A ED 5B 79 C1 	LD	DE,(FileShift+2)
+0216+  D23E 7C          	LD	A,H		;Проверяем на начало файла
+0217+  D23F B2          	OR	D
+0218+  D240 B5          	OR	L
+0219+  D241 B3          	OR	E
+0220+  D242 37          	SCF 
+0221+  D243 C8          	RET	Z		;Z-начало файла
+0222+  D244 01 10 00    	LD	BC,#0010
+0223+  D247 B7          	OR	A
+0224+  D248 ED 42       	SBC	HL,BC
+0225+  D24A 22 77 C1    	LD	(FileShift),HL	;FileShift-16байт(предид.строка)
+0226+  D24D 22 7B C1    	LD	(TempShift),HL	;Запоминаем тек.смещение
+0227+  D250 48          	LD	C,B
+0228+  D251 EB          	EX	DE,HL
+0229+  D252 ED 42       	SBC	HL,BC
+0230+  D254 22 79 C1    	LD	(FileShift+2),HL
+0231+  D257 22 7D C1    	LD	(TempShift+2),HL
+0232+  D25A CD 38 C8    	CALL	ScrollSCRdown
+0233+  D25D 06 1C       	LD	B,#1C
+0234+  D25F CD 51 D1    	CALL	PutHLine	;Создаем и печатаем строку
+0235+  D262 CD 6B C9    	CALL	PrintVProc
+0236+  D265 B7          	OR	A
+0237+  D266 C9          	RET 
+0238+  D267             ;На строку вниз
+0239+  D267             HLineDwnMs
+0240+  D267 CD 84 D2    	CALL	HLineDwn
+0241+  D26A D8          	RET	C
+0242+  D26B 06 0A       	LD	B,#0A
+0243+  D26D C5          HDnMs1	PUSH	BC
+0244+  D26E 0E 03       	LD	C,#03
+0245+  D270 F7          	RST	#30
+0246+  D271 C1          	POP	BC
+0247+  D272 CB 47       	BIT	0,A
+0248+  D274 C8          	RET	Z
+0249+  D275 76          	HALT 
+0250+  D276 10 F5       	DJNZ	HDnMs1
+0251+  D278 CD 84 D2    HDnMs2	CALL	HLineDwn
+0252+  D27B D8          	RET	C
+0253+  D27C 0E 03       	LD	C,#03
+0254+  D27E F7          	RST	#30
+0255+  D27F CB 47       	BIT	0,A
+0256+  D281 C8          	RET	Z
+0257+  D282 18 F4       	JR	HDnMs2
+0258+  D284             HLineDwn
+0259+  D284 2A 77 C1    	LD	HL,(FileShift)
+0260+  D287 ED 4B 79 C1 	LD	BC,(FileShift+2)
+0261+  D28B 11 90 01    	LD	DE,#0190
+0262+  D28E 19          	ADD	HL,DE
+0263+  D28F 22 7B C1    	LD	(TempShift),HL	;Запоминаем тек.смещение
+0264+  D292 30 01       	JR	NC,$+3		;Прибавляем к смещению страницу
+0265+  D294 03          	INC	BC		;байтов	(480б)
+0266+  D295 ED 43 7D C1 	LD	(TempShift+2),BC
+0267+  D299 EB          	EX	DE,HL
+0268+  D29A 2A 73 C1    	LD	HL,(FileLenght)
+0269+  D29D B7          	OR	A
+0270+  D29E ED 52       	SBC	HL,DE		;Проверяем на конец файла
+0271+  D2A0 EB          	EX	DE,HL
+0272+  D2A1 2A 75 C1    	LD	HL,(FileLenght+2)
+0273+  D2A4 ED 42       	SBC	HL,BC
+0274+  D2A6 D8          	RET	C
+0275+  D2A7 20 04       	JR	NZ,$+6
+0276+  D2A9 7A          	LD	A,D
+0277+  D2AA B3          	OR	E
+0278+  D2AB 37          	SCF 
+0279+  D2AC C8          	RET	Z		;Z - конец
+0280+  D2AD 2A 77 C1    	LD	HL,(FileShift)
+0281+  D2B0 ED 5B 79 C1 	LD	DE,(FileShift+2)
+0282+  D2B4 01 10 00    	LD	BC,#0010
+0283+  D2B7 09          	ADD	HL,BC
+0284+  D2B8 30 01       	JR	NC,$+3
+0285+  D2BA 13          	INC	DE
+0286+  D2BB 22 77 C1    	LD	(FileShift),HL
+0287+  D2BE ED 53 79 C1 	LD	(FileShift+2),DE
+0288+  D2C2 CD 33 C8    	CALL	ScrollSCRup
+0289+  D2C5 06 DC       	LD	B,#DC
+0290+  D2C7 CD 51 D1    	CALL	PutHLine	;Создаем и печатаем строку
+0291+  D2CA CD 6B C9    	CALL	PrintVProc
+0292+  D2CD B7          	OR	A
+0293+  D2CE C9          	RET 
+0294+  D2CF             ;На страницу вверх
+0295+  D2CF             HPageUpMs
+0296+  D2CF CD EC D2    	CALL	HPageUp
+0297+  D2D2 D8          	RET	C
+0298+  D2D3 06 0A       	LD	B,#0A
+0299+  D2D5 C5          HUpMs1p	PUSH	BC
+0300+  D2D6 0E 03       	LD	C,#03
+0301+  D2D8 F7          	RST	#30
+0302+  D2D9 C1          	POP	BC
+0303+  D2DA CB 47       	BIT	0,A
+0304+  D2DC C8          	RET	Z
+0305+  D2DD 76          	HALT 
+0306+  D2DE 10 F5       	DJNZ	HUpMs1p
+0307+  D2E0 CD EC D2    HUpMs2p	CALL	HPageUp
+0308+  D2E3 D8          	RET	C
+0309+  D2E4 0E 03       	LD	C,#03
+0310+  D2E6 F7          	RST	#30
+0311+  D2E7 CB 47       	BIT	0,A
+0312+  D2E9 C8          	RET	Z
+0313+  D2EA 18 F4       	JR	HUpMs2p
+0314+  D2EC             
+0315+  D2EC 2A 77 C1    HPageUp	LD	HL,(FileShift)
+0316+  D2EF ED 4B 79 C1 	LD	BC,(FileShift+2)
+0317+  D2F3 7C          	LD	A,H	;Проверяем на начало файла
+0318+  D2F4 B0          	OR	B
+0319+  D2F5 B5          	OR	L
+0320+  D2F6 B1          	OR	C
+0321+  D2F7 37          	SCF 
+0322+  D2F8 C8          	RET	Z
+0323+  D2F9 11 90 01    	LD	DE,#0190  ;Отнимаем от тек.смещ. страницу байтов
+0324+  D2FC B7          	OR	A
+0325+  D2FD ED 52       	SBC	HL,DE
+0326+  D2FF 30 08       	JR	NC,HPgUp1
+0327+  D301 78          	LD	A,B
+0328+  D302 B1          	OR	C
+0329+  D303 0B          	DEC	BC	;Проверяем,что не вывалились за
+0330+  D304 20 03       	JR	NZ,HPgUp1	;начало	файла Z	- вывалились
+0331+  D306 03          	INC	BC
+0332+  D307 69          	LD	L,C	;Тогда смещение	= 0
+0333+  D308 60          	LD	H,B
+0334+  D309 22 77 C1    HPgUp1	LD	(FileShift),HL
+0335+  D30C ED 43 79 C1 	LD	(FileShift+2),BC
+0336+  D310 CD EE D0    	CALL	PrnHEXpage	;Печатаем страницу
+0337+  D313 B7          	OR	A
+0338+  D314 C9          	RET 
+0339+  D315             ;На страницу вниз
+0340+  D315             HPageDwnMs
+0341+  D315 CD 32 D3    	CALL	HPageDwn
+0342+  D318 D8          	RET	C
+0343+  D319 06 0A       	LD	B,#0A
+0344+  D31B C5          HDnMs1p	PUSH	BC
+0345+  D31C 0E 03       	LD	C,#03
+0346+  D31E F7          	RST	#30
+0347+  D31F C1          	POP	BC
+0348+  D320 CB 47       	BIT	0,A
+0349+  D322 C8          	RET	Z
+0350+  D323 76          	HALT 
+0351+  D324 10 F5       	DJNZ	HDnMs1p
+0352+  D326 CD 32 D3    HDnMs2p	CALL	HPageDwn
+0353+  D329 D8          	RET	C
+0354+  D32A 0E 03       	LD	C,#03
+0355+  D32C F7          	RST	#30
+0356+  D32D CB 47       	BIT	0,A
+0357+  D32F C8          	RET	Z
+0358+  D330 18 F4       	JR	HDnMs2p
+0359+  D332             HPageDwn
+0360+  D332 2A 77 C1    	LD	HL,(FileShift)
+0361+  D335 ED 4B 79 C1 	LD	BC,(FileShift+2)
+0362+  D339 11 90 01    	LD	DE,#0190	;Плюсуем к тек.смещ.
+0363+  D33C 19          	ADD	HL,DE		;страницу байтов
+0364+  D33D E5          	PUSH	HL
+0365+  D33E 30 01       	JR	NC,$+3
+0366+  D340 03          	INC	BC
+0367+  D341 C5          	PUSH	BC
+0368+  D342 EB          	EX	DE,HL
+0369+  D343 2A 73 C1    	LD	HL,(FileLenght)	   ;Проверяем,что страница
+0370+  D346 B7          	OR	A		;последняя
+0371+  D347 ED 52       	SBC	HL,DE
+0372+  D349 EB          	EX	DE,HL
+0373+  D34A 2A 75 C1    	LD	HL,(FileLenght+2)
+0374+  D34D ED 42       	SBC	HL,BC
+0375+  D34F C1          	POP	BC
+0376+  D350 E1          	POP	HL
+0377+  D351 D8          	RET	C	;С - нет
+0378+  D352 20 04       	JR	NZ,$+6
+0379+  D354 7A          	LD	A,D
+0380+  D355 B3          	OR	E
+0381+  D356 37          	SCF 
+0382+  D357 C8          	RET	Z	;Z - нет
+0383+  D358 22 77 C1    	LD	(FileShift),HL
+0384+  D35B ED 43 79 C1 	LD	(FileShift+2),BC
+0385+  D35F CD EE D0    	CALL	PrnHEXpage	;Печатаем страницу
+0386+  D362 B7          	OR	A
+0387+  D363 C9          	RET 
+0388+  D364             ;В начало файла
+0389+  D364             HBegFile
+0390+  D364 21 48 86    	LD	HL,ResFire
+0391+  D367 E5          	PUSH	HL
+0392+  D368 2A 77 C1    	LD	HL,(FileShift)
+0393+  D36B ED 4B 79 C1 	LD	BC,(FileShift+2)
+0394+  D36F 7C          	LD	A,H	;Проверяем на начало файла
+0395+  D370 B0          	OR	B
+0396+  D371 B5          	OR	L
+0397+  D372 B1          	OR	C
+0398+  D373 C8          	RET	Z	;Z - Начало
+0399+  D374 21 00 00    	LD	HL,#0000	;Смещение = 0000
+0400+  D377 22 77 C1    	LD	(FileShift),HL
+0401+  D37A 22 79 C1    	LD	(FileShift+2),HL
+0402+  D37D CD EE D0    	CALL	PrnHEXpage	;Печатаем страницу
+0403+  D380 C9          	RET 
+0404+  D381             ;В конец файла
+0405+  D381             HEndFile
+0406+  D381 21 48 86    	LD	HL,ResFire
+0407+  D384 E5          	PUSH	HL
+0408+  D385 2A 77 C1    	LD	HL,(FileShift)
+0409+  D388 ED 4B 79 C1 	LD	BC,(FileShift+2)
+0410+  D38C 11 90 01    	LD	DE,#0190
+0411+  D38F 19          	ADD	HL,DE
+0412+  D390 30 01       	JR	NC,$+3
+0413+  D392 03          	INC	BC
+0414+  D393 EB          	EX	DE,HL
+0415+  D394 2A 73 C1    	LD	HL,(FileLenght)	;Проверяем,что мы на последней
+0416+  D397 E5          	PUSH	HL		;странице
+0417+  D398 B7          	OR	A
+0418+  D399 ED 52       	SBC	HL,DE
+0419+  D39B EB          	EX	DE,HL
+0420+  D39C 2A 75 C1    	LD	HL,(FileLenght+2)
+0421+  D39F E5          	PUSH	HL
+0422+  D3A0 ED 42       	SBC	HL,BC
+0423+  D3A2 C1          	POP	BC
+0424+  D3A3 E1          	POP	HL
+0425+  D3A4 D8          	RET	C	;С - в конце
+0426+  D3A5 20 03       	JR	NZ,$+5
+0427+  D3A7 7A          	LD	A,D
+0428+  D3A8 B3          	OR	E
+0429+  D3A9 C8          	RET	Z	;Z - в конце
+0430+  D3AA 11 90 01    	LD	DE,#0190
+0431+  D3AD B7          	OR	A
+0432+  D3AE ED 52       	SBC	HL,DE  ;Просчитываем смещение последней	страницы
+0433+  D3B0 30 01       	JR	NC,$+3
+0434+  D3B2 0B          	DEC	BC
+0435+  D3B3 7D          	LD	A,L	;Смещение кратно 16
+0436+  D3B4 E6 0F       	AND	#0F
+0437+  D3B6 28 0B       	JR	Z,HEnd1
+0438+  D3B8 7D          	LD	A,L
+0439+  D3B9 E6 F0       	AND	#F0
+0440+  D3BB 6F          	LD	L,A
+0441+  D3BC 11 10 00    	LD	DE,#0010
+0442+  D3BF 19          	ADD	HL,DE
+0443+  D3C0 30 01       	JR	NC,$+3
+0444+  D3C2 03          	INC	BC
+0445+  D3C3 22 77 C1    HEnd1	LD	(FileShift),HL
+0446+  D3C6 ED 43 79 C1 	LD	(FileShift+2),BC
+0447+  D3CA CD EE D0    	CALL	PrnHEXpage	;Печатаем страницу
+0448+  D3CD C9          	RET 
+0449+  D3CE             ;--------------------------------------------------------------
+0450+  D3CE             ;Процедура ввода нового	указателя смещения в файле
+0451+  D3CE 2A 73 C1    HGoTo	LD	HL,(FileLenght)
+0452+  D3D1 ED 5B 75 C1 	LD	DE,(FileLenght+2)
+0453+  D3D5 7C          	LD	A,H		;Проверяем,что длина
+0454+  D3D6 B2          	OR	D		;файла больше 16 байт
+0455+  D3D7 B3          	OR	E
+0456+  D3D8 20 04       	JR	NZ,HGoToOk
+0457+  D3DA 7D          	LD	A,L
+0458+  D3DB FE 11       	CP	#11
+0459+  D3DD D8          	RET	C		;меньше	16байт
+0460+  D3DE 21 86 D5    HGoToOk	LD	HL,NewShift	;Буфер для ввода нового	указ.
+0461+  D3E1 97          	SUB	A
+0462+  D3E2 32 38 D4    	LD	(CursPos+1),A	;Позиция ввода в буфере
+0463+  D3E5 3C          	INC	A
+0464+  D3E6 32 32 D4    	LD	(BuffFlg+1),A
+0465+  D3E9 3A 7A C1    	LD	A,(FileShift+3)
+0466+  D3EC CD FF D1    	CALL	PutHexNumb	;Заносим в буфер текущее смещ.
+0467+  D3EF 3A 79 C1    	LD	A,(FileShift+2)	;в текстовом виде
+0468+  D3F2 CD FF D1    	CALL	PutHexNumb
+0469+  D3F5 3A 78 C1    	LD	A,(FileShift+1)
+0470+  D3F8 CD FF D1    	CALL	PutHexNumb
+0471+  D3FB 3A 77 C1    	LD	A,(FileShift)
+0472+  D3FE CD FF D1    	CALL	PutHexNumb
+0473+  D401             HGoToRet			;Выводим на экран буфер	и
+0474+  D401 CD A8 D4    	CALL	PrintHGT	;печатаем курсор
+0475+  D404 76          HGoToLp	HALT			;Ожидаем прерывание
+0476+  D405 CD D9 D4    	CALL	ChangeCurs	;проверям на смену курсора
+0477+  D408 0E 03       	LD	C,#03
+0478+  D40A F7          	RST	#30
+0479+  D40B CB 47       	BIT	0,A
+0480+  D40D C2 5A D5    	JP	NZ,HGTescape
+0481+  D410 0E 31       	LD	C,#31		;Ожидаем нажатия клавиши
+0482+  D412 D7          	RST	#10
+0483+  D413 28 EF       	JR	Z,HGoToLp	;Z - не	нажата
+0484+  D415 78          	LD	A,B
+0485+  D416 E6 3F       	AND	#3F
+0486+  D418 20 EA       	JR	NZ,HGoToLp
+0487+  D41A 7B          	LD	A,E
+0488+  D41B B7          	OR	A
+0489+  D41C 28 5A       	JR	Z,HGoToSys	;A=0 сист.клавиша
+0490+  D41E FE 0D       	CP	#0D
+0491+  D420 CA 15 D5    	JP	Z,HGTenter	;нажат Enter
+0492+  D423 FE 08       	CP	#08
+0493+  D425 28 37       	JR	Z,HGTdelete	;нажат BackSpace
+0494+  D427 FE 1B       	CP	#1B
+0495+  D429 CA 5A D5    	JP	Z,HGTescape	;нажат Esc
+0496+  D42C FE 20       	CP	#20
+0497+  D42E 38 D4       	JR	C,HGoToLp	;код<#20 нам не	подходит
+0498+  D430 4F          	LD	C,A		;сохр. ASCII код
+0499+  D431 3E 00       BuffFlg	LD	A,#00
+0500+  D433 B7          	OR	A
+0501+  D434 C4 4E D4    	CALL	NZ,ClearBuff
+0502+  D437 3E 00       CursPos	LD	A,#00		;тек.позиция печати в буфере
+0503+  D439 47          	LD	B,A		;сохр.тек.поз.
+0504+  D43A 21 86 D5    	LD	HL,NewShift	;Смещ.от начала	буфера
+0505+  D43D 85          	ADD	A,L
+0506+  D43E 6F          	LD	L,A
+0507+  D43F 30 01       	JR	NC,$+3
+0508+  D441 24          	INC	H
+0509+  D442 71          	LD	(HL),C		;Заносим код в буфер
+0510+  D443 78          	LD	A,B		;тек.поз.
+0511+  D444 FE 07       	CP	#07		;Позиция в буфере (7-последняя)
+0512+  D446 28 B9       	JR	Z,HGoToRet	;печатаем строку и курсор
+0513+  D448 3C          	INC	A		;след.позиция
+0514+  D449 32 38 D4    	LD	(CursPos+1),A
+0515+  D44C 18 B3       	JR	HGoToRet	;печатаем строку и курсор
+0516+  D44E             ClearBuff
+0517+  D44E 21 86 D5    	LD	HL,NewShift
+0518+  D451 06 08       	LD	B,#08
+0519+  D453 3E 20       	LD	A,#20
+0520+  D455 77          	LD	(HL),A
+0521+  D456 23          	INC	HL
+0522+  D457 10 FC       	DJNZ	$-2
+0523+  D459 97          	SUB	A
+0524+  D45A 32 32 D4    	LD	(BuffFlg+1),A
+0525+  D45D C9          	RET 
+0526+  D45E             HGTdelete			;Забой
+0527+  D45E 97          	SUB	A
+0528+  D45F 32 32 D4    	LD	(BuffFlg+1),A
+0529+  D462 3A 38 D4    	LD	A,(CursPos+1)	;Тек.позиция в буфере
+0530+  D465 B7          	OR	A
+0531+  D466 28 9C       	JR	Z,HGoToLp	;0 - выходим
+0532+  D468 3D          	DEC	A
+0533+  D469 32 38 D4    	LD	(CursPos+1),A	;предид.позиция
+0534+  D46C 21 86 D5    	LD	HL,NewShift
+0535+  D46F 85          	ADD	A,L		;смещ.в	буфере
+0536+  D470 6F          	LD	L,A
+0537+  D471 30 01       	JR	NC,$+3
+0538+  D473 24          	INC	H
+0539+  D474 36 20       	LD	(HL)," "	;Забиваем пробелом
+0540+  D476 18 89       	JR	HGoToRet
+0541+  D478             HGoToSys			;системная клавиша
+0542+  D478 7A          	LD	A,D
+0543+  D479 FE 54       	CP	#54		;<-
+0544+  D47B 28 06       	JR	Z,HGTleft
+0545+  D47D FE 56       	CP	#56		;->
+0546+  D47F 28 14       	JR	Z,HGTright
+0547+  D481 18 81       	JR	HGoToLp
+0548+  D483             HGTleft				;Курсор	влево
+0549+  D483 97          	SUB	A
+0550+  D484 32 32 D4    	LD	(BuffFlg+1),A
+0551+  D487 3A 38 D4    	LD	A,(CursPos+1)	;Тек.позиция в буфере
+0552+  D48A B7          	OR	A
+0553+  D48B CA 04 D4    	JP	Z,HGoToLp	;0 - выходим
+0554+  D48E 3D          	DEC	A
+0555+  D48F 32 38 D4    	LD	(CursPos+1),A	;Уменьш.поз.
+0556+  D492 C3 01 D4    	JP	HGoToRet
+0557+  D495             HGTright
+0558+  D495 97          	SUB	A
+0559+  D496 32 32 D4    	LD	(BuffFlg+1),A
+0560+  D499 3A 38 D4    	LD	A,(CursPos+1)	;Тек.позиция в буфере
+0561+  D49C FE 07       	CP	#07
+0562+  D49E CA 04 D4    	JP	Z,HGoToLp	;7 - последняя
+0563+  D4A1 3C          	INC	A
+0564+  D4A2 32 38 D4    	LD	(CursPos+1),A	;Увелич.поз.
+0565+  D4A5 C3 01 D4    	JP	HGoToRet
+0566+  D4A8             PrintHGT		;Процедура вывода строки и курсора
+0567+  D4A8 21 86 D5    	LD	HL,NewShift
+0568+  D4AB 11 08 00    	LD	DE,#0008
+0569+  D4AE 01 1C 08    	LD	BC,#081C
+0570+  D4B1 3E 9A       	LD	A,PanelCol*#10+FileCol
+0571+  D4B3 CD 12 86    	CALL	PrnTxtLnNormC
+0572+  D4B6 3A 38 D4    	LD	A,(CursPos+1)	;Позиция вывода	курсора
+0573+  D4B9 3C          	INC	A
+0574+  D4BA 6F          	LD	L,A
+0575+  D4BB 26 00       	LD	H,#00
+0576+  D4BD 29          	ADD	HL,HL
+0577+  D4BE 29          	ADD	HL,HL
+0578+  D4BF 29          	ADD	HL,HL
+0579+  D4C0 EB          	EX	DE,HL
+0580+  D4C1 21 14 D5    	LD	HL,TCursor
+0581+  D4C4 36 AB       	LD	(HL),"«"
+0582+  D4C6 01 1C 01    	LD	BC,#011C
+0583+  D4C9 3E 9A       	LD	A,PanelCol*#10+FileCol
+0584+  D4CB CD 12 86    	CALL	PrnTxtLnNormC
+0585+  D4CE 3E 01       	LD	A,#01		;Номер выведенного курсора
+0586+  D4D0 32 F7 D4    	LD	(CurCurs+1),A
+0587+  D4D3 3E 06       	LD	A,#06		;Ожидание для смены курсора
+0588+  D4D5 32 DA D4    	LD	(CurWait+1),A
+0589+  D4D8 C9          	RET 
+0590+  D4D9             ChangeCurs		;Процедура смены курсора
+0591+  D4D9 3E 00       CurWait	LD	A,#00	;Задержка между	сменой курсора
+0592+  D4DB 3D          	DEC	A
+0593+  D4DC 32 DA D4    	LD	(CurWait+1),A
+0594+  D4DF C0          	RET	NZ	;еще не	время
+0595+  D4E0 3A 38 D4    	LD	A,(CursPos+1)
+0596+  D4E3 3C          	INC	A
+0597+  D4E4 6F          	LD	L,A
+0598+  D4E5 26 00       	LD	H,#00	;Тек.знакоместо
+0599+  D4E7 29          	ADD	HL,HL
+0600+  D4E8 29          	ADD	HL,HL
+0601+  D4E9 29          	ADD	HL,HL
+0602+  D4EA EB          	EX	DE,HL
+0603+  D4EB 21 86 D5    	LD	HL,NewShift	;Смещ.в	буфере
+0604+  D4EE 3A 38 D4    	LD	A,(CursPos+1)
+0605+  D4F1 85          	ADD	A,L
+0606+  D4F2 6F          	LD	L,A
+0607+  D4F3 30 01       	JR	NC,CurCurs
+0608+  D4F5 24          	INC	H
+0609+  D4F6 3E 00       CurCurs	LD	A,#00		;Номер текущего	курсора
+0610+  D4F8 EE 01       	XOR	#01		;Меняем	курсор
+0611+  D4FA 32 F7 D4    	LD	(CurCurs+1),A
+0612+  D4FD 7E          	LD	A,(HL)
+0613+  D4FE 28 02       	JR	Z,$+4		;Печатаем
+0614+  D500 3E AB       	LD	A,"«"
+0615+  D502 21 14 D5    	LD	HL,TCursor
+0616+  D505 77          	LD	(HL),A
+0617+  D506 01 1C 01    	LD	BC,#011C
+0618+  D509 3E 9A       	LD	A,PanelCol*#10+FileCol
+0619+  D50B CD 12 86    	CALL	PrnTxtLnNormC
+0620+  D50E 3E 0C       	LD	A,#0C		;Ожидание для смены курсора
+0621+  D510 32 DA D4    	LD	(CurWait+1),A
+0622+  D513 C9          	RET 
+0623+  D514             TCursor
+0624+  D514 20          	DEFB	" "
+0625+  D515             HGTenter			;Клавиша ENTER
+0626+  D515 97          	SUB	A		;При ошибке вернемся с курсором
+0627+  D516 32 38 D4    	LD	(CursPos+1),A	;в нулевой позиции
+0628+  D519 01 86 D5    	LD	BC,NewShift	;Буфер строки
+0629+  D51C CD 8F D5    	CALL	GetHexNum32	;Переводим текст в 32бит число
+0630+  D51F DA 01 D4    	JP	C,HGoToRet	;CY - синтакс.ошибка
+0631+  D522 4B          	LD	C,E
+0632+  D523 42          	LD	B,D
+0633+  D524 7D          	LD	A,L		;Адрес кратный 16
+0634+  D525 E6 F0       	AND	#F0
+0635+  D527 6F          	LD	L,A
+0636+  D528 EB          	EX	DE,HL		;Смещ.в	BC+DE
+0637+  D529 2A 73 C1    	LD	HL,(FileLenght)	;Проверяем,что смещение	в
+0638+  D52C B7          	OR	A		;пределах файла
+0639+  D52D ED 52       	SBC	HL,DE
+0640+  D52F 2A 75 C1    	LD	HL,(FileLenght+2)
+0641+  D532 ED 42       	SBC	HL,BC
+0642+  D534 38 06       	JR	C,HGTent	;CY-за пределами
+0643+  D536 20 16       	JR	NZ,HGTent1	;NZ-в пределах
+0644+  D538 7A          	LD	A,D
+0645+  D539 B3          	OR	E
+0646+  D53A 20 12       	JR	NZ,HGTent1	;NZ-в пределах
+0647+  D53C 2A 73 C1    HGTent	LD	HL,(FileLenght)
+0648+  D53F 01 10 00    	LD	BC,#0010
+0649+  D542 B7          	OR	A
+0650+  D543 ED 42       	SBC	HL,BC	;смещ.=последняя строка	файла 16 байт
+0651+  D545 EB          	EX	DE,HL
+0652+  D546 2A 75 C1    	LD	HL,(FileLenght+2)
+0653+  D549 30 01       	JR	NC,$+3
+0654+  D54B 2B          	DEC	HL
+0655+  D54C 4D          	LD	C,L
+0656+  D54D 44          	LD	B,H
+0657+  D54E ED 53 77 C1 HGTent1	LD	(FileShift),DE
+0658+  D552 ED 43 79 C1 	LD	(FileShift+2),BC
+0659+  D556 CD EE D0    	CALL	PrnHEXpage	;Печатаем страницу
+0660+  D559 C9          	RET 
+0661+  D55A             HGTescape		;Нажат Escape
+0662+  D55A 21 86 D5    	LD	HL,NewShift	;Буфер строки
+0663+  D55D E5          	PUSH	HL
+0664+  D55E 3A 7A C1    	LD	A,(FileShift+3)	;Заносим тек.смещение
+0665+  D561 CD FF D1    	CALL	PutHexNumb
+0666+  D564 3A 79 C1    	LD	A,(FileShift+2)
+0667+  D567 CD FF D1    	CALL	PutHexNumb
+0668+  D56A 3A 78 C1    	LD	A,(FileShift+1)
+0669+  D56D CD FF D1    	CALL	PutHexNumb
+0670+  D570 3A 77 C1    	LD	A,(FileShift)
+0671+  D573 CD FF D1    	CALL	PutHexNumb
+0672+  D576 E1          	POP	HL
+0673+  D577 11 08 00    	LD	DE,#0008
+0674+  D57A 01 1C 08    	LD	BC,#081C
+0675+  D57D 3E 9A       	LD	A,PanelCol*#10+FileCol
+0676+  D57F CD 12 86    	CALL	PrnTxtLnNormC
+0677+  D582 CD 48 86    	CALL	ResFire
+0678+  D585 C9          	RET			;Выходим
+0679+  D586             NewShift
+0680+  D586             	DEFB	"        ",0
+0680+  D586 202020202020202000
+0681+  D58F             ;Процедура конвертирования 32битового шестн.текстового числа
+0682+  D58F             ;На вход:
+0683+  D58F             ;	  BC - Адрес буфера с текстом (0-конец буфера)
+0684+  D58F             ;На выход:
+0685+  D58F             ;	  DE+HL	- Число	32бит
+0686+  D58F             ;	  CY - синтаксическая ошибка
+0687+  D58F             GetHexNum32
+0688+  D58F 21 00 00    	LD	HL,#0000
+0689+  D592 5D          	LD	E,L
+0690+  D593 54          	LD	D,H
+0691+  D594 0A          GetHNlp	LD	A,(BC)
+0692+  D595 03          	INC	BC
+0693+  D596 B7          	OR	A
+0694+  D597 C8          	RET	Z
+0695+  D598 FE 20       	CP	" "
+0696+  D59A 28 F8       	JR	Z,GetHNlp
+0697+  D59C FE 61       	CP	#61
+0698+  D59E 38 02       	JR	C,$+4
+0699+  D5A0 D6 20       	SUB	#20
+0700+  D5A2 FE 30       	CP	#30
+0701+  D5A4 D8          	RET	C
+0702+  D5A5 FE 47       	CP	#47
+0703+  D5A7 3F          	CCF 
+0704+  D5A8 D8          	RET	C
+0705+  D5A9 D6 30       	SUB	#30
+0706+  D5AB FE 0A       	CP	#0A
+0707+  D5AD 38 05       	JR	C,GetHNum
+0708+  D5AF D6 07       	SUB	#07
+0709+  D5B1 FE 0A       	CP	#0A
+0710+  D5B3 D8          	RET	C
+0711+  D5B4 29          GetHNum	ADD	HL,HL
+0712+  D5B5 EB          	EX	DE,HL
+0713+  D5B6 ED 6A       	ADC	HL,HL
+0714+  D5B8 EB          	EX	DE,HL
+0715+  D5B9 29          	ADD	HL,HL
+0716+  D5BA EB          	EX	DE,HL
+0717+  D5BB ED 6A       	ADC	HL,HL
+0718+  D5BD EB          	EX	DE,HL
+0719+  D5BE 29          	ADD	HL,HL
+0720+  D5BF EB          	EX	DE,HL
+0721+  D5C0 ED 6A       	ADC	HL,HL
+0722+  D5C2 EB          	EX	DE,HL
+0723+  D5C3 29          	ADD	HL,HL
+0724+  D5C4 EB          	EX	DE,HL
+0725+  D5C5 ED 6A       	ADC	HL,HL
+0726+  D5C7 EB          	EX	DE,HL
+0727+  D5C8 B5          	OR	L
+0728+  D5C9 6F          	LD	L,A
+0729+  D5CA 18 C8       	JR	GetHNlp
+0730+  D5CC             
+0731+  D5CC             
+0732+  D5CC             
+1204   D5CC             	INCLUDE	"FVPRN.z80";,#0E
+0001+  D5CC             
+0002+  D5CC             ;[]==========================================================[]
+0003+  D5CC             PrintFile
+0004+  D5CC CD 06 86    	CALL	MakeWindow
+0005+  D5CF 01          	DEFB	#01
+0006+  D5D0 A8 00 60 00 	DEFW	#00A8,#0060
+0007+  D5D4 30 01 32 00 	DEFW	#0130,#0032
+0008+  D5D8 02          	DEFB	#02	;Head place
+0009+  D5D9 04 00 02 00 	DEFW	#0004,#0002
+0010+  D5DD 28 01 0A 00 	DEFW	#0128,#000A
+0011+  D5E1 00          	DEFB	#00
+0012+  D5E2 01          	DEFB	#01	;Text Line
+0013+  D5E3 84 00 03 00 	DEFW	#0084,#0003
+0014+  D5E7 0F          	DEFB	#0F
+0015+  D5E8             	DEFB	"Print file",0
+0015+  D5E8 5072696E742066696C6500
+0016+  D5F3 03          	DEFB	#03	;Углубление
+0017+  D5F4 10 00 10 00 	DEFW	#0010,#0010
+0018+  D5F8 10 01 0C 00 	DEFW	#0110,#000C
+0019+  D5FC 02          	DEFB	#02	;Head place
+0020+  D5FD 12 00 11 00 	DEFW	#0012,#0011
+0021+  D601 0C 01 0A 00 	DEFW	#010C,#000A
+0022+  D605 0F          	DEFB	#0F
+0023+  D606 04          	DEFB	#04	;UpRectan
+0024+  D607 74 00 20 00 	DEFW	#0074,#0020
+0025+  D60B 48 00 0E 00 	DEFW	#0048,#000E
+0026+  D60F 01          	DEFB	#01	;Text Line
+0027+  D610 8C 00 23 00 	DEFW	#008C,#0023
+0028+  D614 80          	DEFB	#80
+0029+  D615 53746F7000  	DEFB	"Stop",0
+0030+  D61A 00          	DEFB	#00
+0031+  D61B DD 21 D8 D7 	LD	IX,PrintTab
+0032+  D61F CD 4B 86    	CALL	TestCoords
+0033+  D622 DD 21 1D D8 	LD	IX,ProcessPrn
+0034+  D626 2A 73 C1    	LD	HL,(FileLenght)
+0035+  D629 ED 5B 75 C1 	LD	DE,(FileLenght+2)
+0036+  D62D 7D          	LD	A,L
+0037+  D62E 6C          	LD	L,H
+0038+  D62F 63          	LD	H,E
+0039+  D630 5A          	LD	E,D
+0040+  D631 B7          	OR	A
+0041+  D632 28 06       	JR	Z,InitPrn
+0042+  D634 23          	INC	HL
+0043+  D635 7C          	LD	A,H
+0044+  D636 B5          	OR	L
+0045+  D637 20 01       	JR	NZ,InitPrn
+0046+  D639 1C          	INC	E
+0047+  D63A DD 75 0A    InitPrn	LD	(IX+ProcMAXl1),L
+0048+  D63D DD 74 0B    	LD	(IX+ProcMAXh1),H
+0049+  D640 DD 73 0C    	LD	(IX+ProcMAXl2),E
+0050+  D643 DD 36 0D 00 	LD	(IX+ProcMAXh2),#00
+0051+  D647 CD 33 86    	CALL	InitProcess
+0052+  D64A 3A 6F C1    	LD	A,(ViewMode)
+0053+  D64D B7          	OR	A
+0054+  D64E C2 91 D6    	JP	NZ,PrintHEX
+0055+  D651             PrintASCII
+0056+  D651 21 00 00    	LD	HL,#0000
+0057+  D654 22 7B C1    	LD	(TempShift),HL
+0058+  D657 22 7D C1    	LD	(TempShift+2),HL
+0059+  D65A 2A 73 C1    	LD	HL,(FileLenght)
+0060+  D65D ED 4B 75 C1 	LD	BC,(FileLenght+2)
+0061+  D661 DB A2       	IN	A,(PAGE1)
+0062+  D663 F5          	PUSH	AF
+0063+  D664 CD 69 C8    	CALL	InitFPages
+0064+  D667             PrnASCII
+0065+  D667 CD 87 C8    	CALL	TestFPages
+0066+  D66A 1A          	LD	A,(DE)
+0067+  D66B 13          	INC	DE
+0068+  D66C CD 91 D7    	CALL	PrintCHAR
+0069+  D66F 38 17       	JR	C,PrnASCIIext
+0070+  D671 CD EA D7    	CALL	NxtPrnProc
+0071+  D674 7C          	LD	A,H
+0072+  D675 B5          	OR	L
+0073+  D676 20 01       	JR	NZ,$+3
+0074+  D678 0B          	DEC	BC
+0075+  D679 2B          	DEC	HL
+0076+  D67A 7C          	LD	A,H
+0077+  D67B B5          	OR	L
+0078+  D67C B0          	OR	B
+0079+  D67D B1          	OR	C
+0080+  D67E 20 E7       	JR	NZ,PrnASCII
+0081+  D680 11 00 00    	LD	DE,#0000
+0082+  D683 CD EA D7    	CALL	NxtPrnProc
+0083+  D686 76          	HALT 
+0084+  D687 76          	HALT 
+0085+  D688             PrnASCIIext
+0086+  D688 F1          	POP	AF
+0087+  D689 D3 A2       	OUT	(PAGE1),A
+0088+  D68B CD 06 86    	CALL	MakeWindow
+0089+  D68E 7F          	DEFB	#7F
+0090+  D68F 00          	DEFB	#00
+0091+  D690 C9          	RET 
+0092+  D691             PrintHEX
+0093+  D691 21 00 00    	LD	HL,#0000
+0094+  D694 22 7B C1    	LD	(TempShift),HL
+0095+  D697 22 7D C1    	LD	(TempShift+2),HL
+0096+  D69A 21 00 83    	LD	HL,LineBuffer
+0097+  D69D 01 20 50    	LD	BC,#5020
+0098+  D6A0 71          	LD	(HL),C
+0099+  D6A1 2C          	INC	L
+0100+  D6A2 10 FC       	DJNZ	$-2
+0101+  D6A4             PrintHEXlp
+0102+  D6A4 CD CF D6    	CALL	PrnHEXline
+0103+  D6A7 38 15       	JR	C,PrintHEXext
+0104+  D6A9 2A 7B C1    	LD	HL,(TempShift)
+0105+  D6AC 11 10 00    	LD	DE,#0010	;Адрес дампа+16
+0106+  D6AF 19          	ADD	HL,DE
+0107+  D6B0 22 7B C1    	LD	(TempShift),HL
+0108+  D6B3 2A 7D C1    	LD	HL,(TempShift+2)
+0109+  D6B6 5A          	LD	E,D
+0110+  D6B7 ED 5A       	ADC	HL,DE
+0111+  D6B9 22 7D C1    	LD	(TempShift+2),HL
+0112+  D6BC 18 E6       	JR	PrintHEXlp
+0113+  D6BE             PrintHEXext
+0114+  D6BE B7          	OR	A
+0115+  D6BF 20 08       	JR	NZ,PrnHEXe
+0116+  D6C1 11 00 00    	LD	DE,#0000
+0117+  D6C4 CD EA D7    	CALL	NxtPrnProc
+0118+  D6C7 76          	HALT 
+0119+  D6C8 76          	HALT 
+0120+  D6C9 CD 06 86    PrnHEXe	CALL	MakeWindow
+0121+  D6CC 7F          	DEFB	#7F
+0122+  D6CD 00          	DEFB	#00
+0123+  D6CE C9          	RET 
+0124+  D6CF             PrnHEXline
+0125+  D6CF DD 2E 00    	LD	LX,#00
+0126+  D6D2 2A 73 C1    	LD	HL,(FileLenght)
+0127+  D6D5 ED 4B 7B C1 	LD	BC,(TempShift)
+0128+  D6D9 B7          	OR	A
+0129+  D6DA ED 42       	SBC	HL,BC
+0130+  D6DC EB          	EX	DE,HL
+0131+  D6DD 2A 75 C1    	LD	HL,(FileLenght+2)
+0132+  D6E0 ED 4B 7D C1 	LD	BC,(TempShift+2)
+0133+  D6E4 ED 42       	SBC	HL,BC
+0134+  D6E6 3E 00       	LD	A,#00
+0135+  D6E8 D8          	RET	C
+0136+  D6E9 06 10       	LD	B,#10
+0137+  D6EB 20 0E       	JR	NZ,PrnHLn
+0138+  D6ED 7A          	LD	A,D
+0139+  D6EE B7          	OR	A
+0140+  D6EF 20 0A       	JR	NZ,PrnHLn
+0141+  D6F1 B3          	OR	E
+0142+  D6F2 3E 00       	LD	A,#00
+0143+  D6F4 37          	SCF 
+0144+  D6F5 C8          	RET	Z
+0145+  D6F6 7B          	LD	A,E
+0146+  D6F7 B8          	CP	B
+0147+  D6F8 30 01       	JR	NC,PrnHLn
+0148+  D6FA 43          	LD	B,E
+0149+  D6FB             
+0150+  D6FB DB A2       PrnHLn	IN	A,(PAGE1)
+0151+  D6FD F5          	PUSH	AF
+0152+  D6FE CD 69 C8    	CALL	InitFPages
+0153+  D701 21 01 83    	LD	HL,LineBuffer+1	;буфер строки
+0154+  D704 D9          	EXX 
+0155+  D705 21 3F 83    	LD	HL,LineBuffer+#3F ;место для ASCII кодов
+0156+  D708 D9          	EXX 
+0157+  D709 3A 7E C1    	LD	A,(TempShift+3)	;Кладем	смещение
+0158+  D70C CD FF D1    	CALL	PutHexNumb	;от начала фаила
+0159+  D70F 3A 7D C1    	LD	A,(TempShift+2)
+0160+  D712 CD FF D1    	CALL	PutHexNumb
+0161+  D715 3A 7C C1    	LD	A,(TempShift+1)
+0162+  D718 CD FF D1    	CALL	PutHexNumb
+0163+  D71B 3A 7B C1    	LD	A,(TempShift)
+0164+  D71E CD FF D1    	CALL	PutHexNumb
+0165+  D721 36 3A       	LD	(HL),":"
+0166+  D723 2C          	INC	L
+0167+  D724 2C          	INC	L
+0168+  D725             PrnHLoop
+0169+  D725 CD 87 C8    	CALL	TestFPages
+0170+  D728 1A          	LD	A,(DE)
+0171+  D729 13          	INC	DE
+0172+  D72A F5          	PUSH	AF
+0173+  D72B CD FF D1    	CALL	PutHexNumb
+0174+  D72E F1          	POP	AF
+0175+  D72F 2C          	INC	L
+0176+  D730 D9          	EXX 
+0177+  D731 FE 20       	CP	#20
+0178+  D733 30 02       	JR	NC,$+4
+0179+  D735 3E 2E       	LD	A,"."
+0180+  D737 77          	LD	(HL),A
+0181+  D738 2C          	INC	L
+0182+  D739 D9          	EXX 
+0183+  D73A DD 2C       	INC	LX
+0184+  D73C DD 7D       	LD	A,LX
+0185+  D73E FE 04       	CP	#04
+0186+  D740 28 08       	JR	Z,PrHNx1
+0187+  D742 FE 08       	CP	#08
+0188+  D744 28 04       	JR	Z,PrHNx1
+0189+  D746 FE 0C       	CP	#0C
+0190+  D748 20 01       	JR	NZ,$+3
+0191+  D74A 2C          PrHNx1	INC	L
+0192+  D74B 10 D8       	DJNZ	PrnHLoop
+0193+  D74D F1          	POP	AF
+0194+  D74E D3 A2       	OUT	(PAGE1),A
+0195+  D750 3E 10       	LD	A,#10
+0196+  D752 DD 95       	SUB	LX
+0197+  D754 28 20       	JR	Z,FillP2
+0198+  D756 47          	LD	B,A
+0199+  D757 0E 20       	LD	C,#20
+0200+  D759 71          FillP1	LD	(HL),C
+0201+  D75A 2C          	INC	L
+0202+  D75B 71          	LD	(HL),C
+0203+  D75C 2C          	INC	L
+0204+  D75D 2C          	INC	L
+0205+  D75E D9          	EXX 
+0206+  D75F 36 20       	LD	(HL),#20
+0207+  D761 2C          	INC	L
+0208+  D762 D9          	EXX 
+0209+  D763 DD 2C       	INC	LX
+0210+  D765 DD 7D       	LD	A,LX		;В центре 2 пробела
+0211+  D767 FE 04       	CP	#04
+0212+  D769 28 08       	JR	Z,FlPNx1
+0213+  D76B FE 08       	CP	#08
+0214+  D76D 28 04       	JR	Z,FlPNx1
+0215+  D76F FE 0C       	CP	#0C
+0216+  D771 20 01       	JR	NZ,$+3
+0217+  D773 2C          FlPNx1	INC	L
+0218+  D774 10 E3       	DJNZ	FillP1
+0219+  D776 21 00 83    FillP2	LD	HL,LineBuffer
+0220+  D779 06 50       	LD	B,#50
+0221+  D77B 7E          PrnHEX	LD	A,(HL)
+0222+  D77C 23          	INC	HL
+0223+  D77D CD 91 D7    	CALL	PrintCHAR
+0224+  D780 3E 01       	LD	A,#01
+0225+  D782 D8          	RET	C
+0226+  D783 10 F6       	DJNZ	PrnHEX
+0227+  D785 3E 0D       	LD	A,#0D
+0228+  D787 CD 91 D7    	CALL	PrintCHAR
+0229+  D78A D8          	RET	C
+0230+  D78B 3E 0A       	LD	A,#0A
+0231+  D78D CD 91 D7    	CALL	PrintCHAR
+0232+  D790 C9          	RET 
+0233+  D791             PrintCHAR
+0234+  D791 DD 6F       	LD	LX,A
+0235+  D793 DD E5       	PUSH	IX
+0236+  D795 E5          	PUSH	HL
+0237+  D796 D5          	PUSH	DE
+0238+  D797 C5          	PUSH	BC
+0239+  D798 D9          	EXX 
+0240+  D799 D5          	PUSH	DE
+0241+  D79A 0E 03       	LD	C,#03
+0242+  D79C F7          	RST	#30
+0243+  D79D CB 47       	BIT	0,A
+0244+  D79F 28 09       	JR	Z,PrnCH1
+0245+  D7A1 DD 21 D8 D7 	LD	IX,PrintTab
+0246+  D7A5 CD 4B 86    	CALL	TestCoords
+0247+  D7A8 38 04       	JR	C,PrnCH2
+0248+  D7AA 0E 31       PrnCH1	LD	C,#31
+0249+  D7AC D7          	RST	#10
+0250+  D7AD 7B          	LD	A,E
+0251+  D7AE D1          PrnCH2	POP	DE
+0252+  D7AF D9          	EXX 
+0253+  D7B0 C1          	POP	BC
+0254+  D7B1 D1          	POP	DE
+0255+  D7B2 E1          	POP	HL
+0256+  D7B3 DD E1       	POP	IX
+0257+  D7B5 D8          	RET	C
+0258+  D7B6 28 0C       	JR	Z,PrnCHAR
+0259+  D7B8 FE 1B       	CP	#1B
+0260+  D7BA 37          	SCF 
+0261+  D7BB C8          	RET	Z
+0262+  D7BC CB AF       	RES	5,A
+0263+  D7BE FE 53       	CP	"S"
+0264+  D7C0 20 02       	JR	NZ,PrnCHAR
+0265+  D7C2             StopPrint
+0266+  D7C2 37          	SCF 
+0267+  D7C3 C9          	RET 
+0268+  D7C4 E5          PrnCHAR	PUSH	HL
+0269+  D7C5 D5          	PUSH	DE
+0270+  D7C6 C5          	PUSH	BC
+0271+  D7C7 D9          	EXX 
+0272+  D7C8 D5          	PUSH	DE
+0273+  D7C9 DD 7D       	LD	A,LX
+0274+  D7CB 0E 5F       	LD	C,#5F
+0275+  D7CD D7          	RST	#10
+0276+  D7CE D1          	POP	DE
+0277+  D7CF 78          	LD	A,B
+0278+  D7D0 D9          	EXX 
+0279+  D7D1 C1          	POP	BC
+0280+  D7D2 D1          	POP	DE
+0281+  D7D3 E1          	POP	HL
+0282+  D7D4 D0          	RET	NC
+0283+  D7D5 76          	HALT 
+0284+  D7D6 18 B9       	JR	PrintCHAR
+0285+  D7D8             PrintTab
+0286+  D7D8             	DEFW #011C,#0164,#0080,#008E,#01,#0000,StopPrint,#0000
+0286+  D7D8 1C01640180008E0001000000C2D70000
+0287+  D7E8 00 80       	DEFW #8000
+0288+  D7EA             NxtPrnProc
+0289+  D7EA 7B          	LD	A,E
+0290+  D7EB B7          	OR	A
+0291+  D7EC C0          	RET	NZ
+0292+  D7ED E5          	PUSH	HL
+0293+  D7EE D5          	PUSH	DE
+0294+  D7EF C5          	PUSH	BC
+0295+  D7F0 D9          	EXX 
+0296+  D7F1 D5          	PUSH	DE
+0297+  D7F2 DD 21 1D D8 	LD	IX,ProcessPrn
+0298+  D7F6 DD 6E 0E    	LD	L,(IX+ProcCURl1)
+0299+  D7F9 DD 66 0F    	LD	H,(IX+ProcCURh1)
+0300+  D7FC 23          	INC	HL
+0301+  D7FD DD 75 0E    	LD	(IX+ProcCURl1),L
+0302+  D800 DD 74 0F    	LD	(IX+ProcCURh1),H
+0303+  D803 7C          	LD	A,H
+0304+  D804 B5          	OR	L
+0305+  D805 20 0D       	JR	NZ,NxtProc
+0306+  D807 DD 6E 10    	LD	L,(IX+ProcCURl2)
+0307+  D80A DD 66 11    	LD	H,(IX+ProcCURh2)
+0308+  D80D 23          	INC	HL
+0309+  D80E DD 75 10    	LD	(IX+ProcCURl2),L
+0310+  D811 DD 74 11    	LD	(IX+ProcCURh2),H
+0311+  D814 CD 36 86    NxtProc	CALL	PrnProcess
+0312+  D817 D1          	POP	DE
+0313+  D818 D9          	EXX 
+0314+  D819 C1          	POP	BC
+0315+  D81A D1          	POP	DE
+0316+  D81B E1          	POP	HL
+0317+  D81C C9          	RET 
+0318+  D81D             ProcessPrn
+0319+  D81D BA 00       	DEFW	#00BA
+0320+  D81F 71 00       	DEFW	#0071
+0321+  D821 0C 01       	DEFW	#010C
+0322+  D823 00 00       	DEFW	#0000
+0323+  D825 00 00       	DEFW	#0000
+0324+  D827 00 00       	DEFW	#0000
+0325+  D829 00 00       	DEFW	#0000
+0326+  D82B 00 00       	DEFW	#0000
+0327+  D82D 00 00       	DEFW	#0000
+0328+  D82F 4F          	DEFB	#4F
+0329+  D830             
+0330+  D830             
+0331+  D830             
+1205   D830             ;[]==========================================================[]
+1206   D830             ASCIItab
+1207   D830                 DEFW #0050,#0230,#001C,#007F,#00,#0000,TLineUpMs,TBegFile
+1207   D830 500030021C007F0000000000F1CD47CF
+1208   D840                 DEFW #0050,#0230,#0080,#00E4,#00,#0000,TLineDwnMs,TEndFile
+1208   D840 500030028000E4000000000053CE64CF
+1209   D850                 DEFW #0000,#0050,#001C,#00E4,#00,#0000,TPageUpMs,ScrollLeft
+1209   D850 000050001C00E40000000000C1CEA6CD
+1210   D860                 DEFW #0230,#0280,#001C,#00E4,#00,#0000,TPageDwnMs,ScrollRght
+1210   D860 300280021C00E4000000000002CFB8CD
+1211   D870                 DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+1211   D870 00005000F20000010100000042C70000
+1212   D880                 DEFW #0050,#00A0,#00F2,#0100,#01,#0000,ChASCIImode,#0000
+1212   D880 5000A000F20000010100000094CD0000
+1213   D890                 DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChViewer,#0000
+1213   D890 A000F000F2000001010000000CC10000
+1214   D8A0                 DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+1214   D8A0 E0013002F200000101000000CCD50000
+1215   D8B0                 DEFW #0230,#0280,#00F2,#0100,#21,#0000,ViewerExit,#0000
+1215   D8B0 30028002F20000012100000089C10000
+1216   D8C0 00 80           DEFW #8000
+1217   D8C2             HEXtab
+1218   D8C2                   DEFW #0050,#0230,#001C,#007F,#00,#0000,HLineUpMs,HBegFile
+1218   D8C2 500030021C007F00000000001AD264D3
+1219   D8D2                   DEFW #0050,#0230,#0080,#00E4,#00,#0000,HLineDwnMs,HEndFile
+1219   D8D2 500030028000E4000000000067D281D3
+1220   D8E2                   DEFW #0000,#0050,#001C,#00E4,#00,#0000,HPageUpMs,#0000
+1220   D8E2 000050001C00E40000000000CFD20000
+1221   D8F2                   DEFW #0230,#0280,#001C,#00E4,#00,#0000,HPageDwnMs,#0000
+1221   D8F2 300280021C00E4000000000015D30000
+1222   D902                   DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+1222   D902 00005000F20000010100000042C70000
+1223   D912                   DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChViewer,#0000
+1223   D912 A000F000F2000001010000000CC10000
+1224   D922                   DEFW #00F0,#0140,#00F2,#0100,#01,#0000,HGoTo,#0000
+1224   D922 F0004001F200000101000000CED30000
+1225   D932                   DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+1225   D932 E0013002F200000101000000CCD50000
+1226   D942                   DEFW #0230,#0280,#00F2,#0100,#21,#0000,ViewerExit,#0000
+1226   D942 30028002F20000012100000089C10000
+1227   D952 00 80             DEFW #8000
+1228   D954             AboutTab
+1229   D954             	DEFW #011C,#0164,#008A,#0098,#21,#0000,AboutExt,#0000
+1229   D954 1C0164018A009800210000002DC80000
+1230   D964             	DEFW #0000,#00A0,#0000,#0100,#20,#0000,AboutExt,#0000
+1230   D964 0000A00000000001200000002DC80000
+1231   D974             	DEFW #01E0,#0280,#0000,#0100,#20,#0000,AboutExt,#0000
+1231   D974 E001800200000001200000002DC80000
+1232   D984             	DEFW #0000,#0280,#0000,#0048,#20,#0000,AboutExt,#0000
+1232   D984 0000800200004800200000002DC80000
+1233   D994             	DEFW #0000,#0280,#009D,#0100,#20,#0000,AboutExt,#0000
+1233   D994 000080029D000001200000002DC80000
+1234   D9A4 00 80       	DEFW #8000
+1235   D9A6             ;[]==========================================================[]
+1236   D9A6             end
+1237   D9A6             	savebin "..\bin\fnview.bin",StartOfViewer,end-StartOfViewer
+1238   D9A6                    ORG     #7F00
+1239   7F00             
+1240   7F00             
+1241   7F00             
+
+Value    Label
+------ - -----------------------------------------------------------
+0x00FE X BORDER
+0x0089   YPORT
+0x0082 X PAGE0
+0x00A2   PAGE1
+0x00C2 X PAGE2
+0x00E2 X PAGE3
+0x0009   PanelCol
+0x000A   FileCol
+0x000B X SFileCol
+0x000C X InvSCol
+0x0005 X InvPCol
+0x0006 X InvICol
+0x0000 X BarXl
+0x0001 X BarXh
+0x0002 X BarYl
+0x0003 X BarYh
+0x0004 X BarMaxLl
+0x0005 X BarMaxLh
+0x0006 X BarLENl
+0x0007 X BarLENh
+0x0008 X BarLEFTl
+0x0009 X BarLEFTh
+0x000A X BarRGHTl
+0x000B X BarRGHTh
+0x000C X BarPAGEl
+0x000D X BarPAGEh
+0x000E X BarMAXl
+0x000F X BarMAXh
+0x0010 X BarFRSTl
+0x0011 X BarFRSTh
+0x0000 X ProcXl
+0x0001 X ProcXh
+0x0002 X ProcYl
+0x0003 X ProcYh
+0x0004 X ProcMaxLl
+0x0005 X ProcMaxLh
+0x0006 X ProcCOEFl
+0x0007 X ProcCOEFh
+0x0008 X ProcCORRl
+0x0009 X ProcCORRh
+0x000A   ProcMAXl1
+0x000B   ProcMAXh1
+0x000C   ProcMAXl2
+0x000D   ProcMAXh2
+0x000E   ProcCURl1
+0x000F   ProcCURh1
+0x0010   ProcCURl2
+0x0011   ProcCURh2
+0x0012 X ProcCOLOR
+0x8000   WorkBuffer
+0x8400   PagesList
+0x8603 X ClearScreen
+0x8606   MakeWindow
+0x8609 X InvertRectan
+0x860C X PrnTxtLnIFF
+0x860F   PrnTxtLnNorm
+0x8612   PrnTxtLnNormC
+0x8615   PrnRangPathL
+0x8618 X PrnRangPathR
+0x861B X PrnRangPathC
+0x861E X InputLine
+0x8621 X InpLnExtN
+0x8624 X InpLnExtC
+0x862A X InitScrBar
+0x862D X PrnHScrBar
+0x8630 X PrnVScrBar
+0x8633   InitProcess
+0x8636   PrnProcess
+0x8648   ResFire
+0x864B   TestCoords
+0x864E   SetCMOSPrint
+0x8651 X ResCMOSPrint
+0x8654   SetClock
+0x8657   SetMouse
+0x8669 X MoveBytes
+0x866C X MoveBytesUp
+0x866F X Mult8
+0x8672 X Mult16X8
+0x8675 X Mult16
+0x8678 X Mult16X16
+0x867B X Mult32
+0x867E X Divis16X16
+0x8681 X Divis24X16
+0x8684 X Divis32X16
+0x8687   Divis32
+0x868A   ConvNumTxt32
+0x868D   ConvNumTxt16
+0x8690 X ConvNumTxt8
+0x8693 X ConvTxtNum32
+0x8696 X ConvTxtNum16
+0x86A8   DOSError
+0xC000   StartOfViewer
+0x8300   LineBuffer
+0xC000 X FileViewer
+0xC191   LoadFile
+0xC13F   ViewingFile
+0xC16F   ViewMode
+0xC171   ASCIIaddX
+0xC177   FileShift
+0xC173   FileLenght
+0xC3BD   InitViewScr
+0xC02D   ViewerBegin
+0xC5E4   InitStatusLine
+0xC8B6   InitVProc
+0xC135   PrintVPage
+0xC036 X ViewerLoop
+0xC0AE   HViewLoop
+0xC03C   TViewLoop
+0xD830   ASCIItab
+0xC189   ViewerExit
+0xC742   About
+0xCD94   ChASCIImode
+0xC10C   ChViewer
+0xD5CC   PrintFile
+0xCDA6   ScrollLeft
+0xCDB8   ScrollRght
+0xCDCB   THome
+0xCDDD   TEnd
+0xCE0E   TLineUp
+0xCE70   TLineDwn
+0xCEDE   TPageUp
+0xCF1F   TPageDwn
+0xCF47   TBegFile
+0xCF64   TEndFile
+0xD8C2   HEXtab
+0xD3CE   HGoTo
+0xD237   HLineUp
+0xD284   HLineDwn
+0xD2EC   HPageUp
+0xD332   HPageDwn
+0xD364   HBegFile
+0xD381   HEndFile
+0xCF9A   SearchUp
+0xD0EE   PrnHEXpage
+0xCC26   PrnASCIIpage
+0xC170   ASCIImode
+0xC172   EmptyLines
+0xC17B   TempShift
+0xC17F   NextShift
+0xC183   MemIndef
+0xC184   FHandle
+0xC185   ReadLen
+0xC350   LoadExit
+0xC1A9   LoadFl0
+0xC3A3   CorrBigChar
+0xC1E0   LoadFl1
+0xC390   ProcessView
+0xC361   NoRead
+0xC2EB   ReadLp1
+0xC35D   ReadAbort
+0xC331   ReadEnd
+0xC36A   NextProcess
+0xC349   ReadExit
+0xC345   ReadEn1
+0xC38C   NextPr1
+0xC3AD   CorrCh1
+0xC496   FLen
+0xC4EF   FClast
+0xC5DF   Bytes
+0xC4C2   FData
+0xC579   GetData
+0xC4CC   FTime
+0xC5AC   GetTime
+0xC571   FAtributs
+0xC512   FAttrib
+0xC416   InitVS0
+0xC5CF   Get8Bit
+0xC6B3   HEXstatus
+0xC5EB X ASCIIstatus
+0xC6A1   UnWrapT
+0xC6AA   WrapT
+0xC64A   ASCIIx
+0xC64F   ASCIIm
+0xC80E   AboutLoop
+0xD954   AboutTab
+0xC82D   AboutExt
+0xC833   ScrollSCRup
+0xC83B   ScrlSCRDnUp
+0xC838   ScrollSCRdown
+0xC852   ScSCRN1
+0xC869   InitFPages
+0xC887   TestFPages
+0xC895   GetFPages
+0xCA2C   ProcFlag
+0xC8D4   InProcHex
+0xC8C1 X InProcASCII
+0xC8CA   InProcA
+0xC8EE   InitProc
+0xC925   Coeff1
+0xC934   Coeff2
+0xCA2D   ProcentTab
+0xC924   CoeffLoop
+0xC96B   PrintVProc
+0xC9DE   PutProcent
+0xC9C1   TestProcent
+0xC9B6   LowTest
+0xC9A5   Test2
+0xC993   Test1
+0xCA27   ProcText
+0xCC38   PrnASCIIlp
+0xCC8C   PutASCIIline
+0xCC58   FillASCIIdn
+0xCC6F   FLenASC
+0xCC73   FASCIIe
+0xCC6B   FPosASC
+0xCCBB   PutLine
+0xCCC4   PutLnLoop
+0xCCD8   PutLine1
+0xCD07   PutLnExit
+0xCCED   PutLine2
+0xCCE0   PutTab
+0xCCF3   PutLine3
+0xCD30   PutLineUWR
+0xCD1F   PutLine4
+0xCD6C   SaveUW
+0xCD47   PutLnUW1
+0xCD6B   PutLnUW2
+0xCD92   SpaceLeft
+0xCD89   PutLnUW3
+0xCD93   SpaceRight
+0xCDF1   TLineUpMs
+0xCDF7   TUpMs1
+0xCE02   TUpMs2
+0xCE46   TLineU1
+0xCE53   TLineDwnMs
+0xCE59   TDnMs1
+0xCE64   TDnMs2
+0xD03F   SearchDown
+0xCEC1   TPageUpMs
+0xCEC7   TUpMs1p
+0xCED2   TUpMs2p
+0xCEED   TPageU1
+0xCEF6   TPageU2
+0xCF02   TPageDwnMs
+0xCF08   TDnMs1p
+0xCF13   TDnMs2p
+0xCF87   TEndFl1
+0xCFA8   SearchUpBeg
+0xCFCE   SrchUp0
+0xCFE4   SrchUp1
+0xD017   SrchUpEx
+0xCFFA   SearchUpLp
+0xCFFE   SearchUpLp1
+0xD009   SrchUp2
+0xD033   SrchUpEx0
+0xD06D   SrchHL
+0xD070   SrchDE
+0xD06D   SearchDnBeg
+0xD08B   SearchDnLp
+0xD099   SrchDn0
+0xD0B3   SrchE1
+0xD0AB   SrchDn1
+0xD0DF   SrchEEx
+0xD0C6   SrchDnE
+0xD0D9   SrchDE1
+0xD111   PrnHEXl
+0xD151   PutHLine
+0xD134   FillDwnHex
+0xD148   FPosHex
+0xD14C   FLenHex
+0xD17B   PutHLn
+0xD1FF   PutHexNumb
+0xD1A5   PutHLoop
+0xD1C2   PtHNx1
+0xD1C8 X FillHex
+0xD1EE   FillE2
+0xD1D1   FillE1
+0xD1EB   FlHNx1
+0xD21A   HLineUpMs
+0xD220   HUpMs1
+0xD22B   HUpMs2
+0xD267   HLineDwnMs
+0xD26D   HDnMs1
+0xD278   HDnMs2
+0xD2CF   HPageUpMs
+0xD2D5   HUpMs1p
+0xD2E0   HUpMs2p
+0xD309   HPgUp1
+0xD315   HPageDwnMs
+0xD31B   HDnMs1p
+0xD326   HDnMs2p
+0xD3C3   HEnd1
+0xD3DE   HGoToOk
+0xD586   NewShift
+0xD437   CursPos
+0xD431   BuffFlg
+0xD401   HGoToRet
+0xD4A8   PrintHGT
+0xD404   HGoToLp
+0xD4D9   ChangeCurs
+0xD55A   HGTescape
+0xD478   HGoToSys
+0xD515   HGTenter
+0xD45E   HGTdelete
+0xD44E   ClearBuff
+0xD483   HGTleft
+0xD495   HGTright
+0xD514   TCursor
+0xD4F6   CurCurs
+0xD4D9   CurWait
+0xD58F   GetHexNum32
+0xD53C   HGTent
+0xD54E   HGTent1
+0xD594   GetHNlp
+0xD5B4   GetHNum
+0xD7D8   PrintTab
+0xD81D   ProcessPrn
+0xD63A   InitPrn
+0xD691   PrintHEX
+0xD651 X PrintASCII
+0xD667   PrnASCII
+0xD791   PrintCHAR
+0xD688   PrnASCIIext
+0xD7EA   NxtPrnProc
+0xD6A4   PrintHEXlp
+0xD6CF   PrnHEXline
+0xD6BE   PrintHEXext
+0xD6C9   PrnHEXe
+0xD6FB   PrnHLn
+0xD725   PrnHLoop
+0xD74A   PrHNx1
+0xD776   FillP2
+0xD759   FillP1
+0xD773   FlPNx1
+0xD77B   PrnHEX
+0xD7AA   PrnCH1
+0xD7AE   PrnCH2
+0xD7C4   PrnCHAR
+0xD7C2   StopPrint
+0xD814   NxtProc
+0xD9A6   end

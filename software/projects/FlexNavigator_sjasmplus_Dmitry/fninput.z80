@@ -1,0 +1,821 @@
+
+;[]----------------------------------------------------------[]
+LenInpData EQU	#0C
+CursTimer  EQU	#0E
+Step	   EQU	#08
+InputLine
+	LD	(InpLnData),IX
+	LD	(InpMous+2),HL
+	SET	7,(IX+#01)
+	SUB	A
+	LD	(IX+#02),A
+	LD	(IX+#03),A
+	CALL	InsInpLnCol
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	PUSH	HL
+	LD	E,(IX+#04)
+	ADD	HL,DE
+	LD	(HL),D
+	LD	(IX+#02),E
+	POP	HL
+	LD	DE,WorkBuffer
+	LD	A,(IX+#02)
+	LD	(DE),A
+	INC	DE
+	LD	A,(IX+#03)
+	LD	(DE),A
+	INC	DE
+	LD	A,(IX+#04)
+	LD	(DE),A
+	INC	DE
+	LD	C,A
+	LD	B,#00
+	OR	B
+	JR	Z,$+4
+	LDIR 
+	CALL	PrintInpLn+3
+InpLineLp
+	HALT 
+	CALL	ChCursor
+InpMous	LD	IX,#0000
+	CALL	TestCoords
+	LD	C,#37
+	RST	#10
+	JR	Z,InpLineLp
+	RES	7,D
+	BIT	4,B
+	JR	NZ,InpLineLp
+	LD	IX,InpTable2
+	BIT	5,B
+	JR	NZ,InpKeys
+	LD	IX,InpTable1
+InpKeys	LD	A,(IX+#00)
+	INC	IX
+	CP	#FF
+	JR	Z,InpLineLp1
+	LD	L,A
+	LD	H,(IX+#00)
+	INC	IX
+	LD	C,(IX+#00)
+	INC	IX
+	LD	B,(IX+#00)
+	INC	IX
+	OR	A
+	SBC	HL,DE
+	JR	NZ,InpKeys
+	LD	IX,(InpLnData)
+	LD	HL,InpLineLp
+	PUSH	HL
+	PUSH	BC
+	PUSH	IX
+	LD	C,#31
+	RST	#10
+	POP	IX
+	RET 
+InpLineLp1
+	LD	IX,(InpLnData)
+	LD	HL,InpLineLp
+	PUSH	HL
+	PUSH	IX
+	LD	C,#31
+	RST	#10
+	POP	IX
+	LD	A,E
+	JR	InsertSymbol
+InpLnExtN
+	POP	HL
+	LD	IX,(InpLnData)
+	CALL	ResCursor
+	XOR	A
+	RET 
+InpLnExtC
+	POP	HL
+	LD	IX,(InpLnData)
+	CALL	ResCursor
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	EX	DE,HL
+	LD	HL,WorkBuffer
+	LD	A,(HL)
+	INC	HL
+	LD	(IX+#02),A
+	LD	A,(HL)
+	INC	HL
+	LD	(IX+#03),A
+	LD	A,(HL)
+	INC	HL
+	LD	(IX+#04),A
+	LD	C,A
+	LD	B,#00
+	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	LDIR 
+	RET 
+InpLnData
+	DEFW	#0000	;Адрес описателя строки
+			;  +00 Максимальная длина строки
+			;  +01 Флаг готовности
+			;  +02 текущая X позиция курсора
+			;  +03 текущая AddX
+			;  +04 количество введенных символов
+			;  +05 X позиция строки	на экране
+			;  +07 Y позиция строки	на экране
+			;  +09 X длина строки на экране
+			;  +0B Цвет строки
+			;  +0C ...сама строка
+InpTable1
+	DEFW	#011B,InpLnExtC
+	DEFW	#280D,InpLnExtN
+	DEFW	#4E0D,InpLnExtN
+	DEFW	#5400,ILleft
+	DEFW	#5600,ILright
+	DEFW	#0E08,ILdelet
+	DEFW	#4F00,IL_del_
+	DEFW	#5700,ILhome
+	DEFW	#5100,ILend
+	DEFB	#FF
+InpTable2
+	DEFW	#5400,ILwordL
+	DEFW	#5600,ILwordR
+	DEFW	#0E00,ILdelWR
+	DEFB	#FF
+InsertSymbol
+	CP	#20
+	RET	C
+	EX	AF,AF'
+	BIT	7,(IX+#01)	;ready
+	CALL	NZ,ClearInpLn
+	LD	A,(IX+#04)	;InpytSymb
+	SUB	(IX+#00)	;Max len
+	RET	NC
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	JR	Z,NotInsert
+;Ввод в	середину текста
+	LD	C,A
+	LD	B,#00
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#04)
+	ADD	HL,DE
+	LD	E,L
+	LD	D,H
+	DEC	HL
+	LDDR 
+NotInsert
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	EX	AF,AF'
+	LD	(HL),A
+	INC	(IX+#04)
+	INC	(IX+#02)
+	CALL	PrintInpLn
+	RET 
+;Clear Buffer
+ClearInpLn
+	RES	7,(IX+#01)
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	B,(IX+#00)
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	(IX+#02),A
+	LD	(IX+#03),A
+	LD	(IX+#04),A
+	CALL	PrintInpLn
+	RET 
+;Курсор	влево на одно место
+ILleft	RES	7,(IX+#01)
+	LD	A,(IX+#02)
+	DEC	A
+	RET	M
+	LD	(IX+#02),A
+	CALL	PrintInpLn
+	RET 
+;Курсор	вправо на одно место
+ILright	RES	7,(IX+#01)
+	LD	A,(IX+#02)
+	CP	(IX+#04)
+	RET	Z
+	INC	(IX+#02)
+	CALL	PrintInpLn
+	RET 
+;delete
+ILdelet	BIT	7,(IX+#01)	;ready
+	CALL	NZ,ClearInpLn
+	LD	A,(IX+#02)
+	OR	A
+	RET	Z
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	LD	E,L
+	LD	D,H
+	DEC	DE
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	JR	Z,ILDel1
+	LD	C,A
+	LD	B,#00
+	LDIR 
+	SUB	A
+ILDel1	LD	(DE),A
+	DEC	(IX+#02)
+	DEC	(IX+#04)
+	CALL	PrintInpLn
+	RET 
+;Delete	Char in	Current	Position
+IL_del_	BIT	7,(IX+#01)	;ready
+	CALL	NZ,ClearInpLn
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	INC	HL
+	LD	E,L
+	LD	D,H
+	DEC	DE
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	RET	Z
+	LD	C,A
+	LD	B,#00
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	DEC	(IX+#04)
+	CALL	PrintInpLn
+	RET 
+;Home
+ILhome	RES	7,(IX+#01)
+	LD	A,(IX+#02)
+	OR	A
+	RET	Z
+	SUB	A
+	LD	(IX+#02),A
+	CALL	PrintInpLn
+	RET 
+;End string
+ILend	RES	7,(IX+#01)
+	LD	A,(IX+#04)
+	CP	(IX+#02)
+	RET	Z
+	LD	(IX+#02),A
+	CALL	PrintInpLn
+	RET 
+;Word right
+ILwordR	RES	7,(IX+#01)
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	RET	Z
+	LD	B,A
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	LD	C,E
+wr0	LD	A,(HL)
+	CP	#20
+	JR	Z,WRIL1
+	CP	","
+	JR	Z,WRIL1
+	CP	"."
+	JR	Z,WRIL1
+	CP	"\\"
+	JR	Z,WRIL1
+	INC	HL
+	INC	C
+	DJNZ	wr0
+	JR	WRIL2
+WRIL1	LD	A,(HL)
+	CP	#20
+	JR	Z,$+14
+	CP	","
+	JR	Z,$+10
+	CP	"."
+	JR	Z,$+6
+	CP	"\\"
+	JR	NZ,WRIL2
+	INC	HL
+	INC	C
+	DJNZ	WRIL1
+WRIL2	LD	(IX+#02),C
+	CALL	PrintInpLn
+	RET 
+;Word left
+ILwordL	RES	7,(IX+#01)
+	LD	A,(IX+#02)
+	OR	A
+	RET	Z
+	LD	B,A
+	LD	C,B
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,C
+	ADD	HL,DE
+wl0	DEC	HL
+	DEC	C
+	LD	A,(HL)
+	CP	#20
+	JR	Z,WLIL1
+	CP	","
+	JR	Z,WLIL1
+	CP	"."
+	JR	Z,WLIL1
+	CP	"\\"
+	JR	Z,WLIL1
+	DJNZ	wl0
+	JR	WLIL2
+WLIL1	LD	A,(HL)
+	CP	#20
+	JR	Z,$+14
+	CP	","
+	JR	Z,$+10
+	CP	"."
+	JR	Z,$+6
+	CP	"\\"
+	JR	NZ,WLIL2-1
+	DEC	HL
+	DEC	C
+	DJNZ	WLIL1
+	INC	C
+WLIL2	LD	(IX+#02),C
+	CALL	PrintInpLn
+	RET 
+;Delete	word
+ILdelWR	RES	7,(IX+#01)
+	LD	A,(IX+#02)
+	OR	A
+	RET	Z
+	LD	B,A
+	LD	C,B
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,C
+	ADD	HL,DE
+	LD	A,(IX+#04)
+	SUB	B
+	LD	E,A
+	PUSH	HL
+	DEC	HL
+	DEC	C
+	LD	A,(HL)
+	CP	#20
+	JR	Z,DWIL1
+	CP	","
+	JR	Z,DWIL1
+	CP	"."
+	JR	Z,DWIL1
+	CP	"\\"
+	JR	Z,DWIL1
+	DEC	B
+	JR	Z,DWIL2
+dw0	DEC	HL
+	DEC	C
+	LD	A,(HL)
+	CP	#20
+	JR	Z,DWIL2-2
+	CP	","
+	JR	Z,DWIL2-2
+	CP	"."
+	JR	Z,DWIL2-2
+	CP	"\\"
+	JR	Z,DWIL2-2
+	DJNZ	dw0
+	JR	DWIL2
+DWIL1	LD	A,(HL)
+	CP	#20
+	JR	Z,$+14
+	CP	","
+	JR	Z,$+10
+	CP	"."
+	JR	Z,$+6
+	CP	"\\"
+	JR	NZ,DWIL2-2
+	DEC	HL
+	DEC	C
+	DJNZ	DWIL1
+	INC	HL
+	INC	C
+DWIL2	LD	A,(IX+#02)
+	LD	(IX+#02),C
+	SUB	C
+	LD	C,A
+	EX	AF,AF'
+	LD	A,(IX+#04)
+	SUB	C
+	LD	(IX+#04),A
+	LD	C,E
+	LD	B,#00
+	EX	DE,HL
+	POP	HL
+	LD	A,C
+	OR	A
+	JR	Z,DWIL21
+	LDIR 
+DWIL21	EX	DE,HL
+	EX	AF,AF'
+	LD	B,A
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	CALL	PrintInpLn
+	RET 
+;[]----------------------------------------------------------[]
+InsInpLnCol
+	LD	L,(IX+#07)
+	LD	H,(IX+#08)
+	LD	(FillILy),HL
+	LD	A,(IX+#0B)
+	AND	#0F		;INK
+	LD	C,A
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	C
+	LD	HL,PrnINKl	;INK буфер
+	LD	B,#08
+	CPL 
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	B,A
+	LD	A,(IX+#0B)
+	AND	#F0		;PAPER
+	LD	C,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	LD	(FillILc),A
+	OR	C
+	XOR	B
+	LD	HL,PrnPAPl	;PAPER буфер
+	LD	B,#08
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	RET 
+;
+PrintInpLn
+	CALL	ResCursor
+	LD	A,(IX+#02)
+	SUB	(IX+#03)
+	JR	NC,PrnInpLn1
+	LD	A,(IX+#03)
+	SUB	Step
+	LD	(IX+#03),A
+	JR	PrintInpLn+3
+PrnInpLn1
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#03)
+	ADD	HL,DE
+	OR	A
+	CALL	NZ,TstInpLnLen	;На вход: HL-начало вывода
+				;	  А -кол.симв.до курсора
+	PUSH	IY
+	PUSH	IX
+	LD	A,(IX+#07)
+	LD	LY,A		;Y координата
+	LD	A,(IX+#04)
+	LD	HY,A
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	EXX 
+	LD	HL,PrnPAPl
+	LD	DE,PrnINKl
+	LD	C,(IX+#05)
+	LD	B,(IX+#06)
+	SRL	B
+	RR	C
+	SET	6,B
+	EXX 
+	LD	C,(IX+#09)
+	LD	B,(IX+#0A)
+	SRL	B
+	RR	C
+	LD	LX,C
+	LD	C,L		;Адрес строки
+	LD	B,H
+	IN	A,(PAGE1)
+	LD	HX,A
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,D
+	LD	A,#08
+	LD	B,B
+	LD	A,HY
+	OR	A
+	JR	Z,PrnInpE
+	LD	A,(BC)
+	INC	BC
+PInpLnP	LD	L,A
+	LD	H,high IFFFont-#C0
+	PUSH	BC
+	LD	B,(HL)		;длина символа
+	INC	H
+	LD	E,(HL)
+	INC	H
+	LD	D,(HL)
+	LD	HL,#0008
+	EX	DE,HL
+	LD	A,#50
+	OUT	(PAGE1),A
+PrnLoopInp
+	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	EXX 
+	LD	A,LY
+	OUT	(YPORT),A
+	LD	L,L
+	OR	(HL)
+	LD	B,B
+	EX	DE,HL
+	LD	L,L
+	XOR	(HL)
+	LD	A,A
+	LD	(BC),A
+	LD	B,B
+	EX	DE,HL
+	INC	BC
+	EXX 
+	ADD	HL,DE
+	DEC	LX
+	JR	Z,$+4
+	DJNZ	PrnLoopInp
+	POP	BC
+	LD	A,HX
+	OUT	(PAGE1),A
+	LD	A,LX
+	OR	A
+	JR	Z,PrnInpE
+	DEC	HY
+	JR	Z,PrnInpE
+	LD	A,(BC)
+	INC	BC
+	OR	A
+	JR	NZ,PInpLnP
+PrnInpE	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	LD	A,LX
+	OR	A
+	JR	Z,PrnInE1
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	LD	(FillILl),HL
+	EXX 
+	PUSH	BC
+	EXX 
+	POP	HL
+	RES	6,H
+	ADD	HL,HL
+	LD	(FillILx),HL
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02
+FillILx	DEFW	#0000
+FillILy	DEFW	#0000
+FillILl	DEFW	#0000,#0008
+FillILc	DEFB	#00
+	DEFB	#00
+PrnInE1	POP	IX
+	POP	IY
+	CALL	SetCursor
+	RET 
+
+PrnINKl	DEFS	8,0
+PrnPAPl	DEFS	8,0
+
+TstInpLnLen
+	PUSH	IY
+	LD	LY,A
+	LD	HY,A
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,high IFFFont-#C0
+TstInpLn
+	PUSH	HL
+	LD	BC,#0000
+TstInpL	LD	E,(HL)
+	INC	HL
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	DEC	LY
+	JR	NZ,TstInpL
+	LD	L,(IX+#09)
+	LD	H,(IX+#0A)
+	OR	A
+	SBC	HL,BC
+	JR	NC,TstInpE
+	POP	HL
+	LD	BC,Step
+	ADD	HL,BC
+	LD	A,(IX+#03)
+	ADD	A,C
+	LD	(IX+#03),A
+	LD	A,HY
+	SUB	C
+	LD	HY,A
+	LD	LY,A
+	JR	TstInpLn
+TstInpE	POP	HL
+	POP	AF
+	OUT	(PAGE0),A
+	EI 
+	POP	IY
+	RET 
+SetCursor
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#03)
+	ADD	HL,DE
+	LD	BC,#0000
+	LD	A,(IX+#02)
+	SUB	E
+	JR	Z,StCurs1
+	EX	AF,AF'
+	DI 
+	IN	A,(PAGE0)
+	PUSH	AF
+	LD	A,(FONTpage)
+	OUT	(PAGE0),A
+	LD	D,high IFFFont-#C0
+	EX	AF,AF'
+StCurs0	EX	AF,AF'
+	LD	E,(HL)
+	INC	HL
+	LD	A,(DE)
+	ADD	A,A
+	ADD	A,C
+	LD	C,A
+	LD	A,B
+	ADC	A,#00
+	LD	B,A
+	EX	AF,AF'
+	DEC	A
+	JR	NZ,StCurs0
+	POP	AF
+	OUT	(PAGE0),A
+	EI 
+StCurs1	LD	(CurShiftX),BC
+	LD	A,#01
+	LD	(CurCursor),A
+	LD	A,CursTimer
+	LD	(CrTimer),A
+SetCr	LD	L,(IX+#05)
+	LD	H,(IX+#06)
+	LD	BC,(CurShiftX)
+	ADD	HL,BC
+	SRL	H
+	RR	L
+	SET	6,H
+	IN	A,(PAGE1)
+	LD	C,A
+	IN	A,(YPORT)
+	LD	B,A
+	PUSH	BC
+	LD	DE,CursBuffer
+	LD	C,(IX+#07)
+	DEC	C
+	LD	A,(IX+#0B)
+	AND	#0F
+	LD	B,A
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	B
+	LD	B,A
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	A,C
+	OUT	(YPORT),A
+	LD	D,D
+	LD	A,#09
+	LD	A,A
+	LD	A,(HL)
+	LD	B,B
+	LD	L,L
+	LD	(DE),A
+	LD	B,B
+	LD	A,C
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),B
+	LD	B,B
+	EI 
+	POP	BC
+	LD	A,B
+	OUT	(YPORT),A
+	LD	A,C
+	OUT	(PAGE1),A
+	RET 
+ResCursor
+	LD	L,(IX+#05)
+	LD	H,(IX+#06)
+	LD	BC,(CurShiftX)
+	ADD	HL,BC
+	SRL	H
+	RR	L
+	SET	6,H
+	IN	A,(PAGE1)
+	LD	C,A
+	IN	A,(YPORT)
+	LD	B,A
+	PUSH	BC
+	LD	DE,CursBuffer
+	LD	C,(IX+#07)
+	DEC	C
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	D,D
+	LD	A,#09
+	LD	L,L
+	LD	A,(DE)
+	LD	B,B
+	LD	A,C
+	OUT	(YPORT),A
+	LD	A,A
+	LD	(HL),A
+	LD	B,B
+	EI 
+	POP	BC
+	LD	A,B
+	OUT	(YPORT),A
+	LD	A,C
+	OUT	(PAGE1),A
+	RET 
+ChCursor
+	LD	HL,CrTimer
+	DEC	(HL)
+	RET	NZ
+	LD	(HL),CursTimer
+	LD	IX,(InpLnData)
+	LD	A,(CurCursor)
+	XOR	#01
+	LD	(CurCursor),A
+	JR	Z,ResCursor
+	JP	SetCr
+CurShiftX
+	DEFW	#00
+CrTimer
+	DEFB	#00
+CurCursor
+	DEFB	#00
+CursBuffer
+	DEFS	9,0
+
+

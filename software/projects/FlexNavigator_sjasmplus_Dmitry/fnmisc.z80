@@ -1,0 +1,1010 @@
+
+;[]==========================================================[]
+FileInfoR
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	LD	A,#C0
+	OUT	(YPORT),A
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	LD	A,H
+	OR	#C0
+	LD	H,A
+	LD	DE,WorkBuffer
+	LD	BC,#0018
+	LDIR 
+	POP	AF
+	OUT	(PAGE3),A
+	LD	IX,WorkBuffer
+	LD	HL,WorkBuffer+1
+	LD	DE,WorkBuffer+#20
+	LD	A,(HL)
+	CP	"."
+	RET	Z
+	CALL	SetClock
+	PUSH	DE
+	CALL	MakeDOSname
+	POP	HL
+	LD	DE,FName
+	LD	C,12
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	A,C
+	OR	A
+	JR	Z,FInfo1
+	LD	B,A
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-2
+FInfo1	LD	HL,FAtributs
+	LD	DE,FAttrib
+	LD	C,(IX+#0E)
+	LD	B,#08
+FInfo2	RL	C
+	LD	A,"-"
+	JR	NC,$+3
+	LD	A,(HL)
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	FInfo2
+	LD	HL,FLen
+	LD	B,#10
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	DE,FLen
+	BIT	4,(IX+#0E)
+	JR	Z,FInfo3
+	LD	HL,DirText
+	LD	BC,#000A
+	LDIR 
+	JR	FInfo4
+FInfo3	LD	L,(IX+#0F)
+	LD	H,(IX+#10)
+	LD	C,(IX+#11)
+	LD	B,(IX+#12)
+	CALL	ConvNumTxt32
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+FInfo4	LD	DE,FData
+	CALL	GetData
+	LD	DE,FTime
+	CALL	GetTime
+	LD	HL,WorkBuffer+#20
+	LD	DE,WorkBuffer+#30
+	LD	BC,#0019
+	LD	A,(FileAtribut)
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,SetMouse
+	LD	HL,FClast
+	LD	B,#05
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	HL,WorkBuffer+#30+26
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	EX	DE,HL
+	LD	DE,FClast
+	CALL	ConvNumTxt16
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00F0,#0050
+	DEFW	#00A0,#0062
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0098,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0038,#0003
+	DEFB	#0F
+	DEFB	"File info",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0014
+	DEFB	#80
+	DEFB	"Name:  "
+FName	DEFB	"            ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0020
+	DEFB	#80
+	DEFB	"Attributes:  "
+FAttrib	DEFB	"        ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#002C
+	DEFB	#80
+	DEFB	"Len:  "
+FLen	DEFB	"                ",#00
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0038
+	DEFB	#80
+	DEFB	"Data:  "
+FData	DEFB	"           "
+FTime	DEFB	"     ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0044
+	DEFB	#80
+	DEFB	"First Claster:  "
+FClast	DEFB	"     ",0
+	DEFB	#04	;UpRectan
+	DEFW	#002C,#0050
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0048,#0053
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	CALL	SetMouse
+FileInfoLoop
+	LD	IX,FileInfoTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,FileInfoLoop
+	LD	A,B
+	OR	A
+	JR	NZ,FileInfoLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,FileInfoExt
+	CP	#0D
+	JR	Z,FileInfoExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,FileInfoLoop
+FileInfoExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+FAtributs
+	DEFB	"--ad-shr"
+;[]==========================================================[]
+PrintFileR
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	LD	A,#C0
+	OUT	(YPORT),A
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	E,L
+	LD	D,H
+	ADD	HL,HL
+	ADD	HL,DE
+	LD	A,H
+	OR	#C0
+	LD	H,A
+	LD	DE,WorkBuffer
+	LD	BC,#0018
+	LDIR 
+	POP	AF
+	OUT	(PAGE3),A
+	LD	IX,WorkBuffer
+	BIT	4,(IX+#0E)
+	RET	NZ
+	LD	HL,WorkBuffer+1
+	LD	DE,PrnFileName
+	CALL	MakeDOSname
+	LD	L,(IX+#0F)
+	LD	H,(IX+#10)
+	LD	(PrnFileLen),HL
+	LD	E,(IX+#11)
+	LD	D,(IX+#12)
+	LD	(PrnFileLen+2),DE
+	LD	A,H
+	OR	L
+	OR	D
+	OR	E
+	RET	Z
+	LD	BC,#013D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	RET	C
+	LD	(PrnMIndef),A
+	PUSH	IY
+	LD	HL,PagesList
+	LD	C,#C5
+	RST	#08
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A8,#0054
+	DEFW	#0130,#003E
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0128,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#008E,#0003
+	DEFB	#0F
+	DEFB	"Print",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0010
+	DEFB	#80
+	DEFB	"Printing file:",0
+	DEFB	#03	;”глубление
+	DEFW	#0010,#001C
+	DEFW	#0110,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#001D
+	DEFW	#010C,#000A
+	DEFB	#0F
+	DEFB	#04	;UpRectan
+	DEFW	#0074,#002C
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#008C,#002F
+	DEFB	#80
+	DEFB	"Stop",0
+	DEFB	#00
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	LD	DE,WorkBuffer
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	JR	Z,$+4
+	LD	(DE),A
+	INC	DE
+	LD	HL,PrnFileName
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#00D0
+	LD	HL,WorkBuffer
+	LD	DE,#00F8
+	LD	BC,#0064
+	LD	A,#80
+	CALL	PrnRangPathL
+
+	LD	IX,PrintFTab
+	CALL	TestCoords
+	LD	IX,ProcessFPrn
+	LD	HL,(PrnFileLen)
+	LD	DE,(PrnFileLen+2)
+	LD	A,L
+	LD	L,H
+	LD	H,E
+	LD	E,D
+	OR	A
+	JR	Z,InitPrn
+	INC	HL
+	LD	A,H
+	OR	L
+	JR	NZ,InitPrn
+	INC	E
+InitPrn	LD	(IX+ProcMAXl1),L
+	LD	(IX+ProcMAXh1),H
+	LD	(IX+ProcMAXl2),E
+	LD	(IX+ProcMAXh2),#00
+	CALL	InitProcess
+
+	LD	HL,PrnFileName
+	LD	A,#01
+	LD	C,#11
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JP	C,PrnError
+	LD	(PrnFHandle),A
+
+	IN	A,(PAGE3)
+	PUSH	AF
+	LD	HL,PagesList
+	LD	A,(HL)
+ReadPr1	INC	HL
+	PUSH	HL
+	OUT	(PAGE3),A
+	LD	HL,(PrnFileLen)
+	LD	DE,(PrnFileLen+2)
+	LD	BC,#4000
+	OR	A
+	SBC	HL,BC
+	LD	B,#00
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	JR	C,ReadPrnEnd
+	LD	(PrnFileLen),HL
+	LD	(PrnFileLen+2),DE
+	CALL	SetClock
+	LD	HL,#C000
+	LD	DE,#4000
+	LD	A,(PrnFHandle)
+	LD	C,#13
+	RST	#10
+	CALL	SetMouse
+	LD	BC,#4000
+	CALL	PrintBlock
+	POP	HL
+	JR	C,PrnEsc
+	LD	A,(HL)
+	CP	#FF
+	JR	NZ,ReadPr1
+PrnEsc	POP	AF
+	OUT	(PAGE3),A
+	JR	PrnFileExit
+ReadPrnEnd
+	LD	HL,#C000
+	LD	DE,(PrnFileLen)
+	LD	A,D
+	OR	E
+	JR	Z,ReadPrE
+	CALL	SetClock
+	LD	A,(PrnFHandle)
+	LD	C,#13
+	PUSH	DE
+	RST	#10
+	POP	BC
+	CALL	SetMouse
+	CALL	PrintBlock
+	JR	C,$+5
+ReadPrE	CALL	NxtPrnProc
+	POP	HL
+	POP	AF
+	OUT	(PAGE3),A
+PrnFileExit
+	LD	A,(PrnFHandle)
+	LD	C,#12
+	RST	#10
+PrnError
+	LD	A,(PrnMIndef)
+	LD	C,#3E
+	RST	#10
+	POP	IY
+	HALT 
+	HALT 
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+;[]----------------------------------------------------------[]
+PrintBlock
+	LD	DE,#C000
+PrnBlockLp
+	LD	A,(DE)
+	INC	DE
+	CALL	PrintCHAR
+	RET	C
+	CALL	NxtPrnProc
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,PrnBlockLp
+	RET 
+PrintCHAR
+	LD	L,A
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	JR	Z,PrnCH1
+	LD	IX,PrintFTab
+	CALL	TestCoords
+	JR	C,PrnCH2
+PrnCH1	LD	C,#31
+	RST	#10
+	LD	A,E
+PrnCH2	POP	BC
+	POP	DE
+	POP	HL
+	RET	C
+	JR	Z,PrnCHAR
+	CP	#1B
+	SCF 
+	RET	Z
+	RES	5,A
+	CP	"S"
+	JR	NZ,PrnCHAR
+StopPrint
+	SCF 
+	RET 
+PrnCHAR	PUSH	DE
+	PUSH	BC
+	LD	A,L
+	LD	C,#5F
+	RST	#10
+	LD	A,B
+	POP	BC
+	POP	DE
+	RET	NC
+	HALT 
+	JR	PrintCHAR
+;[]----------------------------------------------------------[]
+NxtPrnProc
+	LD	A,E
+	OR	A
+	RET	NZ
+	PUSH	DE
+	PUSH	BC
+	LD	IX,ProcessFPrn
+	LD	L,(IX+ProcCURl1)
+	LD	H,(IX+ProcCURh1)
+	INC	HL
+	LD	(IX+ProcCURl1),L
+	LD	(IX+ProcCURh1),H
+	LD	A,H
+	OR	L
+	JR	NZ,NxtProc
+	LD	L,(IX+ProcCURl2)
+	LD	H,(IX+ProcCURh2)
+	INC	HL
+	LD	(IX+ProcCURl2),L
+	LD	(IX+ProcCURh2),H
+NxtProc	CALL	PrnProcess
+	POP	BC
+	POP	DE
+	RET 
+ProcessFPrn
+	DEFW	#00BA
+	DEFW	#0071
+	DEFW	#010C
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFB	#4F
+PrnFileName
+	DEFS	13,0
+PrnFileLen
+	DEFS	4,0
+PrnMIndef
+	DEFB	#00
+PrnFHandle
+	DEFB	#00
+;[]==========================================================[]
+SystemInfoR
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	HL,DOSvers
+	LD	DE,BIOSver
+	LD	B,#05
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-4
+	LD	C,#00
+	PUSH	IY
+	RST	#10
+	POP	IY
+	EX	DE,HL
+	LD	DE,DOSvers
+	LD	A,H
+	CALL	ConvNumTxt8
+	LD	A,"."
+	LD	(DE),A
+	INC	DE
+	LD	A,L
+	CALL	ConvNumTxt8
+	LD	HL,WorkBuffer
+	LD	C,#EF
+	RST	#08
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	LD	A,#20
+	DEC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	INC	HL
+	LD	DE,BIOSver
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	HL,Present
+	LD	A,(CMOSFlag)
+	OR	A
+	JR	NZ,$+5
+	LD	HL,NotPresent
+	LD	DE,CMOS
+	LD	BC,#000B
+	LDIR 
+	LD	HL,TotMem
+	LD	DE,FreeMem
+	LD	B,#0F
+	LD	A,#20
+	LD	(HL),A
+	INC	HL
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-4
+	LD	C,#3C
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	BC
+	LD	B,H
+	LD	C,L
+	LD	HL,#0000
+	LD	DE,WorkBuffer
+	SRL	B
+	RR	C
+	RR	H
+	RR	L
+	SRL	B
+	RR	C
+	RR	H
+	RR	L
+	PUSH	DE
+	CALL	ConvNumTxt32
+	SUB	A
+	LD	(DE),A
+	POP	HL
+	LD	DE,TotMem
+	CALL	CorrBigNum
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+	POP	HL
+	LD	B,H
+	LD	C,L
+	LD	HL,#0000
+	LD	DE,WorkBuffer
+	SRL	B
+	RR	C
+	RR	H
+	RR	L
+	SRL	B
+	RR	C
+	RR	H
+	RR	L
+	PUSH	DE
+	CALL	ConvNumTxt32
+	SUB	A
+	LD	(DE),A
+	POP	HL
+	LD	DE,FreeMem
+	CALL	CorrBigNum
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0040
+	DEFW	#00C0,#0072
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0030,#0003
+	DEFB	#0F
+	DEFB	"System information",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0014
+	DEFB	#80
+	DEFB	"FN version:  1.10",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0020
+	DEFB	#80
+	DEFB	"BIOS version:  "
+BIOSver	DEFB	"     ",#00
+	DEFB	#01	;Text Line
+	DEFW	#000A,#002C
+	DEFB	#80
+	DEFB	"DOS version:  "
+DOSvers	DEFB	"     ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0038
+	DEFB	#80
+	DEFB	"CMOS:  "
+CMOS	DEFB	"           ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0046
+	DEFB	#80
+	DEFB	"Total memory:  "
+TotMem	DEFB	"               ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0052
+	DEFB	#80
+	DEFB	"Free memory:  "
+FreeMem	DEFB	"               ",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#0060
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0063
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+SysInfoLoop
+	LD	IX,SysInfoTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,SysInfoLoop
+	LD	A,B
+	OR	A
+	JR	NZ,SysInfoLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,SysInfoExt
+	CP	#0D
+	JR	Z,SysInfoExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,SysInfoLoop
+SysInfoExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+
+Bytes	DEFB	"bytes"
+Present
+	DEFB	"Present    "
+NotPresent
+	DEFB	"Not present"
+;[]==========================================================[]
+DiskInfoR
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	A,#C0
+	OUT	(YPORT),A
+	CALL	SetClock
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	ADD	A,"A"
+	LD	(CrDrive),A
+	LD	IX,#0000
+	LD	HL,#0000
+	LD	DE,WorkBuffer
+	LD	BC,#0105
+	SUB	"A"
+	PUSH	IY
+	RST	#18
+	POP	IY
+	JP	C,SetMouse
+	LD	HL,WorkBuffer+#2B
+	LD	DE,NoLabel
+	LD	B,11
+DiskI0	SUB	A
+	CP	(HL)
+	JR	Z,DiskI2
+	LD	A,(DE)
+	CP	(HL)
+	JR	NZ,DiskI1
+	INC	HL
+	INC	DE
+	DJNZ	DiskI0
+DiskI1	LD	HL,WorkBuffer+#2B
+	JR	NZ,$+5
+DiskI2	LD	HL,NoLabelT
+	LD	DE,Dlabel
+	LD	BC,#000B
+	LDIR 
+	LD	DE,SerialN
+	LD	A,(WorkBuffer+#2A)
+	CALL	ConvHexTxt
+	LD	A,(WorkBuffer+#29)
+	CALL	ConvHexTxt
+	INC	DE
+	LD	A,(WorkBuffer+#28)
+	CALL	ConvHexTxt
+	LD	A,(WorkBuffer+#27)
+	CALL	ConvHexTxt
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00C0,#0050
+	DEFW	#0100,#0062
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00F8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#006A,#0003
+	DEFB	#0F
+	DEFB	"Disk info",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0014
+	DEFB	#80
+	DEFB	"Current drive:  "
+CrDrive	DEFB	" ",#00
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0020
+	DEFB	#80
+	DEFB	"Total disk space:",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#002C
+	DEFB	#80
+	DEFB	"Avaliable disk space:",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0038
+	DEFB	#80
+	DEFB	"Disk label:  "
+Dlabel	DEFB	"           ",0
+	DEFB	#01	;Text Line
+	DEFW	#000A,#0044
+	DEFB	#80
+	DEFB	"Serial volume number:  "
+SerialN	DEFB	"    -    ",0
+	DEFB	#04	;UpRectan
+	DEFW	#005C,#0050
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0078,#0053
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	LD	A,#FF
+	LD	C,#03
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	DE
+	PUSH	HL
+	LD	E,A
+	LD	D,#00
+	CALL	Mult16X16
+	LD	(ClastS2+1),DE
+	LD	(ClastS1+1),HL
+	POP	BC
+	CALL	Mult32
+	EX	DE,HL
+	LD	C,E
+	LD	B,D
+	LD	DE,WorkBuffer
+	PUSH	DE
+	CALL	ConvNumTxt32
+	SUB	A
+	LD	(DE),A
+	POP	HL
+	LD	DE,WorkBuffer+#100
+	CALL	CorrBigNum
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	POP	BC
+ClastS1	LD	HL,#0000
+ClastS2	LD	DE,#0000
+	CALL	Mult32
+	EX	DE,HL
+	LD	C,E
+	LD	B,D
+	LD	DE,WorkBuffer+#80
+	PUSH	DE
+	CALL	ConvNumTxt32
+	SUB	A
+	LD	(DE),A
+	POP	HL
+	LD	DE,WorkBuffer+#180
+	CALL	CorrBigNum
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	LD	HL,Bytes
+	LD	BC,#0005
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	LD	HL,WorkBuffer+#100
+	LD	DE,#00128
+	LD	BC,#0070
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	HL,WorkBuffer+#180
+	LD	DE,#0013A
+	LD	BC,#007C
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	CALL	SetMouse
+DiskInfoLoop
+	LD	IX,DiskInfoTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,DiskInfoLoop
+	LD	A,B
+	OR	A
+	JR	NZ,DiskInfoLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,DiskInfoExt
+	CP	#0D
+	JR	Z,DiskInfoExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,DiskInfoLoop
+DiskInfoExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+NoLabel
+	DEFB	"NO NAME    "
+NoLabelT
+	DEFB	"no label   "
+ConvHexTxt
+	PUSH	AF
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	CALL	ConvHexT1
+	POP	AF
+ConvHexT1
+	AND	#0F
+	ADD	A,#90
+	DAA 
+	ADC	A,#40
+	DAA 
+	LD	(DE),A
+	INC	DE
+	RET 
+CorrBigNum
+	PUSH	HL
+	SUB	A
+	LD	C,A
+	INC	C
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-3
+	POP	HL
+	LD	A,C
+	SUB	#03
+	JR	Z,CBigNm2
+	JR	NC,$-4
+	ADD	A,#03
+	LD	B,A
+	LD	A,(HL)
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	$-4
+CBigNm1	LD	A,(HL)
+	OR	A
+	RET	Z
+	LD	A," "
+	LD	(DE),A
+	INC	DE
+CBigNm2	LDI 
+	LDI 
+	LDI 
+	JR	CBigNm1
+;[]==========================================================[]
+VersionR
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	HL,SetInvert
+	PUSH	HL
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00C0,#0040
+	DEFW	#0100,#0070
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00F8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0003
+	DEFB	#0F
+	DEFB	"Version",0
+	DEFB	#01	;Text Line
+	DEFW	#005A,#0014
+	DEFB	#80
+	DEFB	"Flex Navigator",0
+	DEFB	#01	;Text Line
+	DEFW	#005E,#0026
+	DEFB	#80
+	DEFB	"Version 1.10",0
+	DEFB	#01	;Text Line
+	DEFW	#0054,#0030
+	DEFB	#80
+	DEFB	"Februar, 3 2000",0
+	DEFB	#01	;Text Line
+	DEFW	#0050,#0042
+	DEFB	#80
+	DEFB	"Copyright (C) 2000",0
+	DEFB	#01	;Text Line
+	DEFW	#003C,#004C
+	DEFB	#80
+	DEFB	"Enin Anton, St-Petersburg",0
+	DEFB	#04	;UpRectan
+	DEFW	#005C,#005D
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0078,#0060
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	CALL	ResFire
+VersionLoop
+	LD	IX,VersionTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,VersionLoop
+	LD	A,B
+	OR	A
+	JR	NZ,VersionLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,VersionExt
+	CP	#0D
+	JR	NZ,VersionLoop
+VersionExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+
+

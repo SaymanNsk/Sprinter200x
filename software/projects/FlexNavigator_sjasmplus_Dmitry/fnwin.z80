@@ -1,0 +1,1026 @@
+
+;[]----------------------------------------------------------[]
+;    Процедура вывода окон на графический экран	640x256x16    ;
+;[]----------------------------------------------------------[]
+MakeWindow
+	EX	(SP),IY
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	PUSH	AF
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	LD	A,(IY+#00)
+	LD	(WinType),A
+	BIT	7,A
+	JR	Z,MakeWin
+	INC	IY
+	LD	HL,#0000
+	LD	(WinPositX),HL
+	LD	(WinPositY),HL
+	LD	(WinLenX),HL
+	LD	(WinLenY),HL
+	JR	MakeWn1
+MakeWin	CP	#7F
+	JR	Z,MakeWn1
+	LD	L,(IY+#01)	;Координата X
+	LD	H,(IY+#02)
+	SRL	H
+	RR	L
+	LD	(WinPositX),HL
+	LD	L,(IY+#03)	;Координата Y
+	LD	H,(IY+#04)
+	LD	(WinPositY),HL
+	LD	L,(IY+#05)	;Длина окна по X
+	LD	H,(IY+#06)
+	SRL	H
+	RR	L
+	LD	(WinLenX),HL
+	LD	L,(IY+#07)	;Длина окна по Y
+	LD	H,(IY+#08)
+	LD	(WinLenY),HL
+	LD	A,(WinType)
+	DEC	A
+	JR	NZ,MakeWn0
+	LD	HL,WinBuffer
+	LD	A,(EquipWin)
+	ADD	A,A
+	LD	C,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,C
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	DE,(WinPositX)
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	INC	HL
+	LD	DE,(WinPositY)
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	INC	HL
+	LD	DE,(WinLenX)
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	INC	HL
+	LD	DE,(WinLenY)
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	INC	HL
+	LD	DE,(WinFree)
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+MakeWn0	LD	DE,#0009
+	ADD	IY,DE		;Описатель на начало подоб'ектов
+	LD	A,(WinType)
+	OR	A
+	CALL	NZ,SaveRect
+	CALL	PutRectan	;Чертим	прямоугольник окна
+MakeWn1	LD	HL,MakeWn1
+	PUSH	HL
+	LD	A,(IY+#00)	;текущий подоб'ект окна
+	INC	IY
+	CP	#01		;текстовая строка
+	JP	Z,PutTxtLine
+	CP	#02		;место для заголовка
+	JP	Z,PutHeadPlc
+	CP	#03		;углубление в окне
+	JP	Z,PutDRectan
+	CP	#04
+	JP	Z,PutURectan
+	CP	#05
+	JP	Z,PutButton
+	CP	#06
+	JP	Z,PutHorizLine
+	CP	#07
+	JP	Z,PutVertLine
+	CP	#08
+	JP	Z,PutSBleft
+	CP	#09
+	JP	Z,PutSBright
+	CP	#0A
+	JP	Z,PutSBup
+	CP	#0B
+	JP	Z,PutSBdown
+	CP	#7F
+	JP	Z,RestRect
+	POP	HL
+	POP	AF
+	OUT	(YPORT),A	;восст.	Y port
+	POP	AF
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	EX	(SP),IY
+	RET 
+;--------------------------------------------------------------
+;Область данных	окна
+WinPositX
+	DEFW	#0000		;адрес X координаты окна
+WinPositY
+	DEFW	#0000		;Y координата окна
+WinLenX
+	DEFW	#0000		;длина окна X/2
+WinLenY
+	DEFW	#0000		;длина окна Y
+
+WinFree
+	DEFW	#0000
+EquipWin
+	DEFB	#00		;Кол-во	открытых окон
+WinType
+	DEFB	#00
+WinBuffer
+	DEFS	#40,0
+;--------------------------------------------------------------
+;Процедура сохранения прямоугольной плоскости в	буфер
+SaveRect
+	DI 
+	LD	C,#83
+	PUSH	IY
+	RST	#30
+	POP	IY
+	IN	A,(PAGE3)
+	PUSH	AF
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,(WinFree)
+	LD	A,H
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	HL,BuffPg1
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	OUT	(PAGE3),A
+	EXX 
+	LD	A,H
+	OR	#C0
+	LD	H,A
+
+	LD	DE,(WinPositX)
+	SET	6,D
+	LD	A,(WinPositY)
+	LD	HX,A
+	LD	A,(WinLenY)
+	LD	LX,A
+	LD	(SavLen1+1),A
+	LD	D,D
+SavLen1	LD	A,#00
+	LD	B,B
+
+	LD	BC,(WinLenX)
+SavRect	PUSH	BC
+	LD	B,#00
+	LD	C,LX
+	PUSH	HL
+	ADC	HL,BC
+	POP	HL
+	JR	Z,$+4
+	JR	NC,SavRec1
+	LD	HL,#C000
+	EXX 
+	INC	HL
+	LD	A,(HL)
+	OUT	(PAGE3),A
+	EXX 
+SavRec1	LD	A,HX
+	OUT	(YPORT),A
+	LD	A,A
+	LD	A,(DE)
+	LD	B,B
+	LD	L,L
+	LD	(HL),A
+	LD	B,B
+	ADD	HL,BC
+	POP	BC
+	INC	DE
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,SavRect
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	POP	AF
+	OUT	(PAGE3),A
+	LD	A,H
+	AND	#3F
+	LD	H,A
+	EXX 
+	LD	A,L
+	SUB	low BuffPg1
+	EXX 
+	RRCA 
+	RRCA 
+	OR	H
+	LD	H,A
+	LD	(WinFree),HL
+	LD	HL,EquipWin
+	INC	(HL)
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура восстановления прямоугольной	плоскости
+RestRect
+	LD	HL,EquipWin
+	LD	A,(HL)
+	OR	A
+	RET	Z
+	DEC	(HL)
+	HALT 
+	DI 
+	LD	C,#83
+	PUSH	IY
+	RST	#30
+	POP	IY
+	IN	A,(PAGE3)
+	PUSH	AF
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,WinBuffer
+	LD	A,(EquipWin)
+	ADD	A,A
+	LD	C,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,C
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	INC	HL
+	SET	6,D
+	LD	A,(HL)
+	INC	HL
+	INC	HL
+	LD	HX,A
+	LD	C,(HL)
+	INC	HL
+	LD	B,(HL)
+	INC	HL
+	LD	A,(HL)
+	INC	HL
+	INC	HL
+	LD	(RstLen1+1),A
+	LD	LX,A
+	LD	A,(HL)
+	INC	HL
+	LD	H,(HL)
+	LD	L,A
+	LD	(WinFree),HL
+	LD	A,H
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	HL,BuffPg1
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	OUT	(PAGE3),A
+	EXX 
+	LD	A,H
+	OR	#C0
+	LD	H,A
+
+	LD	D,D
+RstLen1	LD	A,#00
+	LD	B,B
+
+RstRect	PUSH	BC
+	LD	B,#00
+	LD	C,LX
+	PUSH	HL
+	ADC	HL,BC
+	POP	HL
+	JR	Z,$+4
+	JR	NC,RstRec1
+	LD	HL,#C000
+	EXX 
+	INC	HL
+	LD	A,(HL)
+	OUT	(PAGE3),A
+	EXX 
+RstRec1	LD	L,L
+	LD	A,(HL)
+	LD	B,B
+	LD	A,HX
+	OUT	(YPORT),A
+	LD	A,A
+	LD	(DE),A
+	LD	B,B
+	ADD	HL,BC
+	POP	BC
+	INC	DE
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,RstRect
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	POP	AF
+	OUT	(PAGE3),A
+	RET 
+;[]==========================================================[]
+;Процедура черчения прямоугольной площади окна
+PutRectan
+	HALT 
+	DI 
+	LD	C,#83
+	PUSH	IY
+	RST	#30
+	POP	IY
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,(WinPositX)	;поз. окна
+	SET	6,H
+	LD	A,(WinLenY)	;длина окна -(подсветка+тень)
+	SUB	#02
+	LD	(TmpLen1+1),A
+	LD	A,(WinPositY)
+	LD	D,A
+	OUT	(YPORT),A
+	LD	E,#FF
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	BC,(WinLenX)
+	DEC	BC
+	DEC	BC
+	LD	D,D
+TmpLen1	LD	A,#00
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),#F7
+	INC	HL
+	LD	E,#88
+PtRect1	LD	A,D
+	OUT	(YPORT),A
+	LD	(HL),#FF
+	INC	A
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),#77
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,PtRect1
+	LD	A,D
+	OUT	(YPORT),A
+	LD	(HL),#F7
+	INC	A
+	OUT	(YPORT),A
+	LD	E,#77
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),E
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutTxtLine
+	LD	HL,(WinPositX)
+	SLA	L
+	RL	H
+	LD	E,(IY+#00)	;Xpos
+	INC	IY
+	LD	D,(IY+#00)
+	INC	IY
+	ADD	HL,DE
+	EX	DE,HL
+	LD	HL,(WinPositY)
+	LD	C,(IY+#00)	;Ypos
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	ADD	HL,BC
+	LD	C,L
+	LD	B,H
+	LD	A,(IY+#00)	;Color
+	INC	IY
+	PUSH	IY
+	POP	HL
+	CALL	PrnTxtLnIFF
+	PUSH	HL
+	POP	IY
+	RET 
+;[]===========================================================[]
+PutHeadPlc
+	DI 
+	LD	C,#83
+	PUSH	IY
+	RST	#30
+	POP	IY
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	LX,A
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	LD	A,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	(TmpLen2+1),A
+	LD	A,(IY+#00)
+	AND	#0F
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	(IY+#00)
+	LD	D,A
+	INC	IY
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	D,D
+TmpLen2	LD	A,#00
+	LD	B,B
+PtHead1	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),D
+	LD	B,B
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,PtHead1
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutDRectan
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	LX,A
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	DEC	BC
+	LD	A,C
+	DEC	A
+	LD	(TmpLen4+1),A
+	LD	A,(IY+#00)
+	INC	IY
+	INC	IY
+	SUB	#02
+	LD	(TmpLen3+1),A
+	ADD	A,LX
+	INC	A
+	LD	HX,A
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	D,D
+TmpLen3	LD	A,#00
+	LD	B,B
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#77
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),#7F
+	PUSH	HL
+	ADD	HL,BC
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#FF
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),E
+	POP	HL
+	INC	HL
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#77
+	LD	D,D
+TmpLen4	LD	A,#00
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	LD	A,HX
+	OUT	(YPORT),A
+	LD	E,#FF
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutURectan
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	LX,A
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	DEC	BC
+	LD	A,C
+	DEC	A
+	LD	(TmpLen6+1),A
+	LD	A,(IY+#00)
+	INC	IY
+	INC	IY
+	SUB	#02
+	LD	(TmpLen5+1),A
+	ADD	A,LX
+	INC	A
+	LD	HX,A
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	D,D
+TmpLen5	LD	A,#00
+	LD	B,B
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#FF
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),#F7
+	PUSH	HL
+	ADD	HL,BC
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#77
+	LD	(HL),E
+	INC	A
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	LD	(HL),E
+	POP	HL
+	INC	HL
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,#FF
+	LD	D,D
+TmpLen6	LD	A,#00
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	LD	A,HX
+	OUT	(YPORT),A
+	LD	E,#77
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutButton
+	LD	HL,(WinPositX)
+	SLA	L
+	RL	H
+	LD	E,(IY+#00)	;Xpos
+	LD	D,(IY+#01)
+	ADD	HL,DE
+	INC	HL
+	INC	HL
+	INC	HL
+	INC	HL
+	EX	DE,HL
+	LD	HL,(WinPositY)
+	LD	C,(IY+#02)	;Ypos
+	LD	B,(IY+#03)
+	ADD	HL,BC
+	INC	HL
+	LD	C,L
+	LD	B,H
+	PUSH	DE
+	PUSH	BC
+	CALL	PutURectan
+	POP	BC
+	POP	DE
+	LD	A,(IY+#00)	;Color
+	INC	IY
+	PUSH	IY
+	POP	HL
+	CALL	PrnTxtLnIFF
+	PUSH	HL
+	POP	IY
+	RET 
+;[]===========================================================[]
+PutHorizLine
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	LX,A
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	LD	E,#77
+	PUSH	HL
+	CALL	HorizLn
+	POP	HL
+	INC	LX
+	LD	E,#FF
+HorizLn	DI 
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	A,B
+	OR	A
+	JR	Z,HorLn1
+	LD	D,D
+TmpLen7	LD	A,#00
+	LD	B,B
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	INC	H
+HorLn1	LD	A,C
+	LD	(TmpLen8+1),A
+	LD	D,D
+TmpLen8	LD	A,#00
+	LD	B,B
+	LD	C,C
+	LD	(HL),E
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutVertLine
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	LX,A
+	LD	A,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	(TmpLen9+1),A
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	DE,#77FF
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	D,D
+TmpLen9	LD	A,#00
+	LD	E,E
+	LD	(HL),D
+	LD	B,B
+	INC	HL
+	LD	A,LX
+	OUT	(YPORT),A
+	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]===========================================================[]
+PutSBleft
+	LD	HL,SBleft
+	JR	PutSButton
+PutSBright
+	LD	HL,SBright
+	JR	PutSButton
+PutSBup
+	LD	HL,SBup
+	JR	PutSButton
+PutSBdown
+	LD	HL,SBdown
+PutSButton
+	EX	DE,HL
+	LD	HL,(WinPositX)
+	SET	6,H
+	LD	C,(IY+#00)
+	INC	IY
+	LD	B,(IY+#00)
+	INC	IY
+	SRL	B
+	RR	C
+	ADD	HL,BC
+	EX	DE,HL
+	LD	C,(IY+#00)
+	INC	IY
+	INC	IY
+	LD	A,(WinPositY)
+	ADD	A,C
+	LD	C,A
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	DI 
+	LD	D,D
+	LD	A,#08
+	LD	B,B
+	LD	B,#08
+PutSBlp	PUSH	BC
+	LD	A,C
+	OUT	(YPORT),A
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	LD	BC,#0008
+	ADD	HL,BC
+	POP	BC
+	INC	C
+	DJNZ	PutSBlp
+	EI 
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+
+SBleft	DEFB	#FF,#FF,#FF,#FF,#FF,#FF,#FF,#77
+	DEFB	#FF,#88,#88,#88,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#80,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#80,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#88,#08,#88,#88,#77
+	DEFB	#FF,#77,#77,#77,#77,#77,#77,#77
+
+SBright	DEFB	#FF,#FF,#FF,#FF,#FF,#FF,#FF,#77
+	DEFB	#FF,#88,#88,#08,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#08,#88,#88,#88,#77
+	DEFB	#FF,#77,#77,#77,#77,#77,#77,#77
+
+SBup	DEFB	#FF,#FF,#FF,#FF,#FF,#FF,#FF,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#80,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#00,#00,#88,#88,#77
+	DEFB	#FF,#88,#00,#00,#00,#00,#88,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#77,#77,#77,#77,#77,#77,#77
+
+SBdown	DEFB	#FF,#FF,#FF,#FF,#FF,#FF,#FF,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#88,#00,#00,#00,#00,#88,#77
+	DEFB	#FF,#88,#88,#00,#00,#88,#88,#77
+	DEFB	#FF,#88,#88,#80,#08,#88,#88,#77
+	DEFB	#FF,#88,#88,#88,#88,#88,#88,#77
+	DEFB	#FF,#77,#77,#77,#77,#77,#77,#77
+;[]----------------------------------------------------------[]
+;Процедура инвертирования прямоугольной	плоскости
+;На вход:
+;	 HL - X	координата
+;	 BC - Y	координата
+;	 HX - длина Y
+;	 LX - длина X
+;	 D  - текущий цвет
+;	 E  - нужный цвет
+InvertRectan
+	PUSH	IY
+	IN	A,(YPORT)	;Сохраняем Y порт
+	PUSH	AF
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	LY,C
+	LD	C,HX
+	LD	B,LX
+	SRL	H
+	RR	L
+	SET	6,H
+	LD	LX,E
+	LD	HX,D
+	LD	A,D
+	AND	#F0
+	LD	HY,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	OR	HY
+	LD	D,A
+	AND	#0F
+	LD	HY,A
+	LD	E,HX
+	LD	A,E
+	AND	#0F
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	HY
+	LD	HX,A
+	EXX 
+	LD	A,LX
+	AND	#F0
+	LD	HY,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	OR	HY
+	LD	D,A
+	AND	#0F
+	LD	HY,A
+	LD	E,LX
+	LD	A,E
+	AND	#0F
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	HY
+	LD	B,A
+	AND	#F0
+	LD	HY,A
+	RRCA 
+	RRCA 
+	RRCA 
+	RRCA 
+	OR	HY
+	LD	C,A
+	EXX 
+PrnInvLp
+	LD	A,LY
+	OUT	(YPORT),A
+	PUSH	HL
+	EXX 
+	POP	HL
+	EXX 
+	PUSH	HL
+	PUSH	BC
+	CALL	InvLnLp
+	POP	BC
+	POP	HL
+	INC	LY
+	DEC	C
+	JR	NZ,PrnInvLp
+	POP	AF
+	OUT	(PAGE1),A
+	POP	AF
+	OUT	(YPORT),A
+	POP	IY
+	RET 
+
+InvLnLp	LD	A,(HL)
+	INC	HL
+	CP	D
+	JR	NZ,CmpInv2
+	EXX 
+	LD	(HL),D
+	INC	HL
+	EXX 
+	DJNZ	InvLnLp
+	RET 
+CmpInv2	CP	E
+	JR	NZ,CmpInv3
+	EXX 
+	LD	(HL),E
+	INC	HL
+	EXX 
+	DJNZ	InvLnLp
+	RET 
+CmpInv3	CP	HX
+	JR	NZ,SetInv4
+	EXX 
+	LD	(HL),B
+	INC	HL
+	EXX 
+	DJNZ	InvLnLp
+	RET 
+SetInv4	EXX 
+	LD	(HL),C
+	INC	HL
+	EXX 
+	DJNZ	InvLnLp
+	RET 
+
+

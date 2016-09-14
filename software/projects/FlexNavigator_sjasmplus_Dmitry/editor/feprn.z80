@@ -1,0 +1,337 @@
+
+;[]==========================================================[]
+PrintFile
+	CALL	ResCursor
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A8,#0060
+	DEFW	#0130,#0032
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0128,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0084,#0003
+	DEFB	#0F
+	DEFB	"Print file",0
+	DEFB	#03	;Углубление
+	DEFW	#0010,#0010
+	DEFW	#0110,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#0011
+	DEFW	#010C,#000A
+	DEFB	#0F
+	DEFB	#04	;UpRectan
+	DEFW	#0074,#0020
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#008C,#0023
+	DEFB	#80
+	DEFB	"Stop",0
+	DEFB	#00
+	LD	IX,PrintTab
+	CALL	TestCoords
+	LD	IX,ProcessPrn
+	LD	HL,(FileLenght)
+	LD	A,L
+	LD	L,H
+	LD	H,#00
+	OR	A
+	JR	Z,InitPrn
+	INC	HL
+InitPrn	LD	(IX+ProcMAXl1),L
+	LD	(IX+ProcMAXh1),H
+	LD	(IX+ProcMAXl2),#00
+	LD	(IX+ProcMAXh2),#00
+	CALL	InitProcess
+	LD	A,(EditMode)
+	OR	A
+	JP	NZ,PrintHEX
+PrintASCII
+	LD	HL,#0000
+	LD	(TempShift),HL
+	LD	HL,(FileLenght)
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	DE,(TempShift)
+	LD	A,D		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+PrnASCII
+	BIT	7,D
+	JR	Z,PrnASC
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PrnASC	LD	A,(DE)
+	INC	DE
+	CALL	PrintCHAR
+	JR	C,PrnASCIIext
+	CALL	NxtPrnProc
+	DEC	HL
+	LD	A,H
+	OR	L
+	JR	NZ,PrnASCII
+	LD	DE,#0000
+	CALL	NxtPrnProc
+	HALT 
+	HALT 
+PrnASCIIext
+	POP	AF
+	OUT	(PAGE1),A
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+PrintHEX
+	LD	HL,#0000
+	LD	(TempShift),HL
+	LD	HL,LineBuffer
+	LD	BC,#4E20
+	LD	(HL),C
+	INC	L
+	DJNZ	$-2
+PrintHEXlp
+	CALL	PrnHEXline
+	JR	C,PrintHEXext
+	LD	HL,(TempShift)
+	LD	DE,#0010	;Адрес дампа+16
+	ADD	HL,DE
+	LD	(TempShift),HL
+	JR	PrintHEXlp
+PrintHEXext
+	OR	A
+	JR	NZ,PrnHEXe
+	LD	DE,#0000
+	CALL	NxtPrnProc
+	HALT 
+	HALT 
+PrnHEXe	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+PrnHEXline
+	LD	LX,#00
+	LD	HX,B
+	LD	HL,(FileLenght)
+	LD	BC,(TempShift)
+	OR	A
+	SBC	HL,BC
+	LD	A,#00
+	RET	C
+	LD	B,#10
+	LD	A,H
+	OR	A
+	JR	NZ,PrnHLn
+	LD	A,L
+	CP	B
+	JR	NC,PrnHLn
+	LD	B,L
+
+PrnHLn	IN	A,(PAGE1)
+	PUSH	AF
+	LD	DE,(TempShift)
+	LD	A,D		;Выделяем номер	страницы
+	AND	#C0
+	RLCA 
+	RLCA 
+	EXX 
+	LD	E,A		;DE - Адрес страницы в списке
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+	RES	7,D		;Вкл.с #4000
+	SET	6,D
+	LD	HL,LineBuffer+1	;буфер строки
+	EXX 
+	LD	HL,LineBuffer+#3D ;место для ASCII кодов
+	EXX 
+	LD	(HL),"0"
+	INC	L
+	LD	A,(TempShift+1)
+	CALL	PutHexNumb
+	LD	A,(TempShift)
+	CALL	PutHexNumb
+	LD	(HL),":"
+	INC	L
+	INC	L
+	INC	L
+	LD	A,B
+	OR	A
+	JR	Z,PrnHLp2
+PrnHLoop
+	BIT	7,D
+	JR	Z,PrnHLp1
+	RES	7,D
+	SET	6,D
+	EXX 
+	INC	E		;DE - Адрес страницы в списке
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	EXX 
+PrnHLp1	LD	A,(DE)
+	INC	DE
+	EXX 
+	CP	#20
+	JR	NC,$+4
+	LD	A,"."
+	LD	(HL),A
+	INC	L
+	EXX 
+	CALL	PutHexNumb	;Процедура конверта
+	INC	L
+	INC	LX		;Увелич.кол-во введенных байтов
+	LD	A,LX
+	AND	#03
+	JR	NZ,$+3
+	INC	L
+	DJNZ	PrnHLoop
+PrnHLp2	POP	AF
+	OUT	(PAGE1),A
+;Процедура отчистки закончившихся байтов
+FillHeP	LD	A,#10		;Макс.байтов
+	SUB	LX		;Тек.кол-во байтов
+	JR	Z,FillP2
+	LD	B,A
+	LD	C,#20
+FillP1	LD	(HL),C
+	INC	L
+	LD	(HL),C
+	INC	L
+	INC	L
+	EXX 
+	LD	(HL),#20
+	INC	L
+	EXX 
+	INC	LX
+	LD	A,LX		;В центре 2 пробела
+	AND	#03
+	JR	NZ,$+3
+	INC	L
+	DJNZ	FillP1
+FillP2	LD	HL,LineBuffer
+	LD	B,#4E
+PrnHEX	LD	A,(HL)
+	INC	HL
+	CALL	PrintCHAR
+	LD	A,#01
+	RET	C
+	DJNZ	PrnHEX
+	LD	A,#0D
+	CALL	PrintCHAR
+	RET	C
+	LD	A,#0A
+	CALL	PrintCHAR
+	RET 
+PrintCHAR
+	LD	LX,A
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	JR	Z,PrnCH1
+	LD	IX,PrintTab
+	CALL	TestCoords
+	JR	C,PrnCH2
+PrnCH1	LD	C,#31
+	RST	#10
+	LD	A,E
+PrnCH2	POP	DE
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	RET	C
+	JR	Z,PrnCHAR
+	CP	#1B
+	SCF 
+	RET	Z
+	RES	5,A
+	CP	"S"
+	JR	NZ,PrnCHAR
+StopPrint
+	SCF 
+	RET 
+PrnCHAR	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	A,LX
+	LD	C,#5F
+	RST	#10
+	POP	DE
+	LD	A,B
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	RET	NC
+	HALT 
+	JR	PrintCHAR
+PrintTab
+	DEFW #011C,#0164,#0080,#008E,#01,#0000,StopPrint,#0000
+	DEFW #8000
+NxtPrnProc
+	LD	A,E
+	OR	A
+	RET	NZ
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	EXX 
+	PUSH	DE
+	LD	IX,ProcessPrn
+	LD	L,(IX+ProcCURl1)
+	LD	H,(IX+ProcCURh1)
+	INC	HL
+	LD	(IX+ProcCURl1),L
+	LD	(IX+ProcCURh1),H
+	LD	A,H
+	OR	L
+	JR	NZ,NxtProc
+	LD	L,(IX+ProcCURl2)
+	LD	H,(IX+ProcCURh2)
+	INC	HL
+	LD	(IX+ProcCURl2),L
+	LD	(IX+ProcCURh2),H
+NxtProc	CALL	PrnProcess
+	POP	DE
+	EXX 
+	POP	BC
+	POP	DE
+	POP	HL
+	RET 
+ProcessPrn
+	DEFW	#00BA
+	DEFW	#0071
+	DEFW	#010C
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFB	#4F
+
+

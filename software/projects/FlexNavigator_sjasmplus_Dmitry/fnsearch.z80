@@ -1,0 +1,396 @@
+
+;[]==========================================================[]
+QSearchR
+	LD	A,(IY+PanelEFl)
+	OR	(IY+PanelEFh)
+	RET	Z
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	HL,SearchN
+	LD	B,#0C
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	(SrchLen),A
+	LD	L,(IY+PanelXl)
+	LD	H,(IY+PanelXh)
+	LD	DE,#000A
+	ADD	HL,DE
+	LD	(SrchX1),HL
+	LD	DE,#0034
+	ADD	HL,DE
+	LD	(SrchX2),HL
+	LD	HL,#00E0
+	BIT	1,(IY+ViewFlg)
+	JR	Z,$+5
+	LD	HL,#00D0
+	LD	(SrchY1),HL
+	LD	DE,#0007
+	ADD	HL,DE
+	LD	(SrchY2),HL
+	CALL	MakeWindow
+	DEFB	#01
+SrchX1	DEFW	#0000
+SrchY1	DEFW	#0000
+	DEFW	#00A6,#0014
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0007
+	DEFB	#80
+	DEFB	"Search:",0
+	DEFB	#03	;”глубление
+	DEFW	#0030,#0004
+	DEFW	#006C,#000C
+	DEFB	#02	;Head place
+	DEFW	#0032,#0005
+	DEFW	#0068,#000A
+	DEFB	#0F
+	DEFB	#00
+	LD	IX,SearchStr
+	LD	(InpLnData),IX
+	SUB	A
+	LD	(IX+#02),A
+	LD	(IX+#03),A
+	LD	(IX+#04),A
+	CALL	InsInpLnCol
+	CALL	PrintInpLn+3
+SearchInpLp
+	HALT 
+	CALL	ChCursor
+	CALL	TestCMOS
+	LD	C,#03
+	RST	#30
+	OR	A
+	JP	NZ,SearchExit
+	LD	C,#31
+	RST	#10
+	JR	Z,SearchInpLp
+
+	RES	7,D
+	BIT	5,B		;Ctrl
+	JR	NZ,SearchInpLp
+
+	LD	IX,SearchTab
+	BIT	4,B		;Alt
+	JR	Z,Search1
+	LD	A,D
+	OR	A
+	JR	Z,SearchInpLp
+	CP	#36
+	JR	NC,SearchInpLp
+
+	LD	HL,AltTable
+	DEC	A
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	BIT	0,C
+	CALL	NZ,CorrSmallChar
+	LD	E,A
+
+Search1	LD	A,(IX+#00)
+	INC	IX
+	CP	#FF
+	JR	Z,SearchInpLp1
+	LD	L,A
+	LD	H,(IX+#00)
+	INC	IX
+	LD	C,(IX+#00)
+	INC	IX
+	LD	B,(IX+#00)
+	INC	IX
+	OR	A
+	SBC	HL,DE
+	JR	NZ,Search1
+	LD	IX,(InpLnData)
+	LD	HL,SearchInpLp
+	PUSH	HL
+	PUSH	BC
+	RET 
+SearchInpLp1
+	LD	IX,(InpLnData)
+	LD	HL,SearchInpLp
+	PUSH	HL
+	LD	A,E
+	JR	InsSymbolSrch
+SearchTab
+	DEFW	#011B,SrchExit
+	DEFW	#280D,SrchExit
+	DEFW	#0E08,QSdelet
+	DEFB	#FF
+InsSymbolSrch
+	CP	#20
+	RET	C
+	EX	AF,AF'
+	LD	A,(IX+#04)	;InpytSymb
+	SUB	(IX+#00)	;Max len
+	RET	NC
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	JR	Z,NotInsSrch
+	LD	C,A
+	LD	B,#00
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#04)
+	ADD	HL,DE
+	LD	E,L
+	LD	D,H
+	DEC	HL
+	LDDR 
+NotInsSrch
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	EX	AF,AF'
+	LD	(HL),A
+	INC	(IX+#04)
+	INC	(IX+#02)
+	CALL	SearchFile
+	JP	C,ILdelet
+FoundSFile
+	PUSH	HL
+	CALL	PrintInpLn
+	POP	HL
+	EX	DE,HL
+	LD	L,(IY+PanelCFl)
+	LD	H,(IY+PanelCFh)
+	LD	C,(IY+PanelFFl)
+	LD	B,(IY+PanelFFh)
+	ADD	HL,BC
+	SBC	HL,DE
+	EX	DE,HL
+	RET	Z
+	PUSH	HL
+	CALL	ResInvert
+	POP	HL
+	LD	C,(IY+PanelFPl)
+	LD	B,(IY+PanelFPh)
+	LD	DE,#0000
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	JR	NC,$-6
+	ADD	HL,BC
+	LD	(IY+PanelCFl),L
+	LD	(IY+PanelCFh),H
+	LD	C,(IY+PanelFFl)
+	LD	B,(IY+PanelFFh)
+	LD	(IY+PanelFFl),E
+	LD	(IY+PanelFFh),D
+	EX	DE,HL
+	OR	A
+	SBC	HL,BC
+	CALL	NZ,PrintDIR
+	CALL	SetInvert
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+	RET 
+
+QSdelet	LD	A,(IX+#02)
+	OR	A
+	RET	Z
+	PUSH	IX
+	POP	HL
+	LD	DE,LenInpData
+	ADD	HL,DE
+	LD	E,(IX+#02)
+	ADD	HL,DE
+	LD	E,L
+	LD	D,H
+	DEC	DE
+	LD	A,(IX+#04)
+	SUB	(IX+#02)
+	JR	Z,QSDel1
+	LD	C,A
+	LD	B,#00
+	LDIR 
+	SUB	A
+QSDel1	LD	(DE),A
+	DEC	(IX+#02)
+	DEC	(IX+#04)
+	CALL	SearchFile
+	JP	NC,FoundSFile
+	CALL	PrintInpLn
+	RET 
+
+SearchStr
+	DEFB	#0C,#00,#00,#00
+SrchLen	DEFB	#03
+SrchX2	DEFW	#0000
+SrchY2	DEFW	#0000
+	DEFW	#0064
+	DEFB	#F0
+SearchN	DEFS	13,0
+
+AltTable
+	DEFB	#1B,"1234567890-=",#08,#09,"qwertyuiop[]"
+	DEFB	#00,"asdfghjkl;'",#0D,#00,"zxcvbnm,./",#00,"\\"
+
+SearchFile
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,SearchFileT		;Tree
+	PUSH	IX
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	IX,#0000
+	LD	HL,#C001
+	LD	BC,#0018
+SearchFlp
+	LD	DE,SearchN
+	LD	A,(DE)
+	CALL	CorrBigChar
+	CP	(HL)
+	JR	Z,SrchF1
+	CALL	CorrSmallChar
+	CP	(HL)
+	JR	NZ,SearchFnxt
+SrchF1	PUSH	HL
+	PUSH	DE
+	LD	DE,WorkBuffer
+	PUSH	DE
+	CALL	MakeDOSname
+	POP	HL
+	POP	DE
+SrchF2	INC	DE
+	LD	A,(DE)
+	OR	A
+	JR	Z,SearchFexit
+	INC	HL
+	LD	A,(HL)
+	OR	A
+	JR	Z,SearchFnx0
+	LD	A,(DE)
+	CALL	CorrBigChar
+	CP	(HL)
+	JR	Z,SrchF2
+	CALL	CorrSmallChar
+	CP	(HL)
+	JR	Z,SrchF2
+SearchFnx0
+	POP	HL
+	LD	BC,#0018
+SearchFnxt
+	ADD	HL,BC
+	INC	IX
+	LD	A,(HL)
+	OR	A
+	JR	NZ,SearchFlp
+	POP	AF
+	OUT	(PAGE3),A
+	POP	IX
+	SCF 
+	RET 
+SearchFexit
+	INC	SP
+	INC	SP
+	POP	AF
+	OUT	(PAGE3),A
+	PUSH	IX
+	POP	HL
+	POP	IX
+	OR	A
+	RET 
+
+SearchFileT
+	PUSH	IX
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	IX,#0000
+	LD	HL,#C002
+	LD	BC,#000D
+SearchTlp
+	LD	DE,SearchN
+	LD	A,(DE)
+	CALL	CorrBigChar
+	CP	(HL)
+	JR	Z,SrchT1
+	CALL	CorrSmallChar
+	CP	(HL)
+	JR	NZ,SearchTnxt
+SrchT1	PUSH	HL
+SrchT2	INC	DE
+	LD	A,(DE)
+	OR	A
+	JR	Z,SearchTexit
+	INC	HL
+	LD	A,(HL)
+	OR	A
+	JR	Z,SearchTnx0
+	LD	A,(DE)
+	CALL	CorrBigChar
+	CP	(HL)
+	JR	Z,SrchT2
+	CALL	CorrSmallChar
+	CP	(HL)
+	JR	Z,SrchT2
+SearchTnx0
+	POP	HL
+SearchTnxt
+	ADD	HL,BC
+	INC	IX
+	LD	A,(HL)
+	INC	HL
+	INC	HL
+	INC	HL
+	INC	A
+	JR	NZ,SearchTlp
+	POP	AF
+	OUT	(PAGE3),A
+	POP	IX
+	SCF 
+	RET 
+SearchTexit
+	INC	SP
+	INC	SP
+	POP	AF
+	OUT	(PAGE3),A
+	PUSH	IX
+	POP	HL
+	POP	IX
+	OR	A
+	RET 
+
+SrchExit
+	POP	HL
+SearchExit
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	BIT	1,(IY+ViewFlg)
+	CALL	NZ,TestTreeBeg
+	RET 
+
+

@@ -1,0 +1,104 @@
+
+;[]----------------------------------------------------------[]
+	JP	ClearScreen
+	JP	MakeWindow
+	JP	InvertRectan
+	JP	PrnTxtLnIFF
+	JP	PrnTxtLnNorm
+	JP	PrnTxtLnNormC
+	JP	PrnRangPathL
+	JP	PrnRangPathR
+	JP	PrnRangPathC
+	JP	InputLine
+	JP	InpLnExtN
+	JP	InpLnExtC
+	DEFS	03,#C9
+	JP	InitScrBar
+	JP	PrnHScrBar
+	JP	PrnVScrBar
+	JP	InitProcess
+	JP	PrnProcess
+	DEFS	15,#C9
+	JP	ResFire
+	JP	TestCoords
+	JP	SetCMOSPrint
+	JP	ResCMOSPrint
+	JP	SetClock
+	JP	SetMouse
+	DEFS	15,#C9
+	JP	MoveBytes
+	JP	MoveBytesUp
+	JP	Mult8
+	JP	Mult16X8
+	JP	Mult16
+	JP	Mult16X16
+	JP	Mult32
+	JP	Divis16X16
+	JP	Divis24X16
+	JP	Divis32X16
+	JP	Divis32
+	JP	ConvNumTxt32
+	JP	ConvNumTxt16
+	JP	ConvNumTxt8
+	JP	ConvTxtNum32
+	JP	ConvTxtNum16
+	JP	Resident
+	DEFS	12,#C9
+DOSError
+	EX	AF,AF'
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,(FunctPg)
+	OUT	(PAGE1),A
+	EX	AF,AF'
+	CALL	DOSErrorR
+	EX	AF,AF'
+	POP	AF
+	OUT	(PAGE1),A
+	EX	AF,AF'
+	RET 
+;[]----------------------------------------------------------[]
+;Процедура отчиски 0 экрана
+;На вход:  A - цвет отчистки (00-0Fh)
+ClearScreen
+	AND	#0F
+	LD	E,A
+	RLCA 
+	RLCA 
+	RLCA 
+	RLCA 
+	OR	E
+	LD	E,A
+	IN	A,(YPORT)
+	LD	C,A
+	IN	A,(PAGE1)
+	LD	B,A
+	PUSH	BC
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,#4000
+	LD	BC,320
+	DI 
+	EXX 
+	LD	C,#83
+	RST	#30
+	EXX 
+	LD	D,D
+	LD	A,#00
+InScrLp	LD	E,E
+	LD	(HL),E
+	LD	B,B
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,InScrLp
+	EI 
+	POP	BC
+	LD	A,B
+	OUT	(PAGE1),A
+	LD	A,C
+	OUT	(YPORT),A
+	RET 
+
+

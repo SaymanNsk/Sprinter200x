@@ -1,0 +1,216 @@
+
+;[]==========================================================[]
+InitExtention
+	LD	HL,ExtName1
+	LD	DE,fn_ext
+	CALL	InitExt
+	LD	HL,ExtName2
+	LD	DE,fnview_ext
+	CALL	InitExt
+	LD	HL,ExtName3
+	LD	DE,fnedit_ext
+	CALL	InitExt
+	RET 
+ExtName1
+	DEFB	"fn.ext",0
+ExtName2
+	DEFB	"fnview.ext",0
+ExtName3
+	DEFB	"fnedit.ext",0
+;[]----------------------------------------------------------[]
+InitExt
+	LD	(EXTdata+1),DE
+	LD	C,#11
+	LD	A,#01
+	RST	#10
+	RET	C
+	LD	(ExtHandle),A
+	LD	HL,WorkBuffer
+	LD	DE,#0400
+	LD	C,#13
+	RST	#10
+	RET	C
+	OR	A
+	RET	P
+	LD	A,(ExtHandle)
+	LD	C,#12
+	PUSH	DE
+	RST	#10
+	POP	BC
+	LD	HL,WorkBuffer
+EXTdata	LD	DE,#0000
+	EXX 
+	LD	BC,#03FE
+	EXX 
+InExt1	CALL	InitExtLine
+	JR	NC,InExt1
+	RET 
+ExtHandle
+	DEFB	#00
+InitExtLine
+	LD	(InExtSv+1),DE
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	EXX 
+	DEC	BC
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	EXX 
+	DEC	BC
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	DEC	HL
+	INC	BC
+	LD	LX,#04
+InExtL1	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	EXX 
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	INC	HL
+	DEC	BC
+	LD	A,(HL)
+	CP	#20
+	JR	C,InExtEnd
+	CP	"`"
+	JR	Z,InExtEnd
+	CP	":"
+	JR	Z,InExtL2
+	CP	"*"
+	JR	NZ,InExL12
+InExL11	LD	A,"?"
+	LD	(DE),A
+	INC	DE
+	DEC	LX
+	LD	A,LX
+	DEC	A
+	JR	Z,InExtL1
+	EXX 
+	DEC	BC
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	JR	InExL11
+InExL12	LD	(DE),A
+	INC	DE
+	EXX 
+	DEC	BC
+	EXX 
+	DEC	LX
+	JR	NZ,InExtL1
+InExtEnd
+	LD	DE,(InExtSv+1)
+InExtE1	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	LD	A,(HL)
+	INC	HL
+	DEC	BC
+	CP	#0D
+	JR	NZ,InExtE1
+	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	RET	NZ
+	SCF 
+	RET 
+InExtL2
+	DEC	LX
+	JR	Z,InExtL4
+InExtL3	EXX 
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	INC	DE
+	EXX 
+	DEC	BC
+	EXX 
+	DEC	LX
+	JR	NZ,InExtL3
+InExtL4
+	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	EXX 
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	INC	HL
+	DEC	BC
+	LD	A,(HL)
+	CP	#0D
+	JR	Z,InExtEnd
+	CP	#09
+	JR	Z,InExtL4
+	CP	#20
+	JR	Z,InExtL4
+	JR	C,InExtEnd
+	LD	(DE),A
+	INC	DE
+	EXX 
+	DEC	BC
+	EXX 
+InExtL5	LD	A,B
+	OR	C
+	SCF 
+	RET	Z
+	EXX 
+	LD	A,B
+	OR	C
+	SCF 
+	EXX 
+	RET	Z
+	INC	HL
+	DEC	BC
+	LD	A,(HL)
+	CP	#0D
+	JR	Z,InExtL6
+	CP	#20
+	JR	C,InExtEnd
+	LD	(DE),A
+	INC	DE
+	EXX 
+	DEC	BC
+	EXX 
+	JR	InExtL5
+InExtL6
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	PUSH	HL
+InExtSv	LD	HL,#0000
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	POP	HL
+	JR	InExtE1
+
+

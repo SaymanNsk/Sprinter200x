@@ -1,0 +1,590 @@
+
+;[]==========================================================[]
+LoadFile
+	CALL	SetClock
+	LD	DE,EditingFile
+	LD	BC,#0119
+	LD	A,#37
+	PUSH	HL
+	RST	#10
+	POP	HL
+	JP	C,NewFile
+	LD	HL,EditingFile+33
+	LD	A,(HL)
+LoadFl0	CALL	CorrBigChar
+	LD	(HL),A
+	INC	HL
+	LD	A,(HL)
+	OR	A
+	JR	NZ,LoadFl0
+	LD	IX,EditingFile
+	LD	L,(IX+28)
+	LD	H,(IX+29)
+	LD	A,H
+	AND	#C0
+	CP	#C0
+	LD	A,#1E
+	PUSH	AF
+	CALL	Z,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	SCF 
+	JP	Z,LoadExit
+	LD	(FileLenght),HL
+	LD	A,(IX+30)
+	OR	(IX+31)
+	LD	A,#1E
+	PUSH	AF
+	CALL	NZ,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	SCF 
+	JP	NZ,LoadExit
+	LD	BC,#033D
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	JP	C,LoadExit
+	LD	(MemIndef),A
+	LD	HL,PagesList
+	LD	C,#C5
+	RST	#08
+	LD	IX,ProcessEdit
+	LD	HL,(FileLenght)
+	LD	A,H
+	AND	#C0
+	RLCA 
+	RLCA 
+	LD	(IX+ProcMAXl1),A
+	SUB	A
+	LD	(IX+ProcMAXh1),A
+	LD	(IX+ProcMAXl2),A
+	LD	(IX+ProcMAXh2),A
+	CALL	InitProcess
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A0,#0058
+	DEFW	#0140,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0138,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0003
+	DEFB	#0F
+	DEFB	"FN File Editor v1.00",0
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0010
+	DEFB	#80
+	DEFB	"Reading:",0
+	DEFB	#03	;Углубление
+	DEFW	#0010,#001C
+	DEFW	#0120,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#001D
+	DEFW	#011C,#000A
+	DEFB	#0F
+	DEFB	#00
+	LD	C,#02
+	RST	#10
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	HL
+	RST	#10
+	POP	HL
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	INC	HL
+	JR	Z,$+4
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	LD	HL,EditingFile+33
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#0100
+	LD	HL,WorkBuffer
+	LD	DE,#00D8
+	LD	BC,#0068
+	LD	A,#80
+	CALL	PrnRangPathL
+
+	LD	HL,EditingFile+33
+	LD	A,#01
+	LD	C,#11
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JP	C,NoRead
+	LD	(FHandle),A
+	LD	IX,EditingFile
+	LD	L,(IX+28)
+	LD	H,(IX+29)
+	LD	(ReadLen),HL
+	LD	A,#C0
+	OUT	(YPORT),A
+
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	HL,PagesList
+	LD	A,(HL)
+ReadLp1	INC	HL
+	PUSH	HL
+	OUT	(PAGE1),A
+	LD	C,#31
+	RST	#10
+	LD	HL,#011B
+	OR	A
+	SBC	HL,DE
+	JP	Z,ReadAbort
+	LD	HL,(ReadLen)
+	LD	BC,#4000
+	OR	A
+	SBC	HL,BC
+	JR	C,ReadEnd
+	LD	(ReadLen),HL
+	LD	HL,#4000
+	LD	DE,#4000
+	LD	A,(FHandle)
+	LD	C,#13
+	RST	#10
+	JP	C,ReadAbort
+	CALL	NextProcess
+	POP	HL
+	LD	A,(HL)
+	CP	#FF
+	JR	NZ,ReadLp1
+	POP	AF
+	OUT	(PAGE1),A
+	JR	ReadExit
+ReadEnd
+	LD	HL,#4000
+	LD	DE,(ReadLen)
+	LD	A,D
+	OR	E
+	JR	Z,ReadEn1
+	LD	A,(FHandle)
+	LD	C,#13
+	RST	#10
+	JP	C,ReadAbort
+	CALL	NextProcess
+ReadEn1	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+ReadExit
+	LD	A,(FHandle)
+	LD	C,#12
+	RST	#10
+	OR	A
+LoadExit
+	HALT 
+	HALT 
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	PUSH	AF
+	CALL	SetMouse
+	POP	AF
+	RET 
+ReadAbort
+	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+NoRead	LD	A,(MemIndef)
+	LD	C,#3E
+	RST	#10
+	SCF 
+	JR	LoadExit
+;[]==========================================================[]
+NewFile
+	PUSH	AF
+	CALL	SetMouse
+	POP	AF
+	CP	#03
+	JR	Z,NewFile1
+	CP	#06
+	JP	NZ,EError
+NewFile1
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00C0,#0058
+	DEFW	#0100,#003C
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00F8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0076,#0003
+	DEFB	#0F
+	DEFB	"Edit",0
+	DEFB	#01	;Text Line
+	DEFW	#0054,#0012
+	DEFB	#80
+	DEFB	"Can't find the file:",0
+	DEFB	#04	;UpRectan
+	DEFW	#0030,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0040,#002D
+	DEFB	#80
+	DEFB	"New file",0
+	DEFB	#04	;UpRectan
+	DEFW	#0088,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#009A,#002D
+	DEFB	#80
+	DEFB	"Cancel",0
+	DEFB	#00
+	PUSH	HL
+	LD	DE,WorkBuffer
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#00E0
+	LD	HL,WorkBuffer
+	LD	DE,#0140
+	LD	BC,#0076
+	LD	A,#80
+	CALL	PrnRangPathC
+NewFLoop
+	LD	IX,NewFileTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,NewFLoop
+	LD	A,B
+	OR	A
+	JR	NZ,NewFLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,NewFExitC
+	CP	#0D
+	JR	Z,NewFExitO
+	RES	5,A
+	CP	"N"
+	JR	Z,NewFExitO
+	CP	"C"
+	JR	NZ,NewFLoop
+NewFExitC
+	SCF 
+NewFExitO
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	POP	HL
+	RET	C
+	LD	E,L
+	LD	D,H
+	LD	C,#00
+	LD	A,#21
+	DEC	HL
+	DEC	C
+	INC	HL
+	INC	C
+	CP	(HL)
+	JR	C,$-3
+	LD	A,C
+	OR	A
+	LD	A,#10
+	JP	Z,EError
+	LD	B,C
+	LD	A,"\\"
+	DEC	HL
+	CP	(HL)
+	JR	Z,ChangeDIR
+	DJNZ	$-4
+	EX	DE,HL
+	JR	NewFileE
+ChangeDIR
+	INC	HL
+	PUSH	HL
+	EX	DE,HL
+	LD	DE,WorkBuffer
+	LD	C,B
+	LD	B,#00
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	LD	HL,WorkBuffer
+	LD	C,#1D
+	RST	#10
+	POP	DE
+	JP	C,EError
+NewFileE
+	LD	HL,EditingFile+33
+	EX	DE,HL
+	LD	A,#20
+	LD	C,#00
+NewFE0	CP	(HL)
+	JR	NC,NewFE1
+	LDI 
+	JR	NewFE0
+NewFE1	SUB	A
+	LD	(DE),A
+	LD	A,C
+	OR	A
+	LD	A,#10
+	JP	Z,EError
+	LD	IX,EditingFile
+	SUB	A
+	LD	(IX+28),A
+	LD	(IX+29),A
+	LD	(IX+30),A
+	LD	(IX+31),A
+	LD	(IX+32),A
+	LD	HL,#0000
+	LD	(FileLenght),HL
+	LD	BC,#033D
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError	;!!!!!!!!!!!! Нет памяти
+	POP	AF
+	JP	C,LoadExit
+	LD	(MemIndef),A
+	LD	HL,PagesList
+	LD	C,#C5
+	RST	#08
+	OR	A
+	RET 
+
+EError	PUSH	AF
+	CALL	DOSError
+	POP	AF
+	SCF 
+	RET 
+;[]==========================================================[]
+SaveFile
+	CALL	PutString
+	CALL	SetClock
+	LD	IX,ProcessEdit
+	LD	HL,(FileLenght)
+	LD	A,H
+	AND	#C0
+	RLCA 
+	RLCA 
+	LD	B,A
+	LD	A,H
+	AND	#3F
+	OR	L
+	JR	Z,$+3
+	INC	B
+	LD	(IX+ProcMAXl1),B
+	SUB	A
+	LD	(IX+ProcMAXh1),A
+	LD	(IX+ProcMAXl2),A
+	LD	(IX+ProcMAXh2),A
+	CALL	InitProcess
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A0,#0058
+	DEFW	#0140,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0138,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0003
+	DEFB	#0F
+	DEFB	"FN File Editor v1.00",0
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0010
+	DEFB	#80
+	DEFB	"Saving:",0
+	DEFB	#03	;Углубление
+	DEFW	#0010,#001C
+	DEFW	#0120,#000C
+	DEFB	#02	;Head place
+	DEFW	#0012,#001D
+	DEFW	#011C,#000A
+	DEFB	#0F
+	DEFB	#00
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	IY
+	PUSH	HL
+	RST	#10
+	POP	HL
+	POP	IY
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	INC	HL
+	JR	Z,$+4
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	LD	HL,EditingFile+33
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#0100
+	LD	HL,WorkBuffer
+	LD	DE,#00D0
+	LD	BC,#0068
+	LD	A,#80
+	CALL	PrnRangPathL
+
+	LD	HL,EditingFile+33
+	LD	A,(EditingFile+32)
+	LD	C,#0A
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JP	C,SaveExit1
+	LD	(FHandle),A
+
+	LD	HL,(FileLenght)
+	LD	(SaveLen),HL
+	LD	A,#C0
+	OUT	(YPORT),A
+
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	HL,PagesList
+	LD	A,(HL)
+SaveLp1	INC	HL
+	PUSH	HL
+	OUT	(PAGE1),A
+	LD	HL,(SaveLen)
+	LD	BC,#4000
+	OR	A
+	SBC	HL,BC
+	JR	C,SaveEnd
+	LD	(SaveLen),HL
+	LD	HL,#4000
+	LD	DE,#4000
+	LD	A,(FHandle)
+	LD	C,#14
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,SaveAbort
+	CALL	NextProcess
+	POP	HL
+	LD	A,(HL)
+	CP	#FF
+	JR	NZ,SaveLp1
+	POP	AF
+	OUT	(PAGE1),A
+	JP	SaveExit
+SaveEnd
+	LD	HL,#4000
+	LD	DE,(SaveLen)
+	LD	A,D
+	OR	E
+	JR	Z,SaveEn1
+	LD	A,(FHandle)
+	LD	C,#14
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,SaveAbort
+	CALL	NextProcess
+SaveEn1	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+SaveExit
+	SUB	A
+	LD	(IY+ReadyFile),A
+	CALL	PrnEDITinfo
+
+	LD	A,(FHandle)
+	LD	C,#12
+	PUSH	IY
+	RST	#10
+	POP	IY
+SaveExit1
+	HALT 
+	HALT 
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	CALL	SetMouse
+	RET 
+SaveAbort
+	POP	HL
+	POP	AF
+	OUT	(PAGE1),A
+	JR	SaveExit1
+;[]----------------------------------------------------------[]
+NextProcess
+	LD	IX,ProcessEdit
+	LD	L,(IX+ProcCURl1)
+	LD	H,(IX+ProcCURh1)
+	INC	HL
+	LD	(IX+ProcCURl1),L
+	LD	(IX+ProcCURh1),H
+	LD	A,H
+	OR	L
+	JR	NZ,NextPr1
+	LD	L,(IX+ProcCURl2)
+	LD	H,(IX+ProcCURh2)
+	INC	HL
+	LD	(IX+ProcCURl2),L
+	LD	(IX+ProcCURh2),H
+NextPr1	CALL	PrnProcess
+	RET 
+ProcessEdit
+	DEFW	#00B2
+	DEFW	#0075
+	DEFW	#011C
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFW	#0000
+	DEFB	#4F
+CorrBigChar
+	CP	#41
+	RET	C
+	CP	#5B
+	JR	NC,CorrCh1
+	SET	5,A
+	RET 
+CorrCh1	CP	#80
+	RET	C
+	CP	#A0
+	RET	NC
+	SET	5,A
+	CP	#90
+	RET	C
+	SET	6,A
+	RES	4,A
+	RET 
+
+

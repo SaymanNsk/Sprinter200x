@@ -1,0 +1,1009 @@
+	device zxspectrum128
+	INCLUDE	"..\FNEQU.z80";,#0B
+	ORG	#C000;,EDITpg
+StartOfEditor
+CursorX	  EQU	#00
+StringX	  EQU	#01
+CursAddX  EQU	#02
+CursorY	  EQU	#03
+LenString EQU	#04
+PrvLenStr EQU	#05
+ReadyStr  EQU	#06
+ReadyFile EQU	#07
+LineBuffer=WorkBuffer+#200
+TempBuffer=WorkBuffer+#300
+Step	  EQU	#08
+CursTimer EQU	#0E
+;[]==========================================================[]
+FileEditor
+	CALL	LoadFile
+	RET	C
+	LD	IY,EditData
+	SUB	A
+	LD	(EditMode),A
+	LD	(HEXmode),A
+	LD	(IY+CursorX),A
+	LD	(IY+StringX),A
+	LD	(IY+CursAddX),A
+	LD	(IY+CursorY),A
+	LD	(IY+ReadyStr),A
+	LD	(IY+ReadyFile),A
+	INC	A
+	LD	(CrTimer),A
+	LD	HL,#0000
+	LD	(CurLine),HL
+	LD	(LineShift),HL
+	LD	(PageShift),HL
+	CALL	InitScreen
+EditorBegin
+	CALL	InitStatus
+	CALL	InitFile
+	CALL	PrintPage
+EditorLoop
+	CALL	ChCursor
+	LD	A,(EditMode)
+	OR	A
+	JP	NZ,HEditLoop
+TEditLoop
+	LD	IX,ASCIItab
+	CALL	TestCoords
+	LD	C,#31		;Ожидаем нажатия клавиш
+	RST	#10
+	JR	Z,EditorLoop
+	LD	A,D
+	CP	#44
+	JP	Z,EditorExit
+	LD	A,E		;Е-ASCII код
+	CP	#1B		;Esc
+	JP	Z,EditorExit
+	LD	HL,EditorLoop
+	PUSH	HL
+	OR	A
+	JP	NZ,TInsertSymbol
+	LD	A,D
+	CP	#3B
+	JP	Z,About
+	CP	#3C
+	JP	Z,SaveFile
+	CP	#3E
+	JP	Z,ChEditor	;Просмотр в HEX
+	CP	#43
+	JP	Z,PrintFile
+	CP	#4F
+	JP	Z,TDeleteSymbol
+	CP	#54
+	JP	Z,TCursorLeft
+	CP	#56
+	JP	Z,TCursorRight
+	CP	#58
+	JP	Z,TCursorUp
+	CP	#52
+	JP	Z,TCursorDown
+	CP	#57		;Home
+	JP	Z,THomeString
+	CP	#51		;End
+	JP	Z,TEndString
+	CP	#59		;PageUp
+	JP	Z,TPageUp
+	CP	#53		;PageDown
+	JP	Z,TPageDown
+	LD	A,B
+	AND	#30
+	CP	#30
+	RET	Z
+	BIT	5,B
+	RET	Z
+	LD	A,D
+	AND	#7F
+	CP	#0E
+	JP	Z,TDeleteWord
+	CP	#54
+	JP	Z,TWordLeft
+	CP	#56
+	JP	Z,TWordRight
+	CP	#58
+	JP	Z,TScrollUp
+	CP	#52
+	JP	Z,TScrollDown
+	CP	#57		;Ctrl+Home
+	JP	Z,TBegFile	;в начало файла
+	CP	#51		;Ctrl+PageEnd
+	JP	Z,TEndFile	;в конец файла
+	RET 
+HEditLoop
+	LD	IX,HEXtab
+	CALL	TestCoords
+	LD	C,#31		;Ожидаем нажатия клавиш
+	RST	#10
+	JP	Z,EditorLoop
+	LD	A,D		;
+	CP	#44		;F10
+	JP	Z,EditorExit
+	LD	A,E		;Е-ASCII код
+	CP	#1B		;Esc
+	JP	Z,EditorExit
+	LD	HL,EditorLoop
+	PUSH	HL
+	OR	A
+	JP	NZ,HPutSymbol
+	LD	A,D
+	CP	#3B
+	JP	Z,About
+	CP	#3C
+	JP	Z,SaveFile
+	CP	#3E		;F4
+	JP	Z,ChEditor	;Просмотр в тексте
+	CP	#3F		;F5
+	JP	Z,HGoTo		;Переход на адрес пользователя
+	CP	#43
+	JP	Z,PrintFile
+	CP	#54
+	JP	Z,HCursorLeft
+	CP	#56
+	JP	Z,HCursorRight
+	CP	#57		;Home
+	JP	Z,HHomeString
+	CP	#51		;End
+	JP	Z,HEndString
+	CP	#58		 ;Стрелка вверх
+	JP	Z,HCursorUp
+	CP	#52		 ;Стрелка вниз
+	JP	Z,HCursorDown
+	CP	#59		 ;PageUp
+	JP	Z,HPageUp
+	CP	#53		 ;PageDown
+	JP	Z,HPageDown
+	LD	A,B
+	AND	#30
+	CP	#30
+	RET	Z
+	BIT	5,B
+	RET	Z
+	LD	A,D
+	AND	#7F
+	CP	#58
+	JP	Z,HScrollUp
+	CP	#52
+	JP	Z,HScrollDown
+	CP	#57		;Ctrl+PageUp
+	JP	Z,HBegFile	;в начало файла
+	CP	#51		;Ctrl+PageDown
+	JP	Z,HEndFile	;в конец файла
+	RET 
+;[]==========================================================[]
+EditingFile
+	DEFS	#30,0
+EditMode
+	DEFB	#00
+HEXmode
+	DEFB	#00
+EditData
+	DEFB	#00	;Cursor	X
+	DEFB	#00	;String	X
+	DEFB	#00	;Cursor	add X
+	DEFB	#00	;Cursor	Y
+	DEFB	#00	;Len String
+	DEFB	#00	;Previos Len String
+	DEFB	#00	;Ready String
+	DEFB	#00	;Ready File
+CurLine
+	DEFW	#0000
+EquipLines
+	DEFW	#0000
+LineShift
+	DEFW	#0000
+PageShift
+	DEFW	#0000
+TempShift
+	DEFW	#0000
+FileLenght
+	DEFW	#0000	;Длина файла (16бит)
+EmptyLines
+	DEFB	#00
+MemIndef
+	DEFB	#00
+FHandle
+	DEFB	#00
+ReadLen
+SaveLen
+	DEFW	#0000
+;[]==========================================================[]
+ChEditor
+	LD	HL,EditorBegin
+	EX	(SP),HL
+	LD	A,(EditMode)
+	XOR	#01
+	LD	(EditMode),A
+	JR	NZ,HEXEdit
+ASCIIEdit
+	LD	HL,(LineShift)
+	LD	E,(IY+CursorX)
+	SRL	E
+	LD	D,#00
+	ADD	HL,DE
+	PUSH	HL
+	INC	HL
+	CALL	SearchUp
+	LD	(LineShift),HL
+	LD	(PageShift),HL
+	SUB	A
+	LD	(IY+StringX),A
+	LD	(IY+CursorY),A
+	PUSH	HL
+	CALL	GetString
+	POP	DE
+	POP	HL
+	OR	A
+	SBC	HL,DE
+	LD	A,L
+	CP	(IY+LenString)
+	JR	C,$+5
+	LD	A,(IY+LenString)
+	DEC	A
+	LD	(IY+StringX),A
+	JP	TCursorRight
+HEXEdit
+	CALL	PutString
+	LD	HL,(LineShift)
+	LD	A,(IY+StringX)
+	CP	(IY+LenString)
+	JR	C,$+5
+	LD	A,(IY+LenString)
+	LD	E,A
+	LD	D,#00
+	ADD	HL,DE
+	LD	A,L
+	AND	#0F
+	ADD	A,A
+	LD	(IY+CursorX),A
+	LD	A,L
+	AND	#F0
+	LD	L,A
+	LD	(LineShift),HL
+	LD	(PageShift),HL
+	SUB	A
+	LD	(IY+CursorY),A
+	RET 
+;[]==========================================================[]
+EditorExit
+	CALL	PutString
+	CALL	ResCursor
+	LD	A,(IY+ReadyFile)
+	OR	A
+	JP	Z,EditorE
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00D0,#0050
+	DEFW	#00E0,#003C
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00D8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0003
+	DEFB	#0F
+	DEFB	"Information",0
+	DEFB	#01	;Text Line
+	DEFW	#0040,#0013
+	DEFB	#80
+	DEFB	"File has been modifi.",0
+	DEFB	#01	;Text Line
+	DEFW	#0060,#001D
+	DEFB	#80
+	DEFB	"Save ?",0
+	DEFB	#04	;UpRectan
+	DEFW	#0020,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#003A,#002D
+	DEFB	#80
+	DEFB	"Yes",0
+	DEFB	#04	;UpRectan
+	DEFW	#0078,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0096,#002D
+	DEFB	#80
+	DEFB	"No",0
+	DEFB	#00
+SureLoop
+	LD	IX,SureTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,SureLoop
+	LD	A,B
+	OR	A
+	JR	NZ,SureLoop
+	LD	A,E
+	CP	#1B
+	SCF 
+	JR	Z,SureExit
+	CP	#0D
+	JR	Z,SureExit
+	RES	5,A
+	CP	"N"
+	JR	Z,SureExit
+	CP	"Y"
+	JR	NZ,SureLoop
+SureOkey
+	CALL	SaveFile
+	OR	A
+SureExit
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	JP	C,EditorLoop
+EditorE	LD	A,(MemIndef)
+	LD	C,#3E
+	RST	#10
+	OR	A
+	RET 
+;[]==========================================================[]
+InitScreen
+	CALL	MakeWindow
+	DEFB	#00	;Main window
+	DEFW	#0000,#0000
+	DEFW	#0280,#0100
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0278,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0003
+	DEFB	#0F
+	DEFB	"FN File Editor v1.00",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#000D
+	DEFW	#0280
+	DEFB	#01	;Text Line
+	DEFW	#0008,#0011
+	DEFB	#80
+	DEFB	"Editing:",0
+
+	DEFB	#07	;Vertical line
+	DEFW	#016E,#0010
+	DEFW	#000A
+
+	DEFB	#01	;Text Line
+	DEFW	#0190,#0011
+	DEFB	#80
+	DEFB	"Line:",0
+
+	DEFB	#01	;Text Line
+	DEFW	#01E0,#0011
+	DEFB	#80
+	DEFB	"Col:",0
+
+	DEFB	#01	;Text Line
+	DEFW	#0228,#0011
+	DEFB	#80
+	DEFB	"Free:",0
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#001B
+	DEFW	#0280
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00E3
+	DEFW	#0280
+
+	DEFB	#0A		;Кнопка	SB верхняя
+	DEFW	#0270,#001C
+
+	DEFB	#02		;Fill
+	DEFW	#0270,#0024
+	DEFW	#0010,#00B8
+	DEFB	#08
+
+	DEFB	#0B		;Кнопка	SB нижняя
+	DEFW	#0270,#00DC
+
+	DEFB	#00
+
+	LD	C,#02
+	RST	#10
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	HL
+	RST	#10
+	POP	HL
+	SUB	A
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-2
+	DEC	HL
+	LD	A,"\\"
+	CP	(HL)
+	INC	HL
+	JR	Z,$+4
+	LD	(HL),A
+	INC	HL
+	EX	DE,HL
+	LD	HL,EditingFile+33
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	LD	IX,#0130
+	LD	HL,WorkBuffer
+	LD	DE,#0030
+	LD	BC,#0011
+	LD	A,#80
+	CALL	PrnRangPathL
+	LD	HL,#01FC
+	LD	DE,#0003
+	LD	B,#08
+	EXX 
+	LD	HL,#022E
+	LD	DE,#0003
+	LD	B,#08
+	EXX 
+	LD	A,#02
+	CALL	SetCMOSPrint
+	RET 
+;[]==========================================================[]
+InitStatus
+	LD	A,(EditMode)
+	OR	A
+	JP	NZ,InitHEXStatus
+
+	CALL	MakeWindow
+	DEFB	#80
+
+	DEFB	#02	;Head Place
+	DEFW	#0000,#001C
+	DEFW	#0270,#00C8
+	DEFB	PanelCol
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00EB
+	DEFW	#0272
+
+	DEFB	#07	;Vertical line
+	DEFW	#026E,#00E4
+	DEFW	#0008
+
+	DEFB	#08		;Кнопка	SB левая
+	DEFW	#0000,#00E4
+
+	DEFB	#02		;Fill
+	DEFW	#0010,#00E4
+	DEFW	#0250,#0008
+	DEFB	#08
+
+	DEFB	#09		;Кнопка	SB правая
+	DEFW	#0260,#00E4
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00F1
+	DEFW	#0280
+
+	DEFB	#02
+	DEFW	#0002,#00F3
+	DEFW	#027C,#000C
+	DEFB	#08
+
+	DEFB	#04	;UpRectan
+	DEFW	#0000,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0012,#00F5
+	DEFB	#80
+	DEFB	"F1 About",0
+
+	DEFB	#04	;UpRectan
+	DEFW	#0050,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0064,#00F5
+	DEFB	#80
+	DEFB	"F2 Save",0
+
+	DEFB	#04	;UpRectan
+	DEFW	#00A0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00B8,#00F5
+	DEFB	#80
+	DEFB	"F4 Hex",0
+
+	DEFB	#04	;UpRectan
+	DEFW	#01E0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#01F6,#00F5
+	DEFB	#80
+	DEFB	"F9 Print",0
+
+	DEFB	#04	;UpRectan
+	DEFW	#0230,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0244,#00F5
+	DEFB	#80
+	DEFB	"F10 Quit",0
+	DEFB	#00
+	RET 
+InitHEXStatus
+	CALL	MakeWindow
+	DEFB	#80
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00E3
+	DEFW	#0280
+
+	DEFB	#02	;Head Place
+	DEFW	#0000,#001C
+	DEFW	#0270,#00C8
+	DEFB	PanelCol
+
+	DEFB	#02		;Fill
+	DEFW	#0002,#00E5
+	DEFW	#027C,#000A
+	DEFB	#08
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00F1
+	DEFW	#0280
+
+	DEFB	#02
+	DEFW	#0002,#00F3
+	DEFW	#027C,#000C
+	DEFB	#08
+	DEFB	#04	;UpRectan
+	DEFW	#0000,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0012,#00F5
+	DEFB	#80
+	DEFB	"F1 About",0
+	DEFB	#04	;UpRectan
+	DEFW	#0050,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0064,#00F5
+	DEFB	#80
+	DEFB	"F2 Save",0
+	DEFB	#04	;UpRectan
+	DEFW	#00A0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00B6,#00F5
+	DEFB	#80
+	DEFB	"F4 ASCII",0
+	DEFB	#04	;UpRectan
+	DEFW	#00F0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0102,#00F5
+	DEFB	#80
+	DEFB	"F5 Go to",0
+	DEFB	#04	;UpRectan
+	DEFW	#01E0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#01F6,#00F5
+	DEFB	#80
+	DEFB	"F9 Print",0
+	DEFB	#04	;UpRectan
+	DEFW	#0230,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0244,#00F5
+	DEFB	#80
+	DEFB	"F10 Quit",0
+	DEFB	#00
+	RET 
+;[]==========================================================[]
+InitFile
+	LD	A,(EditMode)
+	OR	A
+	JR	NZ,InitFileHex
+	CALL	SetClock
+	LD	HL,#0000
+	LD	E,L
+	LD	D,H
+InitAlp	PUSH	HL
+	LD	BC,(LineShift)
+	OR	A
+	SBC	HL,BC
+	POP	HL
+	JR	NZ,$+6
+	LD	(CurLine),DE
+	PUSH	DE
+	CALL	SearchDown
+	POP	DE
+	INC	DE
+	JR	NC,InitAlp
+	DEC	DE
+	LD	(EquipLines),DE
+	LD	(ELines),DE
+	LD	HL,TBarU
+	LD	(BarPgU),HL
+	LD	HL,TBarD
+	LD	(BarPgD),HL
+	LD	IX,EditVBar
+	CALL	InitScrBar
+	LD	HL,#00F0
+	LD	(CScrnX),HL
+	LD	IX,EditHBar
+	CALL	InitScrBar
+	LD	HL,#FFFF
+	LD	(CLine),HL
+	LD	H,#00
+	LD	(CAddX),HL
+	CALL	SetMouse
+	RET 
+InitFileHex
+	LD	HL,(FileLenght)
+	LD	A,L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	AND	#0F
+	JR	Z,$+3
+	INC	HL
+	LD	(EquipLines),HL
+	LD	(ELines),HL
+	LD	HL,(LineShift)
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	SRL	H
+	RR	L
+	LD	(CurLine),HL
+	LD	HL,HBarU
+	LD	(BarPgU),HL
+	LD	HL,HBarD
+	LD	(BarPgD),HL
+	LD	IX,EditVBar
+	CALL	InitScrBar
+	LD	HL,#FFFF
+	LD	(CLine),HL
+	RET 
+EditVBar
+	DEFW	#0270	;X позиция скролбара
+	DEFW	#0024	;Y позиция скролбара
+	DEFW	#00B8	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+BarPgU	DEFW	#0000	;Адрес ячейки BarLeft
+BarPgD	DEFW	#0000	;Адрес ячейки BarRight
+	DEFW	#0019	;Кол-во	строк на странице
+ELines	DEFW	#0000	;Общее кол-во строк
+CLine	DEFW	#0000	;Первая	строка на странице
+EditHBar
+	DEFW	#0010	;X позиция скролбара
+	DEFW	#00E4	;Y позиция скролбара
+	DEFW	#0250	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+	DEFW	TBarL	;Адрес ячейки BarLeft
+	DEFW	TBarR	;Адрес ячейки BarRight
+	DEFW	#004E	;Кол-во	строк на странице
+CScrnX	DEFW	#0000	;Общее кол-во строк
+CAddX	DEFW	#0000	;Первая	строка на странице
+;[]==========================================================[]
+PrintPage
+	LD	A,(EditMode)
+	OR	A
+	JP	Z,PrnASCIIpage
+	JP	PrnHEXpage
+PrnEDITinfo
+	LD	A,(EditMode)
+	OR	A
+	JP	Z,PrnASCIIinfo
+	JP	PrnHEXinfo
+;[]==========================================================[]
+ChCursor
+	HALT 
+	LD	HL,CrTimer
+	DEC	(HL)
+	RET	NZ
+	LD	(HL),CursTimer
+	LD	A,(CurCursor)
+	XOR	#01
+	LD	(CurCursor),A
+	JR	Z,ResCurs
+	JR	SetCurs
+SetCursor
+	LD	(CursorPos),DE
+	LD	A,#01
+	LD	(CurCursor),A
+	LD	A,CursTimer
+	LD	(CrTimer),A
+SetCurs	IN	A,(PAGE1)
+	PUSH	AF
+	IN	A,(YPORT)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	DE,(CursorPos)
+	LD	L,E
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	SET	6,H
+	LD	A,D
+	ADD	A,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,#22
+	LD	C,A
+	LD	B,FileCol*#10+FileCol
+	DI 
+	LD	DE,CursBuffer
+	LD	A,C
+	OUT	(YPORT),A
+	LD	D,D
+	LD	A,#04
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	LD	C,C
+	LD	(HL),B
+	LD	B,B
+	INC	C
+	LD	DE,CursBuffer+4
+	LD	A,C
+	OUT	(YPORT),A
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	LD	C,C
+	LD	(HL),B
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+ResCursor
+	SUB	A
+	LD	(CurCursor),A
+	INC	A
+	LD	(CrTimer),A
+ResCurs	IN	A,(PAGE1)
+	PUSH	AF
+	IN	A,(YPORT)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	DE,(CursorPos)
+	LD	L,E
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	SET	6,H
+	LD	A,D
+	ADD	A,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,#22
+	LD	C,A
+	DI 
+	LD	DE,CursBuffer
+	LD	A,C
+	OUT	(YPORT),A
+	LD	D,D
+	LD	A,#04
+	LD	L,L
+	LD	A,(DE)
+	LD	(HL),A
+	LD	B,B
+	INC	C
+	LD	DE,CursBuffer+4
+	LD	A,C
+	OUT	(YPORT),A
+	LD	L,L
+	LD	A,(DE)
+	LD	(HL),A
+	LD	B,B
+	EI 
+	POP	AF
+	OUT	(YPORT),A
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+CrTimer
+	DEFB	#01
+CurCursor
+	DEFB	#00
+CursorPos
+	DEFW	#0000
+CursBuffer
+	DEFS	8,0
+;[]==========================================================[]
+About
+	CALL	ResCursor
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00A0,#0048
+	DEFW	#0140,#0055
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0138,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0090,#0003
+	DEFB	#0F
+	DEFB	"About",0
+	DEFB	#01	;Text Line
+	DEFW	#0060,#0012
+	DEFB	#80
+	DEFB	"Flex Navigator File Editor",0
+	DEFB	#01	;Text Line
+	DEFW	#0090,#001C
+	DEFB	#80
+	DEFB	"v1.00",0
+	DEFB	#01	;Text Line
+	DEFW	#0012,#0028
+	DEFB	#80
+	DEFB	"Programming:  Enin Anton      "
+	DEFB	"Release data:  25/08/1999",0
+	DEFB	#01	;Text Line
+	DEFW	#0044,#0035
+	DEFB	#80
+	DEFB	"All right reserved. "
+	DEFB	"Copyright (C)1999",0
+	DEFB	#04	;UpRectan
+	DEFW	#007C,#0042
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#009A,#0045
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+AboutLoop
+	LD	IX,AboutTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,AboutLoop
+	LD	A,B
+	OR	A
+	JR	NZ,AboutLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,AboutExt
+	CP	#0D
+	JR	Z,AboutExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,AboutLoop
+AboutExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+;[]==========================================================[]
+ScrollSCRup
+	LD	DE,#241C
+	JR	ScrlSCRDnUp
+ScrollSCRdown
+	LD	DE,#1C24
+;На вход:
+;	 D  - Y	откуда
+;	 Е  - Y	куда
+ScrlSCRDnUp
+	DI 
+	LD	C,#83
+	PUSH	DE
+	RST	#30
+	POP	DE
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE1),A
+	LD	HL,#4000
+	LD	BC,312
+	LD	D,D
+	LD	A,#C0
+	LD	B,B
+ScSCRN1	LD	A,D
+	OUT	(YPORT),A
+	LD	A,A
+	LD	A,(HL)
+	LD	B,B
+	LD	A,E
+	OUT	(YPORT),A
+	LD	A,A
+	LD	(HL),A
+	LD	B,B
+	INC	HL
+	DEC	BC
+	LD	A,B
+	OR	C
+	JR	NZ,ScSCRN1
+	POP	AF
+	OUT	(PAGE1),A
+	EI 
+	RET 
+;[]==========================================================[]
+	INCLUDE	"FEDOS.z80";,#0C
+	INCLUDE	"FETEXT.z80";,#0D
+;	INCLUDE	"FETEXT.1",#0E
+	INCLUDE	"FEHEX.z80";,#0F
+	INCLUDE	"FEPRN.z80";,#10
+;[]==========================================================[]
+ASCIItab
+    DEFW #0000,#0270,#001C,#00E4,#00,#0000,TNewCrPos,#0000
+    DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+    DEFW #0050,#00A0,#00F2,#0100,#01,#0000,SaveFile,#0000
+    DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChEditor,#0000
+    DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+    DEFW #0230,#0280,#00F2,#0100,#21,#0000,EditorExit,#0000
+    DEFW #0270,#0280,#001C,#0024,#03,#0000,TCursorUp,#0000
+    DEFW #0270,#0280,#00DC,#00E4,#03,#0000,TCursorDown,#0000
+TBarU	EQU	$+6
+    DEFW #0270,#0280,#001C,#0000,#00,#0000,TPageUp,#0000
+TBarD	EQU	$+4
+    DEFW #0270,#0280,#0000,#00E4,#00,#0000,TPageDown,#0000
+    DEFW #0000,#0010,#00E4,#00EC,#03,#0000,TCursorLeft,#0000
+    DEFW #0260,#0270,#00E4,#00EC,#03,#0000,TCursorRight,#0000
+TBarL	EQU	$+2
+    DEFW #0010,#0000,#00E4,#00EC,#00,#0000,TCursorLeft,#0000
+TBarR	EQU	$
+    DEFW #0000,#0260,#00E4,#00EC,#00,#0000,TCursorRight,#0000
+    DEFW #8000
+HEXtab
+    DEFW #0000,#0050,#00F2,#0100,#01,#0000,About,#0000
+    DEFW #0050,#00A0,#00F2,#0100,#01,#0000,SaveFile,#0000
+    DEFW #00A0,#00F0,#00F2,#0100,#01,#0000,ChEditor,#0000
+    DEFW #00F0,#0140,#00F2,#0100,#01,#0000,HGoTo,#0000
+    DEFW #01E0,#0230,#00F2,#0100,#01,#0000,PrintFile,#0000
+    DEFW #0230,#0280,#00F2,#0100,#21,#0000,EditorExit,#0000
+    DEFW #0270,#0280,#001C,#0024,#03,#0000,HCursorUp,#0000
+    DEFW #0270,#0280,#00DC,#00E4,#03,#0000,HCursorDown,#0000
+    DEFW #0048,#01D8,#001C,#00E4,#00,#0000,HNewHEXPos,#0000
+    DEFW #01E8,#0268,#001C,#00E4,#00,#0000,HNewASCPos,#0000
+HBarU	EQU	$+6
+    DEFW #0270,#0280,#001C,#0000,#00,#0000,HPageUp,#0000
+HBarD	EQU	$+4
+    DEFW #0270,#0280,#0000,#00E4,#00,#0000,HPageDown,#0000
+    DEFW #8000
+AboutTab
+	DEFW #011C,#0164,#008A,#0098,#21,#0000,AboutExt,#0000
+	DEFW #0000,#00A0,#0000,#0100,#20,#0000,AboutExt,#0000
+	DEFW #01E0,#0280,#0000,#0100,#20,#0000,AboutExt,#0000
+	DEFW #0000,#0280,#0000,#0048,#20,#0000,AboutExt,#0000
+	DEFW #0000,#0280,#009D,#0100,#20,#0000,AboutExt,#0000
+	DEFW #8000
+SureTab
+	DEFW #00F0,#0138,#007A,#0088,#021,#0000,SureOkey,#0000
+	DEFW #0148,#0190,#007A,#0088,#021,#0000,SureExit,#0000
+	DEFW #0000,#00D0,#0000,#0100,#120,#0000,EditorLoop,#0000
+	DEFW #01B0,#0280,#0000,#0100,#120,#0000,EditorLoop,#0000
+	DEFW #0000,#0280,#0000,#0050,#120,#0000,EditorLoop,#0000
+	DEFW #0000,#0280,#008C,#0100,#120,#0000,EditorLoop,#0000
+	DEFW #8000
+NewFileTab
+	DEFW #00F0,#0138,#0082,#0090,#021,#0000,NewFExitO,#0000
+	DEFW #0148,#0190,#0082,#0090,#021,#0000,NewFExitC,#0000
+	DEFW #0000,#00C0,#0000,#0100,#020,#0000,NewFExitC,#0000
+	DEFW #01C0,#0280,#0000,#0100,#020,#0000,NewFExitC,#0000
+	DEFW #0000,#0280,#0000,#0058,#020,#0000,NewFExitC,#0000
+	DEFW #0000,#0280,#0094,#0100,#020,#0000,NewFExitC,#0000
+	DEFW #8000
+;[]==========================================================[]
+end
+	savebin	"..\bin\fnedit.bin",StartOfEditor,end-StartOfEditor
+       ORG     #7F00
+
+

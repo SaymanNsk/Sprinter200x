@@ -1,0 +1,90 @@
+;[]----------------------------------------------------------[]
+BORDER	EQU	#FE
+YPORT	EQU	#89
+PAGE0	EQU	#82
+PAGE1	EQU	#A2
+PAGE2	EQU	#C2
+PAGE3	EQU	#E2
+COUNT	EQU	#00
+;[]----------------------------------------------------------[]
+PanelCol EQU	#09
+FileCol	 EQU	#0A
+SFileCol EQU	#0B
+InvSCol	 EQU	#0C
+InvPCol	 EQU	#05
+InvICol	 EQU	#06
+;[]----------------------------------------------------------[]
+PanelFlg EQU	+#00
+ViewFlg	 EQU	+#01
+SortFlg	 EQU	+#02
+PanelXl	 EQU	+#03
+PanelXh	 EQU	+#04
+;[]----------------------------------------------------------[]
+PanBarXl EQU	+#05
+PanBarXh EQU	+#06
+PanBarYl EQU	+#07
+PanBarYh EQU	+#08
+PanBrMLl EQU	+#09
+PanBrMLh EQU	+#0A
+PanBrLFl EQU	+#0D
+PanBrLFh EQU	+#0E
+PanBrRTl EQU	+#0F
+PanBrRTh EQU	+#10
+;[]----------------------------------------------------------[]
+PanelFPl EQU	+#11
+PanelFPh EQU	+#12
+PanelEFl EQU	+#13
+PanelEFh EQU	+#14
+PanelFFl EQU	+#15
+PanelFFh EQU	+#16
+PanelCFl EQU	+#17
+PanelCFh EQU	+#18
+PanelMFl EQU	+#19
+PanelMFh EQU	+#1A
+PanelMBl1 EQU	+#1B
+PanelMBh1 EQU	+#1C
+PanelMBl2 EQU	+#1D
+PanelMBh2 EQU	+#1E
+BegPBar	EQU	+#05
+BegMask	EQU	+#1F
+BegPath	EQU	+#2C
+;[]----------------------------------------------------------[]
+BarXl	 EQU	+#00
+BarXh	 EQU	+#01
+BarYl	 EQU	+#02
+BarYh	 EQU	+#03
+BarMaxLl EQU	+#04
+BarMaxLh EQU	+#05
+BarLENl	 EQU	+#06
+BarLENh	 EQU	+#07
+BarLEFTl EQU	+#08
+BarLEFTh EQU	+#09
+BarRGHTl EQU	+#0A
+BarRGHTh EQU	+#0B
+BarPAGEl EQU	+#0C
+BarPAGEh EQU	+#0D
+BarMAXl	 EQU	+#0E
+BarMAXh	 EQU	+#0F
+BarFRSTl EQU	+#10
+BarFRSTh EQU	+#11
+;[]----------------------------------------------------------[]
+ProcXl	  EQU	 +#00
+ProcXh	  EQU	 +#01
+ProcYl	  EQU	 +#02
+ProcYh	  EQU	 +#03
+ProcMaxLl EQU	 +#04
+ProcMaxLh EQU	 +#05
+ProcCOEFl EQU	 +#06
+ProcCOEFh EQU	 +#07
+ProcCORRl EQU	 +#08
+ProcCORRh EQU	 +#09
+ProcMAXl1 EQU	 +#0A
+ProcMAXh1 EQU	 +#0B
+ProcMAXl2 EQU	 +#0C
+ProcMAXh2 EQU	 +#0D
+ProcCURl1 EQU	 +#0E
+ProcCURh1 EQU	 +#0F
+ProcCURl2 EQU	 +#10
+ProcCURh2 EQU	 +#11
+ProcCOLOR EQU	 +#12
+

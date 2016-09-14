@@ -1,0 +1,103 @@
+
+;[]----------------------------------------------------------[]
+
+BORDER	EQU	#FE
+YPORT	EQU	#89
+PAGE0	EQU	#82
+PAGE1	EQU	#A2
+PAGE2	EQU	#C2
+PAGE3	EQU	#E2
+
+PanelCol EQU	#09
+FileCol	 EQU	#0A
+SFileCol EQU	#0B
+InvSCol	 EQU	#0C
+InvPCol	 EQU	#05
+InvICol	 EQU	#06
+
+BarXl	 EQU	+#00
+BarXh	 EQU	+#01
+BarYl	 EQU	+#02
+BarYh	 EQU	+#03
+BarMaxLl EQU	+#04
+BarMaxLh EQU	+#05
+BarLENl	 EQU	+#06
+BarLENh	 EQU	+#07
+BarLEFTl EQU	+#08
+BarLEFTh EQU	+#09
+BarRGHTl EQU	+#0A
+BarRGHTh EQU	+#0B
+BarPAGEl EQU	+#0C
+BarPAGEh EQU	+#0D
+BarMAXl	 EQU	+#0E
+BarMAXh	 EQU	+#0F
+BarFRSTl EQU	+#10
+BarFRSTh EQU	+#11
+
+ProcXl	  EQU	 +#00
+ProcXh	  EQU	 +#01
+ProcYl	  EQU	 +#02
+ProcYh	  EQU	 +#03
+ProcMaxLl EQU	 +#04
+ProcMaxLh EQU	 +#05
+ProcCOEFl EQU	 +#06
+ProcCOEFh EQU	 +#07
+ProcCORRl EQU	 +#08
+ProcCORRh EQU	 +#09
+ProcMAXl1 EQU	 +#0A
+ProcMAXh1 EQU	 +#0B
+ProcMAXl2 EQU	 +#0C
+ProcMAXh2 EQU	 +#0D
+ProcCURl1 EQU	 +#0E
+ProcCURh1 EQU	 +#0F
+ProcCURl2 EQU	 +#10
+ProcCURh2 EQU	 +#11
+ProcCOLOR EQU	 +#12
+
+WorkBuffer	EQU	#8000
+PagesList	EQU	#8400
+ClearScreen	EQU	#8603
+MakeWindow	EQU	#8606
+InvertRectan	EQU	#8609
+PrnTxtLnIFF	EQU	#860C
+PrnTxtLnNorm	EQU	#860F
+PrnTxtLnNormC	EQU	#8612
+PrnRangPathL	EQU	#8615
+PrnRangPathR	EQU	#8618
+PrnRangPathC	EQU	#861B
+InputLine	EQU	#861E
+InpLnExtN	EQU	#8621
+InpLnExtC	EQU	#8624
+
+InitScrBar	EQU	#862A
+PrnHScrBar	EQU	#862D
+PrnVScrBar	EQU	#8630
+InitProcess	EQU	#8633
+PrnProcess	EQU	#8636
+
+ResFire		EQU	#8648
+TestCoords	EQU	#864B
+SetCMOSPrint	EQU	#864E
+ResCMOSPrint	EQU	#8651
+SetClock	EQU	#8654
+SetMouse	EQU	#8657
+
+MoveBytes	EQU	#8669
+MoveBytesUp	EQU	#866C
+Mult8		EQU	#866F
+Mult16X8	EQU	#8672
+Mult16		EQU	#8675
+Mult16X16	EQU	#8678
+Mult32		EQU	#867B
+Divis16X16	EQU	#867E
+Divis24X16	EQU	#8681
+Divis32X16	EQU	#8684
+Divis32		EQU	#8687
+ConvNumTxt32	EQU	#868A
+ConvNumTxt16	EQU	#868D
+ConvNumTxt8	EQU	#8690
+ConvTxtNum32	EQU	#8693
+ConvTxtNum16	EQU	#8696
+
+DOSError	EQU	#86A8
+

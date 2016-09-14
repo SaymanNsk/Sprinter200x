@@ -1,0 +1,539 @@
+
+;[]===========================================================[]
+DOSErrorR
+	LD	HL,ErrorWins
+	ADD	A,A
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	INC	HL
+	LD	H,(HL)
+	LD	L,A
+	LD	A,H
+	OR	L
+	RET	Z
+	CALL	SetMouse
+	JP	(HL)
+ErrorWins
+	DEFW	#0000		;00
+	DEFW	#0000		;01
+	DEFW	InvDrive	;02
+	DEFW	FileNFound	;03
+	DEFW	InvPath		;04
+	DEFW	#0000		;05
+	DEFW	FileNFound	;06
+	DEFW	FILEexists	;07
+	DEFW	#0000		;08
+	DEFW	ROOToverflow	;09
+	DEFW	NoDiskSpace	;0A
+	DEFW	DIRnotEmpty	;0B
+	DEFW	#0000		;0C
+	DEFW	InvMedia	;0D
+	DEFW	#0000		;0E
+	DEFW	DIRexists	;0F
+	DEFW	InvName		;10
+	DEFW	InvEXEfile	;11
+	DEFW	InvEXEver	;12
+	DEFW	#0000		;13
+	DEFW	NotReady	;14
+	DEFW	#0000		;15
+	DEFW	#0000		;16
+	DEFW	#0000		;17
+	DEFW	#0000		;18
+	DEFW	#0000		;19
+	DEFW	#0000		;1A
+	DEFW	#0000		;1B
+	DEFW	#0000		;1C
+	DEFW	#0000		;1D
+	DEFW	NoMemory	;1E
+	DEFW	#0000		;1F
+;--------------------------------------------------------------
+InvDrive
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0018,#0012
+	DEFB	#80
+	DEFB	"Invalid drive letter:",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#03	;”глубление
+	DEFW	#0078,#000F
+	DEFW	#0010,#000C
+	DEFB	#02	;Head place
+	DEFW	#007A,#0010
+	DEFW	#000C,#000A
+	DEFB	#0F
+	DEFB	#00
+	JP	InputDrive
+InvMedia
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#002E,#0012
+	DEFB	#80
+	DEFB	"Invalid media:",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#03	;”глубление
+	DEFW	#0078,#000F
+	DEFW	#0010,#000C
+	DEFB	#02	;Head place
+	DEFW	#007A,#0010
+	DEFW	#000C,#000A
+	DEFB	#0F
+	DEFB	#00
+	JR	InputDrive
+NotReady
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0024,#0012
+	DEFB	#80
+	DEFB	"Drive not ready:",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#03	;”глубление
+	DEFW	#0078,#000F
+	DEFW	#0010,#000C
+	DEFB	#02	;Head place
+	DEFW	#007A,#0010
+	DEFW	#000C,#000A
+	DEFB	#0F
+	DEFB	#00
+InputDrive
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	ADD	A,"A"
+	LD	(CurDrv),A
+	LD	IX,DriveStr
+	LD	HL,ErrorTab1
+	CALL	InputLine
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	CALL	SetClock
+	LD	A,(CurDrv)
+	RES	5,A
+	SUB	"A"
+	LD	C,#01
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,DOSErrorR
+	LD	HL,BegDIR
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,DOSErrorR
+	CALL	SetMouse
+	LD	A,#01
+	RET 
+ErrorTab1
+	DEFW #011C,#0164,#0076,#0084,#01,#0000,InpLnExtN,#0000
+	DEFW #8000
+DriveStr
+	DEFB	#01,#00,#00,#00
+	DEFB	#01
+	DEFW	#015C,#006A
+	DEFW	#000A
+	DEFB	#F0
+CurDrv	DEFS	#02,#00
+;--------------------------------------------------------------
+InvPath
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0046,#0012
+	DEFB	#80
+	DEFB	"Invalid path",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+ErrorLp0
+	LD	IX,ErrorTab2
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,ErrorLp0
+	LD	A,B
+	OR	A
+	JR	NZ,ErrorLp0
+	LD	A,E
+	CP	#1B
+	JR	Z,ErrorExt0
+	CP	#0D
+	JR	Z,ErrorExt0
+	RES	5,A
+	CP	"O"
+	JR	NZ,ErrorLp0
+ErrorExt0
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	CALL	SetClock
+	LD	HL,BegDIR
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	C,DOSErrorR
+	CALL	SetMouse
+	LD	A,#01
+	RET 
+ErrorTab2
+	DEFW #011C,#0164,#0076,#0084,#21,#0000,ErrorExt0,#0000
+	DEFW #8000
+;--------------------------------------------------------------
+FileNFound
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#003C,#0012
+	DEFB	#80
+	DEFB	"File not found",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+ROOToverflow
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0040,#0012
+	DEFB	#80
+	DEFB	"ROOT overflow",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+NoDiskSpace
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#003E,#0012
+	DEFB	#80
+	DEFB	"No disk space",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+DIRnotEmpty
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0028,#0012
+	DEFB	#80
+	DEFB	"Directory is not empty",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+FILEexists
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0048,#0012
+	DEFB	#80
+	DEFB	"File exists",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+DIRexists
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0038,#0012
+	DEFB	#80
+	DEFB	"Directory exists",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+InvName
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0042,#0012
+	DEFB	#80
+	DEFB	"Invalid name",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+InvEXEfile
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#003C,#0012
+	DEFB	#80
+	DEFB	"Invalid EXE file",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+InvEXEver
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0028,#0012
+	DEFB	#80
+	DEFB	"Unsupport EXE version",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	JP	ErrorLp
+NoMemory
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00E0,#0058
+	DEFW	#00C0,#0030
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00B8,#000A
+	DEFB	#01
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#1F
+	DEFB	"Error",0
+	DEFB	#01	;Text Line
+	DEFW	#0034,#0012
+	DEFB	#80
+	DEFB	"No memory space",0
+	DEFB	#04	;UpRectan
+	DEFW	#003C,#001E
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0058,#0021
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+ErrorLp
+	LD	IX,ErrorTab3
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,ErrorLp
+	LD	A,B
+	OR	A
+	JR	NZ,ErrorLp
+	LD	A,E
+	CP	#1B
+	JR	Z,ErrorExt
+	CP	#0D
+	JR	Z,ErrorExt
+	RES	5,A
+	CP	"O"
+	JR	NZ,ErrorLp
+ErrorExt
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	SUB	A
+	RET 
+ErrorTab3
+	DEFW #011C,#0164,#0076,#0084,#21,#0000,ErrorExt,#0000
+	DEFW #8000
+
+

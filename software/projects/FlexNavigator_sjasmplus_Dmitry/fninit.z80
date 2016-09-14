@@ -1,0 +1,704 @@
+
+;[]==========================================================[]
+InitVMode
+	LD	C,#51
+	RST	#10
+	LD	C,A
+	LD	A,(InitFlg+1)
+	OR	A
+	JR	NZ,InitVM0
+	LD	A,C
+	LD	(VMode+1),A
+	LD	A,B
+	LD	(VScrn+1),A
+InitVM0	LD	HL,WorkBuffer
+	LD	C,#EF
+	RST	#08
+	LD	HL,#FFFD
+	OR	A
+	SBC	HL,BC
+	JR	Z,InitVM1
+	SUB	A
+	LD	BC,#1FFD
+	OUT	(C),A
+	IN	A,(#C9)
+	PUSH	AF
+	LD	C,#F1
+	CALL	#3D14
+	SUB	A
+	OUT	(BORDER),A
+	POP	AF
+	OUT	(#C9),A
+	LD	A,#01
+	LD	BC,#1FFD
+	OUT	(C),A
+	CALL	InitComPorts
+InitVM1	LD	BC,#0050
+	LD	A,#82
+	RST	#10
+	SUB	A
+	CALL	ClearScreen
+InitPAL	LD	HL,PALETTE
+	LD	DE,#1000
+	LD	BC,#FFA4
+	SUB	A
+	RST	#08
+	RET 
+
+ComA	EQU	#19
+DataA	EQU	#18
+LPT1C	EQU	#1D
+LPT2C	EQU	#1F
+
+InitComPorts
+	LD	A,#00
+	OUT	(ComA),A
+	LD	A,#01
+	OUT	(ComA),A
+	LD	A,#00		;#18
+	OUT	(ComA),A
+	LD	A,#03
+	OUT	(ComA),A
+	LD	A,#C1
+	OUT	(ComA),A
+	LD	A,#04
+	OUT	(ComA),A
+	LD	A,#07		;#05
+	OUT	(ComA),A
+	LD	A,#05
+	OUT	(ComA),A
+	LD	A,#60
+	OUT	(ComA),A
+	LD	A,#8F
+	OUT	(LPT1C),A
+	LD	A,#CF
+	LD	BC,LPT2C
+	OUT	(C),A
+	LD	A,#FF
+	OUT	(C),A
+	RET 
+;[]----------------------------------------------------------[]
+ResVMode
+ResVModeE
+VScrn	LD	B,#00
+VMode	LD	A,#00
+	LD	C,#50
+	PUSH	IY
+	RST	#10
+	POP	IY
+	RET 
+;[]==========================================================[]
+InitDrivers
+	SUB	A
+	LD	(CMOSFlag),A
+	LD	L,A
+	LD	H,A
+	LD	(PrvTabl+1),HL
+	LD	(PrMousX+1),HL
+	LD	(PrMousY+1),HL
+	LD	BC,#073D
+	RST	#10
+	JR	NC,InitDrv
+	CALL	ResVMode
+	LD	HL,NoEnMemory
+	LD	C,#5C		;печатаем
+	RST	#10
+	LD	A,(FNIndef)
+	LD	C,#3E
+	RST	#10
+	LD	BC,#FF41
+	RST	#10
+NoEnMemory
+	DEFB	"Not enough memory to run program.",#0D,#0A,#00
+InitDrv
+	LD	(BuffInd),A
+	LD	HL,WorkPage
+	LD	C,#C5
+	RST	#08
+InDrv0	LD	C,#02
+	RST	#10
+	LD	C,#01
+	RST	#10
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JR	C,InDrv0
+	CP	12
+	JR	C,$+4
+	LD	A,11
+	LD	(EquipDisks),A
+	LD	C,#21
+	RST	#10
+	JR	C,InDrv1
+	LD	A,D
+	CP	32
+	CCF 
+	JR	C,InDrv1
+	LD	A,E
+	CP	13
+	CCF 
+	JR	C,InDrv1
+	LD	A,H
+	CP	24
+	CCF 
+	JR	C,InDrv1
+	LD	A,L
+	CP	60
+	CCF 
+InDrv1	LD	A,#00
+	JR	C,$+3
+	INC	A
+	LD	(CMOSFlag),A
+InitFlg	LD	A,#00
+	OR	A
+	CALL	Z,FirstInit
+	LD	C,#00
+	RST	#30
+	LD	A,(MouseFlag)
+	OR	A
+	LD	C,#01
+	JR	NZ,$+4
+	LD	C,#02
+	RST	#30
+	RET 
+FirstInit
+	LD	C,#02
+	RST	#10
+	LD	HL,LeftPanel+BegPath
+	PUSH	HL
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	RST	#10
+	POP	HL
+	LD	DE,RightPanel+BegPath
+	LD	BC,#0100
+	LDIR 
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,(FunctPg)
+	OUT	(PAGE1),A
+	LD	HL,LeftPanel+BegPath
+	LD	DE,FlexDIRECTORY
+	LD	BC,#0100
+	LDIR 
+	LD	HL,SetupName
+	LD	C,#11
+	LD	A,#01
+	RST	#10
+	JR	C,InDrv3
+	PUSH	AF
+	LD	HL,WorkBuffer
+	LD	DE,#0100
+	LD	C,#13
+	RST	#10
+	POP	AF
+	LD	C,#12
+	RST	#10
+	LD	HL,WorkBuffer
+	LD	DE,SetupHead
+	LD	B,11
+InDrv2	LD	A,(DE)
+	CP	(HL)
+	JR	NZ,InDrv3
+	INC	HL
+	INC	DE
+	DJNZ	InDrv2
+	LD	DE,PALETTE
+	LD	BC,#0040
+	LDIR 
+	LD	A,(HL)
+	INC	HL
+	OR	A
+	JR	Z,InDrvPL
+	LD	A,(HL)
+	INC	HL
+	AND	#01
+	LD	(MouseFlag),A
+	LD	DE,LeftPanel
+	PUSH	DE
+	LDI 
+	LDI 
+	LDI 
+	POP	DE
+	EX	DE,HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	EX	DE,HL
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	INC	HL
+	LD	DE,RightPanel
+	PUSH	DE
+	LDI 
+	LDI 
+	LDI 
+	POP	DE
+	EX	DE,HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	EX	DE,HL
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+InDrvPL	CALL	InitPAL
+InDrv3	POP	AF
+	OUT	(PAGE1),A
+	LD	HL,BgDISKl
+	LD	DE,BgDISKr
+	LD	BC,#0020
+	LD	A,(EquipDisks)
+InDrv4	ADD	HL,BC
+	EX	DE,HL
+	ADD	HL,BC
+	EX	DE,HL
+	DEC	A
+	JR	NZ,InDrv4
+	LD	(HL),#00
+	INC	HL
+	LD	(HL),#80
+	EX	DE,HL
+	LD	(HL),#00
+	INC	HL
+	LD	(HL),#80
+	LD	DE,InitExtention
+	LD	A,(HelpPg)
+	LD	C,PAGE1
+	CALL	Resident
+	LD	A,#01
+	LD	(InitFlg+1),A
+	RET 
+;[]----------------------------------------------------------[]
+ResDrivers
+	LD	C,#02
+	RST	#30
+	LD	A,(BuffInd)
+	LD	C,#3E
+	RST	#10
+	RET 
+;[]==========================================================[]
+InitScreen
+	CALL	MakeWindow
+	DEFB	#00	;Main window
+	DEFW	#0000,#0000
+	DEFW	#0280,#0100
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0278,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0003
+	DEFB	#0F
+	DEFB	"Flex Navigator v1.10",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#000D
+	DEFW	#0280
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0011
+	DEFB	#80
+	DEFB	"File    Select    Options    View    Config"
+	DEFB	"    About",0
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#001B
+	DEFW	#0280
+	DEFB	#07	;Vertical line
+	DEFW	#013E,#001E
+	DEFW	#000C
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#002B
+	DEFW	#0280
+
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00D3
+	DEFW	#0280
+	DEFB	#07	;Vertical line
+	DEFW	#013E,#00D6
+	DEFW	#000A
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00E1
+	DEFW	#0280
+	DEFB	#03	;Углубление
+	DEFW	#00FC,#00E4
+	DEFW	#0180,#000C
+	DEFB	#02	;Head place
+	DEFW	#00FE,#00E5
+	DEFW	#017C,#000A
+	DEFB	PanelCol
+	DEFB	#06	;Horizontal line
+	DEFW	#0000,#00F1
+	DEFW	#0280
+	DEFB	#04	;UpRectan
+	DEFW	#0000,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0016,#00F5
+	DEFB	#80
+	DEFB	"F1 Help",0
+	DEFB	#04	;UpRectan
+	DEFW	#0050,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0064,#00F5
+	DEFB	#80
+	DEFB	"F3 View",0
+	DEFB	#04	;UpRectan
+	DEFW	#00A0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00B6,#00F5
+	DEFB	#80
+	DEFB	"F4 Edit",0
+	DEFB	#04	;UpRectan
+	DEFW	#00F0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0104,#00F5
+	DEFB	#80
+	DEFB	"F5 Copy",0
+	DEFB	#04	;UpRectan
+	DEFW	#0140,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#014E,#00F5
+	DEFB	#80
+	DEFB	"F6 Rename",0
+	DEFB	#04	;UpRectan
+	DEFW	#0190,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#019E,#00F5
+	DEFB	#80
+	DEFB	"F7 MakeDir",0
+	DEFB	#04	;UpRectan
+	DEFW	#01E0,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#01F0,#00F5
+	DEFB	#80
+	DEFB	"F8 Delete",0
+	DEFB	#04	;UpRectan
+	DEFW	#0230,#00F2
+	DEFW	#0050,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0244,#00F5
+	DEFB	#80
+	DEFB	"F10 Quit",0
+	DEFB	#00
+	LD	A,(CMOSFlag)
+	OR	A
+	RET	Z
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#03
+	DEFW	#01F4,#000F
+	DEFW	#0088,#000C
+	DEFB	#00
+	LD	HL,#01FC
+	LD	DE,#0012
+	LD	B,#80
+	EXX 
+	LD	HL,#022E
+	LD	DE,#0012
+	LD	B,#80
+	EXX 
+	LD	A,#02
+	CALL	SetCMOSPrint
+	RET 
+;[]==========================================================[]
+InitPanels
+	LD	(InitPanFlg),A
+	LD	HL,LeftPanel+ViewFlg
+	LD	A,(RightPanel+ViewFlg)
+	OR	(HL)
+	AND	#02
+	JR	NZ,InitPanTree
+	LD	IY,LeftPanel
+	CALL	InitPanelE
+	LD	IY,RightPanel
+	CALL	InitPanelE
+	JR	InitPanExit
+InitPanTree
+	LD	IY,LeftPanel
+	BIT	1,(IY+ViewFlg)
+	JR	NZ,$+6
+	LD	IY,RightPanel
+	CALL	InitPanelE
+InitPanExit
+	LD	HL,LeftPanel
+	LD	DE,BegPath
+	BIT	7,(HL)
+	JR	NZ,$+5
+	LD	HL,RightPanel
+	PUSH	HL
+	ADD	HL,DE
+	LD	C,#1D
+	RST	#10
+	POP	IY
+	RET 
+;
+InitPanel
+	SUB	A
+InitPanel1
+	LD	(InitPanFlg),A
+InitPanelE
+	LD	A,(InitPanFlg)
+	BIT	0,A
+	CALL	Z,SetClock
+	CALL	PrintDisks
+	CALL	PrintPath
+	BIT	7,(IY+PanelFlg)
+	CALL	NZ,PrintDOSPath
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	JP	NZ,InitPPanel
+	LD	L,(IY+PanelXl)
+	LD	H,(IY+PanelXh)
+	LD	(PanelN1),HL
+	INC	HL
+	INC	HL
+	LD	(PanelN2),HL
+	LD	(PanelN6),HL
+	LD	(PanelN3),HL
+	LD	(Nbut1),HL
+	LD	(Nfile),HL
+	LD	DE,#0010
+	ADD	HL,DE
+	LD	(PanelN4),HL
+	LD	(Nbut1+2),HL
+	LD	(Nbar1),HL
+	LD	(IY+PanBarXl),L
+	LD	(IY+PanBarXh),H
+	LD	(IY+PanBarYl),#C9
+	LD	(IY+PanBarYh),#00
+	LD	DE,#0114
+	ADD	HL,DE
+	LD	(PanelN5),HL
+	LD	(Nbar2+2),HL
+	LD	(Nbut2),HL
+	LD	(IY+PanBrMLl),E
+	LD	(IY+PanBrMLh),D
+	LD	DE,#0010
+	ADD	HL,DE
+	LD	(Nbut2+2),HL
+	LD	(Nfile+2),HL
+	LD	(IY+PanelFPl),#33
+	LD	(IY+PanelFPh),#00
+;Краткая панель
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#03		;Углубл.для файлов
+PanelN1	DEFW	#0000,#003B
+	DEFW	#0138,#0097
+	DEFB	#02		;Фон для файлов
+PanelN2	DEFW	#0000,#003C
+	DEFW	#0134,#0095
+	DEFB	PanelCol
+	DEFB	#08		;Кнопка	SB левая
+PanelN3	DEFW	#0000,#00C9
+	DEFB	#02
+PanelN4	DEFW	#0000,#00C9
+	DEFW	#0114,#0008
+	DEFB	#08
+	DEFB	#09		;Кнопка	SB правая
+PanelN5	DEFW	#0000,#00C9
+	DEFB	#02		;Место для FileInfo
+PanelN6	DEFW	#0000,#00D5
+	DEFW	#0136,#000C
+	DEFB	#08
+	DEFB	#00
+	LD	HL,NormMouse
+	LD	DE,PanelPlaceL
+	BIT	0,(IY+PanelFlg)
+	JR	Z,$+5
+	LD	DE,PanelPlaceR
+	PUSH	DE
+	LD	BC,#0050
+	LDIR 
+	POP	HL
+	LD	BC,#0032
+	ADD	HL,BC
+	LD	(IY+PanBrLFl),L
+	LD	(IY+PanBrLFh),H
+	LD	BC,#000E
+	ADD	HL,BC
+	LD	(IY+PanBrRTl),L
+	LD	(IY+PanBrRTh),H
+	JP	InitPanEx
+NormMouse
+Nfile	DEFW #0000,#0000,#003F,#00C7,#00,#0000,NewFile,MarkFile
+Nbut1	DEFW #0000,#0000,#00C9,#00D1,#03,#0000,ScrollDown,#0000
+Nbut2	DEFW #0000,#0000,#00C9,#00D1,#03,#0000,ScrollUp,#0000
+Nbar1	DEFW #0000,#0000,#00C9,#00D1,#00,#0000,PageUp,#0000
+Nbar2	DEFW #0000,#0000,#00C9,#00D1,#00,#0000,PageDown,#0000
+;Подробная панель и панель с деревом
+InitPPanel
+	LD	L,(IY+PanelXl)
+	LD	H,(IY+PanelXh)
+	LD	(PanelP1),HL
+	INC	HL
+	INC	HL
+	LD	(PanelP2),HL
+	LD	(PanelP6),HL
+	LD	(Pfile),HL
+	LD	DE,#0124
+	ADD	HL,DE
+	LD	(PanelP3),HL
+	LD	(PanelP4),HL
+	LD	(PanelP5),HL
+	LD	(Pbut1),HL
+	LD	(Pbut2),HL
+	LD	(Pbar1),HL
+	LD	(Pbar2),HL
+	LD	(Pfile+2),HL
+	LD	(IY+PanBarXl),L
+	LD	(IY+PanBarXh),H
+	LD	DE,#0010
+	ADD	HL,DE
+	LD	(Pbut1+2),HL
+	LD	(Pbut2+2),HL
+	LD	(Pbar1+2),HL
+	LD	(Pbar2+2),HL
+	LD	(IY+PanBarYl),#44
+	LD	(IY+PanBarYh),#00
+	LD	(IY+PanBrMLl),#85
+	LD	(IY+PanBrMLh),#00
+	LD	(IY+PanelFPl),#12
+	LD	(IY+PanelFPh),#00
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#03		;Углубл.для файлов
+PanelP1	DEFW	#0000,#003B
+	DEFW	#0138,#0097
+	DEFB	#02		;Фон для файлов
+PanelP2	DEFW	#0000,#003C
+	DEFW	#0134,#0095
+	DEFB	PanelCol
+	DEFB	#0A		;Кнопка	SB верхняя
+PanelP3	DEFW	#0000,#003C
+	DEFB	#02
+PanelP4	DEFW	#0000,#0044
+	DEFW	#0010,#0085
+	DEFB	#08
+	DEFB	#0B		;Кнопка	SB нижняя
+PanelP5	DEFW	#0000,#00C9
+	DEFB	#02		;Место для FileInfo
+PanelP6	DEFW	#0000,#00D5
+	DEFW	#0136,#000C
+	DEFB	#08
+	DEFB	#00
+	LD	HL,PodrMouse
+	LD	DE,PanelPlaceL
+	BIT	0,(IY+PanelFlg)
+	JR	Z,$+5
+	LD	DE,PanelPlaceR
+	PUSH	DE
+	LD	BC,#0050
+	LDIR 
+	POP	HL
+	LD	BC,#0036
+	ADD	HL,BC
+	LD	(IY+PanBrLFl),L
+	LD	(IY+PanBrLFh),H
+	LD	BC,#000E
+	ADD	HL,BC
+	LD	(IY+PanBrRTl),L
+	LD	(IY+PanBrRTh),H
+	JP	InitPanEx
+PodrMouse
+Pfile	DEFW #0000,#0000,#003F,#00CF,#00,#0000,NewFile,MarkFile
+Pbut1	DEFW #0000,#0000,#003C,#0044,#03,#0000,ScrollDown,#0000
+Pbut2	DEFW #0000,#0000,#00C9,#00D1,#03,#0000,ScrollUp,#0000
+Pbar1	DEFW #0000,#0000,#0044,#0000,#00,#0000,PageUp,#0000
+Pbar2	DEFW #0000,#0000,#0000,#00D1,#00,#0000,PageDown,#0000
+InitPanEx
+	LD	A,(InitPanFlg)
+	BIT	0,A
+	JR	NZ,InPan1
+	PUSH	IY
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	LD	C,#1D		;Change	DIR
+	RST	#10
+	POP	IY
+	JR	NC,InPan0
+	CALL	DOSError
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	InitPanel
+InPan0	CALL	ReadDIR
+	LD	A,(InitPanFlg)
+	BIT	1,A
+	CALL	NZ,FindPrevFile
+InPan1	CALL	PrintDIR
+	CALL	SetInvert
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	InitScrBar
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+	CALL	SetMouse
+	LD	A,(InitPanFlg)
+	BIT	0,A
+	RET	NZ
+	LD	HL,LeftPanel+ViewFlg
+	LD	A,(RightPanel+ViewFlg)
+	OR	(HL)
+	AND	#02
+	RRCA 
+	LD	(TreeFlag),A
+	BIT	1,(IY+ViewFlg)
+	RET	Z
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,RightPanel
+	LD	HL,LeftPanel+BegPath
+	LD	DE,RightPanel+BegPath
+	JR	Z,InPan2
+	LD	IY,LeftPanel
+	LD	HL,RightPanel+BegPath
+	LD	DE,LeftPanel+BegPath
+InPan2	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	CALL	InitPanelE
+	POP	IY
+	RET 
+InitPanFlg
+	DEFB	#00
+
+

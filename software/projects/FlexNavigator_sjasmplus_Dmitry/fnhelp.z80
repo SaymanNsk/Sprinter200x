@@ -1,0 +1,442 @@
+
+;[]==========================================================[]
+HelpR
+	LD	A,#01
+	LD	(CMOSPrint),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0040,#0010
+	DEFW	#0200,#00E0
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#01F8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#00F8,#0003
+	DEFB	#0F
+	DEFB	"Help",0
+	DEFB	#04	;UpRectan
+	DEFW	#00DC,#00CE
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#00FA,#00D1
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#03
+	DEFW	#0008,#0010
+	DEFW	#01F0,#00BB
+	DEFB	#02
+	DEFW	#000A,#0011
+	DEFW	#01DC,#00B9
+	DEFB	#0F
+	DEFB	#0A		;Кнопка	SB верхняя
+	DEFW	#01E6,#0011
+	DEFB	#0B		;Кнопка	SB нижняя
+	DEFW	#01E6,#00C2
+	DEFB	#00
+	CALL	InitHelpTxt
+	CALL	PrnHelpPg
+	CALL	ResFire
+HelpLoop
+	LD	IX,HelpTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,HelpLoop
+	LD	A,B
+	OR	A
+	JR	NZ,HelpLoop
+	LD	A,E		;Е-ASCII код
+	CP	#1B		;Esc
+	JP	Z,HelpExit
+	CP	#0D		;Enter
+	JP	Z,HelpExit
+	RES	5,A
+	CP	"O"
+	JP	Z,HelpExit
+	OR	A
+	JR	NZ,HelpLoop    ;Ждем функцион.клавиши
+	LD	HL,HelpLoop
+	PUSH	HL
+	LD	A,D
+	CP	#58		 ;Стрелка вверх
+	JP	Z,HLineUp
+	CP	#52		 ;Стрелка вниз
+	JP	Z,HLineDown
+	CP	#59		 ;PageUp
+	JP	Z,HPageUp
+	CP	#53		 ;PageDown
+	JP	Z,HPageDown
+	CP	#57		 ;Home
+	JP	Z,HHome
+	CP	#51		 ;End
+	JP	Z,HEnd
+	RET 
+HelpExit
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	SUB	A
+	LD	(CMOSPrint),A
+	RET 
+;[]----------------------------------------------------------[]
+InitHelpTxt
+	LD	HL,HelpText
+	LD	(PageShift),HL
+	LD	HL,#0000
+	LD	(CHLine),HL
+	LD	HL,HelpText
+	LD	DE,#0000
+InHelp1	LD	BC,#1000
+	SUB	A
+	CPIR 
+	INC	DE
+	LD	A,(HL)
+	INC	A
+	JR	NZ,InHelp1
+	DEC	DE
+	LD	(EHLines),DE
+	LD	IX,HelpVBar
+	CALL	InitScrBar
+	RET 
+PageShift
+	DEFW	#0000
+NextShift
+	DEFW	#0000
+HelpVBar
+	DEFW	#0226	;X позиция скролбара
+	DEFW	#0029	;Y позиция скролбара
+	DEFW	#00A9	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+	DEFW	HBarUp	;Адрес ячейки BarLeft
+	DEFW	HBarDn	;Адрес ячейки BarRight
+	DEFW	#0017	;Кол-во	строк на странице
+EHLines	DEFW	#0000	;Общее кол-во строк
+CHLine	DEFW	#0000	;Первая	строка на странице
+;[]----------------------------------------------------------[]
+PrnHelpPg
+	LD	HL,(PageShift)
+	LD	B,#22
+PrnHPg1	PUSH	BC
+	CALL	ClearHRect
+	LD	DE,#0050
+	LD	C,B
+	LD	B,D
+	LD	A,(HL)
+	INC	A
+	LD	A,#F0
+	CALL	NZ,PrnTxtLnIFF
+	POP	BC
+	LD	A,B
+	ADD	A,#08
+	LD	B,A
+	CP	#DA
+	JR	NZ,PrnHPg1
+	LD	(NextShift),HL
+	LD	IX,HelpVBar
+	CALL	PrnVScrBar
+	RET 
+ClearHRect
+	PUSH	HL
+	PUSH	BC
+	IN	A,(PAGE3)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE3),A
+	LD	HL,#C028
+	LD	LX,B
+	LD	D,#FF
+	DI 
+	LD	D,D
+	LD	A,#E8
+	LD	B,B
+	LD	B,#08
+ClHRect	LD	A,LX
+	OUT	(YPORT),A
+	LD	C,C
+	LD	(HL),D
+	LD	B,B
+	INC	LX
+	DJNZ	ClHRect
+	EI 
+	POP	AF
+	OUT	(PAGE3),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	POP	BC
+	POP	HL
+	RET 
+;[]----------------------------------------------------------[]
+HHome
+	LD	HL,(PageShift)
+	LD	DE,HelpText
+	OR	A
+	SBC	HL,DE
+	RET	Z
+	LD	(PageShift),DE
+	LD	HL,#0000
+	LD	(CHLine),HL
+	CALL	PrnHelpPg
+	RET 
+HEnd
+	LD	HL,(NextShift)
+	LD	A,(HL)
+	INC	A
+	RET	Z
+	LD	HL,HelpTextEnd
+	DEC	HL
+	DEC	HL
+	PUSH	HL
+	LD	DE,HelpText
+	OR	A
+	SBC	HL,DE
+	LD	C,L
+	LD	B,H
+	POP	HL
+	LD	DE,(EHLines)
+	DEC	HL
+	LD	A,#17
+HEnd1	EX	AF,AF'
+	SUB	A
+	DEC	DE
+	CPDR 
+	JP	PO,HEnd2+1
+	EX	AF,AF'
+	DEC	A
+	JR	NZ,HEnd1
+HEnd2	INC	HL
+	INC	HL
+	LD	(PageShift),HL
+	INC	DE
+	LD	(CHLine),DE
+	CALL	PrnHelpPg
+	RET 
+HLineUp
+	LD	HL,(PageShift)
+	LD	DE,HelpText
+	OR	A
+	SBC	HL,DE
+	RET	Z
+	LD	C,L
+	LD	B,H
+	ADD	HL,DE
+	DEC	HL
+	SUB	A
+	CPD 
+	JP	PO,HLnUp0
+	CPDR 
+	INC	HL
+HLnUp0	INC	HL
+	LD	(PageShift),HL
+	LD	DE,HelpTextEnd
+	DEC	DE
+	EX	DE,HL
+	OR	A
+	SBC	HL,DE
+	EX	DE,HL
+	LD	C,E
+	LD	B,D
+	LD	A,#17
+HLnUp1	EX	AF,AF'
+	SUB	A
+	CPIR 
+	JP	PO,HLnUp2
+	EX	AF,AF'
+	DEC	A
+	JR	NZ,HLnUp1
+HLnUp2	LD	(NextShift),HL
+	LD	HL,(CHLine)
+	DEC	HL
+	LD	(CHLine),HL
+	LD	DE,#222A
+	CALL	ScrHELPDnUp
+	LD	B,#22
+	CALL	ClearHRect
+	LD	HL,(PageShift)
+	LD	DE,#0050
+	LD	C,B
+	LD	B,D
+	LD	A,(HL)
+	INC	A
+	LD	A,#F0
+	CALL	NZ,PrnTxtLnIFF
+	LD	IX,HelpVBar
+	CALL	PrnVScrBar
+	RET 
+HLineDown
+	LD	HL,(NextShift)
+	LD	A,(HL)
+	INC	A
+	RET	Z
+	PUSH	HL
+	LD	DE,HelpTextEnd
+	EX	DE,HL
+	OR	A
+	SBC	HL,DE
+	EX	DE,HL
+	LD	C,E
+	LD	B,D
+	SUB	A
+	CPIR 
+	LD	(NextShift),HL
+	LD	HL,(PageShift)
+	LD	DE,HelpTextEnd
+	EX	DE,HL
+	OR	A
+	SBC	HL,DE
+	EX	DE,HL
+	LD	C,E
+	LD	B,D
+	SUB	A
+	CPIR 
+	LD	(PageShift),HL
+	LD	HL,(CHLine)
+	INC	HL
+	LD	(CHLine),HL
+	LD	DE,#2A22
+	CALL	ScrHELPDnUp
+	POP	HL
+	LD	B,#D2
+	CALL	ClearHRect
+	LD	DE,#0050
+	LD	C,B
+	LD	B,D
+	LD	A,(HL)
+	INC	A
+	LD	A,#F0
+	CALL	NZ,PrnTxtLnIFF
+	LD	IX,HelpVBar
+	CALL	PrnVScrBar
+	RET 
+;На вход:
+;	 D  - Y	откуда
+;	 Е  - Y	куда
+ScrHELPDnUp
+	IN	A,(PAGE3)
+	PUSH	AF
+	LD	A,#50
+	OUT	(PAGE3),A
+	LD	HL,#C028
+	LD	B,#E8
+	DI 
+	LD	D,D
+	LD	A,#B0
+	LD	B,B
+ScHelp1	LD	A,D
+	OUT	(YPORT),A
+	LD	A,A
+	LD	A,(HL)
+	LD	B,B
+	LD	A,E
+	OUT	(YPORT),A
+	LD	A,A
+	LD	(HL),A
+	LD	B,B
+	INC	HL
+	DJNZ	ScHelp1
+	EI 
+	POP	AF
+	OUT	(PAGE3),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	RET 
+HPageUpM
+	CALL	HPageUp
+	RET	C
+	LD	B,#0A
+HUpM1	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	HUpM1
+HUpM2	CALL	HPageUp
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	HUpM2
+HPageUp
+	LD	HL,(PageShift)
+	LD	DE,HelpText
+	OR	A
+	SBC	HL,DE
+	SCF 
+	RET	Z
+	LD	C,L
+	LD	B,H
+	ADD	HL,DE
+	LD	DE,(CHLine)
+	DEC	HL
+	LD	A,#18
+HPgUp1	EX	AF,AF'
+	SUB	A
+	DEC	DE
+	CPDR 
+	JP	PO,HPgUp2+1
+	EX	AF,AF'
+	DEC	A
+	JR	NZ,HPgUp1
+	INC	DE
+HPgUp2	INC	HL
+	INC	HL
+	LD	(PageShift),HL
+	LD	(CHLine),DE
+	CALL	PrnHelpPg
+	OR	A
+	RET 
+HPageDownM
+	CALL	HPageDown
+	RET	C
+	LD	B,#0A
+HDnM1	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	HDnM1
+HDnM2	CALL	HPageDown
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	HDnM2
+HPageDown
+	LD	HL,(NextShift)
+	LD	A,(HL)
+	INC	A
+	SCF 
+	RET	Z
+	LD	(PageShift),HL
+	LD	HL,(CHLine)
+	LD	DE,#0017
+	ADD	HL,DE
+	LD	(CHLine),HL
+	CALL	PrnHelpPg
+	OR	A
+	RET 
+;[]==========================================================[]
+HelpTab
+	DEFW #0226,#0236,#0021,#0029,#03,#0000,HLineUp,#0000
+	DEFW #0226,#0236,#00D2,#00DA,#03,#0000,HLineDown,#0000
+HBarUp	EQU  $+6
+	DEFW #0226,#0236,#0029,#0000,#00,#0000,HPageUpM,#0000
+HBarDn	EQU  $+4
+	DEFW #0226,#0236,#0000,#00D2,#00,#0000,HPageDownM,#0000
+
+	DEFW #011C,#0164,#00DE,#00EC,#21,#0000,HelpExit,#0000
+	DEFW #0000,#0040,#0000,#0100,#20,#0000,HelpExit,#0000
+	DEFW #0240,#0280,#0000,#0100,#20,#0000,HelpExit,#0000
+	DEFW #0000,#0280,#0000,#0010,#20,#0000,HelpExit,#0000
+	DEFW #0000,#0280,#00F0,#0100,#20,#0000,HelpExit,#0000
+	DEFW #8000
+
+

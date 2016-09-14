@@ -1,0 +1,757 @@
+
+;[]----------------------------------------------------------[]
+ReadTree
+	SUB	A
+	LD	(IY+PanelFFl),A	     ;First pag
+	LD	(IY+PanelFFh),A
+	LD	(IY+PanelCFl),A	     ;Current f
+	LD	(IY+PanelCFh),A
+	LD	(IY+PanelEFl),A	     ;Equip fil
+	LD	(IY+PanelEFh),A
+	LD	(IY+PanelMFl),A	     ;Equip mark files
+	LD	(IY+PanelMFh),A
+	LD	(IY+PanelMBl1),A      ;Equip mark bytes
+	LD	(IY+PanelMBh1),A
+	LD	(IY+PanelMBl2),A      ;Equip mark bytes
+	LD	(IY+PanelMBh2),A
+	LD	HL,BegDIR
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	LD	HL,TreeName
+	SUB	A
+	LD	C,#11
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JP	NC,LoadTree
+ScanTree
+	IN	A,(PAGE1)
+	LD	C,A
+	IN	A,(PAGE3)
+	LD	B,A
+	PUSH	BC
+	LD	A,(BuffPg3)
+	OUT	(PAGE1),A
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	PUSH	IY
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00F0,#0060
+	DEFW	#00A0,#0028
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#0098,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#002C,#0003
+	DEFB	#0F
+	DEFB	"Scanning tree",0
+	DEFB	#01	;Text Line
+	DEFW	#0020,#0014
+	DEFB	#80
+	DEFB	"Directories:",0
+	DEFB	#00
+	LD	(TreeSP1+1),SP
+	SUB	A
+	LD	(CurTree),A
+	LD	SP,WorkBuffer+#500
+	LD	HL,#0000
+	PUSH	HL
+	LD	(CurTAdr+1),HL
+	LD	HL,#C010
+	LD	(EndTree),HL
+	LD	B,#10
+	SUB	A
+	LD	(HL),A
+	INC	HL
+	DJNZ	$-2
+	LD	HL,#0001
+	LD	(TreeDIRS),HL
+	CALL	LoadDIR
+	JR	NC,TreeExit	;NC - нет директорий
+TreeLoop
+	PUSH	HL
+	LD	C,#31
+	RST	#10
+	LD	A,E
+	SUB	#1B
+	POP	HL
+	JP	Z,AbortTree
+	LD	A,(CurTree)
+	INC	A
+	CP	#15
+	JR	Z,DIRSend
+	LD	(CurTree),A
+	LD	DE,(TreeDIRS)
+	BIT	2,D		;>=1024
+	JR	NZ,TreeExit
+	PUSH	HL
+	LD	A,(HL)
+	OR	A
+	JR	Z,DIRSend
+	LD	(CurTAdr+1),HL
+	LD	C,#1D
+	RST	#10
+	CALL	LoadDIR
+	JR	C,TreeLoop	;C - есть директории
+DIRSend
+	LD	C,#31
+	RST	#10
+	LD	A,E
+	SUB	#1B
+	JP	Z,AbortTree
+	POP	HL
+	LD	A,H
+	OR	L
+	JR	Z,TreeExit
+	PUSH	HL
+	LD	HL,CurTree
+	DEC	(HL)
+	LD	HL,UpDIR
+	LD	C,#1D
+	RST	#10
+	POP	HL
+	LD	DE,#000F
+	ADD	HL,DE
+	LD	A,(HL)
+	INC	HL
+	INC	A
+	JR	NZ,TreeLoop
+	JR	DIRSend
+TreeExit
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	SP,WorkBuffer+#500
+	LD	IX,#0000
+	PUSH	IX
+	LD	HL,#4000
+	LD	DE,TreeHead
+	LD	BC,#0010
+	EX	DE,HL
+	LDIR 
+	LD	HL,(TreeDIRS)
+	DEC	HL
+	LD	A,H
+	OR	L
+	JR	Z,TreeExit1
+	LD	HL,#C010
+TreeEndLp
+	INC	LX
+	PUSH	HL
+	PUSH	DE
+	LD	A,LX
+	CP	HX
+	JR	C,$+4
+	LD	HX,A
+	LD	(DE),A
+	INC	DE
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	LD	BC,#000C
+	LDIR 
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	LD	(DE),A
+	INC	DE
+	INC	HL
+	LD	C,(HL)
+	INC	HL
+	LD	B,(HL)
+	INC	HL
+	LD	A,(HL)
+	AND	#80
+	POP	HL
+	OR	(HL)
+	LD	(HL),A
+	LD	L,C
+	LD	H,B
+	LD	A,H
+	OR	L
+	JR	NZ,TreeEndLp
+TreeEndLp1
+	DEC	LX
+	POP	HL
+	LD	A,H
+	OR	L
+	JR	Z,TreeExit1
+	LD	BC,#000F
+	ADD	HL,BC
+	LD	A,(HL)
+	INC	HL
+	INC	A
+	JR	NZ,TreeEndLp
+	JR	TreeEndLp1
+TreeExit1
+	LD	(EndTree),DE
+	DEC	DE
+	LD	A,#FF
+	LD	(DE),A
+TreeSP1	LD	SP,#0000
+	POP	IY
+	RES	2,(IY+ViewFlg)
+	LD	A,HX
+	CP	#0B
+	JR	C,$+6
+	SET	2,(IY+ViewFlg)
+	IN	A,(PAGE3)
+	LD	(BuffPg3),A
+	IN	A,(PAGE1)
+	BIT	0,(IY+PanelFlg)
+	LD	HL,DIRpage1
+	JR	Z,$+5
+	LD	HL,DIRpage2
+	LD	(HL),A
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	POP	BC
+	LD	A,B
+	OUT	(PAGE3),A
+	LD	A,C
+	OUT	(PAGE1),A
+	LD	HL,(TreeDIRS)
+	LD	(IY+PanelEFl),L	     ;Equip fil
+	LD	(IY+PanelEFh),H
+	PUSH	IY
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	HL,BegDIR
+	LD	C,#1D
+	RST	#10
+	LD	HL,TreeName
+	SUB	A
+	LD	C,#0A
+	RST	#10
+	JR	C,TreeErr
+	PUSH	AF
+	LD	HL,#C000
+	LD	DE,(EndTree)
+	RES	6,D
+	LD	C,#14
+	RST	#10
+	POP	AF
+	LD	C,#12
+	RST	#10
+TreeErr	LD	A,#01
+	LD	(#C001),A
+	POP	AF
+	OUT	(PAGE3),A
+	POP	IY
+	JP	TreeOkey
+LoadTree
+	EX	AF,AF'
+	PUSH	IY
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	EX	AF,AF'
+	PUSH	AF
+	LD	HL,#C000
+	LD	DE,#4000
+	LD	C,#13
+	RST	#10
+	EX	AF,AF'
+	LD	HL,#C000
+	LD	DE,WorkBuffer
+	LD	BC,#0010
+	LDIR 
+	POP	AF
+	LD	C,#12
+	RST	#10
+	POP	AF
+	OUT	(PAGE3),A
+	POP	IY
+	EX	AF,AF'
+	JP	C,ScanTree	;Error
+	LD	HL,WorkBuffer+2
+	LD	DE,TreeHead+2
+	LD	B,#0D
+	LD	A,(DE)
+	CP	(HL)
+	JP	NZ,ScanTree	 ;Error
+	INC	HL
+	INC	DE
+	DJNZ	$-7
+	IN	A,(PAGE3)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE3),A
+	LD	HL,#C000
+	LD	DE,#000E
+	LD	BC,#0000
+	LD	HX,#00
+LoadTr1	LD	A,(HL)
+	AND	#7F
+	CP	HX
+	JR	C,$+4
+	LD	HX,A
+	INC	HL
+	LD	(HL),#00
+	INC	BC
+	ADD	HL,DE
+	LD	A,(HL)
+	INC	HL
+	INC	A
+	JR	NZ,LoadTr1
+	RES	2,(IY+ViewFlg)
+	LD	A,HX
+	CP	#0B
+	JR	C,$+6
+	SET	2,(IY+ViewFlg)
+	LD	(IY+PanelEFl),C	     ;Equip files
+	LD	(IY+PanelEFh),B
+	BIT	7,(IY+PanelFlg)
+	LD	A,#01
+	JR	NZ,$+4
+	LD	A,#03
+	LD	(#C001),A
+	POP	AF
+	OUT	(PAGE3),A
+TreeOkey
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	INC	HL
+	INC	HL
+	CALL	FindTreeDIR
+	RET 
+AbortTree
+	LD	SP,(TreeSP1+1)
+	POP	IY
+	POP	BC
+	LD	A,B
+	OUT	(PAGE3),A
+	LD	A,C
+	OUT	(PAGE1),A
+	RES	2,(IY+ViewFlg)
+	RES	1,(IY+ViewFlg)
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	LD	HL,InitPanels
+	EX	(SP),HL
+	SUB	A
+	RET 
+TreeName
+	DEFB	"treeinfo.fln",0
+TreeHead
+	DEFB	#00,#00,"\\",#00,#00,#00,#AE,"F"
+	DEFB	"l","e","x","T","r","e","e",#00
+
+BegDIR
+	DEFB	"\\",0
+UpDIR
+	DEFB	"..",0
+CurTree
+	DEFB	#00
+TreeDIRS
+	DEFW	#0000
+EndTree
+	DEFW	#0000
+LoadDIR
+	LD	DE,(EndTree)
+	PUSH	DE
+	LD	IX,#0000
+	LD	HL,NORMmask
+	LD	DE,WorkBuffer
+	LD	BC,#0119
+	LD	A,(FileAtribut)
+	AND	%00010111
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	JR	C,FndFLtrE
+FndFLtr	LD	A,(WorkBuffer+32)
+	BIT	4,A
+	CALL	NZ,InsFileTree
+	JR	C,FndFLtrE
+	LD	DE,WorkBuffer
+	LD	BC,#001A
+	PUSH	IX
+	PUSH	DE
+	RST	#10
+	POP	HL
+	POP	IX
+	JR	NC,FndFLtr
+FndFLtrE
+	LD	HL,(EndTree)
+	DEC	HL
+	LD	(HL),#FF
+	LD	C,LX
+	LD	B,HX
+	LD	HL,(TreeDIRS)
+	ADD	HL,BC
+	LD	(TreeDIRS),HL
+	POP	HL
+	LD	A,B
+	OR	C
+	RET	Z
+	PUSH	HL
+	CALL	PrnMTDIR
+	POP	HL
+CurTAdr	LD	DE,#0000
+	LD	A,D
+	OR	E
+	SCF 
+	RET	Z
+	EX	DE,HL
+	LD	BC,#000D
+	ADD	HL,BC
+	LD	(HL),E
+	INC	HL
+	LD	(HL),D
+	EX	DE,HL
+	SCF 
+	RET 
+InsFileTree
+	EX	DE,HL
+	LD	HL,(EndTree)
+	LD	BC,#0010
+	ADD	HL,BC
+	SBC	HL,BC
+	EX	DE,HL
+	RET	C
+	LD	BC,33
+	ADD	HL,BC
+	LD	A,(HL)
+	CP	"."
+	RET	Z
+	LD	C,#10
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	B,C
+	SUB	A
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-2
+	LD	(EndTree),DE
+	INC	IX
+	RET 
+PrnMTDIR
+	LD	HL,(TreeDIRS)
+	DEC	HL
+	LD	DE,CurDNumb
+	PUSH	DE
+	LD	B,#04
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-2
+	POP	DE
+	EXX 
+	LD	C,#00
+	EXX 
+	LD	BC,1000		;1'000
+	CALL	GetN16
+	LD	BC,100		;100
+	CALL	GetN16
+	LD	BC,10		;10
+	CALL	GetN16
+	LD	A,L
+	ADD	A,"0"
+	LD	(DE),A
+	LD	HL,CurDNumb
+	LD	DE,#0150
+	LD	BC,#0074
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	RET 
+GetN16
+	LD	A,#2F
+	OR	A
+	INC	A
+	SBC	HL,BC
+	JR	NC,$-3
+	ADD	HL,BC
+	CP	#30
+	JR	Z,$+6
+	EXX 
+	SET	0,C
+	EXX 
+	EXX 
+	BIT	0,C
+	EXX 
+	RET	Z
+	LD	(DE),A
+	INC	DE
+	RET 
+CurDNumb
+	DEFB	"    ",0
+;[]=========================================================[]
+TestTree
+	BIT	1,(IY+ViewFlg)
+	RET	Z
+	LD	B,#28
+TstTree	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	OR	A
+	RET	NZ
+	PUSH	BC
+	LD	C,#37
+	RST	#10
+	POP	BC
+	RET	NZ
+	HALT 
+	DJNZ	TstTree
+TestTreeBeg
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	SET	6,H
+	INC	HL
+	BIT	0,(HL)
+	JR	NZ,TTreeEx
+	EX	DE,HL
+	LD	HL,#4000
+	LD	BC,#000E
+TTreeL1	INC	HL
+	RES	0,(HL)
+	ADD	HL,BC
+	LD	A,(HL)
+	INC	HL
+	INC	A
+	JR	NZ,TTreeL1
+	EX	DE,HL
+	SET	0,(HL)
+	CALL	PrintDIR
+	CALL	SetInvert
+	CALL	MakeTreePath
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,RightPanel
+	JR	Z,$+6
+	LD	IY,LeftPanel
+	CALL	NewDIRECTORY
+	POP	IY
+TTreeEx	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]==========================================================[]
+MakeTreePath
+	IN	A,(PAGE1)
+	PUSH	AF
+	BIT	0,(IY+PanelFlg)
+	LD	A,(DIRpage1)
+	JR	Z,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	L,(IY+PanelFFl)
+	LD	H,(IY+PanelFFh)
+	LD	E,(IY+PanelCFl)
+	LD	D,(IY+PanelCFh)
+	ADD	HL,DE
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	SET	6,H
+	LD	DE,WorkBuffer+#FF
+	LD	BC,#0010
+	SUB	A
+	LD	(DE),A
+	DEC	DE
+	LD	A,(HL)
+	OR	A
+	JR	Z,TTreeL5
+	AND	#7F
+	INC	A
+	LD	LX,A
+	ADD	HL,BC
+	INC	DE
+TTreeL2	SBC	HL,BC
+	PUSH	HL
+	LD	A,(HL)
+	INC	HL
+	AND	#7F
+	CP	LX
+	JR	NC,TTreeL4
+	LD	LX,A
+	LD	B,#FF
+	SUB	A
+	INC	B
+	INC	HL
+	CP	(HL)
+	JR	NZ,$-3
+TTreeL3	DEC	HL
+	DEC	DE
+	LD	A,(HL)
+	LD	(DE),A
+	DJNZ	TTreeL3
+	DEC	DE
+	LD	A,"\\"
+	LD	(DE),A
+TTreeL4	POP	HL
+	LD	A,(HL)
+	AND	#7F
+	CP	#02
+	JR	NC,TTreeL2
+TTreeL5	EX	DE,HL
+	LD	(HL),"\\"
+	POP	AF
+	OUT	(PAGE1),A
+	RET 
+;[]==========================================================[]
+FindTreeDIR
+	IN	A,(PAGE1)
+	PUSH	AF
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	IX,LeftPanel
+	BIT	1,(IX+ViewFlg)
+	LD	A,(DIRpage1)
+	JR	NZ,$+5
+	LD	A,(DIRpage2)
+	OUT	(PAGE1),A
+	LD	DE,#4000
+	LD	BC,#0000
+NwTree0	LD	A,(DE)
+	AND	#7F
+	LD	LX,A
+NwTree1	PUSH	HL
+	PUSH	DE
+	LD	A,(DE)
+	AND	#7F
+	CP	LX
+	JR	NZ,NwTree3
+	INC	DE
+	INC	DE
+NwTree2	LD	A,(DE)
+	CP	(HL)
+	JR	NZ,NwTree3
+	INC	HL
+	INC	DE
+	LD	A,(DE)
+	OR	A
+	JR	Z,NwTree4
+	LD	A,(HL)
+	CP	"\\"
+	JR	NZ,NwTree2
+NwTree3	POP	HL
+	LD	DE,#000F
+	ADD	HL,DE
+	EX	DE,HL
+	POP	HL
+	INC	BC
+	LD	A,(DE)
+	INC	DE
+	INC	A
+	JR	NZ,NwTree1
+NwTreeE	POP	AF
+	OUT	(PAGE1),A
+	SCF 
+	RET 
+NwTree4	LD	A,LX
+	OR	A
+	JR	Z,NwTree5
+	LD	A,(HL)
+	INC	HL
+	CP	"\\"
+	JR	Z,NwTree5
+	DEC	HL
+	OR	A
+	JR	NZ,NwTree3
+NwTree5	POP	DE
+	INC	SP
+	INC	SP
+	LD	A,E
+	ADD	A,#0F
+	LD	E,A
+	JR	NC,$+3
+	INC	D
+	INC	BC
+	LD	A,(HL)
+	OR	A
+	JR	Z,NwTree6
+	LD	A,(DE)
+	INC	DE
+	INC	A
+	JR	Z,NwTreeE
+	JR	NwTree0
+NwTree6	DEC	BC
+	PUSH	BC
+	LD	HL,#4000
+	LD	BC,#000E
+NwTree7	INC	HL
+	LD	(HL),B
+	ADD	HL,BC
+	LD	A,(HL)
+	INC	HL
+	INC	A
+	JR	NZ,NwTree7
+	POP	HL
+	LD	A,E
+	SUB	#0E
+	LD	E,A
+	JR	NC,$+3
+	DEC	D
+	LD	IX,LeftPanel
+	BIT	1,(IX+ViewFlg)
+	JR	NZ,$+6
+	LD	IX,RightPanel
+	BIT	7,(IX+PanelFlg)
+	LD	A,#01
+	JR	NZ,$+4
+	LD	A,#03
+	LD	(DE),A
+	POP	AF
+	OUT	(PAGE1),A
+	LD	E,L
+	LD	D,H
+	LD	BC,#0004
+	OR	A
+	SBC	HL,BC
+	JR	NC,$+5
+	LD	HL,#0000
+	LD	(IX+PanelFFl),L
+	LD	(IX+PanelFFh),H
+	EX	DE,HL
+	OR	A
+	SBC	HL,DE
+	LD	(IX+PanelCFl),L
+	LD	(IX+PanelCFh),H
+	OR	A
+	RET 
+
+

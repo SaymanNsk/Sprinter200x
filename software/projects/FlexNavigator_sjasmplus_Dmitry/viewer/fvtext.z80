@@ -1,0 +1,734 @@
+
+;[]---------------------------------------------------------[]
+PrnASCIIpage
+	LD	HL,PrintVProc
+	PUSH	HL
+	LD	HL,(FileShift)
+	LD	(TempShift),HL
+	LD	HL,(FileShift+2)
+	LD	(TempShift+2),HL
+	LD	B,#1C
+PrnASCIIlp
+	PUSH	BC
+	CALL	PutASCIIline   ;Выводим	строку в буф и на экран
+	POP	BC
+	JR	C,FillASCIIdn  ;CY-Закончились байты для печати
+	LD	A,B
+	ADD	A,#08
+	LD	B,A
+	CP	#E4
+	JR	NZ,PrnASCIIlp
+	LD	HL,(TempShift)
+	LD	(NextShift),HL
+	LD	HL,(TempShift+2)
+	LD	(NextShift+2),HL
+	SUB	A
+	LD	(EmptyLines),A
+	RET 
+;Процедура отчистки нижней области экрана
+FillASCIIdn
+	LD	A,#E4
+	SUB	B
+	LD	(FLenASC),A
+	JR	Z,FASCIIe	;Z-нет отчистки
+	LD	A,B
+	LD	(FPosASC),A
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02	;Head Place
+	DEFW	#0000
+FPosASC	DEFW	#0000
+	DEFW	#0280
+FLenASC	DEFW	#0000
+	DEFB	PanelCol
+	DEFB	#00
+FASCIIe	LD	HL,(TempShift)
+	LD	(NextShift),HL
+	LD	HL,(TempShift+2)
+	LD	(NextShift+2),HL
+	LD	A,(FLenASC)
+	SRL	A
+	SRL	A
+	SRL	A
+	LD	(EmptyLines),A
+	RET 
+;Процедура печати тек.строки в буфер и на экран
+PutASCIIline
+	LD	HX,B
+	LD	A,(ASCIImode)
+	OR	A
+	LD	C,#50
+	JR	Z,$+4
+	LD	C,#F0
+	PUSH	BC
+	LD	HL,(FileLenght)
+	LD	BC,(TempShift)
+	OR	A
+	SBC	HL,BC
+	EX	DE,HL
+	LD	HL,(FileLenght+2)
+	LD	BC,(TempShift+2)
+	SBC	HL,BC
+	POP	BC
+	RET	C
+	LD	B,#F0
+	JR	NZ,PutLine
+	LD	A,D
+	OR	A
+	JR	NZ,PutLine
+	OR	E
+	SCF 
+	RET	Z
+	LD	B,E
+
+PutLine	LD	HL,LineBuffer
+	IN	A,(PAGE1)
+	PUSH	AF
+	CALL	InitFPages
+PutLnLoop
+	CALL	TestFPages
+	LD	A,(DE)
+	INC	DE
+	CP	#0D
+	JR	NZ,PutLine1
+	CALL	TestFPages
+	LD	A,(DE)
+	CP	#0A
+	JR	NZ,PutLnExit
+	INC	DE
+	JR	PutLnExit
+PutLine1
+	CP	#0A
+	JR	Z,PutLnExit
+	CP	#09
+	JR	NZ,PutLine2
+PutTab	LD	(HL),#20
+	INC	L
+	LD	A,L
+	CP	C
+	JR	Z,PutLine3
+	AND	#07
+	JR	NZ,PutTab
+	JR	PutLine3
+PutLine2
+	LD	(HL),A
+	LD	A,L
+	CP	C
+	JR	Z,PutLine3
+	INC	L
+PutLine3
+	DJNZ	PutLnLoop
+
+	CALL	TestFPages
+	LD	A,(DE)
+	CP	#0D
+	JR	NZ,PutLnExit
+	INC	DE
+	CALL	TestFPages
+	LD	A,(DE)
+	CP	#0A
+	JR	NZ,PutLnExit
+	INC	DE
+PutLnExit
+	POP	AF
+	OUT	(PAGE1),A
+	CALL	GetFPages
+	LD	A,(ASCIImode)
+	OR	A
+	JR	NZ,PutLineUWR
+	LD	A,#50
+	SUB	L
+	JR	Z,PutLine4
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+PutLine4
+	LD	HL,LineBuffer
+	LD	DE,#0000
+	LD	B,#50
+	LD	C,HX
+	LD	A,PanelCol*#10+FileCol
+	CALL	PrnTxtLnNormC
+	OR	A
+	RET 
+PutLineUWR
+	LD	C,HX
+	LD	A,L
+	LD	(SaveUW+1),A
+	LD	A,(ASCIIaddX)
+	ADD	A,#50
+	SUB	L
+	JR	Z,PutLnUW1
+	JR	C,PutLnUW1
+	LD	B,A
+	LD	A,#20
+	LD	(HL),A
+	INC	L
+	DJNZ	$-2
+PutLnUW1
+	LD	E,#00
+	LD	B,#50
+	LD	H,high LineBuffer
+	LD	A,(ASCIIaddX)
+	LD	L,A		;смещение от начала строки
+	OR	A
+	JR	Z,PutLnUW2
+	PUSH	HL
+	PUSH	BC
+	LD	HL,SpaceLeft
+	LD	D,#00
+	LD	B,#01
+	LD	A,PanelCol*#10+#03	;(Yellow)
+	CALL	PrnTxtLnNormC
+	POP	BC
+	POP	HL
+	INC	L
+	DEC	B
+	LD	A,(ASCIIaddX)
+	LD	E,#08
+PutLnUW2
+	LD	D,A
+SaveUW	LD	A,#00
+	SUB	D
+	JR	C,PutLnUW3
+	CP	#51
+	JR	C,PutLnUW3
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	HL,SpaceRight
+	LD	DE,#0278
+	LD	B,#01
+	LD	A,PanelCol*#10+#03	;(Yellow)
+	CALL	PrnTxtLnNormC
+	POP	BC
+	POP	DE
+	POP	HL
+	DEC	B
+PutLnUW3
+	LD	D,#00
+	LD	A,PanelCol*#10+FileCol	;(Yellow)
+	CALL	PrnTxtLnNormC
+	OR	A
+	RET 
+SpaceLeft
+	DEFB	#1B
+SpaceRight
+	DEFB	#1A
+;[]==========================================================[]
+ChASCIImode
+	LD	HL,ViewerBegin
+	EX	(SP),HL
+	LD	A,(ASCIImode)
+	XOR	#01
+	LD	(ASCIImode),A
+	RET	Z
+	SUB	A
+	LD	(ASCIIaddX),A
+	RET 
+;[]----------------------------------------------------------[]
+ScrollLeft
+	LD	A,(ASCIImode)
+	OR	A
+	RET	Z
+	LD	A,(ASCIIaddX)
+	OR	A
+	RET	Z
+	DEC	A
+	LD	(ASCIIaddX),A
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+ScrollRght
+	LD	A,(ASCIImode)
+	OR	A
+	RET	Z
+	LD	A,(ASCIIaddX)
+	CP	#A0
+	RET	Z
+	INC	A
+	LD	(ASCIIaddX),A
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+THome
+	LD	A,(ASCIImode)
+	OR	A
+	RET	Z
+	LD	A,(ASCIIaddX)
+	OR	A
+	RET	Z
+	SUB	A
+	LD	(ASCIIaddX),A
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+TEnd
+	LD	A,(ASCIImode)
+	OR	A
+	RET	Z
+	LD	A,(ASCIIaddX)
+	CP	#A0
+	RET	Z
+	LD	A,#A0
+	LD	(ASCIIaddX),A
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+TLineUpMs
+	CALL	TLineUp
+	RET	C
+	LD	B,#0A
+TUpMs1	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	TUpMs1
+TUpMs2	CALL	TLineUp
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	TUpMs2
+TLineUp
+	LD	HL,(FileShift)
+	LD	DE,(FileShift+2)
+	LD	A,H
+	OR	L
+	OR	D
+	OR	E
+	SCF 
+	RET	Z
+	CALL	SearchUp
+	LD	(FileShift),HL
+	LD	(FileShift+2),DE
+	LD	(TempShift),HL
+	LD	(TempShift+2),DE
+	LD	HL,EmptyLines
+	LD	A,(HL)
+	DEC	(HL)
+	OR	A
+	JR	NZ,TLineU1
+	INC	(HL)
+	LD	HL,(NextShift)
+	LD	DE,(NextShift+2)
+	CALL	SearchUp
+	LD	(NextShift),HL
+	LD	(NextShift+2),DE
+TLineU1	CALL	ScrollSCRdown
+	LD	B,#1C
+	CALL	PutASCIIline	    ;Создаем и печатаем	строку
+	CALL	PrintVProc
+	OR	A
+	RET 
+;[]----------------------------------------------------------[]
+TLineDwnMs
+	CALL	TLineDwn
+	RET	C
+	LD	B,#0A
+TDnMs1	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	TDnMs1
+TDnMs2	CALL	TLineDwn
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	TDnMs2
+TLineDwn
+	LD	HL,(NextShift)
+	LD	DE,(NextShift+2)
+	LD	BC,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	LD	BC,(FileLenght+2)
+	EX	DE,HL
+	SBC	HL,BC
+	CCF 
+	RET	C
+	LD	HL,(FileShift)
+	LD	DE,(FileShift+2)
+	CALL	SearchDown
+	LD	(FileShift),HL
+	LD	(FileShift+2),DE
+	LD	HL,(NextShift)
+	LD	DE,(NextShift+2)
+	LD	(TempShift),HL
+	LD	(TempShift+2),DE
+	CALL	ScrollSCRup
+	LD	B,#DC
+	CALL	PutASCIIline	    ;Создаем и печатаем	строку
+	LD	HL,(TempShift)
+	LD	DE,(TempShift+2)
+	LD	(NextShift),HL
+	LD	(NextShift+2),DE
+	CALL	PrintVProc
+	OR	A
+	RET 
+;[]----------------------------------------------------------[]
+TPageUpMs
+	CALL	TPageUp
+	RET	C
+	LD	B,#0A
+TUpMs1p	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	TUpMs1p
+TUpMs2p	CALL	TPageUp
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	TUpMs2p
+TPageUp
+	LD	HL,(FileShift)
+	LD	DE,(FileShift+2)
+	LD	A,H
+	OR	L
+	OR	D
+	OR	E
+	SCF 
+	RET	Z
+	LD	B,#19
+TPageU1	PUSH	BC
+	CALL	SearchUp
+	POP	BC
+	JR	C,TPageU2
+	DJNZ	TPageU1
+TPageU2	LD	(FileShift),HL
+	LD	(FileShift+2),DE
+	CALL	PrnASCIIpage
+	OR	A
+	RET 
+;[]----------------------------------------------------------[]
+TPageDwnMs
+	CALL	TPageDwn
+	RET	C
+	LD	B,#0A
+TDnMs1p	PUSH	BC
+	LD	C,#03
+	RST	#30
+	POP	BC
+	BIT	0,A
+	RET	Z
+	HALT 
+	DJNZ	TDnMs1p
+TDnMs2p	CALL	TPageDwn
+	RET	C
+	LD	C,#03
+	RST	#30
+	BIT	0,A
+	RET	Z
+	JR	TDnMs2p
+TPageDwn
+	LD	HL,(NextShift)
+	LD	DE,(NextShift+2)
+	LD	BC,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	LD	BC,(FileLenght+2)
+	EX	DE,HL
+	SBC	HL,BC
+	CCF 
+	RET	C
+	LD	HL,(NextShift)
+	LD	(FileShift),HL
+	LD	HL,(NextShift+2)
+	LD	(FileShift+2),HL
+	CALL	PrnASCIIpage
+	OR	A
+	RET 
+;[]----------------------------------------------------------[]
+TBegFile
+	LD	HL,ResFire
+	PUSH	HL
+	LD	HL,(FileShift)
+	LD	DE,(FileShift+2)
+	LD	A,H
+	OR	D
+	OR	L
+	OR	E
+	RET	Z
+	LD	HL,#0000
+	LD	(FileShift),HL
+	LD	(FileShift+2),HL
+	CALL	PrnASCIIpage
+	RET 
+;[]----------------------------------------------------------[]
+TEndFile
+	LD	HL,ResFire
+	PUSH	HL
+	LD	HL,(NextShift)
+	LD	DE,(NextShift+2)
+	LD	BC,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	LD	BC,(FileLenght+2)
+	EX	DE,HL
+	SBC	HL,BC
+	RET	NC
+	LD	HL,(FileLenght)
+	LD	DE,(FileLenght+2)
+	LD	B,#19
+TEndFl1	PUSH	BC
+	CALL	SearchUp
+	POP	BC
+	RET	C
+	DJNZ	TEndFl1
+	LD	(FileShift),HL
+	LD	(FileShift+2),DE
+	CALL	PrnASCIIpage
+	RET 
+;[]==========================================================[]
+SearchUp
+	LD	B,#F0
+	LD	A,D
+	OR	E
+	JR	NZ,SearchUpBeg
+	LD	A,H
+	OR	A
+	JR	NZ,SearchUpBeg
+	OR	L
+	SCF 
+	RET	Z
+	LD	B,L
+SearchUpBeg
+	IN	A,(PAGE1)
+	PUSH	AF
+	PUSH	HL
+	PUSH	DE
+	LD	A,H		;Выделяем номер	страницы
+	RLA 
+	RL	E
+	RLA 
+	RL	E
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	LD	C,#00
+	LD	LX,C
+
+	INC	C
+	DEC	B
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp0
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp0	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchUp1+1
+	LD	A,B
+	OR	A
+	JR	Z,SrchUpEx
+	INC	C
+	DEC	B
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp1
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp1	LD	A,(HL)
+	CP	#0D
+	JR	Z,SearchUpLp
+	DEC	C
+	INC	B
+	INC	HL
+	BIT	7,H
+	JR	Z,SearchUpLp1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	JR	SearchUpLp1
+SearchUpLp
+	LD	A,B
+	OR	A
+	JR	Z,SrchUpEx
+SearchUpLp1
+	DEC	HL
+	BIT	6,H
+	JR	NZ,SrchUp2
+	DEC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	SET	6,H
+SrchUp2	LD	A,(HL)
+	CP	#0A
+	JR	Z,SrchUpEx
+	CP	#0D
+	JR	Z,SrchUpEx
+	INC	LX
+	INC	C
+	DJNZ	SearchUpLp1
+SrchUpEx
+	POP	DE
+	POP	HL
+	LD	B,#00
+	OR	A
+	SBC	HL,BC
+	LD	C,B
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	POP	AF
+	OUT	(PAGE1),A
+	LD	A,(ASCIImode)
+	OR	A
+	RET	NZ
+	LD	A,LX
+	CP	#51
+	CCF 
+	RET	NC
+	LD	C,#50
+SrchUpEx0
+	ADD	HL,BC
+	JR	NC,$+3
+	INC	DE
+	SUB	#50
+	CP	#51
+	JR	NC,SrchUpEx0
+	OR	A
+	RET 
+;[]----------------------------------------------------------[]
+SearchDown
+	LD	(SrchHL+1),HL
+	LD	(SrchDE+1),DE
+	LD	A,(ASCIImode)
+	OR	A
+	LD	B,#50
+	JR	Z,$+4
+	LD	B,#F0
+	PUSH	BC
+	LD	C,L
+	LD	B,H
+	LD	HL,(FileLenght)
+	OR	A
+	SBC	HL,BC
+	LD	C,E
+	LD	B,D
+	EX	DE,HL
+	LD	HL,(FileLenght+2)
+	SBC	HL,BC
+	POP	BC
+	RET	C
+	JR	NZ,SearchDnBeg
+	LD	A,D
+	OR	A
+	JR	NZ,SearchDnBeg
+	OR	E
+	SCF 
+	RET	Z
+	LD	B,E
+SearchDnBeg
+SrchHL	LD	HL,#0000
+SrchDE	LD	DE,#0000
+	IN	A,(PAGE1)
+	PUSH	AF
+	PUSH	HL
+	PUSH	DE
+	LD	A,H		;Выделяем номер	страницы
+	RLA 
+	RL	E
+	RLA 
+	RL	E
+	LD	D,high PagesList
+	LD	A,(DE)		;Тек.страница
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+	LD	C,#00
+	DEC	HL
+SearchDnLp
+	INC	C
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDn0
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDn0	LD	A,(HL)
+	CP	#0D
+	JR	NZ,SrchE1
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDn1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDn1	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchEEx
+	INC	C
+	JR	SrchEEx
+
+SrchE1	CP	#0A
+	JR	Z,SrchEEx
+	DJNZ	SearchDnLp
+
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDnE
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDnE	LD	A,(HL)
+	CP	#0D
+	JR	NZ,SrchEEx
+	INC	C
+	INC	HL
+	BIT	7,H
+	JR	Z,SrchDE1
+	INC	E
+	LD	A,(DE)
+	OUT	(PAGE1),A
+	RES	7,H
+	SET	6,H
+SrchDE1	LD	A,(HL)
+	CP	#0A
+	JR	NZ,SrchEEx
+	INC	C
+SrchEEx	POP	DE
+	POP	HL
+	LD	B,#00
+	ADD	HL,BC
+	LD	C,B
+	EX	DE,HL
+	ADC	HL,BC
+	EX	DE,HL
+	POP	AF
+	OUT	(PAGE1),A
+	OR	A
+	RET 
+
+

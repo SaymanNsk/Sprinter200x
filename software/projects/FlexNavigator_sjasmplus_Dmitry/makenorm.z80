@@ -1,0 +1,47 @@
+
+	ORG	#7000
+	DI 
+	LD	IY,#C000
+	LD	IX,#C200
+	LD	HL,#8000
+LOOP	PUSH	HL
+	CALL	MakeCHR
+	POP	HL
+	INC	L
+	JR	NZ,LOOP
+	JP	#0052
+
+MakeCHR	LD	A,LX
+	LD	(IY+#00),A
+	INC	HY
+	LD	A,HX
+	AND	#3F
+	LD	(IY+#00),A
+	DEC	HY
+	INC	LY
+	LD	D,#04
+Loop0	PUSH	HL
+	LD	B,#08
+Loop1	LD	A,(HL)
+	RLC	(HL)
+	RLC	(HL)
+	INC	H
+	AND	#C0
+	LD	E,#00
+	JR	Z,Next
+	CP	#C0
+	LD	E,#FF
+	JR	Z,Next
+	CP	#80
+	LD	E,#F0
+	JR	Z,Next
+	LD	E,#0F
+Next	LD	(IX+#00),E
+	INC	IX
+	DJNZ	Loop1
+	POP	HL
+	DEC	D
+	JR	NZ,Loop0
+	RET 
+
+

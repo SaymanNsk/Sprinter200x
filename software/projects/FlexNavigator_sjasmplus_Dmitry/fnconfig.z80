@@ -1,0 +1,797 @@
+
+TempColor EQU	PALETTE+52
+;[]==========================================================[]
+SetupR
+	LD	A,#C0
+	OUT	(YPORT),A
+	LD	HL,SetInvert
+	PUSH	HL
+	LD	HL,PALETTE
+	LD	DE,TempPALETTE
+	LD	BC,#0040
+	LDIR 
+	LD	A,(SavePanels)
+	LD	(SaveSav+1),A
+	OR	A
+	LD	A,#FE
+	JR	Z,$+3
+	INC	A
+	LD	(SaveFlg),A
+	SUB	A
+	LD	(SaveFlag),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0060,#0040
+	DEFW	#01C0,#0078
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#01B8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#00D0,#0003
+	DEFB	#0F
+	DEFB	"Setup",0
+	DEFB	#03		;Углубл
+	DEFW	#0008,#0012
+	DEFW	#0090,#0035
+	DEFB	#02		;Фон
+	DEFW	#000A,#0013
+	DEFW	#008C,#0033
+	DEFB	#0F
+	DEFB	#01	;Text Line
+	DEFW	#000E,#0015
+	DEFB	#F0
+	DEFB	"Panel",0
+	DEFB	#01	;Text Line
+	DEFW	#000E,#001D
+	DEFB	#F0
+	DEFB	"Files",0
+	DEFB	#01	;Text Line
+	DEFW	#000E,#0025
+	DEFB	#F0
+	DEFB	"Selected files",0
+	DEFB	#01	;Text Line
+	DEFW	#000E,#002D
+	DEFB	#F0
+	DEFB	"Invert background",0
+	DEFB	#01	;Text Line
+	DEFW	#000E,#0035
+	DEFB	#F0
+	DEFB	"Invert foreground",0
+	DEFB	#01	;Text Line
+	DEFW	#000E,#003D
+	DEFB	#F0
+	DEFB	"Invert foreground (select)",0
+	DEFB	#01	;Text Line
+	DEFW	#00A4,#0018
+	DEFB	#80
+	DEFB	"R:",0
+	DEFB	#03		;Углубл
+	DEFW	#00B0,#0016
+	DEFW	#00A4,#000A
+	DEFB	#08		;Кнопка	SB левая
+	DEFW	#00B2,#0017
+	DEFB	#09		;Кнопка	SB правая
+	DEFW	#0142,#0017
+	DEFB	#01	;Text Line
+	DEFW	#00A4,#0028
+	DEFB	#80
+	DEFB	"G:",0
+	DEFB	#03		;Углубл
+	DEFW	#00B0,#0026
+	DEFW	#00A4,#000A
+	DEFB	#08		;Кнопка	SB левая
+	DEFW	#00B2,#0027
+	DEFB	#09		;Кнопка	SB правая
+	DEFW	#0142,#0027
+	DEFB	#01	;Text Line
+	DEFW	#00A4,#0038
+	DEFB	#80
+	DEFB	"B:",0
+	DEFB	#03		;Углубл
+	DEFW	#00B0,#0036
+	DEFW	#00A4,#000A
+	DEFB	#08		;Кнопка	SB левая
+	DEFW	#00B2,#0037
+	DEFB	#09		;Кнопка	SB правая
+	DEFW	#0142,#0037
+	DEFB	#03		;Углубл
+	DEFW	#0174,#0017
+	DEFW	#0040,#0028
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#004B
+	DEFW	#01B8
+	DEFB	#03		;Углубл
+	DEFW	#0010,#0051
+	DEFW	#0014,#000B
+	DEFB	#02	;Head place
+	DEFW	#0012,#0052
+	DEFW	#0010,#0009
+	DEFB	#0F
+	DEFB	#01	;Text Line
+	DEFW	#0014,#0053
+	DEFB	#F0
+SaveFlg	DEFB	#00,#00
+	DEFB	#01	;Text Line
+	DEFW	#0028,#0054
+	DEFB	#80
+	DEFB	"save Information about panels",0
+	DEFB	#04	;UpRectan
+	DEFW	#0168,#0050
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0180,#0053
+	DEFB	#80
+	DEFB	"Save",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#0061
+	DEFW	#01B8
+	DEFB	#04	;UpRectan
+	DEFW	#0110,#0066
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0124,#0069
+	DEFB	#80
+	DEFB	"Cancel",0
+	DEFB	#04	;UpRectan
+	DEFW	#0168,#0066
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#0186,#0069
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#00
+	SUB	A
+	LD	(CurElement),A
+	CALL	SetSetupInv
+	LD	IX,BarRed
+	CALL	InitScrBar
+	LD	IX,BarGreen
+	CALL	InitScrBar
+	LD	IX,BarBlue
+	CALL	InitScrBar
+	CALL	InitElement
+SetupLoop
+	LD	IX,SetupTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,SetupLoop
+	LD	A,B
+	AND	#3F
+	JR	Z,SetupLoop0
+	BIT	4,B
+	JR	NZ,SetupLoop
+	BIT	5,B
+	JR	Z,SetupLoop
+	LD	HL,SetupLoop
+	PUSH	HL
+	LD	A,D
+	AND	#7F
+	CP	#13
+	JP	Z,InputRED
+	CP	#21
+	JP	Z,InputGREEN
+	CP	#2E
+	JP	Z,InputBLUE
+	RET 
+SetupLoop0
+	LD	A,B
+	AND	#C0
+	JR	Z,SetupLoop1
+	LD	HL,SetupLoop
+	PUSH	HL
+	LD	A,E
+	AND	#5F
+	CP	"R"
+	JP	Z,DecRED
+	CP	"G"
+	JP	Z,DecGREEN
+	CP	"B"
+	JP	Z,DecBLUE
+	RET 
+SetupLoop1
+	LD	A,E
+	RES	5,A
+	CP	#1B
+	JP	Z,SetupCancel
+	CP	#0D
+	JP	Z,SetupOkey
+	CP	"C"
+	JP	Z,SetupCancel
+	CP	"O"
+	JP	Z,SetupOkey
+	LD	HL,SetupLoop
+	PUSH	HL
+	CP	"S"
+	JP	Z,SaveSetup
+	CP	"R"
+	JP	Z,IncRED
+	CP	"G"
+	JP	Z,IncGREEN
+	CP	"B"
+	JP	Z,IncBLUE
+	CP	"I"
+	JP	Z,ChSavePan
+	OR	A
+	RET	NZ
+	LD	A,D
+	CP	#58
+	JP	Z,BoxUp
+	CP	#52
+	JP	Z,BoxDown
+	CP	#57
+	JP	Z,BoxHome
+	CP	#51
+	JP	Z,BoxEnd
+	CP	#59
+	JP	Z,BoxHome
+	CP	#53
+	JP	Z,BoxEnd
+	RET 
+;[]----------------------------------------------------------[]
+SaveSetup
+	CALL	SetClock
+	LD	C,#02
+	PUSH	IY
+	RST	#10
+	POP	IY
+	LD	HL,WorkBuffer
+	ADD	A,"A"
+	LD	(HL),A
+	INC	HL
+	LD	(HL),":"
+	INC	HL
+	LD	C,#1E
+	PUSH	IY
+	RST	#10
+	POP	IY
+	LD	HL,FlexDIRECTORY
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JR	C,SetupSaveEx
+	LD	HL,SetupName
+	SUB	A
+	LD	C,#0A
+	PUSH	IY
+	RST	#10
+	POP	IY
+	PUSH	AF
+	CALL	C,DOSError
+	POP	AF
+	JR	C,SetupSaveEx
+	EX	AF,AF'
+	LD	HL,SetupHead
+	LD	DE,WorkBuffer+#100
+	LD	BC,11
+	LDIR 
+	LD	HL,TempPALETTE
+	LD	BC,#0040
+	LDIR 
+	LD	A,(SavePanels)
+	LD	(DE),A
+	INC	DE
+	OR	A
+	JR	Z,SvSetup
+	LD	A,(MouseFlag)
+	LD	(DE),A
+	INC	DE
+	LD	HL,LeftPanel
+	PUSH	HL
+	LDI 
+	LDI 
+	LDI 
+	POP	HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	INC	DE
+	LD	HL,RightPanel
+	PUSH	HL
+	LDI 
+	LDI 
+	LDI 
+	POP	HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	(DE),A
+	INC	DE
+SvSetup	LD	HL,WorkBuffer+#100
+	OR	A
+	EX	DE,HL
+	SBC	HL,DE
+	EX	DE,HL
+	LD	C,#14
+	EX	AF,AF'
+	PUSH	IY
+	PUSH	AF
+	RST	#10
+	POP	AF
+	LD	C,#12
+	RST	#10
+	POP	IY
+	LD	A,#01
+	LD	(SaveFlag),A
+SetupSaveEx
+	LD	HL,WorkBuffer
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	CALL	SetMouse
+	RET 
+SetupHead
+	DEFB	#AE,"FlexSetup",0
+SetupName
+	DEFB	"fn.ini",0
+;--------------------------------------------------------------
+SetupCancel
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+SaveSav	LD	A,#00
+	LD	(SavePanels),A
+	JR	SetupExit
+SetupOkey
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	LD	HL,TempPALETTE
+	LD	DE,PALETTE
+	LD	BC,#0040
+	PUSH	DE
+	LDIR 
+	POP	HL
+	LD	DE,#1000
+	LD	BC,#FFA4
+	SUB	A
+	RST	#08
+SetupExit
+	LD	A,(SaveFlag)
+	OR	A
+	RET	Z
+	LD	IX,LeftPanel
+	LD	HL,LeftPanel+BegPath
+	LD	DE,FlexDIRECTORY
+	LD	A,(DE)
+SetRef1	CP	(HL)
+	JR	NZ,SetRef2
+	INC	HL
+	INC	DE
+	LD	A,(DE)
+	OR	A
+	JR	NZ,SetRef1
+	CP	(HL)
+	CALL	Z,RefreshSetup
+SetRef2	LD	IX,RightPanel
+	LD	HL,RightPanel+BegPath
+	LD	DE,FlexDIRECTORY
+	LD	A,(DE)
+SetRef3	CP	(HL)
+	JR	NZ,SetRef4
+	INC	HL
+	INC	DE
+	LD	A,(DE)
+	OR	A
+	JR	NZ,SetRef3
+	CP	(HL)
+	CALL	Z,RefreshSetup
+SetRef4	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	RET 
+RefreshSetup
+	BIT	1,(IX+ViewFlg)
+	RET	NZ
+	PUSH	IY
+	PUSH	IX
+	POP	IY
+	PUSH	IY
+	POP	HL
+	LD	DE,BegPath
+	ADD	HL,DE
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	JR	C,RefrErr
+	CALL	ReadDIR
+	CALL	PrintDIR
+	CALL	PrnFileInfo
+	PUSH	IY
+	POP	IX
+	LD	DE,BegPBar
+	ADD	IX,DE
+	CALL	InitScrBar
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	PUSH	AF
+	CALL	Z,PrnHScrBar
+	POP	AF
+	CALL	NZ,PrnVScrBar
+RefrErr	POP	IY
+	RET 
+SaveFlag
+	DEFB	#00
+;--------------------------------------------------------------
+BoxUp
+	LD	A,(CurElement)
+	DEC	A
+	RET	M
+	JR	BoxKeyExt
+BoxDown
+	LD	A,(CurElement)
+	INC	A
+	CP	#06
+	RET	Z
+	JR	BoxKeyExt
+BoxHome
+	LD	A,(CurElement)
+	OR	A
+	RET	Z
+	SUB	A
+	JR	BoxKeyExt
+BoxEnd
+	LD	A,(CurElement)
+	CP	#05
+	RET	Z
+	LD	A,#05
+	JR	BoxKeyExt
+NewElement
+	LD	A,(CurElement)
+	LD	C,A
+	LD	A,E
+	SUB	#55
+	SRL	A
+	SRL	A
+	SRL	A
+	CP	C
+	RET	Z
+BoxKeyExt
+	PUSH	AF
+	CALL	ResSetupInv
+	POP	AF
+	LD	(CurElement),A
+	CALL	SetSetupInv
+	CALL	InitElement
+	RET 
+;--------------------------------------------------------------
+ChSavePan
+	LD	HL,SavePanTxt
+	LD	A,(SavePanels)
+	XOR	#01
+	LD	(SavePanels),A
+	XOR	#01
+	INC	A
+	NEG 
+	LD	(HL),A
+	LD	DE,#0074
+	LD	BC,#0093
+	LD	A,#F0
+	CALL	PrnTxtLnIFF
+	CALL	ResFire
+	RET 
+SavePanTxt
+	DEFB	#00,#00
+;--------------------------------------------------------------
+DecRED
+	LD	HL,TempColor+2
+	LD	DE,PrintRED
+	JR	DecCOLOR
+IncRED
+	LD	HL,TempColor+2
+	LD	DE,PrintRED
+	JR	IncCOLOR
+DecGREEN
+	LD	HL,TempColor+1
+	LD	DE,PrintGREEN
+	JR	DecCOLOR
+IncGREEN
+	LD	HL,TempColor+1
+	LD	DE,PrintGREEN
+	JR	IncCOLOR
+DecBLUE
+	LD	HL,TempColor
+	LD	DE,PrintBLUE
+	JR	DecCOLOR
+IncBLUE
+	LD	HL,TempColor
+	LD	DE,PrintBLUE
+	JR	IncCOLOR
+
+DecCOLOR
+	LD	A,(HL)
+	OR	A
+	RET	Z
+	DEC	A
+	LD	(HL),A
+	JR	DecIncCOLOR
+IncCOLOR
+	LD	A,(HL)
+	INC	A
+	RET	Z
+	LD	(HL),A
+DecIncCOLOR
+	LD	HL,PrnPALETTE
+	PUSH	HL
+	PUSH	DE
+	LD	HL,ElementColor
+	LD	A,(CurElement)
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	ADD	A,A
+	ADD	A,A
+	LD	DE,TempPALETTE
+	ADD	A,E
+	LD	E,A
+	JR	NC,$+3
+	INC	D
+	LD	HL,TempColor
+	LDI 
+	LDI 
+	LDI 
+	RET 
+;--------------------------------------------------------------
+InputRED
+	LD	HL,TempColor+2
+	LD	DE,PrintRED
+	LD	BC,#0058
+	JR	InputColor
+InputGREEN
+	LD	HL,TempColor+1
+	LD	DE,PrintGREEN
+	LD	BC,#0068
+	JR	InputColor
+InputBLUE
+	LD	HL,TempColor
+	LD	DE,PrintBLUE
+	LD	BC,#0078
+InputColor
+	LD	(ColorY),BC
+	LD	BC,DecIncCOLOR
+	PUSH	BC
+	PUSH	HL
+	PUSH	DE
+	LD	DE,ColText
+	LD	A,(HL)
+	CALL	ConvNumTxt8
+	SUB	A
+	LD	(DE),A
+	LD	A,E
+	SUB	low ColText
+	LD	(ColLen),A
+InpAg	LD	IX,ColorStr
+	LD	HL,EmptyTab
+	CALL	InputLine
+	POP	DE
+	POP	HL
+	RET	C
+	PUSH	HL
+	PUSH	DE
+	LD	DE,ColText
+	CALL	ConvTxtNum16
+	JR	C,InpAg
+	LD	A,H
+	OR	A
+	JR	NZ,InpAg
+	LD	A,L
+	POP	DE
+	POP	HL
+	LD	(HL),A
+	RET 
+ColorStr
+	DEFB	#03,#00,#00,#00
+ColLen	DEFB	#00
+	DEFW	#01B8
+ColorY	DEFW	#0000
+	DEFW	#001A
+	DEFB	#80
+ColText	DEFS	#04,#00
+;--------------------------------------------------------------
+CurElement
+	DEFB	#00
+SavePanels
+	DEFB	#01
+ElementColor
+	DEFB   PanelCol,FileCol,SFileCol,InvPCol,InvICol,InvSCol
+BarRed
+	DEFW	#0122	;X позиция скролбара
+	DEFW	#0057	;Y позиция скролбара
+	DEFW	#0080	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+	DEFW	#0000	;Адрес ячейки BarLeft
+	DEFW	#0000	;Адрес ячейки BarRight
+	DEFW	#0198	;Кол-во	файлов на странице
+	DEFW	#0FF0	;Общее кол-во файлов
+CRed	DEFW	#0000	;Первый	файл на	странице
+BarGreen
+	DEFW	#0122	;X позиция скролбара
+	DEFW	#0067	;Y позиция скролбара
+	DEFW	#0080	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+	DEFW	#0000	;Адрес ячейки BarLeft
+	DEFW	#0000	;Адрес ячейки BarRight
+	DEFW	#0198	;Кол-во	файлов на странице
+	DEFW	#0FF0	;Общее кол-во файлов
+CGreen	DEFW	#0000	;Первый	файл на	странице
+BarBlue
+	DEFW	#0122	;X позиция скролбара
+	DEFW	#0077	;Y позиция скролбара
+	DEFW	#0080	;Max длина скролбара
+	DEFW	#0000	;тек.длина скролбара
+	DEFW	#0000	;Адрес ячейки BarLeft
+	DEFW	#0000	;Адрес ячейки BarRight
+	DEFW	#0198	;Кол-во	файлов на странице
+	DEFW	#0FF0	;Общее кол-во файлов
+CBlue	DEFW	#0000	;Первый	файл на	странице
+TempPALETTE
+	DEFS	#40,0
+;--------------------------------------------------------------
+ResSetupInv
+	LD	DE,#4FF0
+	JR	SetupInvert
+SetSetupInv
+	LD	DE,#F04F
+SetupInvert
+	LD	HL,#0055
+	LD	A,(CurElement)
+	OR	A
+	JR	Z,SetupI1
+	LD	B,A
+	PUSH	DE
+	LD	DE,#0008
+	ADD	HL,DE
+	DJNZ	$-1
+	POP	DE
+SetupI1	LD	IX,#0846
+	LD	C,L
+	LD	B,H
+	LD	HL,#006A
+	CALL	InvertRectan
+	RET 
+
+InitElement
+	LD	HL,ElementColor
+	LD	A,(CurElement)
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	A,(HL)
+	ADD	A,A
+	ADD	A,A
+	LD	HL,PALETTE
+	ADD	A,L
+	LD	L,A
+	JR	NC,$+3
+	INC	H
+	LD	DE,TempColor
+	LDI 
+	LDI 
+	LDI 
+	CALL	PrintRED
+	CALL	PrintGREEN
+	CALL	PrintBLUE
+	CALL	PrnPALETTE
+	RET 
+PrintRED
+	LD	DE,WorkBuffer
+	LD	A,(TempColor+2)
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	(CRed),HL
+	CALL	ConvNumTxt8
+	LD	A,#04
+	SUB	E
+	LD	B,A
+	LD	A,#20
+	LD	(DE),A
+	INC	E
+	DJNZ	$-2
+	SUB	A
+InitEl1	LD	(DE),A
+	LD	HL,WorkBuffer
+	LD	DE,#01B8
+	LD	BC,#0058
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	IX,BarRed
+	CALL	PrnHScrBar
+	RET 
+PrintGREEN
+	LD	DE,WorkBuffer
+	LD	A,(TempColor+1)
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	(CGreen),HL
+	CALL	ConvNumTxt8
+	LD	A,#04
+	SUB	E
+	LD	B,A
+	LD	A,#20
+	LD	(DE),A
+	INC	E
+	DJNZ	$-2
+	SUB	A
+InitEl2	LD	(DE),A
+	LD	HL,WorkBuffer
+	LD	DE,#01B8
+	LD	BC,#0068
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	IX,BarGreen
+	CALL	PrnHScrBar
+	RET 
+PrintBLUE
+	LD	DE,WorkBuffer
+	LD	A,(TempColor)
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	(CBlue),HL
+	CALL	ConvNumTxt8
+	LD	A,#04
+	SUB	E
+	LD	B,A
+	LD	A,#20
+	LD	(DE),A
+	INC	E
+	DJNZ	$-2
+	SUB	A
+InitEl3	LD	(DE),A
+	LD	HL,WorkBuffer
+	LD	DE,#01B8
+	LD	BC,#0078
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	LD	IX,BarBlue
+	CALL	PrnHScrBar
+	RET 
+PrnPALETTE
+	LD	HL,PALETTE
+	LD	DE,#1000
+	LD	BC,#FFA4
+	SUB	A
+	RST	#08
+	CALL	MakeWindow
+	DEFB	#80
+	DEFB	#02
+	DEFW	#01D6,#0058
+	DEFW	#003C,#0026
+	DEFB	#0D
+	DEFB	#00
+	RET 
+
+

@@ -1,0 +1,1310 @@
+
+;[]==========================================================[]
+EPullMenu EQU	#06
+
+PullDown
+	CALL	ResInvert
+	CALL	SetPullInvert
+PullLoop
+	LD	IX,PullTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,PullLoop
+	LD	A,B
+	OR	A
+	JR	NZ,PullLoop
+	LD	HL,PullLoop
+	PUSH	HL
+	LD	A,E
+	CP	#1B
+	JR	Z,PullExit
+	CP	#0D
+	JR	Z,PullEnter
+	OR	A
+	RET	NZ
+	LD	A,D
+	CP	#52
+	JR	Z,PullEnter
+	CP	#58
+	JR	Z,PullEnter
+	CP	#54
+	JR	Z,PullLeft
+	CP	#56
+	JR	Z,PullRight
+	RET 
+PullExit
+	POP	DE
+	CALL	ResPullInvert
+	CALL	SetInvert
+	RET 
+PullLeft
+	LD	A,(CurMenu)
+	DEC	A
+	JP	P,$+5
+	LD	A,EPullMenu-1
+	LD	(CurMenu),A
+	CALL	ResPullInvert
+	CALL	SetPullInvert
+	RET 
+PullRight
+	LD	A,(CurMenu)
+	INC	A
+	CP	EPullMenu
+	JR	NZ,$+3
+	SUB	A
+	LD	(CurMenu),A
+	CALL	ResPullInvert
+	CALL	SetPullInvert
+	RET 
+PullEnter
+	LD	A,#01
+	LD	(MKeyFlg+1),A
+	LD	HL,MFile
+	LD	A,(CurMenu)
+	OR	A
+	JR	Z,PullRun
+	LD	HL,MSelect
+	DEC	A
+	JR	Z,PullRun
+	LD	HL,MOption
+	DEC	A
+	JR	Z,PullRun
+	LD	HL,MView
+	DEC	A
+	JR	Z,PullRun
+	LD	HL,MConfig
+	DEC	A
+	JR	Z,PullRun
+	LD	HL,MAbout
+PullRun	EX	(SP),HL
+	RET 
+ResPullInvert
+	LD	DE,#4F80
+SavPull	LD	A,#00
+	JR	PullInvert
+SetPullInvert
+	LD	DE,#804F
+	LD	A,(CurMenu)
+	LD	(SavPull+1),A
+PullInvert
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	BC,PullTab
+	ADD	HL,BC
+	PUSH	HL
+	POP	IX
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	CALL	InvertRectan
+	RET 
+MFile
+	CALL	ResPullInvert
+	JP	MenuFile+7
+MSelect
+	CALL	ResPullInvert
+	JP	MenuSelect+7
+MOption
+	CALL	ResPullInvert
+	JP	MenuOption+7
+MView
+	CALL	ResPullInvert
+	JP	MenuView+7
+MConfig
+	CALL	ResPullInvert
+	JP	MenuConfig+7
+MAbout
+	CALL	ResPullInvert
+	JP	MenuAbout+7
+;[]==========================================================[]
+MenuFile
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0004,#001A
+	DEFW	#00A0,#0036
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"File info...",0
+	DEFB	#01	;Text Line
+	DEFW	#0064,#0006
+	DEFB	#80
+	DEFB	"ALT+ENT",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0014
+	DEFB	#80
+	DEFB	"Print",0
+	DEFB	#01	;Text Line
+	DEFW	#0064,#0014
+	DEFB	#80
+	DEFB	"CTRL+F9",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#0021
+	DEFW	#0098
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0028
+	DEFB	#80
+	DEFB	"Exit",0
+	DEFB	#01	;Text Line
+	DEFW	#0064,#0028
+	DEFB	#80
+	DEFB	"F10",0
+	DEFB	#00
+	LD	HL,FileTab
+	SUB	A
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#03
+	JP	MenuWork
+MenuSelect
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0028,#001A
+	DEFW	#00A0,#004C
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"Mark group...",0
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0006
+	DEFB	#80
+	DEFB	"+",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0014
+	DEFB	#80
+	DEFB	"Unmark group...",0
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0014
+	DEFB	#80
+	DEFB	"-",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0022
+	DEFB	#80
+	DEFB	"Mark all",0
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0022
+	DEFB	#80
+	DEFB	"CTRL+",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0030
+	DEFB	#80
+	DEFB	"Unmark all",0
+	DEFB	#01	;Text Line
+	DEFW	#0070,#0030
+	DEFB	#80
+	DEFB	"CTRL-",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#003E
+	DEFB	#80
+	DEFB	"Invert selection",0
+	DEFB	#01	;Text Line
+	DEFW	#0070,#003E
+	DEFB	#80
+	DEFB	"*",0
+	DEFB	#00
+	LD	HL,SelectTab
+	LD	A,#01
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#05
+	JP	MenuWork
+MenuOption
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0054,#001A
+	DEFW	#00D0,#0036
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"Refresh tree",0
+	DEFB	#01	;Text Line
+	DEFW	#0098,#0006
+	DEFB	#80
+	DEFB	"ALT+F10",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0014
+	DEFB	#80
+	DEFB	"Disk info...",0
+	DEFB	#01	;Text Line
+	DEFW	#0098,#0014
+	DEFB	#80
+	DEFB	"CTRL+L",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#0021
+	DEFW	#00C8
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0028
+	DEFB	#80
+	DEFB	"System information...",0
+	DEFB	#00
+	LD	HL,OptionTab
+	LD	A,#02
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#03
+	JP	MenuWork
+MenuView
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	OR	A
+	LD	BC,#FFFE
+	LD	E,#FE
+	JR	Z,MVnxt0
+	LD	BC,#FEFF
+	LD	E,#FE
+	BIT	0,A
+	JR	NZ,MVnxt0
+	LD	BC,#FEFE
+	LD	E,#FF
+MVnxt0	LD	A,B
+	LD	(view1),A
+	LD	A,C
+	LD	(view2),A
+	LD	A,E
+	LD	(view3),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	AND	#F0
+	LD	BC,#FFFE
+	LD	E,#FE
+	JR	Z,MVnxt1
+	BIT	4,A
+	LD	BC,#FEFF
+	LD	E,#FE
+	JR	NZ,MVnxt1
+	LD	BC,#FEFE
+	LD	E,#FF
+MVnxt1	LD	A,B
+	LD	(filt1),A
+	LD	A,C
+	LD	(filt2),A
+	LD	A,E
+	LD	(filt3),A
+	LD	A,(IY+SortFlg)
+	AND	#0F
+	LD	BC,#FEFE
+	LD	DE,#FEFE
+	LD	L,#FF
+	JR	Z,MVnxt2
+	BIT	0,A
+	LD	BC,#FFFE
+	LD	DE,#FEFE
+	LD	L,#FE
+	JR	NZ,MVnxt2
+	BIT	1,A
+	LD	BC,#FEFF
+	LD	DE,#FEFE
+	LD	L,#FE
+	JR	NZ,MVnxt2
+	BIT	2,A
+	LD	BC,#FEFE
+	LD	DE,#FFFE
+	LD	L,#FE
+	JR	NZ,MVnxt2
+	LD	BC,#FEFE
+	LD	DE,#FEFF
+	LD	L,#FE
+MVnxt2	LD	A,B
+	LD	(sort1),A
+	LD	A,C
+	LD	(sort2),A
+	LD	A,D
+	LD	(sort3),A
+	LD	A,E
+	LD	(sort4),A
+	LD	A,L
+	LD	(sort5),A
+	PUSH	IY
+	POP	HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	LD	DE,Tfilter
+	LD	C,#0C
+	SUB	A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	A,C
+	OR	A
+	JR	Z,MVnxt3
+	LD	B,A
+	LD	A,#20
+	LD	(DE),A
+	INC	DE
+	DJNZ	$-2
+MVnxt3	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#008A,#001A
+	DEFW	#00BE,#00BA
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"Brief",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0006
+	DEFB	#80
+view1	DEFB	#FE,"  CTRL+F1",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0014
+	DEFB	#80
+	DEFB	"Full",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0014
+	DEFB	#80
+view2	DEFB	#FE,"  CTRL+F2",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0022
+	DEFB	#80
+	DEFB	"Tree",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0022
+	DEFB	#80
+view3	DEFB	#FE,"  CTRL+F8",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#002F
+	DEFW	#00B6
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0036
+	DEFB	#80
+	DEFB	"All files",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0036
+	DEFB	#80
+filt1	DEFB	#FE,"  CTRL+F10",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0044
+	DEFB	#80
+	DEFB	"Exexute files",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0044
+	DEFB	#80
+filt2	DEFB	#FE,"  CTRL+F11",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0052
+	DEFB	#80
+Tfilter	DEFB	"*.*         ",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0052
+	DEFB	#80
+filt3	DEFB	#FE,0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0060
+	DEFB	#80
+	DEFB	"Filtr...",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0060
+	DEFB	#80
+	DEFB	#FE,"  CTRL+F12",0
+	DEFB	#06	;Horizontal line
+	DEFW	#0004,#006D
+	DEFW	#00B6
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0074
+	DEFB	#80
+	DEFB	"Name",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0074
+	DEFB	#80
+sort1	DEFB	#FE,"  CTRL+F3",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0082
+	DEFB	#80
+	DEFB	"Extention",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0082
+	DEFB	#80
+sort2	DEFB	#FE,"  CTRL+F4",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0090
+	DEFB	#80
+	DEFB	"Data",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#0090
+	DEFB	#80
+sort3	DEFB	#FE,"  CTRL+F5",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#009E
+	DEFB	#80
+	DEFB	"Size",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#009E
+	DEFB	#80
+sort4	DEFB	#FE,"  CTRL+F6",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#00AC
+	DEFB	#80
+	DEFB	"Unsorted",0
+	DEFB	#01	;Text Line
+	DEFW	#006E,#00AC
+	DEFB	#80
+sort5	DEFB	#FE,"  CTRL+F7",0
+	DEFB	#00
+	LD	HL,ViewTab
+	LD	A,#03
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#0C
+	JP	MenuWork
+MenuConfig
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00AE,#001A
+	DEFW	#0060,#0014
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"Setup...",0
+	DEFB	#00
+	LD	HL,ConfigTab
+	LD	A,#04
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#01
+	JP	MenuWork
+MenuAbout
+	CALL	ResInvert
+	SUB	A
+	LD	(MKeyFlg+1),A
+	LD	A,(IY+ViewFlg)
+	LD	(SvView1+1),A
+	LD	A,(IY+SortFlg)
+	LD	(SvView2+1),A
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00DE,#001A
+	DEFW	#0070,#0014
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0006
+	DEFB	#80
+	DEFB	"Version...",0
+	DEFB	#00
+	LD	HL,AboutTab
+	LD	A,#05
+	LD	(CurMenu),A
+	LD	(SavPull+1),A
+	LD	A,#01
+MenuWork
+	LD	(CurWTab+2),HL
+	LD	(MaxLines),A
+	SUB	A
+	LD	(CurMLine),A
+	LD	IX,(CurWTab+2)
+	CALL	TestCoords
+	CALL	TestInvert
+	JR	NZ,MenuLoop
+MKeyFlg	LD	A,#00
+	OR	A
+	CALL	NZ,SetMSelect
+MenuLoop
+CurWTab	LD	IX,#0000
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,MenuLoop
+	LD	A,B
+	OR	A
+	JR	NZ,MenuLoop
+	LD	HL,MenuLoop
+	PUSH	HL
+	LD	A,E
+	CP	#1B
+	JR	Z,MenuKExt
+	CP	#0D
+	JP	Z,ChangeSet
+	CP	#20
+	JP	Z,ChangeSet
+	OR	A
+	RET	NZ
+	LD	A,D
+	CP	#54
+	JR	Z,MenuLeft
+	CP	#56
+	JR	Z,MenuRight
+	CP	#58
+	JP	Z,MenuUp
+	CP	#52
+	JP	Z,MenuDown
+	CP	#57
+	JP	Z,MenuHome
+	CP	#51
+	JP	Z,MenuEnd
+	RET 
+TestInvert
+	LD	HL,(CurWTab+2)
+	LD	DE,#0009
+	ADD	HL,DE
+	LD	A,(MaxLines)
+	LD	B,A
+	LD	C,#00
+	LD	DE,#0010
+MenuLp0	BIT	7,(HL)
+	JR	Z,MenuLp1
+	LD	A,C
+	SET	7,A
+	LD	(CurMLine),A
+MenuLp1	INC	C
+	ADD	HL,DE
+	DJNZ	MenuLp0
+	LD	A,(CurMLine)
+	BIT	7,A
+	RES	7,A
+	LD	(CurMLine),A
+	RET 
+CurMenu
+	DEFB	#00
+CurMLine
+	DEFB	#00
+MaxLines
+	DEFB	#00
+MenuKExt		;Выход по Esc
+	POP	DE
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	JP	PullLoop
+MenuExit
+SvView1	LD	A,#00
+	CP	(IY+ViewFlg)
+	JP	NZ,InitPanel
+SvView2	LD	A,#00
+	CP	(IY+SortFlg)
+	JP	NZ,InitPanel
+	CALL	SetInvert
+	RET 
+MenuLeft
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	LD	A,(CurMenu)
+	DEC	A
+	JP	P,$+5
+	LD	A,EPullMenu-1
+	LD	(CurMenu),A
+	JP	PullEnter
+MenuRight
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	LD	A,(CurMenu)
+	INC	A
+	CP	EPullMenu
+	JR	NZ,$+3
+	SUB	A
+	LD	(CurMenu),A
+	JP	PullEnter
+MenuUp
+	CALL	TestInvert
+	JR	Z,MenuUp1
+	LD	A,(MaxLines)
+	DEC	A
+	RET	Z
+	CALL	ResMSelect
+	LD	A,(CurMLine)
+	OR	A
+	JR	NZ,$+5
+MenuUp1	LD	A,(MaxLines)
+	DEC	A
+	LD	(CurMLine),A
+	CALL	SetMSelect
+	RET 
+MenuDown
+	CALL	TestInvert
+	JR	Z,MenuDn1
+	LD	A,(MaxLines)
+	DEC	A
+	RET	Z
+	CALL	ResMSelect
+	LD	A,(MaxLines)
+	LD	B,A
+	LD	A,(CurMLine)
+	INC	A
+	CP	B
+	JR	NZ,$+3
+MenuDn1	SUB	A
+	LD	(CurMLine),A
+	CALL	SetMSelect
+	RET 
+MenuHome
+	CALL	TestInvert
+	JR	Z,MHome1
+	LD	A,(CurMLine)
+	OR	A
+	RET	Z
+	CALL	ResMSelect
+MHome1	SUB	A
+	LD	(CurMLine),A
+	CALL	SetMSelect
+	RET 
+MenuEnd
+	CALL	TestInvert
+	JR	Z,MEnd1
+	LD	A,(MaxLines)
+	LD	B,A
+	LD	A,(CurMLine)
+	INC	A
+	CP	B
+	RET	Z
+	CALL	ResMSelect
+MEnd1	LD	A,(MaxLines)
+	DEC	A
+	LD	(CurMLine),A
+	CALL	SetMSelect
+	RET 
+ResMSelect
+	LD	HL,ResSelect1
+	JR	MSel
+SetMSelect
+	LD	HL,SetSelect1
+MSel	PUSH	HL
+	LD	A,(CurMLine)
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	BC,(CurWTab+2)
+	ADD	HL,BC
+	PUSH	HL
+	POP	IX
+	RET 
+ChangeSet
+	CALL	TestInvert
+	JP	Z,MenuKExt
+	LD	A,(CurMLine)
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	BC,(CurWTab+2)
+	ADD	HL,BC
+	PUSH	HL
+	POP	IX
+	LD	C,(IX+#0C)	;запуск	по левой кнопке
+	LD	B,(IX+#0D)
+	LD	A,B
+	OR	C
+	RET	Z
+	BIT	5,(IX+#08)	;запуск	без возврата
+	JR	Z,$+3
+	POP	AF
+	PUSH	BC
+	BIT	2,(IX+#08)
+	CALL	NZ,ResSelect1
+	CALL	ResSelect2
+	BIT	0,(IX+#09)
+	RET	Z
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET 
+ChView1
+	RES	0,(IY+ViewFlg)
+	RES	1,(IY+ViewFlg)
+	JP	MenuExit
+ChView2
+	SET	0,(IY+ViewFlg)
+	RES	1,(IY+ViewFlg)
+	JP	MenuExit
+ChView3
+	LD	A,(TreeFlag)
+	OR	A
+	JP	NZ,MenuExit
+	RES	0,(IY+ViewFlg)
+	SET	1,(IY+ViewFlg)
+	JP	MenuExit
+ChFilt1
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	RES	4,(IY+SortFlg)
+	RES	5,(IY+SortFlg)
+	JP	MenuExit
+ChFilt2
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	SET	4,(IY+SortFlg)
+	RES	5,(IY+SortFlg)
+	JP	MenuExit
+ChFilt3
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	RES	4,(IY+SortFlg)
+	SET	5,(IY+SortFlg)
+	JP	MenuExit
+ChSort1
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	SET	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	MenuExit
+ChSort2
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	RES	0,(IY+SortFlg)
+	SET	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	MenuExit
+ChSort3
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	RES	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	SET	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	MenuExit
+ChSort4
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	RES	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	SET	3,(IY+SortFlg)
+	JP	MenuExit
+ChSort5
+	BIT	1,(IY+ViewFlg)
+	JP	NZ,MenuExit
+	LD	A,(IY+SortFlg)
+	AND	#F0
+	LD	(IY+SortFlg),A
+	JP	MenuExit
+;[]==========================================================[]
+Brief
+	LD	A,(IY+ViewFlg)
+	AND	#03
+	RET	Z
+	RES	0,(IY+ViewFlg)
+	RES	1,(IY+ViewFlg)
+	JP	InitPanel
+Full
+	BIT	0,(IY+ViewFlg)
+	RET	NZ
+	SET	0,(IY+ViewFlg)
+	RES	1,(IY+ViewFlg)
+	JP	InitPanel
+Tree
+	LD	A,(TreeFlag)
+	OR	A
+	RET	NZ
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	RES	0,(IY+ViewFlg)
+	SET	1,(IY+ViewFlg)
+	JP	InitPanel
+AllFiles
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	LD	A,(IY+SortFlg)
+	AND	#30
+	RET	Z
+	RES	4,(IY+SortFlg)
+	RES	5,(IY+SortFlg)
+	JP	InitPanel
+ExeFiles
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	BIT	4,(IY+SortFlg)
+	RET	NZ
+	SET	4,(IY+SortFlg)
+	RES	5,(IY+SortFlg)
+	JP	InitPanel
+NameS
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	BIT	0,(IY+SortFlg)
+	RET	NZ
+	SET	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	InitPanel
+Extention
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	BIT	1,(IY+SortFlg)
+	RET	NZ
+	RES	0,(IY+SortFlg)
+	SET	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	InitPanel
+Data
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	BIT	2,(IY+SortFlg)
+	RET	NZ
+	RES	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	SET	2,(IY+SortFlg)
+	RES	3,(IY+SortFlg)
+	JP	InitPanel
+Size
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	BIT	3,(IY+SortFlg)
+	RET	NZ
+	RES	0,(IY+SortFlg)
+	RES	1,(IY+SortFlg)
+	RES	2,(IY+SortFlg)
+	SET	3,(IY+SortFlg)
+	JP	InitPanel
+UnSort
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	LD	A,(IY+SortFlg)
+	AND	#0F
+	RET	Z
+	LD	A,(IY+SortFlg)
+	AND	#F0
+	LD	(IY+SortFlg),A
+	JP	InitPanel
+;[]==========================================================[]
+RefreshTree
+	LD	A,(TreeFlag)
+	OR	A
+	JR	Z,RfTree1
+	BIT	1,(IY+ViewFlg)
+	JR	NZ,RfTree1
+	PUSH	IY
+	BIT	0,(IY+PanelFlg)
+	LD	IY,RightPanel
+	JR	Z,$+6
+	LD	IY,LeftPanel
+	CALL	RfTree1
+	POP	IY
+	RET 
+RfTree1	LD	HL,BegDIR
+	LD	C,#1D
+	PUSH	IY
+	RST	#10
+	POP	IY
+	RET	C
+	LD	HL,TreeName
+	SUB	A
+	LD	C,#0E
+	PUSH	IY
+	RST	#10
+	POP	IY
+	RES	0,(IY+ViewFlg)
+	SET	1,(IY+ViewFlg)
+	CALL	InitPanel
+	RET 
+;[]==========================================================[]
+NewFilter
+	CALL	ResInvert
+	LD	HL,SetInvert
+	PUSH	HL
+	BIT	1,(IY+ViewFlg)
+	RET	NZ
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#00D0,#0051
+	DEFW	#00E0,#003E
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00D8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0062,#0003
+	DEFB	#0F
+	DEFB	"Filter",0
+	DEFB	#04	;UpRectan
+	DEFW	#0020,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#003C,#002D
+	DEFB	#80
+	DEFB	"Ok",0
+	DEFB	#04	;UpRectan
+	DEFW	#0078,#002A
+	DEFW	#0048,#000E
+	DEFB	#01	;Text Line
+	DEFW	#008C,#002D
+	DEFB	#80
+	DEFB	"Cancel",0
+	DEFB	#01	;Text Line
+	DEFW	#0010,#0019
+	DEFB	#80
+	DEFB	"New filter:",0
+	DEFB	#03	;Углубление
+	DEFW	#0046,#0016
+	DEFW	#0086,#000C
+	DEFB	#02	;Head place
+	DEFW	#0048,#0017
+	DEFW	#0082,#000A
+	DEFB	#0F
+	DEFB	#00
+	PUSH	IY
+	POP	HL
+	LD	BC,BegMask
+	ADD	HL,BC
+	LD	DE,CurFilt
+	SUB	A
+	LD	C,A
+	LDI 
+	CP	(HL)
+	JR	NZ,$-3
+	LD	A,C
+	NEG 
+	LD	(FiltLen),A
+	LD	IX,FilterStr
+	LD	HL,FilterTab
+	CALL	InputLine
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	RET	C
+	LD	A,(FiltLen)
+	OR	A
+	RET	Z
+	LD	HL,CurFilt
+	LD	DE,SelMask
+	CALL	MakeMask
+	RET	NC
+	PUSH	IY
+	POP	HL
+	LD	DE,BegMask
+	ADD	HL,DE
+	EX	DE,HL
+	LD	HL,CurFilt
+	LD	A,(FiltLen)
+	LD	B,A
+Mfilter	LD	A,(HL)
+	CALL	CorrBigChar
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	DJNZ	Mfilter
+	SUB	A
+	LD	(DE),A
+	LD	A,(IY+SortFlg)
+	AND	#0F
+	SET	5,A
+	LD	(IY+SortFlg),A
+	POP	HL
+	CALL	InitPanel
+	RET 
+FilterStr
+	DEFB	#0C,#00,#00,#00
+FiltLen	DEFB	#00
+	DEFW	#011A,#006A
+	DEFW	#0068
+	DEFB	#F0
+CurFilt	DEFS	#0D,#00
+;[]==========================================================[]
+LeftDrive
+	CALL	ResInvert
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0020,#005C
+	DEFW	#00E0,#0024
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00D8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#0F
+	DEFB	"Left drive",0
+	DEFB	#00
+	LD	HL,LeftTab
+	LD	DE,DriveTab
+	LD	BC,#0020
+	LDIR 
+	LD	IX,LeftPanel
+	LD	HL,#0032
+	JP	ChangeDrv
+LeftTab
+	DEFW #0000,#0020,#0000,#0100,#20,#0000,DriveExit,#0000
+	DEFW #0100,#0280,#0000,#0100,#20,#0000,DriveExit,#0000
+RightDrive
+	CALL	ResInvert
+	CALL	MakeWindow
+	DEFB	#01
+	DEFW	#0160,#005C
+	DEFW	#00E0,#0024
+	DEFB	#02	;Head place
+	DEFW	#0004,#0002
+	DEFW	#00D8,#000A
+	DEFB	#00
+	DEFB	#01	;Text Line
+	DEFW	#0056,#0003
+	DEFB	#0F
+	DEFB	"Right drive",0
+	DEFB	#00
+	LD	HL,RightTab
+	LD	DE,DriveTab
+	LD	BC,#0020
+	LDIR 
+	LD	IX,RightPanel
+	LD	HL,#0172
+	JR	ChangeDrv
+RightTab
+	DEFW #0000,#0160,#0000,#0100,#20,#0000,DriveExit,#0000
+	DEFW #0240,#0280,#0000,#0100,#20,#0000,DriveExit,#0000
+ChangeDrv
+	PUSH	IY
+	PUSH	IX
+	POP	IY
+	LD	IX,BegDrive
+	LD	A,(EquipDisks)
+	ADD	A,A
+	LD	C,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,A
+	ADD	A,C
+	SUB	11*#12
+	NEG 
+	SRL	A
+	ADD	A,L
+	LD	E,A
+	LD	A,H
+	ADC	A,#00
+	LD	D,A
+	LD	HL,Drive
+	LD	(HL),"A"
+	LD	BC,#0070
+	LD	A,(EquipDisks)
+Drive1	PUSH	AF
+	PUSH	IX
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	A,#80
+	CALL	PrnTxtLnIFF
+	POP	BC
+	POP	DE
+	POP	HL
+	POP	IX
+	LD	A,E
+	SUB	#06
+	LD	(IX+#00),A
+	LD	A,D
+	SBC	A,#00
+	LD	(IX+#01),A
+	LD	A,E
+	ADD	A,#12
+	LD	E,A
+	JR	NC,$+3
+	INC	D
+	LD	A,E
+	SUB	#06
+	LD	(IX+#02),A
+	LD	A,D
+	SBC	A,#00
+	LD	(IX+#03),D
+	LD	A,LX
+	ADD	A,#10
+	LD	LX,A
+	JR	NC,$+4
+	INC	HX
+	INC	(HL)
+	POP	AF
+	DEC	A
+	JR	NZ,Drive1
+	LD	(IX+#00),#00
+	LD	(IX+#01),#80
+	LD	A,(IY+BegPath)
+	SUB	"A"
+	LD	(CurDrive),A
+	CALL	SetDriveInv
+DriveLoop
+	LD	IX,DriveTab
+	CALL	TestCoords
+	LD	C,#31
+	RST	#10
+	JR	Z,DriveLoop
+	LD	A,B
+	OR	A
+	JR	NZ,DriveLoop
+	LD	A,E
+	CP	#1B
+	JR	Z,DriveExit
+	CP	#0D
+	JR	Z,DriveEnter
+	OR	A
+	JR	Z,DriveLoop1
+	LD	A,(EquipDisks)
+	LD	C,A
+	LD	A,E
+	RES	5,A
+	SUB	#41
+	JR	C,DriveLoop
+	CP	C
+	JR	NC,DriveLoop
+	LD	(CurDrive),A
+	JR	DriveEnter
+DriveLoop1
+	LD	HL,DriveLoop
+	PUSH	HL
+	LD	A,D
+	CP	#54
+	JR	Z,DriveLeft
+	CP	#56
+	JR	Z,DriveRight
+	RET 
+DriveExit
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	POP	IY
+	CALL	SetInvert
+	RET 
+DriveLeft
+	LD	A,(EquipDisks)
+	DEC	A
+	RET	Z
+	LD	A,(CurDrive)
+	OR	A
+	JR	NZ,$+5
+	LD	A,(EquipDisks)
+	DEC	A
+	PUSH	AF
+	CALL	ResDriveInv
+	POP	AF
+	LD	(CurDrive),A
+	CALL	SetDriveInv
+	RET 
+DriveRight
+	LD	A,(EquipDisks)
+	CP	#01
+	RET	Z
+	LD	B,A
+	LD	A,(CurDrive)
+	INC	A
+	CP	B
+	JR	NZ,$+3
+	SUB	A
+	PUSH	AF
+	CALL	ResDriveInv
+	POP	AF
+	LD	(CurDrive),A
+	CALL	SetDriveInv
+	RET 
+DriveMouse
+	LD	IX,BegDrive
+	LD	C,(IX+#00)
+	LD	B,(IX+#01)
+	OR	A
+	SBC	HL,BC
+	LD	BC,#0012
+	LD	A,#FF
+	INC	A
+	SBC	HL,BC
+	JR	NC,$-3
+	JR	SetDrive
+DriveEnter
+	LD	A,(CurDrive)
+SetDrive
+	LD	HL,NewDrive
+	ADD	A,"A"
+	LD	(HL),A
+	LD	(IY+BegPath),#00
+	CALL	MakeWindow
+	DEFB	#7F
+	DEFB	#00
+	EX	(SP),IY
+	CALL	SetInvert
+	EX	(SP),IY
+	LD	HL,NewDrive
+	CALL	NewDIRECTORY
+	LD	HL,LeftPanel
+	LD	DE,BegPath
+	BIT	7,(HL)
+	JR	NZ,$+5
+	LD	HL,RightPanel
+	ADD	HL,DE
+	LD	C,#1D
+	RST	#10
+	POP	IY
+	RET 
+ResDriveInv
+	LD	DE,#4F80
+	LD	A,(CurDrive)
+	JR	DriveInvert
+SetDriveInv
+	LD	DE,#804F
+	LD	A,(CurDrive)
+DriveInvert
+	LD	L,A
+	LD	H,#00
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	ADD	HL,HL
+	LD	BC,BegDrive
+	ADD	HL,BC
+	PUSH	HL
+	POP	IX
+	LD	L,(IX+#00)
+	LD	H,(IX+#01)
+	LD	C,(IX+#04)
+	LD	B,(IX+#05)
+	LD	A,(IX+#02)
+	SUB	(IX+#00)
+	EX	AF,AF'
+	LD	A,(IX+#06)
+	SUB	(IX+#04)
+	LD	HX,A
+	EX	AF,AF'
+	SRL	A
+	LD	LX,A
+	CALL	InvertRectan
+	RET 
+CurDrive
+	DEFB	#00
+Drive
+	DEFB	" ",0
+
+

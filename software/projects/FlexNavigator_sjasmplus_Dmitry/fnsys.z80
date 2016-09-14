@@ -1,0 +1,534 @@
+
+;[]-----------------------------------------------------------[]
+;Процедура умножения (8*8bit)
+;На вход: E*C
+;На выход:HL-результат
+Mult8	SUB	A
+	LD	L,A
+	LD	H,A
+	LD	D,A
+	CP	C
+	RET	Z
+	CP	E
+	RET	Z
+	LD	H,C
+	LD	B,#08
+Mlt8x8	ADD	HL,HL
+	JR	NC,$+3
+	ADD	HL,DE
+	DJNZ	Mlt8x8
+	RET 
+;Процедура умножения (16*8bit)
+;На вход: DE*C
+;На выход:A+HL-результат
+Mult16X8
+	SUB	A
+	LD	L,A
+	LD	H,A
+	CP	C
+	RET	Z
+	OR	D
+	OR	E
+	RET	Z
+	LD	A,C
+	LD	C,#00
+	LD	B,#08
+Mlt16x8	ADD	HL,HL
+	RLA 
+	JR	NC,$+4
+	ADD	HL,DE
+	ADC	A,C
+	DJNZ	Mlt16x8
+	RET 
+;Процедура умножения (16*16bit)
+;На вход: DE*BC
+;На выход:HL-результат
+Mult16
+	LD	HL,#0000
+	LD	A,#10
+mult16	RR	B
+	RR	C
+	JR	NC,$+3
+	ADD	HL,DE
+	RL	E
+	RL	D
+	DEC	A
+	JR	NZ,mult16
+	RET 
+;Процедура умножения (32bit)
+;На вход: DE*BC
+;На выход:HL+DE-результат
+Mult16X16
+	PUSH	IX
+	EX	DE,HL
+	LD	E,#00
+	LD	D,E
+	LD	LX,E
+	LD	HX,D
+	LD	A,#20
+mul16b1	ADD	IX,IX
+	ADC	HL,HL
+	RL	E
+	RL	D
+	JR	NC,noadd
+	ADD	IX,BC
+	JR	NC,noadd
+	INC	HL
+noadd	DEC	A
+	JR	NZ,mul16b1
+	LD	E,LX
+	LD	D,HX
+	POP	IX
+	RET 
+;Процедура умножения (32bit)
+;На вход: HL+DE*BC
+;На выход:HL+DE-результат
+Mult32
+	PUSH	IX
+	LD	IX,#0000
+	LD	A,#20
+	EX	DE,HL
+mul32b	ADD	IX,IX
+	ADC	HL,HL
+	RL	E
+	RL	D
+	JR	NC,noadd1
+	ADD	IX,BC
+	JR	NC,noadd1
+	INC	HL
+noadd1	DEC	A
+	JR	NZ,mul32b
+	LD	E,LX
+	LD	D,HX
+	POP	IX
+	RET 
+;Процедура деления (16bit)
+;На вход: BC/DE
+;На выход:BC-результат
+;	  HL-остаток
+Divis16X16
+	LD	A,D
+	OR	E
+	RET	Z
+	LD	HL,#0000
+	LD	A,B
+	LD	B,#10
+Btrial1	RL	C
+	RLA 
+	ADC	HL,HL
+	SBC	HL,DE
+	CCF 
+	JR	NC,Bngv1
+Bptv1	DJNZ	Btrial1
+	RL	C
+	RLA 
+	LD	B,A
+	RET 
+Brestr1	RL	C
+	RLA 
+	ADC	HL,HL
+	ADD	HL,DE
+	JR	C,Bptv1
+Bngv1	DJNZ	Brestr1
+	RL	C
+	RLA 
+	ADD	HL,DE
+	LD	B,A
+	RET 
+;Процедура деления (24x16bit)
+;На вход: H+L+C/DE
+;На выход:A -результат
+;	  HL-остаток
+Divis24X16
+	LD	A,D
+	CPL 
+	LD	D,A
+	LD	A,E
+	CPL 
+	LD	E,A
+	INC	DE
+	LD	A,C
+	LD	B,#08
+Div2416	ADD	HL,HL
+	JR	C,Dv2416n
+	ADD	A,A
+	JR	NC,$+3
+	INC	HL
+	PUSH	HL
+	ADD	HL,DE
+	JR	NC,$+4
+	EX	(SP),HL
+	INC	A
+	POP	HL
+	DJNZ	Div2416
+	RET 
+Dv2416n	ADC	A,A
+	JR	NC,$+3
+	INC	HL
+	ADD	HL,DE
+	DJNZ	Div2416
+	RET 
+;Процедура деления 32/16bit=16bit
+;На вход: HL+DE/BC
+;На выход:DE-результат
+;	  HL-остаток
+Divis32X16
+	LD	A,#10
+d32X16l	EX	DE,HL
+	ADD	HL,HL
+	EX	DE,HL
+	ADC	HL,HL
+	SBC	HL,BC
+	JR	NC,dv32X16
+	ADD	HL,BC
+	DEC	A
+	JR	NZ,d32X16l
+	RET 
+dv32X16	INC	DE
+	DEC	A
+	JR	NZ,d32X16l
+	RET 
+;Процедура деления 32/16bit=32bit
+;На вход: HL+DE/BC
+;На выход:HL+DE-результат
+;	  BC-остаток
+Divis32
+	PUSH	IX
+	LD	LX,E
+	LD	HX,D
+	EX	DE,HL
+	LD	HL,#0000
+	LD	A,#20
+div32_1	ADD	IX,IX
+	RL	E
+	RL	D
+	ADC	HL,HL
+	SBC	HL,BC
+	JR	NC,div32_2
+	DEC	IX
+	ADD	HL,BC
+div32_2	INC	IX
+	DEC	A
+	JR	NZ,div32_1
+	LD	C,L
+	LD	B,H
+	EX	DE,HL
+	LD	E,LX
+	LD	D,HX
+	POP	IX
+	RET 
+;[]-----------------------------------------------------------[]
+;Конвертер числа 32бит в текст
+;На вход:
+;	BC+HL -	число 32 бит
+;	   DE -	буфер
+ConvNumTxt32
+	PUSH	IX
+	LD	IX,ConvertFlg
+	RES	7,(IX+#00)
+	PUSH	BC
+	EXX 
+	POP	HL
+	EXX 
+	LD	BC,#CA00
+	EXX 
+	LD	BC,#3B9A	;1'000'000'000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,#E100
+	EXX 
+	LD	BC,#05F5	;100'000'000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,#9680
+	EXX 
+	LD	BC,#0098	;10'000'000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,#4240
+	EXX 
+	LD	BC,#000F	;1'000'000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,#86A0
+	EXX 
+	LD	BC,#0001	;100'000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,10000	;10'000
+	EXX 
+	LD	BC,#0000
+	EXX 
+	CALL	ConNumb32
+	LD	BC,1000		;1'000
+	CALL	ConNumb16
+	LD	BC,100		;100
+	CALL	ConNumb16
+	LD	BC,10		;10
+	CALL	ConNumb16
+	LD	A,L
+	ADD	A,"0"
+	LD	(DE),A
+	INC	DE
+	POP	IX
+	RET 
+;Конвертер числа 16бит в текст
+;На вход:
+;	HL - число 16 бит
+;	DE - буфер
+ConvNumTxt16
+	PUSH	IX
+	PUSH	BC
+	LD	IX,ConvertFlg
+	RES	7,(IX+#00)
+	LD	BC,10000	;10'000
+	CALL	ConNumb16
+	LD	BC,1000		;1'000
+	CALL	ConNumb16
+	LD	BC,100		;100
+	CALL	ConNumb16
+	LD	BC,10		;10
+	CALL	ConNumb16
+	LD	A,L
+	ADD	A,"0"
+	LD	(DE),A
+	INC	DE
+	POP	BC
+	POP	IX
+	RET 
+;Конвертер числа 8бит в	текст
+;На вход:
+;	A - число 8 бит
+;	DE - буфер
+ConvNumTxt8
+	PUSH	IX
+	PUSH	BC
+	LD	IX,ConvertFlg
+	RES	7,(IX+#00)
+	LD	C,100
+	CALL	ConNumb8
+	LD	C,10
+	CALL	ConNumb8
+	ADD	A,"0"
+	LD	(DE),A
+	INC	DE
+	POP	BC
+	POP	IX
+	RET 
+ConNumb32
+	LD	A,#2F
+	OR	A
+ConNm32	INC	A
+	SBC	HL,BC
+	EXX 
+	SBC	HL,BC
+	EXX 
+	JR	NC,ConNm32
+	ADD	HL,BC
+	EXX 
+	ADC	HL,BC
+	EXX 
+	CP	#30
+	JR	Z,$+6
+	SET	7,(IX+#00)
+	BIT	7,(IX+#00)
+	RET	Z
+	LD	(DE),A
+	INC	DE
+	RET 
+ConNumb16
+	LD	A,#2F
+	OR	A
+	INC	A
+	SBC	HL,BC
+	JR	NC,$-3
+	ADD	HL,BC
+	CP	#30
+	JR	Z,$+6
+	SET	7,(IX+#00)
+	BIT	7,(IX+#00)
+	RET	Z
+	LD	(DE),A
+	INC	DE
+	RET 
+ConNumb8
+	LD	B,#2F
+	INC	B
+	SUB	C
+	JR	NC,$-2
+	ADD	A,C
+	EX	AF,AF'
+	LD	A,B
+	CP	#30
+	JR	Z,$+6
+	SET	7,(IX+#00)
+	BIT	7,(IX+#00)
+	JR	Z,$+4
+	LD	(DE),A
+	INC	DE
+	EX	AF,AF'
+	RET 
+ConvertFlg
+	DEFB	#00
+;[]-----------------------------------------------------------[]
+;Конвертер текста в число 32 бит
+;На вход:
+;	   DE -	текст
+;На выход:
+;	HL+IX -	число
+;	   CY -	ошибка
+ConvTxtNum32
+	LD	IX,#0000
+	LD	HL,#0000
+ConvTN1	LD	A,(DE)
+	CP	#21
+	CCF 
+	RET	NC
+	SUB	#30
+	RET	C
+	CP	#0A
+	CCF 
+	RET	C
+	INC	DE
+	ADD	IX,IX
+	ADC	HL,HL
+	RET	C
+	PUSH	HL
+	PUSH	IX
+	ADD	IX,IX
+	ADC	HL,HL
+	RET	C
+	ADD	IX,IX
+	ADC	HL,HL
+	RET	C
+	POP	BC
+	ADD	IX,BC
+	POP	BC
+	ADC	HL,BC
+	RET	C
+	LD	C,A
+	LD	B,#00
+	ADD	IX,BC
+	LD	C,B
+	ADC	HL,BC
+	RET	C
+	JR	ConvTN1
+;Конвертер текста в число 16 бит
+;На вход:
+;	   DE -	текст
+;На выход:
+;	   HL -	число
+;	   CY -	ошибка
+ConvTxtNum16
+	LD	HL,#0000
+ConvTN2	LD	A,(DE)
+	CP	#21
+	CCF 
+	RET	NC
+	SUB	#30
+	RET	C
+	CP	#0A
+	CCF 
+	RET	C
+	INC	DE
+	ADD	HL,HL
+	RET	C
+	PUSH	HL
+	ADD	HL,HL
+	RET	C
+	ADD	HL,HL
+	RET	C
+	POP	BC
+	ADD	HL,BC
+	RET	C
+	LD	C,A
+	LD	B,#00
+	ADD	HL,BC
+	RET	C
+	JR	ConvTN2
+;[]-----------------------------------------------------------[]
+MoveBytes
+	LD	A,B
+	OR	A
+	JR	Z,MvByte1
+	DI 
+	LD	D,D
+	LD	A,#00
+MvByte0	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	INC	H
+	INC	D
+	DEC	B
+	JR	NZ,MvByte0
+	EI 
+MvByte1	LD	A,C
+	OR	A
+	RET	Z
+	LD	(Mvlen1+1),A
+	DI 
+	LD	D,D
+Mvlen1	LD	A,#00
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	EI 
+	LD	A,C
+	ADD	A,E
+	LD	E,A
+	JR	NC,$+3
+	INC	D
+	LD	A,C
+	ADD	A,L
+	LD	L,A
+	RET	NC
+	INC	H
+	RET 
+MoveBytesUp
+	LD	A,B
+	OR	A
+	JR	Z,MovUp1
+	DI 
+	LD	D,D
+	LD	A,#00
+	LD	B,B
+MovUp0	DEC	H
+	DEC	D
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	DEC	B
+	JR	NZ,MovUp0
+	EI 
+MovUp1	LD	A,C
+	OR	A
+	RET	Z
+	LD	(LenUp+1),A
+	SBC	HL,BC
+	EX	DE,HL
+	SBC	HL,BC
+	EX	DE,HL
+	DI 
+	LD	D,D
+LenUp	LD	A,#00
+	LD	L,L
+	LD	A,(HL)
+	LD	(DE),A
+	LD	B,B
+	EI 
+	RET 
+;[]----------------------------------------------------------[]
+Resident
+	LD	(ResCall+1),DE
+	IN	B,(C)
+	PUSH	BC
+	OUT	(C),A
+ResCall	CALL	#0000
+	POP	BC
+	OUT	(C),B
+	RET 
+
+
