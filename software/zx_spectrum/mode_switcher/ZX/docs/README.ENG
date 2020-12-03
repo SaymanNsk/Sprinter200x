@@ -1,0 +1,50 @@
+Spectrum Launcher (Spectrum.exe)
+
+
+This program serves for switching the Sprinter computer to the Spectrum Configuration. Spectrum Launcher supports different Spectrum modes with different external Spectrum ROMs.
+
+You should put it in 'C:\ZX\' directory.
+
+Usage:
+
+1. Executing without any parameters - starting of Spectrum mode which described in spectrum.cfg file.
+
+It is same variant as usage old Spectrum Switcher. But now you can define default mode of Spectrum configuration.
+
+2. Executing with parameters:
+
+spectrum.exe [*.zx] [*.tr?]
+
+*.zx  - files of Spectrum mode configuration.
+*.tr? - image file of TR-DOS disk,which has extension  from 'TR' symbols.
+
+You can definition:
+
+.trs - image files of TR-DOS disks which work in Sprinter ZX 
+       mode only (doom2.trd, cd.trd)
+.tro - files which work in ZX Spectrum (+2) mode only.
+.trx - files which need not special mode for work.
+
+For example, possible to register lines in fn.ext file (file of Flex Navigator):
+
+trs:	c:\zx\spectrum.exe sprinter.zx !:!\!.!
+tro:	c:\zx\spectrum.exe original.zx !:!\!.!
+trx:	c:\zx\spectrum.exe start.zx !:!\!.!
+
+And you will can to execute your TRD files by pressing <ENTER> key.
+Package of Flex Navigator include filled description files already.
+
+You can use special parameter 'norun' for load Spectrum ROMs to the memory before usage TRD files.
+
+For example:
+
+c:\zx\spectrum.exe norun
+
+You can use this string in SYSTEM.BAT file before call of Flex Navigator. 
+
+Now file 'norun' include describtion of 'Sprinter ZX' mode. But you can change it in any time. But do not rename this file.
+
+3. Use '/to-trdos' in configuration files (*.zx) for auto start of the "boot.B" file from TR-DOS disk image.
+
+You can edit any Spectrum mode configuration file (*.zx) in any text editor. But usage the special editor ZXMODE.EXE is more comfortable.
+
