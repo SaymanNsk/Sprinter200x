@@ -1,0 +1,3799 @@
+		.z80
+		ASEG
+		.RADIX 10
+		ORG 100h
+		.PHASE 8000h
+
+;                INCLUDE SPRINT01.ASZ
+
+
+MSD_FAT_SEC	EQU 0C160H	; начальный сектор FAT
+MSD_FAT_SEC2	EQU 0C162H	; начальный сектор FAT
+MSD_CAT_SEC	EQU 0C164H	; начальный сектор CAT
+MSD_CAT_SEC2	EQU 0C166H	; начальный сектор CAT
+MSD_DAT_SEC	EQU 0C168H	; начальный сектор DAT
+MSD_DAT_SEC2	EQU 0C16AH	; начальный сектор DAT
+CLASTER_LEN	EQU 0C16CH	; длина кластера в байтах
+CLASTER_LEN2	EQU 0C16EH	; длина кластера в байтах
+
+;SYS_PAGE	EQU 0FEH
+;COPY_PAGE1	EQU 04105H
+;DISK_TYPE	EQU 0C100H	; переадресация дисков
+
+;RAMD_KEYS	EQU 0C180H	; ключи RAM-Disks
+;OPER_DISK	EQU 05CF6H
+;RAMD_FAT	EQU 0C200H	; расположение блоков RAM-Disk-ов
+
+COM_A	EQU 019H
+DAT_A	EQU 018H
+
+PAGE0   EQU 082H
+PAGE1   EQU 0A2H
+PAGE2   EQU 0C2H
+PAGE3   EQU 0E2H
+
+BORDER  EQU 0FEH
+RGADR   EQU 089H
+RGSCR   EQU 0E9H
+RGMOD   EQU 0C9H
+RGACC   EQU 0A9H
+
+TABLE_X		EQU 0A000H	; таблица коэфициентов высоты
+MONSTR_TABLE	EQU 0A800H	; таблица монстров
+TABLE_W		EQU 02000H	; текущие карты для TRACE
+
+BEGIN:
+	JP START
+	NOP
+
+X_COORD: DW 090*256
+Y_COORD: DW 090*256
+ANGLE_A: DW -160*32+0C000h
+ANGLE_R: DW 0
+
+X_SPEED: DW 300H
+Y_SPEED: DW 302H
+A_SPEED: DW 200H
+
+TABLE_TRACE:
+	DS 33		; таблица трассировки/банки таблицы
+TABLE_WALL:
+	DS 33
+
+	DS 8078H-$
+
+NAMES:	DB 6,1
+LAST_KEY: DB 0
+
+	DS 8080H-$
+
+NAME1:	DB "_1X62   CBL     "
+NAME2:	DB "2NDREAL3CBL     "
+NAME3:	DB "_ICT2   CBL     "
+;NAME4:	DB "MISS2   CBL     "
+;NAME5:	DB "5EL     CBL     "
+NAME6:	DB "_UNNY2  CBL     "
+NAME8:  DB "94956C  CBL     "
+NAME9:  DB "_ENI511CCBL     "
+
+	DS 8100H-$
+
+TABLE_MAIN:
+	DS 40
+
+TABLE_PIC:
+;	DS 5
+
+START:
+	DI
+	PUSH IY
+	PUSH IX
+	EXX
+	PUSH HL
+	EXX
+	LD (SP_+1),SP
+	LD SP,0BFFFH
+
+;	LD A,0
+;	OUT (RGADR),A
+
+;	CALL _2L_PRIKOL
+	DI
+
+	IN A,(PAGE3)
+	LD C,0F3h
+	CALL 3D13H
+
+	LD A,7
+	OUT (0FEH),A
+
+;	LD A,0FFH
+	LD A,80h
+;CCCC1:
+	CALL CLEAR_COVOX_X
+;	DEC A
+;	CP 80H
+;	JR NZ,CCCC1
+
+	DI
+
+	CALL CLEAR_GRAF_SCR
+
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,3
+	OUT (PAGE3),A
+	LD HL,PALITRE
+	LD DE,0C000h
+	LD BC,400h
+	LDIR
+	POP AF
+	OUT (PAGE3),A
+
+	CALL SET_PAL
+
+	IN A,(PAGE3)
+	EX AF,AF'
+	LD A,40H
+	OUT (PAGE3),A
+	LD A,0C7H
+
+	LD (0C400H),A	; открыть порт масштабирования
+	LD (0C410H),A	; открыть порт масштабирования
+	LD (0C480H),A	; открыть порт масштабирования
+	LD (0C490H),A	; открыть порт масштабирования
+	LD (0C500H),A	; открыть порт масштабирования
+	LD (0C510H),A	; открыть порт масштабирования
+	LD (0C580H),A	; открыть порт масштабирования
+	LD (0C590H),A	; открыть порт масштабирования
+
+	EX AF,AF'
+	OUT (PAGE3),A
+	EXX
+	LD BC,100H	; масштаб 1:1
+	LD D,0
+	OUT (C),D
+	EXX
+
+	LD A,0
+	LD I,A
+
+	CALL MAIN
+
+	JP RETURN_POINT
+
+	LD C,0F0h	; to Sprinter-2
+	CALL 3D13H
+
+	LD HL,5104H
+	LD E,0
+	LD B,4
+	LD C,80H
+	CALL 3D13H
+
+SP_:	LD SP,0
+	EXX
+	POP HL
+	EXX
+	POP IX
+	POP IY
+	EI
+	RET
+
+RETURN_POINT:	; точка возврата - полный сброс
+	DI
+	IN A,(7Bh)
+
+	LD C,0F1h	; 1 config
+	CALL 3D13H
+
+	LD A,10h
+	LD BC,1FFDh
+	OUT (C),A
+	LD A,0A0h
+	OUT (PAGE3),A
+	LD (0C000h),HL
+HALT_L:
+	DI
+	HALT
+	JR HALT_L
+
+SET_PAL_x:
+	IN A,(7BH)
+	CALL SET_PAL
+	IN A,(0FBH)
+	RET
+
+SET_PAL:
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,3
+	OUT (PAGE3),A
+	LD HL,0C000h
+
+	LD DE,0
+	LD A,0
+	LD B,0FFH
+	LD C,0A4H
+	CALL 3D13H
+	DI
+
+	LD HL,0C000h
+	LD DE,0
+	LD A,1
+	LD B,0FFH
+	LD C,0A4H
+	CALL 3D13H
+	DI
+	POP AF
+	OUT (PAGE3),A
+	RET
+
+CLEAR_GRAF_SCR:
+	IN A,(PAGE3)
+	PUSH AF
+
+	LD (SP_2+1),SP
+
+	LD A,50H
+	OUT (PAGE3),A
+
+	LD A,0
+	OUT (RGADR),A
+
+	LD SP,0C040H+640
+	LD B,160
+
+LOOP_CLS:
+	LD D,D
+	LD E,0
+	LD B,B
+
+	LD D,E
+
+	LD E,E
+	PUSH DE
+	PUSH DE
+	LD B,B
+
+	DJNZ LOOP_CLS
+
+SP_2:	LD SP,0
+
+	POP AF
+	OUT (PAGE3),A
+	RET
+
+;_2L_PRIKOL:
+
+;	LD A,7
+;	OUT (0FEH),A
+;	XOR A
+;	OUT (RGADR),A
+;
+;	LD A,2
+;	LD HL,04000H
+;	LD B,27
+;CCC1:
+;	LD (HL),A
+;	INC L
+;	PUSH DE
+;	POP DE
+;	JR NZ,CCC1
+;	INC H
+;	DJNZ CCC1
+;
+;	LD HL,8000h
+;PAUSSSS:
+;	PUSH HL
+;	POP HL
+;	DEC HL
+;	LD A,H
+;	OR L
+;	JR NZ,PAUSSSS
+;
+;	LD A,0
+;	LD HL,04000H
+;	LD B,27
+;CCC2:
+;	LD (HL),A
+;	INC L
+;	PUSH DE
+;	POP DE
+;	JR NZ,CCC2
+;	INC H
+;	DJNZ CCC2
+;
+;	LD HL,8000h
+;PAUSSSS2:
+;	PUSH HL
+;	POP HL
+;	DEC HL
+;	LD A,H
+;	OR L
+;	JR NZ,PAUSSSS2
+;
+;	CALL 0D6BH	; CLS
+;
+;;	LD A,0
+;;	CALL 1601H	; OPEN CH0
+;
+;	LD HL,TXT_SP
+;	CALL PRINT_LOOP
+;
+;	RET
+
+;PRINT_LOOP:
+;	LD A,(HL)
+;	INC HL
+;	CP 0FFH
+;	RET Z
+;	RST 10H
+;	JR PRINT_LOOP
+;
+;TXT_SP: DB 7FH," 1982 Sinclair Research Ltd.",0FFh
+
+FLAG:	DB 0
+SAVE_RGA: DB 0
+
+
+CLEAR_COVOX:
+	LD A,80H
+
+CLEAR_COVOX_X:
+	LD BC,0FBH
+CLEAR_CBL:
+	OUT (C),A
+	DJNZ CLEAR_CBL
+	RET
+
+CLEAR_SP_PAL:
+	IN A,(PAGE3)
+	PUSH AF
+
+	LD A,50H
+	OUT (PAGE3),A
+
+	LD B,61
+
+LOOP_PAL_ALL:
+	PUSH BC
+
+	LD B,0
+	LD C,RGADR
+
+LOOP_PAL_C:
+	OUT (C),B
+
+	LD HL,0C3F0H
+PAL_RESES_ADR EQU $-2
+	LD D,16
+
+LOOP_PAL_D:
+	LD A,(HL)
+	RRA
+	RRA
+	RRA
+	RRA
+	RRA
+	AND 07H
+	INC A
+	LD E,A
+	LD A,(HL)
+	SUB E
+	JR NC,NO_Z
+	XOR A
+NO_Z:
+	LD (HL),A
+	INC L
+	DEC D
+	JR NZ,LOOP_PAL_D
+
+	CALL SOUND1
+	DJNZ LOOP_PAL_C
+
+	CALL PAUSE_INT
+
+	POP BC
+	LD A,(LAST_KEY)
+	AND A
+	JR NZ,NO_PAL_EXE
+	DJNZ LOOP_PAL_ALL
+
+NO_PAL_EXE:
+	POP AF
+	OUT (PAGE3),A
+	RET
+
+; *********************
+; *****   *** *** *****
+; ***** ** **  *  *****
+; ***** ** ** * * *****
+; ***** ** ** *** *****
+; *****   *** *** *****
+; *********************
+; **
+; **
+; **
+; **
+; **
+; **
+; **
+; **
+
+MAIN:
+DM_CIRCLE:
+
+	CALL INIT_TABLE
+	RET C
+
+	IN A,(RGADR)
+	LD (SAVE_RGA),A
+	LD A,0C0h
+	OUT (RGADR),A
+	CALL RECALC_MAP
+	LD A,(SAVE_RGA)
+	OUT (RGADR),A
+
+;	RET C
+
+	LD A,0
+	OUT (COM_A),A
+
+	LD A,1
+	OUT (COM_A),A
+	LD A,0  	; 18H включение прерываний
+	OUT (COM_A),A
+
+	LD A,3
+	OUT (COM_A),A
+	LD A,0C1h
+	OUT (COM_A),A
+
+	LD A,4
+	OUT (COM_A),A
+	LD A,5h		; 5 паритет?
+	OUT (COM_A),A
+
+        LD A,5
+        OUT (COM_A),A
+        LD A,060H
+        OUT (COM_A),A
+
+	XOR A
+	LD (LAST_KEY),A
+
+	CALL CLEAR_SP_PAL
+
+	LD A,0
+	OUT (0FEH),A
+
+	LD A,2
+	LD C,0F2H
+	CALL 3D13H
+
+	LD HL,4000H
+	LD E,1
+	LD B,8
+	LD C,80H
+	CALL 3D13H
+
+	LD HL,5000H
+	LD E,1
+	LD B,9
+	LD C,80H
+	CALL 3D13H
+
+	LD A,1
+	OUT (RGMOD),A
+
+	IN A,(0FBH)
+	LD HL,SSS1
+	LD DE,1000H
+	LD BC,1800H
+	LDIR
+	LD A,0C9H
+	LD (38H),A
+	LD A,(38H)
+	CP 0C9H
+	IN A,(7BH)
+	SCF
+	RET NZ
+
+	IN A,(0FBH)
+
+	LD HL,0C3E0H
+	LD (PAL_RESES_ADR),HL
+
+	LD HL,PAUSE_SNDC
+	LD DE,PAUSE_SND
+	LD BC,3
+	LDIR
+
+;MORE_SOUND:
+
+	CALL CLEAR_COVOX
+	IN A,(7BH)
+	CALL INIT_HDD_WORK
+	IN A,(0FBH)
+
+;NAM_MUS:
+;	LD DE,NAME8
+;	CALL SET_SND_FILE
+
+;	JP SOUND_SWITCH
+SOUND_SWITCH:
+	LD HL,NAMES+1
+	LD A,(HL)
+	INC A
+	LD (HL),A
+	DEC HL
+	CP (HL)
+	JR NZ,SOUND_S1
+	LD A,0
+	INC HL
+	LD (HL),A
+SOUND_S1:
+	RLCA
+	RLCA
+	RLCA
+	RLCA
+	ADD A,80H
+	LD E,A
+	LD D,80H
+	CALL SET_SND_FILE
+	JP MORE_SOUND
+
+MORE_SOUND:
+
+	CALL INIT_SOUND
+
+MORE_PIC:
+
+	LD HL,100H
+	LD (X_SPEED),HL
+	LD HL,102H
+	LD (Y_SPEED),HL
+	LD HL,200H
+	LD (A_SPEED),HL
+HELP_2:
+	CALL CLEAR_SP_PAL
+	LD A,6
+	CALL SET_PICTURE
+	CALL SCR_SWITCH
+	LD A,6
+	CALL PIC_ALL_MD
+
+	LD A,11
+	CALL PIC_ALL_MD
+
+	LD A,16
+	CALL PIC_ALL_MD
+
+MORE_PIC_LK:
+	LD A,21
+	CALL SET_PICTURE
+	CALL SCR_SWITCH
+	CALL SET_PAL_x
+
+	LD B,240
+
+PAUS_START:
+	DEC B
+	JR Z,DM_LOOP
+	CALL PAUSE_INT
+	LD A,(LAST_KEY)
+	AND A
+	JR Z,PAUS_START
+
+	LD B,0
+	LD C,A
+	XOR A
+	LD (LAST_KEY),A
+	LD A,C
+	CP 118
+	JR Z,MORE_PIC
+	CP 22
+	JR Z,DM_LOOP
+	CP 38
+	JR Z,SOUND_SWITCH
+
+	CP 9
+	JP Z,RETURN_POINT
+	CP 5
+	JP Z,HELP_
+
+	JR PAUS_START
+HELP_:
+	CALL FIRE_X
+	LD HL,300H
+	LD (X_SPEED),HL
+	LD HL,382H
+	LD (Y_SPEED),HL
+	LD HL,500H
+	LD (A_SPEED),HL
+	JR DM_LOOP
+
+;SWITCH_XX_W:
+;	LD HL,XX_W1
+;	LD DE,XX_W2
+;	LD B,3
+;SWITCH_XX_W1:
+;	LD A,(DE)
+;	LD C,(HL)
+;	LD (HL),A
+;	LD A,C
+;	LD (DE),A
+;	DJNZ SWITCH_XX_W1
+;	RET
+
+
+PIC_ALL_MD:
+	CALL SET_PICTURE
+	CALL SCR_SWITCH
+	CALL SET_PAL_x
+	CALL CLEAR_SP_PAL
+	RET
+
+DM_LOOP:
+	LD A,(LAST_KEY)
+	CP 118
+	JP Z,MORE_PIC_LK
+;	CP 37
+;	CALL Z,SWITCH_XX_W
+
+;	CALL CRAZY_WALL
+
+	DI
+
+;	CALL SET_PAL_x
+
+;	CALL FIRE_S
+
+	CALL SOUND
+
+	CALL CALC_NEW_PLACE
+
+	CALL MAP_PLACE
+
+	CALL MAKE_MAP	; соорудить относительную карту
+
+	CALL SOUND
+
+	CALL PRECALC_PLACE
+
+	CALL SOUND
+
+	CALL TRACE	; прорисовка!
+
+	CALL SOUND
+
+;	CALL MONSTR_OUT
+	CALL MONSTR_ALL
+
+	CALL SOUND
+
+	CALL WEAPON_OUT
+
+	CALL SOUND
+
+	CALL MAP_OUT
+
+	CALL CLEAR_Z_BUFER
+
+LOOP_SCR:
+	IN A,(0FEH)
+	BIT 5,A
+	JR NZ,CONT_WORK
+	CALL SOUND
+	JR LOOP_SCR
+
+CONT_WORK:
+
+	CALL SCR_SWITCH
+	CALL SOUND
+
+	JP DM_LOOP
+
+;MONSTR_OUT:
+;
+;	LD IX,WALL_DATS
+;xx_w1:	CALL WALL
+;	LD IX,WALL_DATS
+
+
+
+;	LD IX,WALL_DATS
+;	LD A,(IX+M_VAR2+1)
+;	INC A
+;	CP 7
+;	JR NZ,NO_ZX7
+;	LD A,0
+;NO_ZX7:
+;	LD (IX+M_VAR2+1),A
+;
+;	LD HL,MONSTR_DATS
+;	ADD A,L
+;	LD L,A
+;	LD A,0
+;	ADC A,H
+;	LD H,A
+;	LD A,(HL)
+;	LD (WALL_DATS),A
+;
+;;NO_NEXT_PG_MONS:
+;
+;	RET
+
+SCR_SWITCH:
+	IN A,(RGMOD)
+	AND 1
+	XOR 1
+	OUT (RGMOD),A
+
+	LD DE,0C040H
+	JR Z,SET_1
+	LD DE,0C180H
+SET_1:
+	LD (SCREEN_1),DE
+	RET
+
+;xx_w2:	nop
+;	nop
+;	nop
+
+PAUSE_INT:
+	CALL SOUND1
+	IN A,(0FEH)
+	BIT 5,A
+	JR NZ,PAUSE_INT
+
+PAUSE_INT1:
+	CALL SOUND1
+	IN A,(0FEH)
+	BIT 5,A
+	RET NZ
+	JR PAUSE_INT1
+
+PAUSE_SNDC:
+	JP SOUND
+
+PAUSE_SND:
+SOUND1: RET
+	NOP
+	NOP
+	RET
+
+;
+MONSTR_DAT:
+M_PAGE EQU $-MONSTR_DAT
+	DB 0		; страница с общими данными монстра монстра (картинки)
+			; признак конца таблицы монстров
+M_ADR EQU $-MONSTR_DAT
+	DW 4000h	; адрес в странице
+M_HIGH EQU $-MONSTR_DAT
+	DB 40h		; вертикальное положение
+M_HOR EQU $-MONSTR_DAT
+	DW 160		; горизонтальное положение
+M_VAR2 EQU $-MONSTR_DAT
+	DW 08		; счетчик переключений
+M_XADD EQU $-MONSTR_DAT
+	DW 100h		; x-add параметры
+	DB 40h,40h	; ширина-высота ???
+
+M_X EQU $-MONSTR_DAT
+	DW 0700h	; координата X
+M_Y EQU $-MONSTR_DAT
+	DW 0700h	; координата Y
+M_VX EQU $-MONSTR_DAT
+	DW 0000h	; скорость движения по X
+M_VY EQU $-MONSTR_DAT
+	DW 0000h	; скорость движения по Y
+M_TYPE EQU $-MONSTR_DAT
+	DW 0		; тип монстра уничтожаемый, неуничтожаемый
+			; исчезающий при ударе о стенку, не исчезающий
+			; исчезающий при соприкосновении с игроком,
+			; не исчезающий....
+M_VAR EQU $-MONSTR_DAT
+	DB 0		; Переменные конкретного монстра
+M_VAR3 EQU $-MONSTR_DAT
+	DB 0		; Переменная монстра бит 0,1 - деление по ширине
+			; bit 2 - переключать по старшему
+			; bit 3 -
+			; bit 4
+			; bit 5
+			; bit 6 - показывать один цикл
+			; bit 7 - не выводить
+M_VAR4 EQU $-MONSTR_DAT
+	DB 0		; Переключение монстра ADD параметр
+
+MONSTR_D_LEN	EQU $-MONSTR_DAT
+	; следующий монстр
+	DB 0	; - отсутствует
+
+;****************************************
+;
+;	IX+0	- страница стенки
+;	IX+1,2	- адрес стенки в странице
+;	IX+3	- положение по вертикали - задает масштаб
+;	IX+4,5	- положение по горизонтали
+
+;	IX+6,7 - reserved
+;	IX+8,9 - X-add-parameter (коэфициент масштабирования по Y)
+;	IX+10 - реальная ширина стенки ???
+;	IX+11 - реальная высота стенки ???
+
+WALL_DATS:
+	DB 0
+	DW 04000h
+	DB 040H
+	DW 160
+	DB 0,0
+
+MONSTR_DATS:
+	DB 0,0,0,0,0,0,0,0
+
+;
+; ***************************************
+;
+MSD_DATS:
+	DW 0,0,0,0
+	DW 0,0,0,0
+
+CAT_PAGE EQU  15
+
+EFF_PAGE: 	DB 0FFh
+PAGE_M_PLACE:	DB 0FFh
+FIRE_PAGE:	DB 0FFh
+BAR_PAGE:	DB 0FFh
+BFGF_PAGE:	DB 0FFh
+
+MONSTR_END_T:	DW MONSTR_TABLE
+
+INIT_HDD_WORK:
+	LD C,040H
+	CALL 3D13H
+	JR C,INIT_HDD_WORK
+
+;INIT_HDD_WORK2:
+;	LD C,040H
+;	CALL 3D13H
+;	JR C,INIT_HDD_WORK2
+
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,0FEH
+	OUT (PAGE3),A
+
+	LD HL,MSD_FAT_SEC
+	LD DE,MSD_DATS
+	LD BC,16
+	LDIR
+	POP AF
+	OUT (PAGE3),A
+
+;	LD HL,0C000H
+;	LD DE,(MSD_DATS)	; FAT TABLE
+;	LD IX,(MSD_DATS+2)
+;	LD B,0FFH
+;	LD A,8
+;	LD C,45H
+;	CALL 3D13H		; загрузить FAT
+
+	LD HL,0C000H
+	LD DE,(MSD_DATS+4)	; CAT TABLE
+	LD IX,(MSD_DATS+6)
+	LD B,32
+	LD A,CAT_PAGE
+	LD C,45H
+	CALL 3D13H		; загрузить CAT
+
+	RET
+
+
+SND_SEC1: DW 12525  ; начальный сектор
+SND_SEC2: DW 0
+SND_L1:	  DW 1720H  ; длина
+SND_L2:   DW 0
+
+SND_S1:	  DW 12525  ; текуший сектро
+SND_S2:	  DW 0
+SND_C1:	  DW 1720H  ; остаток до конца
+SND_C2:   DW 0
+
+SET_SND_FILE:
+	CALL OPEN_FILE
+	RET C
+
+	LD (SND_SEC1),IX	; сектор музыки!!!
+	LD (SND_SEC2),HL
+	LD HL,(FILE_DATA+2)
+	LD DE,(FILE_DATA+4)
+	AND A
+	RR D
+	RR E
+	RR H
+	LD L,H
+	LD H,E
+	LD E,D
+	LD D,0
+	LD (SND_L1),HL	; длина в секторах
+	LD (SND_L2),DE	; длина в секторах
+	AND A
+	RET
+
+SWITCH_SND:
+	LD DE,NAME1
+NAME_S	EQU $-2
+
+	CALL SET_SND_FILE
+	JR C,SWITCH_X
+
+	LD HL,(NAME_S)
+	LD BC,16
+	ADD HL,BC
+	LD (NAME_S),HL
+	RET
+
+SWITCH_X:
+	LD HL,NAME1
+	LD (NAME_S),HL
+	JR SWITCH_SND
+
+FILE_DATA:
+	DW 0  	; начальный кластер
+	DW 0,0	; длина файла
+
+	DW 0    ; текущий кластер
+	DW 0,0	; текущее положение в файле
+	DW 0	; текущий номер сектора в кластере
+
+OPEN_FILE:		; DE - name
+	CALL FIND_FILE
+	RET C
+
+	LD C,PAGE3
+	IN B,(C)
+
+	PUSH BC
+	LD A,CAT_PAGE
+	OUT (C),A
+	LD BC,26
+	ADD HL,BC
+	LD DE,FILE_DATA
+	LD BC,6
+	LDIR
+
+	POP BC
+	OUT (C),B
+
+	LD HL,(FILE_DATA)
+	LD (FILE_DATA+6),HL
+	LD HL,0
+	LD (FILE_DATA+8),HL
+	LD (FILE_DATA+10),HL
+	LD (FILE_DATA+12),HL
+
+	LD IX,(FILE_DATA)	; номер первого кластера
+	DEC IX
+	DEC IX			; -2 !!!
+	LD HL,0
+	SCF
+	LD DE,(MSD_DATS+13)	; длина кластера в байтах
+	RR D
+	RR E
+SEC_MUL:
+	RR D
+	RR E
+	JR C,SECT_X
+	ADD IX,IX
+	ADC HL,HL
+	JR SEC_MUL
+
+SECT_X:
+	LD DE,(MSD_DATS+8)
+	ADD IX,DE
+	LD DE,(MSD_DATS+10)
+	ADC HL,DE	; HL:IX - номер первого сектора файла
+
+	AND A
+	RET
+
+FIND_FILE:		; DE - name - 11 символов
+	LD C,PAGE3
+	IN B,(C)
+	PUSH BC
+
+	LD A,CAT_PAGE
+	OUT (C),A
+
+	LD HL,0C000H
+
+NEXT_LOOP:
+	LD B,11
+	PUSH DE
+
+NAME_LOOP:
+	LD A,(DE)
+	CP (HL)
+	JR NZ,NEXT_NAME
+	INC HL
+	INC DE
+	DJNZ NAME_LOOP
+
+	POP DE
+	LD A,L
+	AND 0E0H
+	LD L,A
+
+	POP BC
+	OUT (C),B
+	AND A
+	RET		; HL - данные файла в странице 6
+
+NEXT_NAME:
+	POP DE
+	LD A,L
+	AND 0E0H
+	LD L,A
+	LD BC,020H
+	ADD HL,BC
+	LD A,(HL)
+	AND A
+	JR Z,END_CAT
+	LD A,H
+	AND A
+	JR NZ,NEXT_LOOP
+
+END_CAT:
+	POP BC
+	OUT (C),B
+	SCF
+	RET
+
+HDD_FN:
+	EX AF,AF'
+
+	IN A,(07BH)
+	IN A,(PAGE1)
+	PUSH AF
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,5
+	OUT (PAGE1),A
+	LD A,0
+	OUT (PAGE3),A
+
+	IN A,(RGADR)
+	PUSH AF
+
+	EX AF,AF'
+	CALL 3D13H
+	DI
+
+	POP AF
+	OUT (RGADR),A
+	POP AF
+	OUT (PAGE3),A
+	POP AF
+	OUT (PAGE1),A
+	IN A,(0FBH)
+	RET
+;
+; ***************************************
+;
+
+SKY_1:	DB 0FFH
+SKY_2:  DB 0FFH
+PAGE_WEAPON: DB 0FFH
+
+;***************************************
+;***************************************
+
+MADE_FFING:
+	LD C,PAGE3
+	IN B,(C)
+	OUT (C),A
+	LD HL,0C000H
+
+NEXT_BYTE_:
+	LD A,(HL)
+	CP 0F7H
+	JR NZ,NO_FFING
+	LD (HL),0FFH
+NO_FFING:
+	INC HL
+	BIT 7,H
+	JR NZ,NEXT_BYTE_
+
+	OUT (C),B
+	RET
+
+;***************************************
+
+INIT_TABLE:
+
+	LD A,0
+	LD C,0CEH	; получить идентификатор блока от рамдиска
+	CALL 3D13H
+	SCF
+	AND A
+	RET Z		; нет рамдиска
+
+	LD HL,TABLE_MAIN
+	LD C,0C5H	; получить список страниц блока A
+	CALL 3D13H
+	RET C
+
+	LD HL,TABLE_MAIN
+	INC HL
+	INC HL
+	INC HL
+	LD A,(HL)
+	LD (PAGE_WEAPON),A
+	INC HL
+	LD A,(HL)
+	LD (SKY_1),A
+	INC HL
+	LD A,(HL)
+	LD (SKY_2),A
+
+	LD HL,TABLE_MAIN
+	LD A,26
+	ADD A,L
+	LD L,A
+	LD A,(HL)
+	LD (WALL_DATS),A
+
+	LD DE,MONSTR_DATS
+	LD B,7
+NEXT_HL_FFING:
+	LD A,(HL)
+	LD (DE),A
+	PUSH HL
+	PUSH DE
+	PUSH BC
+
+	CALL MADE_FFING	; замена FF-ами прозрачных цветов
+
+	POP BC
+	POP DE
+	POP HL
+	INC HL
+	INC DE
+	DJNZ NEXT_HL_FFING
+
+	LD A,(MONSTR_DATS)
+	LD (MONSTR_DAT+M_PAGE),A
+	LD A,(MONSTR_DATS+5)
+	LD (FIRE_PAGE),A
+	LD A,(MONSTR_DATS+6)
+	LD (BAR_PAGE),A
+
+	LD HL,TABLE_MAIN
+	LD A,35
+	ADD A,L
+	LD L,A
+	LD A,(HL)
+	LD (BFGF_PAGE),A
+
+	CALL MADE_FFING
+
+	LD A,(PAGE_WEAPON)
+	CALL MADE_FFING
+
+	LD HL,TABLE_MAIN
+	LD A,33
+	ADD A,L
+	LD L,A
+	LD A,(HL)
+	LD (EFF_PAGE),A	; звук выстрела
+
+	LD HL,TABLE_MAIN
+	LD A,34
+	ADD A,L
+	LD L,A
+	LD A,(HL)
+	LD (PAGE_M_PLACE),A	; таблица с углами для монстров
+
+
+	LD A,3
+	LD C,0CEH	; получить идентификатор блока от рамдиска
+	CALL 3D13H
+	SCF
+	AND A
+	RET Z		; нет рамдиска
+
+	LD HL,TABLE_TRACE
+	LD C,0C5H	; получить список страниц блока
+	CALL 3D13H
+	RET C
+	LD A,B
+	CP 32
+	SCF
+	RET NZ
+
+	LD A,2		; рамдиск стенок и карты
+	LD C,0CEH	; получить идентификатор блока от рамдиска
+	CALL 3D13H
+	SCF
+	AND A
+	RET Z		; нет рамдиска
+
+	LD HL,TABLE_WALL
+	LD C,0C5H	; получить список страниц блока
+	CALL 3D13H
+	RET C
+	LD A,B
+	CP 33
+	CCF
+	RET C		; B - размер рамдиска
+
+	DEC A
+	LD (MAP_ELS),A	; число стенок
+	XOR A
+	LD (TABLE_PIC),A
+	RET
+
+
+;	LD A,4
+;	LD C,0CEH	; получить идентификатор блока от рамдиска
+;	CALL 3D13H
+;	AND A
+;	JR NZ,PIC_FOR_SAVE
+;	XOR A
+;	LD (TABLE_PIC),A
+;	AND A
+;	RET
+;
+;PIC_FOR_SAVE:
+;	LD HL,TABLE_PIC
+;	LD C,0C5H	; получить список страниц блока A
+;	CALL 3D13H
+;	XOR A
+;	RET
+
+;****************************
+;******************************
+	DS 086F0H-$
+        db 'flc     C',0,80h,0,80H,80H,2,1
+PALITRE:
+;
+;	Place for PAL!!!
+;
+	DS 08B00H-$
+
+RECALC_MAP:		; пересчет карты на реальные номера стенок
+
+	LD IX,MONSTR_TABLE
+	LD HL,4000H
+
+	IN A,(PAGE1)
+	PUSH AF
+	LD A,(TABLE_WALL)
+	OUT (PAGE1),A
+	LD A,(HL)
+	CP '1'
+	JR NZ,NO_PROCESS
+
+RECALC_X:
+	LD IX,MONSTR_TABLE
+RECALC_M2:
+	LD A,(HL)	; код стенки
+	BIT 4,H
+	JR Z,NO_PRP	; проверить, какую таблицу пересчитываем
+	BIT 5,H
+	JR Z,NO_PRP	; если не 4-ю, то идти дальше, иначе
+			; - это таблица препрятствий
+RECALC_M2X:
+	LD A,(HL)	; код стенки
+	CP "S"
+	JR Z,ZERO_PRP
+	SUB 20H
+	JR Z,ZERO_PRP
+	LD A,05Fh	; препятствие
+	JR ONE_PRP
+ZERO_PRP:
+	XOR A
+ONE_PRP:
+	LD (HL),A
+	INC L
+	JR NZ,RECALC_M2X
+	INC H
+	LD A,H
+	AND 0Fh
+	JR NZ,RECALC_M2X
+	JR NO_PROCESS	; закончить
+
+NO_PRP:
+	LD A,(HL)	; код стенки
+	CP 'S'
+	CALL Z,START_POS
+	CP 'M'
+	CALL Z,MONSTR_POS
+	CP 'N'          ; огни
+	CALL Z,MONSTR_POS1
+	CP 'O'          ; бочки
+	CALL Z,MONSTR_POS2
+	CP 'P'          ; огонь bfg
+	CALL Z,MONSTR_POS3
+	SUB 20H
+	JR Z,ZERO_WOLL
+	SUB 10H
+	JR C,ZERO_WOLL
+	CP 15
+MAP_ELS EQU $-1
+	JR NC,ZERO_WOLL
+
+	PUSH HL
+	PUSH BC
+	LD HL,TABLE_WALL
+	INC A
+	LD C,A
+	LD B,0
+	ADD HL,BC
+	LD A,(HL)
+
+;	LD A,(TABLE_WALL+1)
+
+	POP BC
+	POP HL
+
+	JR NO_ZERO_W
+ZERO_WOLL:
+	XOR A		; забивать нулями
+	BIT 4,H
+	JR NZ,NO_ZERO_W
+	DEC A           ; забивать FF-ами
+NO_ZERO_W:
+	LD (HL),A
+	INC L
+	JR NZ,NO_PRP
+	INC H
+	LD A,H
+	AND 0Fh
+	JR NZ,NO_PRP
+
+	LD A,H
+	CP 50H
+	JR NZ,NO_ST
+	LD (MONSTR_END_T),IX	; конец таблицы монстров
+NO_ST:
+	LD A,H
+	CP 80h
+	JR NZ,RECALC_X
+
+NO_PROCESS:
+	POP AF
+	OUT (PAGE1),A
+	AND A
+	RET
+
+START_POS:
+	PUSH HL
+	PUSH AF
+
+	ADD HL,HL
+	ADD HL,HL
+
+	LD A,L
+;	ADD A,A
+;	ADD A,A
+	ADD A,2
+	LD (X_COORD+1),A
+
+;	RL L
+;	RL H
+;	RL L
+;	RL H
+
+	LD A,H
+	ADD A,A
+	ADD A,A
+	ADD A,2
+	LD (Y_COORD+1),A
+
+	POP AF
+	POP HL
+	RET
+
+MONSTR_POS1:		; факела
+	CALL MONSTR_POS
+	PUSH AF
+	LD A,(FIRE_PAGE)
+	LD (IX-MONSTR_D_LEN+M_PAGE),A
+	LD A,6		; делить ширину на 4 и переключать по
+			; старшему адресу
+	LD (IX-MONSTR_D_LEN+M_VAR3),A
+	LD A,10h
+	LD (IX-MONSTR_D_LEN+M_VAR4),A
+	LD A,0
+	LD (IX-MONSTR_D_LEN+M_VAR2),A	; гореть быстрее всех
+	POP AF
+	RET
+
+MONSTR_POS2:		; бочки
+	CALL MONSTR_POS
+	PUSH AF
+	LD A,(BAR_PAGE)
+	LD (IX-MONSTR_D_LEN+M_PAGE),A
+	LD A,5		; делить ширину на 2, переключать
+			; по старшему адресу
+	LD (IX-MONSTR_D_LEN+M_VAR3),A
+	LD A,20h
+	LD (IX-MONSTR_D_LEN+M_VAR4),A
+	LD A,4
+	LD (IX-MONSTR_D_LEN+M_VAR2),A	; гореть быстрее всех
+	POP AF
+	RET
+
+MONSTR_DELET:		; удаление монстра
+			; IX - на удаляемом монстре
+	PUSH IX
+	PUSH HL
+	PUSH DE
+	PUSH BC
+	PUSH AF
+
+	PUSH IX		; куда кидать
+	POP DE
+
+	LD HL,MONSTR_D_LEN
+	ADD HL,DE	; откуда кидать
+
+LOOP_DEL:
+	LD A,(HL)	; признак наличия монстра
+	AND A
+	JR Z,NO_LDIR
+
+	LD BC,MONSTR_D_LEN
+	LDIR		; перекинут один монстр
+	JR LOOP_DEL
+
+NO_LDIR:
+	LD (MONSTR_END_T),DE
+	XOR A
+	LD (DE),A
+
+	POP AF
+	POP BC
+	POP DE
+	POP HL
+	POP IX
+	RET
+
+
+MONSTR_BFG_INS:			; вставить в таблицу монстров
+;	RET
+
+	PUSH IX
+	PUSH AF
+	PUSH HL
+	PUSH DE
+				; огненный шар FIRE
+	LD IX,(MONSTR_END_T)	; взять конец таблицы монстров
+	CALL MONSTR_POS		; инициализировать нового монстра
+	CALL MONSTR_F_INI	; для огня
+
+	LD A,(X_COORD+1)	; координаты совпадают с игроком
+	LD (IX-MONSTR_D_LEN+M_X+1),A
+	LD A,(Y_COORD+1)
+	LD (IX-MONSTR_D_LEN+M_Y+1),A
+
+	LD HL,(ANGLE_R)		; угол поворота игрока
+	ADD HL,HL
+	ADD HL,HL
+	ADD HL,HL		; x8
+	LD A,H
+	AND 3Eh
+	LD L,A
+	LD H,0
+	LD DE,TAB_ANGLE3+03Eh	; взять из таблицы по направлению
+
+	EX DE,HL
+	SBC HL,DE		; скорость для FIRE
+
+	LD A,(HL)
+	LD (IX-MONSTR_D_LEN+M_VX+1),A
+	LD (IX-MONSTR_D_LEN+M_VX),0
+	INC HL
+	LD A,(HL)
+	LD (IX-MONSTR_D_LEN+M_VY+1),A
+	LD (IX-MONSTR_D_LEN+M_VY),0
+
+	LD (MONSTR_END_T),IX	; сохранить новый конец
+
+	POP DE
+	POP HL
+	POP AF
+	POP IX
+
+	RET
+
+MONSTR_POS3:
+	CALL MONSTR_POS
+MONSTR_F_INI:
+	PUSH AF
+	LD A,(BFGF_PAGE)
+	LD (IX-MONSTR_D_LEN+M_PAGE),A
+	LD A,8		; шар огня, исчезающий от препятствия
+
+	LD (IX-MONSTR_D_LEN+M_VAR3),A
+	LD A,10h
+	LD (IX-MONSTR_D_LEN+M_VAR4),A
+	LD A,0
+	LD (IX-MONSTR_D_LEN+M_VAR2),A	; гореть быстрее всех
+	LD A,-4
+	LD (IX-MONSTR_D_LEN+M_VX+1),A
+	POP AF
+	RET
+
+MONSTR_POS:		; монстры
+	PUSH HL		; копирование таблицы монстра
+	PUSH DE
+	PUSH BC
+	PUSH IX
+	POP DE
+	LD BC,MONSTR_D_LEN
+	LD HL,MONSTR_DAT
+	LDIR
+	POP BC
+	POP DE
+	POP HL
+
+	PUSH DE
+	PUSH HL
+	PUSH AF
+
+	ADD HL,HL
+	ADD HL,HL
+
+	LD A,L
+;	ADD A,A
+;	ADD A,A
+	ADD A,2
+	LD (IX+M_X+1),A
+
+;	RL L
+;	RL H
+;	RL L
+;	RL H
+
+	LD A,H
+	ADD A,A
+	ADD A,A
+	ADD A,2
+	LD (IX+M_Y+1),A
+
+	LD DE,MONSTR_D_LEN
+	ADD IX,DE
+	LD (IX),0	; очередной конец таблицы
+
+	POP AF
+	POP HL
+	POP DE
+	RET
+
+
+SSS1:
+	.DEPHASE
+
+;*************************************
+
+	.PHASE 1000H
+
+TRACE:
+
+	IN A,(PAGE1)
+	LD (TRACE_RET_PAGE1),A
+	IN A,(PAGE3)
+	LD (TRACE_RET_PAGE3),A
+
+	LD A,50H
+	OUT (PAGE3),A
+
+	 LD C,0
+	 LD B,1
+	 OUT (C),C	; МАСШТАБ 1:1,
+
+	LD DE,(SCREEN_1)
+
+	LD HL,(ANGLE_M)
+
+	ADD HL,HL
+;	ADD HL,HL
+	LD A,H
+	AND 3FH
+	OR 40H
+	BIT 6,H
+	LD H,A
+	RES 6,L
+
+	LD A,(SKY_1)
+	JR Z,NO_SKY_2
+	LD A,(SKY_2)
+NO_SKY_2:
+	OUT (PAGE1),A
+
+	LD A,0
+	LD C,80
+SKY_LOOP_1:
+
+	LD D,D
+	LD B,0H
+	LD L,L
+	LD B,(HL)
+
+	LD D,D
+	LD B,80H
+	LD B,B
+
+	XOR A
+
+	OUT (RGADR),A
+	LD A,A
+	LD (DE),A
+	LD B,B
+
+	INC DE
+	INC DE
+
+	OUT (RGADR),A
+	LD A,A
+	LD (DE),A
+	LD B,B
+
+	DEC DE
+
+	OUT (RGADR),A
+	LD A,A
+	LD (DE),A
+	LD B,B
+
+	INC DE
+	INC DE
+
+	OUT (RGADR),A
+	LD A,A
+	LD (DE),A
+	LD B,B
+
+	INC DE
+
+	INC H
+	BIT 7,H
+	JR Z,NO_NEXT_SKY
+
+	RES 7,H
+	SET 6,H
+
+	CALL SOUND
+
+	LD A,(SKY_1)
+	LD B,A
+	IN A,(PAGE1)
+	CP B
+	LD A,B
+	JR NZ,NO_SKY_2X
+	LD A,(SKY_2)
+NO_SKY_2X:
+	OUT (PAGE1),A
+
+NO_NEXT_SKY:
+	DEC C
+	JR NZ,SKY_LOOP_1
+
+	CALL SOUND
+
+	EXX
+	 LD DE,0C040H		; начало экрана
+SCREEN_1 EQU $-2
+	 LD C,0
+	EXX
+
+	LD HL,0		; начальный угол * 32
+ANGLE_M EQU $-2
+
+	LD A,H
+	RLCA
+	RLCA
+	AND 3
+	ADD A,TABLE_W/256
+	LD D,A		; текущий квадрант
+
+	SET 6,H
+	RES 7,H		; HL - на таблице!!!
+
+	LD B,40		; число лучей трассировки деленное на 8
+
+TRACE_NEXT_:
+
+	EXX
+	 LD HL,(PLACE_L)		; текущее положение в таблице
+	 INC HL
+	 LD A,(HL)
+	 LD (PLACE_L1),A
+	 LD (PLACE_L2),A
+	EXX
+
+	LD A,(TABLE_TRACE+10)	; тонкое положение - положение в квадрате
+PLACE_L EQU $-2
+
+	OUT (PAGE1),A
+	LD (CONT_PAGE),A
+;	JR TRACE_LOOP
+
+TRACE_LOOP:
+	LD A,50H
+	OUT (PAGE3),A
+	XOR A
+	OUT (RGADR),A
+
+	LD E,(HL)	; первый кубик
+	LD A,(DE)	; есть или нет?
+	AND A
+	JR NZ,TRACE_CONT; если есть, рисовать!!
+	INC L
+
+	REPT 15		; повторять еще 15 раз
+	LD E,(HL)	; следующий кубик
+	LD A,(DE)	; есть или нет?
+	AND A
+	JR NZ,TRACE_CONT; если есть, рисовать!!
+	INC L
+	ENDM
+
+PURE_LINE:
+
+	EXX
+
+	 LD D,D
+	 LD A,80H	; пустая стенка
+	 LD B,B
+;	 LD (DE),A	; LINE-Z-bufer
+	 OUT (RGADR),A
+
+	 LD A,(COLOR_LO)
+
+	 LD E,E
+	 LD (DE),A
+	 LD B,B
+	 LD A,70h	; Z-bufer
+	 LD (DE),A
+
+
+	EXX
+	JR NEXT_ANGLE
+
+;	трассировка закончена, стены нет.
+TRACE_CONT:	; HL - таблица
+		; A - номер стенки
+;	JP NEXT_ANGLE
+;	LD A,(TABLE_WALL+1)
+
+;	INC E
+;	DEC E
+;	JR Z,PURE_LINE
+
+	EXX
+
+	 EX AF,AF'	;';номер стенки
+
+	 LD A,5
+PLACE_L1 EQU $-1
+	 OUT (PAGE1),A	; следующее положение в таблице
+
+;	 LD C,0
+	 LD B,1
+	 OUT (C),C	; МАСШТАБ 1:1,
+	EXX
+
+	SET 4,L		;
+	LD A,(HL)	; номер линии
+
+	EXX
+
+	 LD H,A
+;	 LD L,0
+	 LD L,C
+	 SET 6,H
+	 RES 7,H
+
+	 EX AF,AF'
+	 OUT (PAGE1),A	; стенка	стенка раскидана на 16 килобайт
+
+	 LD D,D
+	 LD A,40H	; взять 64 байта
+	 LD L,L
+	 LD A,(HL)	; взять немасштабированно!
+	 LD B,B		; стенка в ОЗУ акселератора!
+
+	 LD A,5
+PLACE_L2 EQU $-1
+	 OUT (PAGE1),A	; следующее положение
+
+	EXX
+
+	RES 4,L         ;
+	LD A,(HL)	; A - высота
+
+;	LD A,80H
+
+	EXX
+	 LD H,TABLE_X/256
+	 LD L,A		; высота TABLE_X - таблица высот
+	 LD B,(HL)	; старшая часть коэфициента
+;	 ld b,0
+	 INC H
+
+	 LD L,(HL)	; младшая часть коэфициента/смещение в стенке
+;	 LD C,0
+	 OUT (C),L	; масштабирование
+;	 OUTI		; B уменьшается сначала!
+
+	 BIT 7,A
+	 JR Z,HIGH_1	; 64 точки, не на весь экран
+
+; <64 точки, на весь экран
+	 XOR A
+	 OUT (RGADR),A	; с самого начала
+
+	 LD D,D
+	 LD (DE),A	; 256 байт И LINE-Z-bufer!!!!
+	 LD B,B
+	 LD A,58H
+	 OUT (PAGE3),A	;
+	 LD A,A
+	 LD (DE),A	; ФИГАКС всю линию!!!
+	 LD B,B
+	 XOR A
+	 LD (DE),A	; LINE-Z-bufer!!!!
+
+	EXX
+	JR NEXT_ANGLE
+
+HIGH_1:
+			; A - высота, с которой рисуется стенка
+	 LD D,D
+	 LD (DE),A	; число точек потолка и пола! & LINE-Z-bufer
+	 LD B,B
+	 NEG		; получить положение начала пола
+	 OUT (RGADR),A
+	 LD L,A
+
+	 LD A,058H
+	 OUT (PAGE3),A
+
+;	 LD A,5Fh		; цвет пола серый
+;	 LD A,0CFh		; цвет пола синий
+	 LD A,2Fh		; цвет пола темнокрасный
+;	 LD A,6			; цвет пола
+COLOR_LO EQU $-1
+	 LD E,E
+	 LD (DE),A       ; рисовать пол
+	 LD B,B
+
+;	 LD A,11		; цвет потолка
+;COLOR_HI EQU $-1
+;	 LD E,E
+;	 LD (DE),A       ; рисовать потолок
+;	 LD B,B
+
+	 LD A,L
+	 NEG
+	 OUT (RGADR),A
+
+	 LD A,L
+;	 IN A,(RGADR)
+	 ADD A,A
+;	 NEG		; выводимый размер стенки
+			; стенка в акселераторе!
+	 LD D,D
+	 LD (DE),A
+	 LD A,A
+	 LD (DE),A	; положить стенку!
+	 LD B,B
+
+	EXX
+
+NEXT_ANGLE:
+
+	EXX
+	 INC DE
+	 LD A,E
+	 AND 7
+	EXX
+	JR NZ,NO_TEST
+	DEC B
+	JR Z,TRACE_END
+NO_TEST:
+
+	LD A,0
+CONT_PAGE EQU $-1
+	OUT (PAGE1),A
+
+	LD A,L
+	AND 0E0H
+	ADD A,32
+	LD L,A
+	JP NZ,TRACE_LOOP
+
+	CALL SOUND	; играть музыку на ковоксбластере!!
+	INC H
+	BIT 7,H
+	JP Z,TRACE_LOOP
+
+	PUSH HL
+	PUSH BC
+
+	LD A,0FH
+CORNER_1 EQU $-1
+	AND 0FH
+	RRCA
+	RRCA
+	LD C,A
+	RRCA
+	RRCA
+	RRCA
+	RRCA
+	OR C
+	AND 0FH
+;	XOR 03H
+	XOR KWADR_CONST
+	LD C,A
+
+	LD B,0
+	LD HL,TABLE_TRACE
+	ADD HL,BC
+	ADD HL,BC
+	LD (PLACE_L),HL	; НОВОЕ тонкое положение
+	POP BC
+	POP HL
+
+	INC D
+	RES 2,D
+	LD HL,04000H
+	JP TRACE_NEXT_
+
+TRACE_END:
+
+
+	LD A,0
+TRACE_RET_PAGE3 EQU $-1
+	OUT (PAGE3),A
+	LD A,5
+TRACE_RET_PAGE1 EQU $-1
+	OUT (PAGE1),A
+	LD A,0
+	OUT (RGADR),A
+	RET
+
+;
+;*********************************************
+;
+
+PRECALC_PLACE:
+	LD HL,(ANGLE_A)
+	LD A,L
+	AND 0E0H
+	LD L,A
+	LD (ANGLE_M),HL
+
+	LD A,(Y_COORD+1)
+	AND 3
+;	XOR 3
+;	XOR C
+	LD C,A
+	LD A,(X_COORD+1)
+	RLCA
+	RLCA
+	AND 0CH
+;	XOR 0CH
+	XOR C
+	XOR 0FH
+
+	LD C,A
+	BIT 7,H
+	JR Z,NO_NEG
+	XOR 0FH
+	LD C,A
+NO_NEG:
+	BIT 6,H
+	JR Z,NO_CORN1
+
+	RRCA
+	RRCA
+	LD C,A
+	RRCA
+	RRCA
+	RRCA
+	RRCA
+	OR C
+
+	AND 0FH
+
+KWADR_CONST EQU 03H	; 03H/0CH
+	XOR KWADR_CONST
+	LD C,A
+NO_CORN1:
+
+	LD (CORNER_1),A
+	LD B,0
+	LD HL,TABLE_TRACE
+	ADD HL,BC
+	ADD HL,BC
+	LD (PLACE_L),HL	; тонкое положение
+	RET
+;
+;*********************************************
+;
+SET_PICTURE:		; A - относительный номер страницы
+
+
+	LD C,PAGE1
+	IN B,(C)
+	PUSH BC
+	LD C,PAGE3
+	IN B,(C)
+	PUSH BC
+	PUSH AF
+	LD A,50H
+	OUT (C),A
+
+	CALL SOUND
+
+	LD C,0		; масштабирование - 1
+	LD B,1		;
+	OUT (C),B
+
+	LD DE,(SCREEN_1)
+	LD B,5		; 5 СТРАНИЦ
+
+	LD D,D
+	LD A,0		; по 256 байт
+	LD B,B
+	OUT (RGADR),A
+
+	POP AF
+
+PIC_LOOP:
+	PUSH BC
+
+	PUSH AF
+	LD HL,TABLE_MAIN
+	ADD A,L
+	LD L,A
+	LD A,(HL)
+	OUT (PAGE1),A
+
+	LD HL,04000H
+	LD B,64
+LOOP_PG:
+	LD L,L
+	LD A,(HL)
+	LD A,A
+	LD (DE),A
+	LD B,B
+	INC DE
+	INC H
+	DJNZ LOOP_PG
+
+	POP AF
+	INC A
+
+	POP BC
+	CALL SOUND
+	DJNZ PIC_LOOP
+
+	POP BC
+	OUT (C),B
+	POP BC
+	OUT (C),B
+
+	RET
+
+NN_X:	DB 0
+
+;
+;*********************************************
+;
+
+
+CALC_NEW_PLACE:
+	LD HL,(ANGLE_A)
+
+	LD BC,(A_SPEED)
+	ADD HL,BC
+
+	LD BC,(LF_)
+	LD A,B
+	LD B,C
+	LD C,A
+	INC BC
+	LD C,0
+
+	ADD HL,BC
+	ADD HL,BC
+	ADD HL,BC
+	ADD HL,BC
+
+	LD (ANGLE_A),HL
+
+	LD A,H
+	ADD A,20+8H
+
+	RRCA
+	RRCA
+	RRCA
+	AND 1EH
+	LD C,A
+	LD B,0
+	LD HL,TAB_ANGLE2
+;TAB_SPEED EQU $-2
+
+	ADD HL,BC
+	LD E,(HL)	; step to Y
+	INC L
+	LD D,(HL)	; step to X
+
+	LD HL,(Y_COORD)
+	PUSH HL
+
+	LD BC,(Y_SPEED)
+	ADD HL,BC
+
+	LD BC,(UP_)
+	INC BC
+	LD C,0
+	LD A,B
+	AND A
+	JR Z,ZERO1
+
+	LD B,E
+	DEC A
+;	BIT 7,E		; проверка на отрицательность шага
+
+	JR Z,ZERO1
+	LD A,B
+	NEG
+	LD B,A
+
+ZERO1:
+
+	ADD HL,BC
+	LD (Y_COORD),HL
+
+	ADD HL,BC
+	LD BC,(Y_SPEED)
+	ADD HL,BC
+
+	PUSH DE
+	CALL MAP_PLACE
+	POP DE
+
+	POP HL
+
+	JR NC,CONT_MOVE1
+
+	LD (Y_COORD),HL
+
+	LD HL,(Y_SPEED)
+	LD A,H
+	CPL
+	LD H,A
+	LD A,L
+	CPL
+	LD L,A
+	INC HL
+	LD (Y_SPEED),HL
+
+CONT_MOVE1:
+
+	LD HL,(X_COORD)
+
+	PUSH HL
+
+	LD BC,(X_SPEED)
+	ADD HL,BC
+
+	LD BC,(UP_)
+	INC BC
+	LD C,0
+	LD A,B
+	AND A
+	JR Z,ZERO2
+
+	LD B,D
+	DEC A
+;	BIT 7,D
+	JR Z,ZERO2
+	LD A,B
+	NEG
+	LD B,A
+
+ZERO2:
+	ADD HL,BC
+
+	LD (X_COORD),HL
+
+	ADD HL,BC
+	LD BC,(X_SPEED)
+	ADD HL,BC
+
+	CALL MAP_PLACE
+	POP HL
+
+	JR NC,CONT_MOVE2
+
+	LD (X_COORD),HL
+
+	LD HL,(X_SPEED)
+	LD A,H
+	CPL
+	LD H,A
+	LD A,L
+	CPL
+	LD L,A
+	INC HL
+	LD (X_SPEED),HL
+CONT_MOVE2:
+	RET
+
+;
+;*********************************************
+;
+WEAPON_OUT:
+	IN A,(PAGE1)
+	PUSH AF
+	IN A,(PAGE3)
+	PUSH AF
+
+	 LD C,0
+	 LD B,1
+	 OUT (C),C	; МАСШТАБ 1:1,
+
+	LD A,(PAGE_WEAPON)
+	OUT (PAGE1),A
+	LD A,058H
+	OUT (PAGE3),A
+
+	LD HL,04500H	; положение спрайта оружия в странице
+WEAPON_SWITCH EQU $-2
+
+	LD DE,(SCREEN_1)
+	LD A,E
+	ADD A,100	; смешение спрайта оружия по горизонтали
+	LD E,A
+
+	LD D,D
+	LD C,119	; длина спрайта оружия
+	LD B,B
+
+	LD A,0FFH	; нижняя линия
+	LD C,0
+	LD B,1
+
+W_OUT_L:
+
+	LD A,44H
+	SUB H
+	OUT (RGADR),A
+
+	OUT (C),C	; МАСШТАБ 1:1, начинать с 0
+	LD L,L
+	LD A,(HL)
+	LD B,B
+	OUT (C),C	; МАСШТАБ 1:1, начинать с 0
+	LD L,L
+	LD (DE),A
+	LD B,B
+
+	INC H
+	BIT 7,H
+	JR Z,W_OUT_L
+
+	LD A,(WEAPON_SWITCH)
+	XOR 80H
+	LD (WEAPON_SWITCH),A
+
+	POP AF
+	OUT (PAGE3),A
+	POP AF
+	OUT (PAGE1),A
+	RET
+;
+;*********************************************
+;
+
+;CRAZY_WALL:
+;
+;	IN A,(PAGE1)
+;	PUSH AF
+;	LD A,(TABLE_WALL)
+;	OUT (PAGE1),A
+;
+;	LD IX,CRAZY_W1
+;	LD D,NKR
+;
+;MORE_CRAZY:
+;
+;	LD A,(IX+2)
+;	CP 32
+;	JR NC,NO_TRANSL
+;
+;	LD HL,TABLE_WALL
+;	ADD A,L
+;	LD L,A
+;
+;	LD A,(HL)
+;	LD (IX+2),A
+;
+;	LD L,(IX)
+;	LD H,(IX+1)
+;	LD A,(HL)
+;	LD (IX+3),A
+;
+;NO_TRANSL:
+;
+;	LD BC,8
+;	ADD IX,BC
+;	DEC D
+;	JR NZ,MORE_CRAZY
+;
+;	LD IX,CRAZY_W1+NKR8
+;	LD D,NKR
+;
+;MORE_CRAZY2:
+;
+;	LD L,(IX)
+;	LD H,(IX+1)
+;
+;	LD A,(IX+3)
+;	LD (HL),A
+;
+;	LD C,(IX+4)
+;	LD B,(IX+5)
+;
+;	ADD HL,BC
+;	LD A,H
+;	AND 0FH
+;	OR 50H
+;	LD H,A
+;
+;	LD (IX),L
+;	LD (IX+1),H
+;
+;	LD BC,-8
+;	ADD IX,BC
+;	DEC D
+;	JR NZ,MORE_CRAZY2
+;
+;	LD IX,CRAZY_W1
+;	LD D,NKR
+;
+;MORE_CRAZY3:
+;
+;	LD L,(IX)
+;	LD H,(IX+1)
+;
+;	LD A,(HL)
+;	LD (IX+3),A
+;	LD A,(IX+2)
+;	LD (HL),A
+;
+;	LD BC,8
+;	ADD IX,BC
+;
+;	DEC D
+;	JR NZ,MORE_CRAZY3
+;
+;	POP AF
+;	OUT (PAGE1),A
+;	RET
+;
+;CRAZY_W1:
+;	DW 5104H	; текущие координаты
+;	DB 10		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW 0041H,0
+;
+;	DW 5514H	; текущие координаты
+;	DB 11		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW -0041H,0
+;
+;	DW 5744H	; текущие координаты
+;	DB 12		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW 0001H,0
+;
+;	DW 5E34H	; текущие координаты
+;	DB 13		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW -0001H,0
+;
+;	DW 5104H	; текущие координаты
+;	DB 10		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW 0FF81H,0
+;
+;	DW 5514H	; текущие координаты
+;	DB 11		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW -0FF81H,0
+;
+;	DW 5744H	; текущие координаты
+;	DB 12		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW 003FH,0
+;
+;	DW 5E34H	; текущие координаты
+;	DB 13		; номер стены
+;	DB 0		; сохраненное значение стены
+;	DW -003FH,0
+;
+;	DB 0,0,0,0
+;
+;NKR	EQU 8
+;NKR8	EQU 56
+
+;
+;*********************************************
+;
+
+
+MAP_OUT:
+	CALL MAP_PLACE
+
+	IN A,(PAGE1)
+	PUSH AF
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,(TABLE_WALL)
+	OUT (PAGE1),A
+
+	RES 4,H
+;	SET 5,H
+
+	PUSH HL
+	LD A,(HL)
+	PUSH AF
+
+	LD (HL),0F7H
+
+	LD HL,4000H
+
+	LD DE,(SCREEN_1)
+	LD A,E
+	ADD A,8
+	LD E,A
+
+MAP_LOOP_2:
+	LD A,58H
+	OUT (PAGE3),A
+
+	 LD C,0
+	 LD B,1
+	 OUT (C),C	; МАСШТАБ 1:1,
+
+	LD B,16
+	LD A,184
+
+MAP_LOOP_1:
+
+	LD D,D
+	LD C,0H
+	LD L,L
+	LD C,(HL)
+	LD D,D
+	LD C,40H
+	LD B,B
+
+	INC H
+
+	OUT (RGADR),A
+	LD L,L
+	LD (DE),A
+	LD B,B
+	INC A
+	OUT (RGADR),A
+	LD L,L
+	LD (DE),A
+	LD B,B
+	INC A
+	OUT (RGADR),A
+	LD L,L
+	LD (DE),A
+	LD B,B
+	INC A
+	OUT (RGADR),A
+	LD L,L
+	LD (DE),A
+	LD B,B
+	INC A
+
+	DJNZ MAP_LOOP_1
+
+	LD BC,240
+	EX DE,HL
+	ADD HL,BC
+	EX DE,HL
+	LD A,H
+	LD H,60h
+	CP 50h
+	JR Z,MAP_LOOP_2
+
+	LD A,00
+	OUT (RGADR),A
+
+	POP AF
+	POP HL
+	LD (HL),A
+
+	POP AF
+	OUT (PAGE3),A
+	POP AF
+	OUT (PAGE1),A
+	RET
+
+;****************************************************
+;
+
+WALL:
+
+;	IX+0	- страница стенки
+;	IX+1,2	- адрес стенки в странице
+;	IX+3	- положение по вертикали - задает масштаб
+;	IX+4,5	- положение по горизонтали
+
+;	IX+6,7 - reserved
+;	IX+8,9 - X-add-parameter (коэфициент масштабирования по Y)
+;	IX+10 - реальная ширина стенки ???
+;	IX+11 - реальная высота стенки ???
+
+
+	IN A,(PAGE3)
+	LD (PAGE3_RET1),A
+	IN A,(PAGE1)
+	LD (PAGE1_RET1),A
+	IN A,(RGADR)
+	LD (RGADR_RET1),A
+	LD A,58H
+	OUT (PAGE3),A
+
+	LD A,(IX+0)	; страница стенки
+	OUT (PAGE1),A
+
+	EXX
+
+
+	 LD C,0		; порт масштаба
+
+	 LD H,TABLE_X/256 ; таблица высот и коэфициентов масштабирования
+	 LD L,(IX+3)	; положение по Y / определяет высоту
+	 LD A,(HL)	; масштаб - LOW
+	 AND 3
+	 LD (X_ADD),A
+	 INC H
+	 LD A,(HL)	; масштаб - HIGH
+	 LD (X_ADD2),A
+	 DEC H
+
+	 LD A,L
+	 ADD A,A
+	 NEG		; ширина по горизонтали
+
+	 BIT 0,(IX+M_VAR3)
+	 JR Z,NO_DEL2
+	 RRA
+	 AND 7Fh
+NO_DEL2:
+	 BIT 1,(IX+M_VAR3)
+	 JR Z,NO_DEL4
+	 AND A
+	 RRA
+	 RRA
+	 AND 3Fh
+NO_DEL4:
+
+	EXX
+	LD B,A		; реальная ширина стенки???
+;	LD B,(IX+10)	; ширина стенки
+
+	LD C,0		; X-start-LOW
+
+;	LD HL,(SCREEN_1)
+	LD E,(IX+4)     ; - адрес по горизонтали
+	LD D,(IX+5)     ; /
+;	ADD HL,DE
+
+;	LD A,E
+;	AND A
+;	BIT 7,D
+;	JR Z,WALL_NO_SCF
+;	SCF
+;	EX AF,AF'	; спрятать в AF - параметр счетчика и флаг
+;			; CF - стенка не дошла до края
+;			; в A сколько линий до начала экрана
+;WALL_NO_SCF:
+;
+;	LD HL,140h	;
+;	AND A
+;	SBC HL,DE
+;	LD A,L		; в A - сколько линий осталось до конца экрана??
+
+	LD HL,(SCREEN_1)
+	ADD HL,DE
+
+;	LD A,(IX+3)
+	LD A,B
+	RRA
+	AND 7Fh		; разделили на 2
+	LD E,A
+;	SUB 128
+;	LD E,A
+	LD D,0
+	SBC HL,DE
+	EX DE,HL
+
+	LD H,(IX+2)	; старший адрес стенки
+	LD L,(IX+1)	;
+
+	LD A,58H
+	OUT (PAGE3),A
+WOLL_LOOP:
+
+	XOR A
+	OUT (RGADR),A
+
+	LD A,D
+	CP 0C3h
+	JR NC,NO_WRITE_ALL	; не выводить за экран и закончить
+	CP 0C0h
+	JR C,NO_WRITE_LINE	; не выводить за экран
+
+	LD A,(DE)	; Z-bufer!!!
+	EXX
+	 CP L
+	EXX
+	JR C,NO_WRITE_LINE
+;	JR Z,NO_WRITE_LINE
+
+	EXX
+	 LD B,1
+	 OUT (C),C	; масштаб - 1
+	 LD D,D
+	 LD B,40H	; задать длину линии
+	 LD B,B
+	EXX
+	LD L,L
+	LD A,(HL)	; взять линию стенки
+	LD B,B
+	EXX
+			; L - высота -128..0..127 !!!
+	 LD B,(HL)
+	 INC H
+	 LD A,(HL)	; масштаб - HIGH
+	 OUT (C),A
+	 INC H
+	 LD A,L
+	 ADD A,A
+	 JR NC,NO_Z_A1
+	 XOR A
+NO_Z_A1:
+	 NEG
+	 LD D,D
+	 LD (HL),A ; задать длину линии
+	 LD B,B
+	 DEC H
+	 DEC H
+	 LD A,L
+	EXX
+
+	BIT 7,A
+	JR Z,NO_Z_A
+	XOR A
+NO_Z_A:
+	OUT (RGADR),A	; задать порт Y
+
+	LD A,A
+	LD (DE),A ; вывести линию
+	LD B,B
+
+	LD A,E
+	AND 0Fh
+	CALL Z,SOUND
+
+NO_WRITE_LINE:
+
+	INC DE 	; новое значение X
+
+	LD A,C
+	ADD A,0	; X-add-parameter 2
+X_ADD2	equ $-1
+	LD C,A
+     	LD A,0	; X-add-parameter
+X_ADD	equ $-1
+
+	ADC A,H
+	LD H,A	; следующая линия WOLL
+
+	DJNZ WOLL_LOOP
+NO_WRITE_ALL:
+
+	LD A,0
+RGADR_RET1 EQU $-1
+	OUT (RGADR),A
+	LD A,0
+PAGE3_RET1 EQU $-1
+	OUT (PAGE3),A
+	LD A,5
+PAGE1_RET1 EQU $-1
+	OUT (PAGE3),A
+
+	RET
+
+;
+;
+;*******************************
+MAKE_MAP:		; HL - положение в текущей карте.
+			; делать все 4 квадранта
+	PUSH HL
+	LD DE,(LAST_HL)
+	AND A
+	SBC HL,DE
+	LD A,H
+	OR L
+	JR NZ,CONT_MAKE
+	POP HL
+	LD (LAST_HL),HL
+	RET
+
+LAST_HL: dw 0
+
+CONT_MAKE:
+	POP HL
+	LD (LAST_HL),HL
+	IN A,(PAGE1)
+	PUSH AF
+
+	LD A,(TABLE_WALL)	; карта
+	OUT (PAGE1),A
+
+	LD DE,TABLE_W	; текущие карты
+	PUSH HL
+
+	LD C,16
+MAP_L1:
+
+	LD B,16
+MAP_L2:
+	LD A,(HL)
+	LD (DE),A
+	INC HL
+	INC E
+	DJNZ MAP_L2
+
+	LD A,30H
+	ADD A,L
+	LD L,A
+	LD A,H
+	ADC A,0
+	LD H,A
+
+	DEC C
+	JR NZ,MAP_L1
+
+	INC D
+	POP HL
+	PUSH HL
+	CALL SOUND
+
+	LD C,16
+MAP_L3:
+	LD B,16
+
+	PUSH HL
+MAP_L4:
+	LD A,(HL)
+	LD (DE),A
+	LD A,L
+	ADD A,40H
+	LD L,A
+	LD A,H
+	ADC A,0
+	LD H,A
+	INC E
+	DJNZ MAP_L4
+	POP HL
+
+	DEC HL
+	DEC C
+	JR NZ,MAP_L3
+
+	INC D
+	POP HL
+	PUSH HL
+	CALL SOUND
+
+	LD C,16
+MAP_L5:
+	LD B,16
+MAP_L6:
+	LD A,(HL)
+	LD (DE),A
+	DEC HL
+	INC E
+	DJNZ MAP_L6
+
+	LD A,L
+	SUB 30H
+	LD L,A
+	LD A,H
+	SBC A,0
+	LD H,A
+
+	DEC C
+	JR NZ,MAP_L5
+
+	INC D
+	POP HL
+	PUSH HL
+
+	CALL SOUND
+
+	LD C,16
+MAP_L7:
+	LD B,16
+
+	PUSH HL
+MAP_L8:
+	LD A,(HL)
+	LD (DE),A
+	LD A,L
+	SUB 40H
+	LD L,A
+	LD A,H
+	SBC A,0
+	LD H,A
+
+	INC E
+	DJNZ MAP_L8
+	POP HL
+
+	INC HL
+	DEC C
+	JR NZ,MAP_L7
+
+	POP HL
+
+	POP AF
+	OUT (PAGE1),A
+	RET
+
+
+MAP_PLACE:		; вычисление положения и проверка на
+			; наличие препятствий
+	PUSH DE
+	LD A,(X_COORD+1)
+	LD E,A
+
+	LD A,(Y_COORD+1)
+	LD D,A
+
+	CALL MAP_PLACE_X
+	RES 5,H		; переключить карту на таблицу стенок
+	POP DE
+	RET
+
+MAP_PLACE_X:		; DE - Y:X -> HL карта, E - препятствие
+
+	LD A,E
+	RRCA
+	RRCA
+	AND 3FH
+	LD L,A
+
+	LD A,D
+	RRCA
+	RRCA
+	AND 3FH
+
+	RRCA
+	RRCA
+	LD H,A
+	AND 0C0H
+	OR L
+	LD L,A
+
+	LD A,H
+	AND 0FH
+;	OR 50H
+	OR 70H		; карта с препятствиями
+	LD H,A		; HL - КАРТА
+
+	IN A,(PAGE1)
+	PUSH AF
+	LD A,(TABLE_WALL)
+	OUT (PAGE1),A
+	LD A,(HL)
+	LD E,A
+;	RES 5,H		; переключить карту на таблицу стенок
+	AND A
+	JR Z,CONT_MOVE
+	POP AF
+	OUT (PAGE1),A
+	SCF
+	RET
+
+CONT_MOVE:
+	POP AF
+	OUT (PAGE1),A
+	AND A
+	RET
+
+;***************************************
+
+SOUND_PG:	DB 0FFH
+;COV_ADR:	DB 0
+SND_P:		DB 0FFH
+SND_A:		DW 0C000H
+
+SND_STOP:		; остановить музыку
+	PUSH AF
+	PUSH BC
+
+	LD BC,00FBH
+	LD A,80H
+SND_OUT_S:
+	OUT (C),A	; забить ковокс-бластер одним значением
+	DJNZ SND_OUT_S
+
+	LD A,0C9H	; забить возврат в программу играния музыки
+	LD (RST_SND),A
+
+	POP BC
+	POP AF
+	RET
+
+SND_CONTINUE:		; продолжить музыку
+	PUSH AF
+	PUSH BC
+
+	LD A,0		; забить NOP в программу играния музыки
+	LD (RST_SND),A
+
+	POP BC
+	POP AF
+	RET
+
+
+INIT_SOUND:		; инициализировать музыку
+SND_INIT:
+	PUSH AF
+	PUSH HL
+	PUSH DE
+	PUSH BC
+
+	LD HL,0
+	LD (SND_C1),HL
+	LD (SND_C2),HL
+
+	LD A,0
+	LD (SND_P),A
+
+	LD A,0
+	LD (RST_SND),A
+
+	LD B,0
+	IN A,(PAGE3)
+	LD E,A
+
+	JR SND_INIT1
+
+SOUND:
+RST_SND:
+	NOP
+	PUSH AF
+	PUSH HL
+
+SND_MORE:
+
+	CALL KBD_INT
+
+	IN A,(0FEH)
+	XOR 0		; covox адрес
+COV_ADR EQU $-1
+	AND 80H
+	JP NZ,NO_LD_SND
+
+	PUSH DE
+	PUSH BC
+
+	LD A,(COV_ADR)
+	CPL
+	LD B,A
+
+	LD HL,(SND_A)
+	LD C,0FBH
+	LD D,16
+
+	IN A,(PAGE3)
+	LD E,A
+	LD A,(SND_P)
+	OUT (PAGE3),A
+
+L_DDX:
+	OUTI
+	OUTI
+	OUTI
+	OUTI
+
+	OUTI
+	OUTI
+	OUTI
+	OUTI
+
+	DEC D
+	JR NZ,L_DDX
+
+	LD (SND_A),HL
+
+	LD A,H
+	AND A
+	JP NZ,NO_SNDP
+
+SND_READ_SECTORS EQU 4
+
+SND_INIT1:
+
+	PUSH IX
+	PUSH AF
+	EX AF,AF'
+	PUSH AF
+	PUSH HL
+	PUSH DE
+	PUSH BC
+	EXX
+	PUSH HL
+	PUSH DE
+	PUSH BC
+
+	AND A
+	LD HL,(SND_C1)
+	LD BC,SND_READ_SECTORS
+	SBC HL,BC
+	LD (SND_C1),HL
+	LD HL,(SND_C2)
+	LD C,B
+	SBC HL,BC
+	LD (SND_C2),HL
+
+	JR NC,NO_NEW_COUNT
+
+;	CALL SWITCH_SND
+
+	CALL CLEAR_COVOX
+
+	LD HL,SND_SEC1
+	LD DE,SND_S1
+	LD BC,8
+	LDIR
+
+	AND A
+	LD HL,(SND_C1)
+	LD BC,SND_READ_SECTORS
+	SBC HL,BC
+	LD (SND_C1),HL
+	LD HL,(SND_C2)
+	LD BC,0
+	SBC HL,BC
+	LD (SND_C2),HL
+
+NO_NEW_COUNT:
+
+;	CALL KBD_INT
+
+	LD HL,-SND_READ_SECTORS*512
+	LD A,0
+	LD DE,(SND_S1)
+	LD IX,(SND_S2)
+	LD B,SND_READ_SECTORS
+	LD C,045H
+	CALL HDD_FN
+
+;	CALL KBD_INT
+
+	LD HL,(SND_S1)
+	LD BC,SND_READ_SECTORS
+	ADD HL,BC
+	LD (SND_S1),HL
+
+	LD HL,(SND_S2)
+	LD C,B
+	ADC HL,BC
+	LD (SND_S2),HL
+
+	LD HL,-SND_READ_SECTORS*512
+	CALL EFFECTS
+
+	POP BC
+	POP DE
+	POP HL
+	EXX
+	POP BC
+	POP DE
+	POP HL
+	POP AF
+	EX AF,AF'
+	POP AF
+	POP IX
+
+	LD HL,-SND_READ_SECTORS*512
+	LD (SND_A),HL
+
+
+;SND_INIT1:
+;	LD H,0C2H
+;	LD A,(SND_P)
+;	LD L,A
+;	LD A,SYS_PAGE
+;	OUT (PAGE3),A
+;	LD A,(HL)
+;	LD (SND_P),A
+;	LD HL,0C000H
+;	LD (SND_A),HL
+;
+;	INC A
+;	JR NZ,NO_SNDP
+;	LD A,(0C181H)	; RAM-Disk F
+;	LD (SND_P),A
+;	AND A
+;	JR NZ,NO_SNDP
+;
+;	LD A,0C9H
+;	LD (RST_SND),A
+
+NO_SNDP:
+
+	LD A,B
+	CPL
+	LD (COV_ADR),A
+
+	LD A,E
+	OUT (PAGE3),A
+
+;	CALL INTERUPT
+
+	POP BC
+	POP DE
+	JP SND_MORE
+
+NO_LD_SND:
+
+	POP HL
+	POP AF
+	RET
+
+EFFECTS:
+	LD DE,(EFF)
+	LD A,D
+	CP 0C0h
+	RET NC
+
+	IN A,(PAGE2)
+	EX AF,AF'
+	LD A,(EFF_PAGE)
+	OUT (PAGE2),A
+
+	LD BC,SND_READ_SECTORS*512
+EFF_LOOP:
+	LD A,(DE)
+	ADD A,(HL)
+	RRA
+	LD (HL),A
+	INC HL
+	INC DE
+	DEC C
+	JR NZ,EFF_LOOP
+	DJNZ EFF_LOOP
+
+	LD (EFF),DE
+	EX AF,AF'
+	OUT (PAGE2),A
+
+	RET
+
+;*************************************
+
+CLEAR_Z_BUFER:
+	IN A,(PAGE3)
+	PUSH AF
+	LD A,50H
+	OUT (PAGE3),A
+
+	LD A,0
+	OUT (RGADR),A
+
+	LD DE,(SCREEN_1)
+	LD D,D
+	LD A,0
+	LD C,C
+	LD (DE),A
+	INC D
+	LD D,D
+	LD B,40H
+	LD C,C
+	LD (DE),A
+	LD B,B
+
+	POP AF
+	OUT (PAGE3),A
+	RET
+;*************************************
+
+FIRE_S:
+	LD A,(FIRE_B)
+	AND A
+	JR NZ,FIRE_X
+	LD A,1
+	LD (FIRE_CT),A
+	RET
+
+FIRE_CT: DB 1
+FIRE_B:	DB 0
+EFF:	DW 0C000h
+
+FIRE_X:
+;	LD A,(FIRE_CT)
+;	DEC A
+;	LD (FIRE_CT),A
+;	RET NZ
+	LD A, 80H
+	LD (EFF+1),A		; включить эффект
+	CALL MONSTR_BFG_INS	; вставить монстра огня!
+	LD A,4
+	LD (FIRE_CT),A
+	XOR A
+	LD (FIRE_B),A
+	RET
+
+;*************************************
+KBD_INT:
+	IN A,(COM_A)
+	BIT 0,A
+	RET Z
+	IN A,(DAT_A)
+
+	CP 0E0H
+	JR Z,KBD_INT
+	CP 0E1H
+	JR Z,KBD_INT
+	CP 0F0H
+	JR Z,KBD_OFF
+	CP 3
+	CALL Z,SAVE_PIC_PR
+
+	PUSH AF
+	LD A,(OFF_BYTE)
+	AND A
+	JR Z,NO_LAST_KEY
+
+	POP AF
+	LD (LAST_KEY),A
+	PUSH AF
+
+NO_LAST_KEY:
+	POP AF
+
+	CP 20 			; CTRL
+	JR Z,EFF_ON
+	CP 117			; KEY_UP
+	JR Z,DIR_UP
+	CP 114			; KEY_DN
+	JR Z,DIR_DN
+	CP 107			; KEY_LF
+	JR Z,DIR_LF
+	CP 116			; KEY_RT
+	JR Z,DIR_RT
+
+	JR KBD_INT2
+
+KBD_OFF:
+	XOR A
+	LD (OFF_BYTE),A		; 0, если появилось отжимание
+	JR KBD_INT
+
+KBD_INT1:
+	PUSH HL
+	LD HL,0
+	LD (A_SPEED),HL
+	LD (X_SPEED),HL
+	LD (Y_SPEED),HL
+	POP HL
+
+KBD_INT2:
+	LD A,0FFH
+	LD (OFF_BYTE),A
+	JR KBD_INT
+
+OFF_BYTE: DB 0FFH
+
+EFF_ON:
+	LD A,(OFF_BYTE)
+	LD (FIRE_B),A
+	CALL FIRE_S
+	JR KBD_INT2
+
+DIR_UP:
+	LD A,(OFF_BYTE)
+	LD (UP_),A
+	JR KBD_INT1
+DIR_DN:
+	LD A,(OFF_BYTE)
+	LD (DN_),A
+	JR KBD_INT1
+DIR_LF:
+	LD A,(OFF_BYTE)
+	LD (LF_),A
+	JR KBD_INT1
+DIR_RT:
+	LD A,(OFF_BYTE)
+	LD (RT_),A
+	JR KBD_INT1
+
+UP_:	DB 0
+DN_:	DB 0
+LF_:	DB 0
+RT_:	DB 0
+
+;INCLUDE INTMOUSE.ASZ
+
+TAB_ANGLE:
+	DB 0,1	; 0
+	DB 1,1  ; 45
+	DB 1,1  ; 45
+	DB 1,0	; 90
+	DB 1,0	; 90
+	DB 1,-1	; 135
+	DB 1,-1	; 135
+	DB 0,-1	; 180
+	DB 0,-1	; 180
+	DB -1,-1
+	DB -1,-1
+	DB -1,0
+	DB -1,0
+	DB -1,1
+	DB -1,1
+	DB 0,1	; 0
+
+TAB_ANGLE2:
+	DB 0,2	; 0
+	DB 1,2  ; 22
+	DB 2,2  ; 45
+	DB 2,1	; 67
+	DB 2,0	; 90
+	DB 2,-1	; 112
+	DB 2,-2	; 135
+	DB 1,-2	; 157
+	DB 0,-2	; 180
+	DB -1,-2
+	DB -2,-2
+	DB -2,-1
+	DB -2,0
+	DB -2,1
+	DB -2,2
+	DB -1,2	; 0
+
+TAB_ANGLE3:
+
+	DB 4,2	; 67
+	DB 4,1	; 67
+
+	DB 4,0	; 90
+	DB 4,-1	; 112
+	DB 4,-2	; 135
+	DB 4,-3	; 135
+	DB 4,-4	; 135
+	DB 3,-4	; 157
+	DB 2,-4	; 157
+	DB 1,-4	; 157
+
+	DB 0,-4	; 180
+	DB -1,-4
+	DB -2,-4
+	DB -3,-4
+	DB -4,-4
+	DB -4,-3
+	DB -4,-2
+	DB -4,-1
+
+	DB -4,0
+	DB -4,1
+	DB -4,2
+	DB -4,3
+	DB -4,4	; 0
+	DB -3,4	; 0
+	DB -2,4	; 0
+	DB -1,4	; 0
+
+	DB 0,4	; 0
+	DB 1,4	; 0
+	DB 2,4  ; 22
+	DB 3,4  ; 45
+	DB 4,4  ; 45
+	DB 4,3  ; 45
+
+
+MONSTR_ALL:
+	LD HL,(ANGLE_M)
+	RL L
+	RL H
+	RLA
+	RL L
+	RL H
+	RLA
+	RL L
+	RL H
+	RLA
+	LD L,H
+	AND 7
+	LD H,A
+	LD (ANGLE_R),HL
+
+
+	LD IX,MONSTR_TABLE
+MONSTR_LOOP:
+	LD A,(IX+M_PAGE)
+	AND A
+	RET Z
+
+;	JP MONSTR_ALL1
+
+	LD A,(X_COORD+1)	; положение игрока
+	SUB (IX+M_X+1)		; положение монстра
+	ADD A,64
+	JR Z,NO_M_OUT
+	BIT 7,A
+	JR NZ,NO_M_OUT	; проверка на дальность
+			; не выводить
+	SUB 64
+	NEG
+	LD L,A
+
+	LD A,(Y_COORD+1)	; положение игрока
+	SUB (IX+M_Y+1)		; положение монстра
+	ADD A,64
+	JR Z,NO_M_OUT
+	BIT 7,A
+	JR NZ,NO_M_OUT	; проверка на дальность
+
+	SUB 64
+	NEG
+	LD H,A		; H - Y, L - X
+	OR L
+	JR Z,NO_M_OUT	; проверка на 0
+
+	LD B,0
+
+	BIT 7,H
+	JR Z,A_NO_ADD4
+	LD A,H		; поворот на 180 -X->X; -Y->Y
+	NEG
+	LD H,A
+	LD A,L
+	NEG
+	LD L,A
+	LD B,4
+A_NO_ADD4:
+	BIT 7,L
+	JR Z,A_NO_ADD2
+	LD A,L		; поворот на 90  Y->X; -X->Y
+	NEG
+	LD L,H
+	LD H,A
+	INC B
+	INC B
+A_NO_ADD2:		; B - информация о квадранте 0,2,4,6
+			; L - X-координата
+			; H - Y-координата
+MONSTR_ALL1:
+
+	LD A,L
+	ADD A,A
+	ADD A,A
+	LD L,A		; HL - указатель на таблицу (4096 по 4b)
+			; HL - PAGE:(HL) данные
+			; для вывода на экран -> угол -> x-координата,
+			; высота/ширина
+	SET 6,H
+	IN A,(PAGE1)
+	PUSH AF
+	LD A,(PAGE_M_PLACE)
+	OUT (PAGE1),A
+
+	LD E,(HL)	; угол младший
+	INC L
+	LD D,(HL)	; угол старший
+	INC L
+	LD C,(HL)	; высота
+
+	POP AF
+	OUT (PAGE1),A
+
+	LD A,D
+	ADD A,B
+	LD D,A		; добавить квадрант
+
+	DEC C
+	BIT 7,C
+	JR Z,MONST_H1
+	LD C,0		; монстр рядом
+MONST_H1:
+	INC C
+	LD (IX+M_HIGH),C ; положение по вертикали
+
+	LD HL,(ANGLE_R)
+	AND A
+	EX DE,HL
+	SBC HL,DE
+
+;	ADD HL,DE
+
+;	LD DE,512+160-512
+;	LD D,2
+;	LD E,160
+
+;	ADD HL,DE
+
+	LD A,H
+	AND 7
+	LD H,A
+
+	LD (IX+M_HOR),L	; угол
+	LD (IX+M_HOR+1),H
+
+	LD DE,128
+	ADD HL,DE
+
+	LD DE,256+320
+	AND A
+	SBC HL,DE	; проверка попадания монстра в угол зрения
+
+	CALL C,WALL
+
+	CALL SOUND
+
+NO_M_OUT:
+	call MONSTR_NEXT_P
+
+	LD DE,MONSTR_D_LEN
+	ADD IX,DE
+	JP MONSTR_LOOP
+
+MONSTR_NEXT_P:
+	BIT 7,(IX+M_VAR3)	; не меняюийся монстр (убитый)
+	RET NZ
+
+	LD A,(IX+M_VAR2)	; счетчик цикла
+	AND 0Fh
+	RLCA
+	RLCA
+	RLCA
+	RLCA
+	ADD A,(IX+M_VAR2)	; добавить младший байт к старшему
+	LD (IX+M_VAR2),A
+	AND 0F0h
+	RET NZ			; вернуться, если не 0
+
+;	JR NC,NO_ADD_MX
+	BIT 6,(IX+M_VAR3)	; бит единичного показа	цикла
+	JP Z,SW_MONS_X
+
+	CALL SW_MONS_X
+	RET Z
+	SET 7,(IX+M_VAR3)	; остановить переключение
+	RET
+
+SW_MONS_X:
+	LD A,(IX+M_X)
+	ADD A,(IX+M_VX)
+	LD (IX+M_X),A
+	LD A,(IX+M_X+1)
+	ADC A,(IX+M_VX+1)
+	LD (IX+M_X+1),A
+	LD A,(IX+M_Y)
+	ADD A,(IX+M_VY)
+	LD (IX+M_Y),A
+	LD A,(IX+M_Y+1)
+	ADC A,(IX+M_VY+1)
+	LD (IX+M_Y+1),A
+
+	LD A,(IX+M_X+1)
+	LD E,A
+	LD A,(IX+M_Y+1)
+	LD D,A
+	CALL MAP_PLACE_X	; проверить, нет ли препятствия
+				; если С - препятствие есть
+	JR NC,CONT_MONS
+				; при встрече с препятствием
+	BIT 3,(IX+M_VAR3)
+	JR Z,CONT_MONS		; если 0, ничего не делать
+				; иначе - исчезновение монстра с
+				; выкидыванием из таблицы
+
+	CALL MONSTR_DELET	; удалить монстра
+	LD DE,-MONSTR_D_LEN
+	ADD IX,DE		; переключиться на предыдущего
+	XOR A			; и вернуться
+	RET
+
+CONT_MONS:
+
+	BIT 2,(IX+M_VAR3)	; переключение по старшему адресу
+	JR Z,SW_MONS
+
+	LD A,(IX+M_ADR+1)	; переключатель адреса
+	ADD A,(IX+M_VAR4)	; сколько добавлять
+	AND 3Fh
+	OR 40h
+	LD (IX+M_ADR+1),A
+	CP 40h			; признак завершения цикла
+	RET
+
+SW_MONS:
+	LD A,(IX+M_ADR)         ; переключатель адреса
+	ADD A,40H
+	LD (IX+M_ADR),A
+	AND A			; признак завершения цикла
+;NO_ADD_MX:
+	RET
+
+
+SAVE_PIC_PR:
+	PUSH AF
+	PUSH IX
+	PUSH HL
+	PUSH DE
+	PUSH BC
+	LD A,(FLAG)
+	AND A
+	JR NZ,NO_SAVE
+
+	LD A,0FFh
+	LD (FLAG),A
+	CALL SAVE_PIC
+	LD A,0
+	LD (FLAG),A
+NO_SAVE:
+
+	POP BC
+	POP DE
+	POP HL
+	POP IX
+	POP AF
+	RET
+
+SAVE_HL: DW 0
+SAVE_P1: DW 0
+SAVE_P2: DW 0
+SAVE_RGA2: DB 0
+
+SAVE_PIC:
+	IN A,(RGMOD)
+	AND 1
+	LD HL,0C040H
+	JR NZ,SET_1X
+	LD HL,0C180H
+SET_1X:
+	LD IX,TABLE_PIC
+	LD A,(IX)
+	AND A
+	RET Z
+
+	LD DE,08436h
+
+SAVE_PIC_X:
+	LD (SAVE_HL),HL	; Pic line
+	IN A,(RGADR)
+	LD (SAVE_RGA2),A
+
+	LD C,PAGE2
+	IN B,(C)
+	LD (SAVE_P1),BC
+	LD C,PAGE3
+	IN B,(C)
+	LD (SAVE_P2),BC
+
+	LD A,50H
+	OUT (C),A	; Screen
+
+	LD A,0FFh
+	OUT (RGADR),A	; Line 1
+
+	LD A,(IX)
+	OUT (PAGE2),A
+
+NEXT_SV_LN:
+	LD HL,(SAVE_HL) ; вспомнить линию
+
+	LD B,160
+LOOP_SV_PIC:
+
+	LD A,(HL)
+	LD (DE),A
+	INC HL
+	INC DE
+	LD A,(HL)
+	LD (DE),A
+	INC HL
+	INC DE
+
+	bit 6,d
+	JR Z,NO_NEXT_PAGE
+	LD A,B
+	LD BC,(SAVE_P1)
+	OUT (C),B
+	LD B,A
+	INC IX
+	LD A,(IX)
+	OUT (PAGE2),A	; next page
+	LD DE,8000h
+NO_NEXT_PAGE:
+	DJNZ LOOP_SV_PIC
+
+;	CALL SOUND
+
+	IN A,(RGADR)
+	DEC A
+	OUT (RGADR),A
+	CP 0FFh
+	JR NZ,NEXT_SV_LN
+
+	LD BC,(SAVE_P2)
+	OUT (C),B
+	LD BC,(SAVE_P1)
+	OUT (C),B
+	LD A,(SAVE_RGA2)
+	OUT (RGADR),A
+
+	RET
+
+
+;WALL_SET:
+
+;**********************************************
+;	монстровая структура
+;	IX+0	- страница стенки
+;	IX+1,2	- адрес стенки в странице
+;	IX+3	- положение по вертикали - задает масштаб
+;	IX+4,5	- положение по горизонтали
+
+;	IX+6,7 - reserved
+;	IX+8,9 - X-add-parameter (коэфициент масштабирования по Y)
+;	IX+10 - реальная ширина стенки ???
+;	IX+11 - реальная высота стенки ???
+;	IX+12 - координата X
+;	IX+14 - координата Y
+;	IX+16 - скорость X
+;	IX+18 - скорость Y
+;	IX+20 - тип монстра
+;	IX+22 - переменные монстра
+
+
+SSS2:
+
+	.DEPHASE
+
+
+
+
+;************************************************
+
+;	DS 86F0H-$
+;	DS 7F0H-$
+;       db 'flc     C',0,80h,0,80H,80H,2,1
+	DS 2100H-$
+
+	END
+
