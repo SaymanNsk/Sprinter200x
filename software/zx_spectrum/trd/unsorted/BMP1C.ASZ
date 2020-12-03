@@ -1,0 +1,9 @@
+        .Z80
+	ASEG
+	.RADIX 10
+	ORG 100H
+START:
+        DB "flc     C",0,80h,0,1Fh,1Fh,1,1
+
+        DS 200H-$
+	END
