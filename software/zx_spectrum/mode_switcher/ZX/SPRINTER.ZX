@@ -1,0 +1,9 @@
+Sprinter ZX
+c:\zx\roms\SP_128.BIN
+c:\zx\roms\SP__48.BIN
+c:\zx\roms\SP_TRD.BIN
+c:\zx\roms\SP_EXP.BIN
+c:\zx\roms\SP_EXP.BIN
+c:\zx\roms\SP_EXP2.BIN
+/turbo /sprinter /7FFD /ret-fn
+;
