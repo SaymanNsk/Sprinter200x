@@ -1,0 +1,44 @@
+ZX Mode Editor (zxmode.exe).
+-------------------------------
+
+This program is editor of configuration files (*.ZX) of Spectrum modes.
+(This program is compiled by Sprinter FORTH (by Ivan Mak)).
+
+It should place in 'C:\ZX\' directory.
+
+Menu:
+
+Mode - name of Sprinter mode
+
+Start - the start Spectrum.exe with current mode  (not work yet).
+
+Standard modes -  menu of standard Spectrum modes
+
+(Sprinter ZX, ZX Spectrum, Pentagon 128, Scorpion 256, Pentagon 512) 
+
+Options - options of current Spectrum mode
+ 
+- Turbo (/turbo) - includes a mode
+- Sprinter ports (/sprinter) - access to Sprinter ports from Spectrum mode
+- Port 1FFD (/1FFD) - 1FFD port
+- Port 7FFD (/7FFD) - 7FFD port
+- 512Kb Memory (/mem512) - 512k for Pentagon 512
+- 312 screen lines (/lines312) - 312 lines in the screen (for Pentagon)
+- Int set as (    /sc-int /origin) -  screen interruptions for Pentagon/ Scorpion/ original ZX Spectrum.
+- Start to trdos (/to-trdos) - auto start of the "boot.B" file of TR-DOS disk image.
+- Reset to ZX (/ret-zx) -  to remain to the Spectrum mode after <ctrl+alt+del>
+- Reset to FN (/ret-fn) - to return to the OS Estex after <ctrl+alt+del>
+- Install only (/no-run) - load Spectrum ROMs of current mode to the memory without start Spectrum mode.
+
+ROM files - the names of ROM files for current Spectrum mode.
+
+Disk image files - (not work yet).
+
+Specials - for saving your choices.
+
+- Save your MODE - save your configuration to c:\zx\yourmode.zx file. Then you can rename it.
+- Load your MODE - load data from c:\zx\yourmode.zx file.
+- Save utility - save the changes of ZXMODE.EXE file (rewrite).
+
+Help - <F1> (loading and showing _help.frt file)
+
