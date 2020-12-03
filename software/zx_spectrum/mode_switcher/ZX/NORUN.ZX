@@ -1,0 +1,9 @@
+Load Spectrum ROMs (Sprinter ZX) to the memory
+\zx\SP_128.BIN
+\zx\SP__48.BIN
+\zx\SP_TRD.BIN
+\zx\SP_EXP.BIN
+\zx\SP_EXP.BIN
+\zx\SP_EXP2.BIN
+/turbo /sprinter /7FFD /1FFD /no-run
+;
