@@ -1,0 +1,1085 @@
+	.Z80
+	ASEG
+	.RADIX 10
+	ORG 100H
+        .PHASE 8000H
+
+	INCLUDE SPRINT01.ASZ
+
+SYS_PAGE	EQU 0FEH
+COPY_PAGE1	EQU 0C105H
+DISK_TYPE	EQU 0C100H	; переадресация дисков
+CONT_SEC	EQU 5CF4H
+
+RAMD_KEYS	EQU 0C180H	; ключи RAM-Disks
+OPER_DISK	EQU 05CF6H
+RAMD_FAT	EQU 0C200H	; расположение блоков RAM-Disk-ов
+
+PAGE0   EQU 082H
+PAGE1   EQU 0A2H
+PAGE2   EQU 0C2H
+PAGE3   EQU 0E2H
+
+RGADR   EQU 089H
+RGSCR   EQU 0E9H
+RGMOD   EQU 0C9H
+RGACC   EQU 0A9H
+
+START_BYTE MACRO
+        LD A,1
+        OUT (0FDH),A
+	LD A,SYS_PAGE
+	OUT (PAGE3),A
+
+        LD A,(CP_PAGE3)
+	LD H,0C2H	; FAT_RAM-Disk !!!
+	LD L,A
+	LD L,(HL)
+
+        OUT (PAGE3),A
+	LD A,L
+	OUT (PAGE0),A
+        LD HL,(COPY_ADR3)
+        ENDM
+
+END_BYTE MACRO
+        LD A,0
+	OUT (PAGE3),A
+	OUT (PAGE0),A
+        OUT (0FDH),A
+        LD (COPY_ADR3),HL
+        ENDM
+
+NEXT_BYTE MACRO
+        INC L
+	CALL Z,NEXT_H
+        ENDM
+NEXT_BYTE2 MACRO
+        INC HL
+        ENDM
+
+DD	MACRO OP
+	DW OP
+	DW 0
+	ENDM
+
+
+START:
+        JP BEGIN
+PAL_PLACE:	DW 4100H
+PIC_START:	DW 4040H
+COPY_ADR3:      DW 0C000H
+;ADR_KADR:	DW 0C000H
+;ADR_FRAG:	DW 0C000H
+ADRESS_MD:	DW MODE_S0
+;PIC_PAGE:	DB 40H
+CP_PAGE3:       DB 10H
+;PAGE_KADR:	DB 10H
+;PAGE_FRAG:	DB 10H
+;SCR_PG:		DB 8
+;PAGE_SC:	DB 1
+PAL_MASK:       DB 0FFH
+PIC_TRK_SEC:	DW 0030h
+TAB_C:		DB 0FFH,0FEH,0FCH,0F8H,0F0H,0E0H,0C0H,080H,0FFH
+MODE_ADR:	DW 4000H
+KIRP_MODE:	DW 9000H
+
+TIMER:		DB 50
+BLK1_PLACE:	DW 404H
+BLK2_PLACE:	DW 404H
+BLK3_PLACE:	DW 404H
+BLK4_PLACE:	DW 404H
+PICTURE:        DB 0
+
+BEGIN:
+	DI
+	LD SP,0BFFFH
+	CALL CLEAR_SCR
+
+        CALL SET_MODE_DATA
+
+	LD HL,4000H
+	LD DE,KIRPICH
+	LD B,8
+KIRP_LOOP:
+	LD A,(DE)
+	LD (HL),A
+	INC H
+	INC DE
+	DJNZ KIRP_LOOP
+	LD HL,5800H
+	LD (HL),50H
+
+	LD B,150
+KIRP_MD1:
+	PUSH BC
+	CALL SWITCH_MODE4
+	POP BC
+	DJNZ KIRP_MD1
+;	INC B
+;	LD A,(5C08H)
+;	CP 13
+;	JR Z,KIRP_MD1
+
+        LD IX,PAL_MASK
+        LD C,0FFH
+        LD (IX),C
+        CALL READ_DATA_TO_SCR
+	CALL SWITCH_MODE51
+
+	LD B,29
+KIRP_MD2:
+	PUSH BC
+	CALL SWITCH_MODE5
+	POP BC
+	DJNZ KIRP_MD2
+
+	JR G_LOOP1
+BEGIN1:
+        LD IX,PAL_MASK
+        LD C,0FFH
+BEGIN2:
+        LD (IX),C
+        CALL READ_DATA_TO_SCR
+	LD A,(5C08H)
+	CP 'F'
+	JR Z,G_LOOP6
+	CP 'f'
+	JR Z,G_LOOP6
+	CP 'X'
+	JR Z,G_LOOP7
+	CP 'x'
+	JR Z,G_LOOP7
+	JR BEGIN3
+G_LOOP6:
+	CALL SWITCH_MODE_OLD
+	JR G_LOOP5
+G_LOOP7:
+	CALL SWITCH_MODE2
+;	CALL SWITCH_MODE2
+;	CALL SWITCH_MODE2
+	JP END_PROG
+BEGIN3:
+	LD A,(PIC_TRK_SEC+1)
+	CP 12H
+	PUSH AF
+	CALL Z,SWITCH_MODE2
+	POP AF
+	JR Z,G_LOOP1
+	LD A,(IX)
+	CP 0FFH
+	PUSH AF
+	CALL Z,SWITCH_MODE
+	POP AF
+	CALL NZ,SWITCH_MODE2
+G_LOOP1:
+G_LOOP5:
+;	LD A,0
+;	LD (5C08H),A
+        EI
+        HALT
+	DI
+        LD A,(5C08H)
+	CP 'f'
+	JP Z,END_PROG
+	CP 'F'
+	JP Z,END_PROG
+	CP 'I'
+	JR Z,INTERLIVE
+	CP 'i'
+	JR Z,INTERLIVE
+	CP 'x'
+	JR Z,INTERLIVE
+	CP 'X'
+	JR Z,INTERLIVE
+	CP 'S'
+	JR Z,G_LOOP3
+	CP 's'
+	JR Z,G_LOOP3
+        CP '0'
+        JR C,G_LOOP1
+        CP '9'+1
+        JR NC,G_LOOP1
+	SUB '0'
+        CP 9
+        JR Z,END_PROG
+	CP 0
+	JR Z,CONT_PIC
+	AND 7
+	LD HL,TAB_C
+	ADD A,L
+	LD L,A
+	LD C,(HL)
+        JP BEGIN2
+CONT_PIC:
+	LD BC,0EFFEH
+	IN A,(C)
+	LD C,0F8H
+	RES 1,A
+	OUT (C),A
+	JP BEGIN1
+G_LOOP3:
+	CALL SWITCH_MODE3
+	JR G_LOOP5
+INTERLIVE:
+	LD HL,5000H
+	LD B,8
+	LD E,1
+	LD C,CMD_OPEN_WIN
+	CALL 3D13H
+	LD HL,4000H
+	LD B,9
+	LD E,1
+	LD C,CMD_OPEN_WIN
+	CALL 3D13H
+	LD E,1
+INTERL_LOOP:
+	LD A,E
+	XOR 1
+	LD E,A
+	LD C,0A5H
+	CALL 3D13H
+	EI
+	HALT
+	LD A,(5C08H)
+	CP 'I'
+	JR Z,INTERL_LOOP
+	CP 'i'
+	JR Z,INTERL_LOOP
+	LD E,1
+	LD C,0A5H
+	CALL 3D13H
+	CALL SWITCH_MODE2
+	JR END_PROG
+END_PROG:
+        LD B,PICS_NUM
+        LD A,(PICTURE)
+        INC A
+        CP B
+        JR NZ,NO_BEGIN
+begin_pics:
+        LD A,0
+NO_BEGIN:
+        LD (PICTURE),A
+        LD HL,TAB_PICS
+        ADD A,A
+        ADD A,A
+        LD C,A
+        LD B,0
+        ADD HL,BC
+	LD E,(HL)
+	INC HL
+	LD D,(HL)
+        INC HL
+	LD (PIC_TRK_SEC),DE
+        JP BEGIN1
+
+TAB_PICS:       DW 0030h,0
+                DW 0178h,0
+                DW 02C0h,0
+                DW 0408h,0
+                DW 0550h,0
+                DW 0698h,0
+                DW 07E0h,0
+                DW 0928h,0
+                DW 0A70h,0
+                DW 0BB8h,0
+                DW 0D00h,0
+                DW 0E48h,0
+                DW 0F90h,0
+                DW 10D8h,0
+                DW 1220h,0
+;                DW 1368h,0
+;                DW 14B0h,0
+;                DW 15F8h,0
+;                DW 1740h,0
+;                DW 1888h,0
+;                DW 19D0h,0
+;                DW 1B18h,0
+PICS_NUM EQU ($-TAB_PICS)/4
+
+
+
+;******************************************
+READ_DATA_TO_SCR:
+
+	LD DE,(PIC_TRK_SEC)
+	LD A,0
+	LD C,RAMD_CALC_PAGE
+	CALL 3D13H
+        LD (COPY_ADR3),HL
+	LD (CP_PAGE3),A
+
+	START_BYTE
+        LD BC,36H
+	ADD HL,BC
+	END_BYTE
+
+	LD DE,9800h
+	LD BC,400H
+	CALL READ_DATA
+
+        LD B,(IX)	; MASK PAL
+	LD HL,9800H
+	LD DE,0
+	LD C,CMD_SET_PAL
+	LD A,(PAL_PLACE)
+	CALL 3D13H
+
+        CALL SET_SCR
+
+        RET
+;*********************************************
+SET_SCR:
+        LD DE,(PIC_START)
+        LD A,0FFH
+	EX AF,AF'	; СПРЯТАТЬ СТРАНИЦУ
+
+        START_BYTE
+
+	IN A,(PAGE1)
+	PUSH AF
+	LD A,50h
+	OUT (PAGE1),A
+
+	EX AF,AF'
+	OUT (RGADR),A
+	EX AF,AF'
+
+        LD B,0
+SET_SCR_LOOP:
+        PUSH BC
+;	LD A,H
+;	CP 0FEH
+;	JR NC,LDIRS2
+	LD D,D
+	LD B,0
+	LD L,L
+	LD A,(HL)
+	LD (DE),A
+	LD B,B
+	INC H
+	INC D
+	LD D,D
+	LD C,40H
+	LD L,L
+	LD A,(HL)
+	LD (DE),A
+	LD B,B
+
+;	LD BC,40H
+	ADD HL,BC
+	DEC D
+;	JR LDIRS3
+;LDIRS2:
+;	LD BC,320
+;	LDIR
+LDIRS3:
+	BIT 7,H
+	CALL Z,NEXT_H2
+	IN A,(RGADR)
+	DEC A
+	OUT (RGADR),A
+        POP BC
+        DJNZ SET_SCR_LOOP
+
+	LD A,0
+	OUT (RGADR),A
+	POP AF
+	OUT (PAGE1),A
+
+        END_BYTE
+        EX AF,AF'
+	RET
+
+NEXT_H:
+        INC H
+	RET NZ
+NEXT_H2:
+	set 7,h
+	set 6,h
+;*********************************
+	PUSH HL
+	LD A,SYS_PAGE
+	OUT (PAGE3),A
+
+        LD A,(CP_PAGE3)
+	LD H,0C2H	; FAT_RAM-Disk !!!
+	LD L,A
+	LD A,(HL)
+        LD (CP_PAGE3),A
+	LD L,A
+	LD L,(HL)
+
+        OUT (PAGE3),A
+	LD A,L
+	OUT (PAGE0),A
+	POP HL
+
+	RET
+
+;***************************************
+CLEAR_SCR:
+	IN A,(PAGE1)
+	EX AF,AF'
+        LD HL,04040H
+        LD A,050H
+        OUT (PAGE1),A
+	LD A,0
+CLEAR_LOOP_L:
+	OUT (RGADR),A
+	LD D,D
+	LD B,0
+	LD C,C
+	LD (HL),B
+	INC H
+	LD (HL),B
+	INC H
+	LD D,D
+	LD C,80H
+	LD C,C
+	LD (HL),B
+	LD B,B
+	DEC H
+	DEC H
+	INC A
+	JR NZ,CLEAR_LOOP_L
+
+	OUT (RGADR),A
+
+	EX AF,AF'
+	OUT (PAGE1),A
+        RET
+
+;**********************************************
+READ_DATA:
+	START_BYTE
+	LDIR
+	BIT 7,H
+	CALL Z,NEXT_H2
+	END_BYTE
+	RET
+
+;*****************************************
+S_MODE_X:
+	LD HL,(ADRESS_MD)
+	LD DE,MODE_S1
+	AND A
+	SBC HL,DE
+	LD HL,7C40H
+	LD (PIC_START),HL
+	LD A,0
+	LD (PAL_PLACE),A
+	RET NZ
+	LD HL,7D80H
+	LD (PIC_START),HL
+	LD A,1
+	LD (PAL_PLACE),A
+	LD DE,MODE_S0
+	RET
+
+SWITCH_MODE2:
+	CALL S_MODE_X
+	JP SET_MODE1
+
+SWITCH_MODE:
+	CALL S_MODE_X
+	LD (ADRESS_MD),DE
+;	LD A,(PAL_PLACE)
+;	AND A
+	JR Z,SWITCH_MD_L1
+
+	LD HL,5000H
+	LD E,0
+	LD B,8
+	LD C,CMD_OPEN_WIN
+	CALL 3D13H
+
+	LD HL,4850H
+	LD B,15
+SW_MD_LOOP3:
+	PUSH BC
+	PUSH HL
+
+	LD E,0
+	LD B,9
+	LD C,CMD_OPEN_WIN
+	EI
+	HALT
+	CALL 3D13H
+	POP HL
+	LD BC,40H
+	ADD HL,BC
+	POP BC
+	DJNZ SW_MD_LOOP3
+
+	LD B,17
+SW_MD_LOOP:
+	PUSH BC
+	PUSH HL
+
+	LD E,0
+	LD B,9
+	LD C,CMD_OPEN_WIN
+	EI
+	HALT
+	CALL 3D13H
+	POP HL
+	LD BC,3FH
+	ADD HL,BC
+	POP BC
+	DJNZ SW_MD_LOOP
+
+	RET
+
+SWITCH_MD_L1:
+
+	LD HL,4000H
+	LD E,1
+	LD B,9
+	LD C,CMD_OPEN_WIN
+	CALL 3D13H
+
+	LD HL,3840H
+	LD B,32
+SW_MD_LOOP2:
+	PUSH BC
+	PUSH HL
+	LD E,1
+	LD C,CMD_OPEN_WIN
+	LD B,8
+	EI
+	HALT
+	CALL 3D13H
+	POP HL
+	LD BC,40H
+	ADD HL,BC
+	POP BC
+	DJNZ SW_MD_LOOP2
+	RET
+
+SWITCH_MODE_OLD:
+	CALL S_MODE_X
+	JR NZ,SWITCH_MD_L0
+;	MODE_S1 -> MODE_S0
+	LD DE,MODE_SW1
+	CALL SET_MODE1
+	LD DE,MODE_SW2
+	CALL SET_MODE1
+	LD DE,MODE_SW3
+	CALL SET_MODE1
+	LD DE,MODE_SW4
+	CALL SET_MODE1
+	LD DE,MODE_S0
+	CALL SET_MODE1
+	RET
+
+SWITCH_MD_L0:
+;	MODE_S0 -> MODE_S1
+	LD DE,MODE_SW6
+	CALL SET_MODE1
+	LD DE,MODE_SW7
+	CALL SET_MODE1
+	LD DE,MODE_SW8
+	CALL SET_MODE1
+	LD DE,MODE_SW9
+	CALL SET_MODE1
+	LD DE,MODE_S1
+	CALL SET_MODE1
+	RET
+
+;********************************************
+SET_MODE_X:
+	LD HL,0A000H
+	LD C,32
+MODE_L0:
+	LD DE,(ADRESS_MD)
+MODE_L3:
+	LD A,(DE)
+	INC DE
+	AND A
+	JR Z,MODE_L4
+	LD B,8
+MODE_L1:
+	LD (HL),A
+	INC HL
+	DJNZ MODE_L1
+	JR MODE_L3
+MODE_L4:
+	LD B,24
+MODE_L2:
+	INC HL
+	DJNZ MODE_L2
+	DEC C
+	JR NZ,MODE_L0
+
+	LD HL,9000H
+	LD A,0
+MODE_L6:
+	LD D,H
+	LD E,L
+	LD B,8
+MODE_L5:
+	LD (HL),A
+	INC HL
+	INC A
+	DJNZ MODE_L5
+
+	EX DE,HL
+	LD BC,56
+	LDIR
+	EX DE,HL
+	AND A
+	JR NZ,MODE_L6
+	RET
+
+;*****************************************
+SET_MODE_DATA:
+	LD HL,7D80H
+	LD (PIC_START),HL
+	LD A,1
+	LD (PAL_PLACE),A
+	LD DE,MODE_S0
+	LD (ADRESS_MD),DE
+
+;	LD HL,4000H
+;	LD E,1
+;	LD C,CMD_OPEN_WIN
+;	LD B,9
+;	CALL 3D13H
+;	RET
+
+SET_MODE1:
+	LD (ADRESS_MD),DE
+SET_MODE:
+	CALL SET_MODE_X
+	JR SET_MODE_ALL
+;*****************************
+
+MODE_S0:	DB 21H,22H,23H,24H,25H,0
+MODE_S1:	DB 66H,67H,68H,69H,6AH,0
+
+MODE_SW0:	DB 66H,67H,68H,69H,6AH,0
+MODE_SW1:	DB 67H,68H,69H,6AH,21H,0
+MODE_SW2:	DB 68H,69H,6AH,21H,22H,0
+MODE_SW3:	DB 69H,6AH,21H,22H,23H,0
+MODE_SW4:	DB 6AH,21H,22H,23H,24H,0
+MODE_SW5:	DB 21H,22H,23H,24H,25H,0
+MODE_SW6:	DB 22H,23H,24H,25H,66H,0
+MODE_SW7:	DB 23H,24H,25H,66H,67H,0
+MODE_SW8:	DB 24H,25H,66H,67H,68H,0
+MODE_SW9:	DB 25H,66H,67H,68H,69H,0
+
+
+SET_MODE_ALL:
+	DI
+;	LD A,0
+;	OUT (08DH),A
+
+	IN A,(PAGE1)
+	PUSH AF
+	LD A,050H
+	OUT (PAGE1),A
+
+	LD B,1
+	IN A,(RGMOD)
+	XOR 1
+	JR Z,MODE_0_SCR
+	LD B,81H
+MODE_0_SCR:
+	LD C,RGADR
+	OUT (C),B
+
+
+	LD HL,9000H
+	LD DE,4300H
+
+SET_MD_A2:
+	PUSH DE
+SET_MD_A1:
+	PUSH BC
+
+SET_MD_A0:
+	LD A,(HL)
+	LD (DE),A
+	INC B
+	INC B
+	OUT (C),B
+	INC E
+	LD A,B
+	AND 7FH
+	CP 81
+	JR C,SET_MD_A0
+
+	INC E
+	INC E
+	INC E
+	INC E
+	LD BC,18H
+	ADD HL,BC
+
+	POP BC
+	OUT (C),A
+	BIT 7,E
+	JR Z,SET_MD_A1
+	POP DE
+
+	LD HL,0A000H
+	INC E
+	BIT 1,E
+	JR Z,SET_MD_A2
+	BIT 0,E
+	JR Z,SET_MD_A2
+
+	LD A,(MODE_ADR+1)
+	XOR 10H
+	LD (MODE_ADR+1),A
+
+	LD A,0
+	OUT (RGADR),A
+
+	POP AF
+	OUT (PAGE1),A
+
+	EI
+	HALT
+	DI
+
+	IN A,(RGMOD)
+	XOR 1
+	OUT (RGMOD),A
+
+	LD HL,4000H
+	LD B,8
+KIRP_LP2:
+	RLC (HL)
+	INC H
+	DJNZ KIRP_LP2
+
+	RET
+;**************************************************
+SWITCH_MODE51:
+	CALL S_MODE_X
+	LD (ADRESS_MD),DE
+SWITCH_MODE5:
+	LD DE,(ADRESS_MD)
+	CALL SET_MODE_X
+
+	LD HL,(KIRP_MODE)
+	LD D,H
+	LD E,L
+	INC DE
+	LD BC,07FFH
+	LD (HL),0
+	LDIR
+	LD HL,(KIRP_MODE)
+	LD A,H
+	ADD A,10H
+	LD H,A
+	LD D,H
+	LD E,L
+	LD (HL),30H
+	INC DE
+	LD BC,07FFH
+	LDIR
+	LD HL,(KIRP_MODE)
+	BIT 3,H
+	LD BC,040H
+	ADD HL,BC
+	JR NZ,KIRP_NO_ADD
+	RES 3,H
+KIRP_NO_ADD:
+	LD (KIRP_MODE),HL
+	JP SET_MODE_ALL
+
+SWITCH_MODE4:
+	LD HL,9000H
+	LD DE,9001H
+	LD (HL),0
+	LD BC,07FFH
+	LDIR
+	LD HL,0A000H
+	LD DE,0A001H
+	LD (HL),30H
+	LD BC,07FFH
+	LDIR
+	CALL BLK_DATS
+	JP SET_MODE_ALL
+
+;*****************************************
+
+SWITCH_MODE3:
+	LD DE,(ADRESS_MD)
+	CALL SET_MODE_X
+	CALL BLK_DATS
+	JP SET_MODE_ALL
+
+BLK_DATS:
+	PUSH IX
+
+	LD HL,(BLK1_PLACE)
+	LD IX,SP_BLK1
+	CALL SET_BLK_ALL
+	LD HL,(BLK2_PLACE)
+	LD IX,SP_BLK2
+	CALL SET_BLK_ALL
+	LD HL,(BLK3_PLACE)
+	LD IX,SP_BLK3
+	CALL SET_BLK_ALL
+	LD HL,(BLK4_PLACE)
+	LD IX,SP_BLK4
+	CALL SET_BLK_ALL
+
+	LD HL,BLK1_PLACE
+	LD A,(HL)
+	CP 4
+	JR NZ,S_MOVE
+	DEC HL
+	DEC (HL)
+	JR NZ,NO_MOVE
+	LD (HL),50
+	INC HL
+S_MOVE:
+	DEC (HL)
+	INC HL
+	DEC (HL)
+	INC HL
+
+	INC (HL)
+	INC HL
+	DEC (HL)
+	INC HL
+
+	DEC (HL)
+	INC HL
+	INC (HL)
+	INC HL
+
+	INC (HL)
+	INC HL
+	INC (HL)
+	INC HL
+NO_MOVE:
+	POP IX
+	RET
+SET_BLK_ALL:
+SET_NEXT2:		; ВХОД - IX - данные блока, HL - место на экране
+	PUSH HL
+	LD A,(IX+1)
+	ADD A,H
+	LD D,A
+	LD A,(IX)
+	ADD A,L
+	LD E,A	; DE - Начальное положение вывода
+	CALL SET_LINE
+	INC IX
+	INC IX
+	INC IX
+	INC IX
+	INC IX
+	LD A,(IX)
+	CP 0FFH
+	POP HL
+	JR NZ,SET_NEXT2
+	RET
+
+SET_LINE:		; Вывод линии в режим.
+	LD C,(IX+3)	; начальные данные строки
+	LD B,(IX+2)
+	LD A,(IX+4)	; число знакомест в строке.
+SET_LOOP1:
+	EX AF,AF'
+
+;	CALL SET_PLACE
+
+	LD A,E
+	CP 40
+	INC E
+	JR NC,SET_PL_E
+	LD A,D
+	CP 32
+	JR NC,SET_PL_E
+
+	LD A,E
+	DEC A
+	RLCA
+	RLCA
+	LD L,A
+	LD H,D
+	RR H
+	RR L
+	RR H
+	RR L
+	LD A,H
+	AND 0FH
+	OR 090H
+	LD H,A
+	LD (HL),C
+	ADD A,10H
+	LD H,A
+	LD (HL),B
+SET_PL_E:
+
+	BIT 4,B
+	JR NZ,SET_ZX_80_NEXT
+	LD A,C
+	AND 07H
+	CP 7
+	JR NZ,SET_ZX_80_NEXT
+	INC B
+	XOR C
+	LD C,A
+	JR SET_GR_NEXT
+SET_ZX_80_NEXT:
+	INC C
+SET_GR_NEXT:
+	EX AF,AF'
+	DEC A
+	JR NZ,SET_LOOP1
+
+	RET
+
+;SET_PLACE:	; DE - место на экране, BC - данные MODE
+;	LD A,E
+;	CP 40
+;	INC E
+;	RET NC
+;	LD A,D
+;	CP 32
+;	RET NC
+
+;	LD A,E
+;	DEC A
+;	RLCA
+;	RLCA
+;	LD L,A
+;	LD H,D
+;	RR H
+;	RR L
+;	RR H
+;	RR L
+;	LD A,H
+;	AND 0FH
+;	OR 090H
+;	LD H,A
+;	LD (HL),C
+;	ADD A,10H
+;	LD H,A
+;	LD (HL),B
+;	RET
+;******************************************
+
+KIRPICH:	DB 11111111B
+		DB 00010000B
+		DB 00010000B
+		DB 00010000B
+		DB 11111111B
+		DB 00000001B
+		DB 00000001B
+		DB 00000001B
+
+;******************************************
+SP_BLK1:
+        DB 0, 0,030H,001H,1
+        DB 0, 1,030H,020H,2
+        DB 0, 2,030H,040H,3
+        DB 0, 3,030H,060H,4
+        DB 0, 4,030H,080H,5
+        DB 0, 5,030H,0A0H,6
+        DB 0, 6,030H,0C0H,7
+        DB 0, 7,030H,0E0H,8
+
+        DB 0, 8,070H,000H,9
+        DB 0, 9,070H,020H,10
+        DB 0,10,070H,040H,11
+        DB 0,11,070H,060H,12
+        DB 0,12,070H,080H,13
+        DB 0,13,070H,0A0H,14
+        DB 0,14,070H,0C0H,15
+        DB 0,15,070H,0E0H,14
+
+        DB 0,16,0B0H,000H,13
+        DB 0,17,0B0H,020H,12
+        DB 0,18,0B0H,040H,11
+        DB 0,19,0B0H,060H,10
+        DB 0,20,0B0H,080H,9
+        DB 0,21,0B0H,0A0H,8
+        DB 0,22,0B0H,0C0H,7
+        DB 0,23,0B0H,0E0H,6
+
+        DB 0FFH
+
+SP_BLK2:
+        DB 0+1 , 0,030H,000H+1 ,27
+        DB 0+2 , 1,030H,020H+2 ,25
+        DB 0+3 , 2,030H,040H+3 ,23
+        DB 0+4 , 3,030H,060H+4 ,21
+        DB 0+5 , 4,030H,080H+5 ,19
+        DB 0+6 , 5,030H,0A0H+6 ,17
+        DB 0+7 , 6,030H,0C0H+7 ,15
+        DB 0+8 , 7,030H,0E0H+8 ,13
+
+        DB 0+9 , 8,070H,000H+9 ,11
+        DB 0+10, 9,070H,020H+10,9
+        DB 0+11,10,070H,040H+11,7
+        DB 0+12,11,070H,060H+12,5
+        DB 0+13,12,070H,080H+13,3
+        DB 0+14,13,070H,0A0H+14,1
+
+        DB 0FFH
+
+SP_BLK3:
+        DB 0+10+9 , 9,070H,020H+10+9 ,1
+        DB 0+11+7 ,10,070H,040H+11+7 ,3
+        DB 0+12+5 ,11,070H,060H+12+5 ,5
+        DB 0+13+3 ,12,070H,080H+13+3 ,7
+        DB 0+14+1 ,13,070H,0A0H+14+1 ,9
+        DB 0+15   ,14,070H,0C0H+15   ,11
+        DB 0+14   ,15,070H,0E0H+14   ,13
+
+        DB 0+13   ,16,0B0H,000H+13   ,15
+        DB 0+12   ,17,0B0H,020H+12   ,17
+        DB 0+11   ,18,0B0H,040H+11   ,19
+        DB 0+10   ,19,0B0H,060H+10   ,21
+        DB 0+9    ,20,0B0H,080H+9    ,23
+        DB 0+8    ,21,0B0H,0A0H+8    ,24
+        DB 0+7    ,22,0B0H,0C0H+7    ,25
+        DB 0+6    ,23,0B0H,0E0H+6    ,26
+
+        DB 0FFH
+SP_BLK4:
+        DB 0+1 +27   , 0,030H,000H+1 +27   ,4
+        DB 0+2 +25   , 1,030H,020H+2 +25   ,5
+        DB 0+3 +23   , 2,030H,040H+3 +23   ,6
+        DB 0+4 +21   , 3,030H,060H+4 +21   ,7
+        DB 0+5 +19   , 4,030H,080H+5 +19   ,8
+        DB 0+6 +17   , 5,030H,0A0H+6 +17   ,9
+        DB 0+7 +15   , 6,030H,0C0H+7 +15   ,10
+        DB 0+8 +13   , 7,030H,0E0H+8 +13   ,11
+
+        DB 0+9 +11   , 8,070H,000H+9 +11   ,12
+        DB 0+10+9 +1 , 9,070H,020H+10+9 +1 ,12
+        DB 0+11+7 +3 ,10,070H,040H+11+7 +3 ,11
+        DB 0+12+5 +5 ,11,070H,060H+12+5 +5 ,10
+        DB 0+13+3 +7 ,12,070H,080H+13+3 +7 ,9
+        DB 0+14+1 +9 ,13,070H,0A0H+14+1 +9 ,8
+        DB 0+15   +11,14,070H,0C0H+15   +11,6
+        DB 0+14   +13,15,070H,0E0H+14   +13,5
+
+        DB 0+13   +15,16,0B0H,000H+13   +15,4
+        DB 0+12   +17,17,0B0H,020H+12   +17,3
+        DB 0+11   +19,18,0B0H,040H+11   +19,2
+        DB 0+10   +21,19,0B0H,060H+10   +21,1
+
+        DB 0FFH
+
+;***********************************************
+program_end:
+;***********************************************
+;	DB 'BLK_START'
+;***********************************************
+BLK_START:
+	DS START+1F00H-$
+	END
+;***********************************************
+
