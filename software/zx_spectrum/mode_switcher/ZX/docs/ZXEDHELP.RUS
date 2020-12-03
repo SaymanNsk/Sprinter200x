@@ -1,0 +1,46 @@
+ZX Mode Editor (zxmode.exe).
+-------------------------------
+
+Редактор файлов конфигураций спектрумовских режимов (файлы с расширением .ZX).
+(Программа откомпилирована FORTH-компилятором для компьютера Sprinter).
+
+Программа должна находиться в директории'C:\ZX\'.
+
+Описание меню:
+
+Mode - название режима
+
+Start - старт Spectrum.exe с установленными настройками (пока не работает).
+
+Standard modes -  меню выбора стандартных режимов
+(Sprinter ZX, ZX Spectrum, Pentagon 128, Scorpion 256, Pentagon 512) 
+
+Options - параметры текущего режима
+ 
+- Turbo (/turbo) - режим частоты процессора 
+- Sprinter ports (/sprinter) - доступность портов Sprinter-a из 
+спектрумовских режимов
+- Port 1FFD (/1FFD) - порт 1FFD
+- Port 7FFD (/7FFD) - порт 7FFD
+- 512Kb Memory (/mem512) - 512k памяти (для Pentagon 512)
+- 312 screen lines (/lines312) - 312 строк (для Pentagon-a)
+- Int set as (    /sc-int /origin) -  прерывания для: Pentagon, Scorpion, 
+original ZX Spectrum
+- Start to trdos (/to-trdos) - автостарт "boot.B" файла после запуска TRD файла.
+- Reset to ZX (/ret-zx) -  остаться в спектрумовском режиме после <ctrl+alt+del>
+- Reset to FN (/ret-fn) - вернуться в ОС Estex после <ctrl+alt+del>
+- Install only (/no-run) - загрузка спектрумовских ПЗУ в память без включения 
+текущего режима.
+
+ROM files - имена файлов ПЗУ для текущего режима.
+
+Disk image files - (пока не работает).
+
+Specials - сохранение настроек текущего режима и самого редактора.
+
+- Save your MODE - запись файла конфигурациис именем c:\zx\yourmode.zx. Затем 
+переименуйте его.
+- Load your MODE - загрузка файла c:\zx\yourmode.zx.
+- Save utility - сохранение настроек редактора.
+
+Help - <F1> (загрузка и вывод на экран файла подсказки _help.frt)
