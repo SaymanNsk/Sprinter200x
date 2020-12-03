@@ -1,0 +1,12 @@
+Pentagon 512
+SP_128.BIN
+SP__48.BIN
+SP_TRD.BIN
+SP_EXP.BIN
+SP_EXP.BIN
+SP_EXP2.BIN
+/turbo /7FFD /mem512 /ret-fn
+;
+
+
+
