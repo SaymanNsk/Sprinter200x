@@ -1,10 +1,10 @@
 Pentagon 512
-SP_128.BIN
-SP__48.BIN
-SP_TRD.BIN
-SP_EXP.BIN
-SP_EXP.BIN
-SP_EXP2.BIN
+c:\zx\roms\SP_128.BIN
+c:\zx\roms\SP__48.BIN
+c:\zx\roms\SP_TRD.BIN
+c:\zx\roms\SP_EXP.BIN
+c:\zx\roms\SP_EXP.BIN
+c:\zx\roms\SP_EXP2.BIN
 /turbo /7FFD /mem512 /ret-fn
 ;
 
