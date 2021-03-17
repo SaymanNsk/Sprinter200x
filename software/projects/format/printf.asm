@@ -370,7 +370,7 @@ outch:
 		rst 0x10
 		ret
 
-.tabpr:		ld c,0x53
+.tabpr:		ld c,ESTEX_getcursor
 		rst 0x10
 		inc e				;x++
 		ld a,e
@@ -378,7 +378,7 @@ outch:
 		and 0x78
 		ld e,a
 		ld (coords),de
-		ld c,0x53
+		ld c,ESTEX_setcursor
 		rst 0x10
 		jp .end_pr
 
