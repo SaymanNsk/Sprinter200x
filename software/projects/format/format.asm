@@ -237,6 +237,14 @@ showInfo:	ld hl,(sectors+2)
 		ld (DskInfo_Msg.FS+20),a
 .next1:		ld de,DskInfo_Msg.ptr
 		call cPrint
+;bugfix with last printed line with colors
+;scrolling in console set color column...
+		call GetXY			;get YX in DE
+		ld hl,0x0150
+		ld b,d
+		ld c,e
+		call winClearScr
+
 		ret
 
 
@@ -490,6 +498,11 @@ ParseCL:	ld a,(hl)			;cmd line size
 		ld a,c
 		call CapsLetter
 		jp c,Usage			;drive letter is not a letter
+		or a				;no drive A (fdd)
+		jp z,Usage
+		dec a				;no drive B (fdd)
+		jp z,Usage
+		inc a
 		ld (warn_Msg.dsk),a		;store it in messages
 		ld (Process_Msg.dsk),a		;*
 		sub 'A'
@@ -641,8 +654,7 @@ BPBsize = $-BPB
 
 
 ;===================================================
-about_Msg:	db cr,lf
-		db cr,lf,"Format utility version 0.3.",BUILD_COUNT_T," (",BUILD_DAY_T,".",BUILD_MONTH_T,".",BUILD_YEAR_T,")"
+about_Msg:	db cr,lf,"Format utility version 0.3.",BUILD_COUNT_T," (",BUILD_DAY_T,".",BUILD_MONTH_T,".",BUILD_YEAR_T,")"
 		db cr,lf,"by Miroshnichenko Alexander aka Sayman@SprinterTeam",cr,lf,0
 .ptr:		dw about_Msg
 
@@ -659,7 +671,7 @@ usage_Msg:	db cr,lf,"Utility make a logical formatting and initialize the file s
 
 
 
-warn_Msg:	db cr,lf,cr,lf, col_cmd, col_red, "WARNING: ALL DATA ON YOR HARD DISK DRIVE ", col_cmd, col_violet, "%c:", col_cmd, col_red," WILL BE LOST!", col_cmd, col_white
+warn_Msg:	db cr,lf,cr,lf, col_cmd, col_red, "WARNING: ALL DATA ON YOR HARD DISK DRIVE ", col_cmd, col_violet, "%c:", col_cmd, col_red," WILL BE LOST!", col_cmd, col_white,cr,lf
 		db cr,lf,"Proceed with Format [Y/N]?",0
 .ptr:		dw warn_Msg
 .dsk:		db 0
@@ -674,13 +686,13 @@ ProcessOK_Msg:	db "Done.",cr,lf,cr,lf,0
 
 
 DskInfo_Msg:	db "Formatted disk parameters:",cr,lf
-		db "Total sectors: ", col_cmd, col_magenta, "[%lu]",col_cmd, col_white, cr,lf
-		db "Total size: ", col_cmd, col_magenta, " [%uMb]", col_cmd, col_white, cr,lf
-		db "Units: ", col_cmd, col_magenta, "[%u]", col_cmd, col_white, cr,lf
-		db "Unit size: ", col_cmd, col_magenta, "[%u%c]", col_cmd, col_white, cr,lf
-.FS:		db "File system: ", col_cmd, col_magenta, "[FAT16]", col_cmd, col_white, cr,lf
-		db "Serial: ", col_cmd, col_magenta, "[%02x-%02x]", col_cmd, col_white, cr,lf
-		db "Label: ", col_cmd, col_magenta, "NO LABEL", col_cmd, col_white, cr,lf,cr,lf,0
+		db "Total sectors: ", tab, col_cmd, col_magenta, "%lu",col_cmd, col_white, cr,lf
+		db "Total size: ", tab, col_cmd, col_magenta, "%uMb", col_cmd, col_white, cr,lf
+		db "Units: ", tab,tab, col_cmd, col_magenta, "%u", col_cmd, col_white, cr,lf
+		db "Unit size: ", tab, col_cmd, col_magenta, "%u%c", col_cmd, col_white, cr,lf
+.FS:		db "File system: ", tab, col_cmd, col_magenta, "FAT16", col_cmd, col_white, cr,lf
+		db "Serial: ", tab, col_cmd, col_magenta, "%02x-%02x", col_cmd, col_white, cr,lf
+		db "Label: ", tab, tab, col_cmd, col_magenta, "NO LABEL", col_cmd, col_white, cr,lf,cr,lf,0
 .ptr:		dw DskInfo_Msg
 .sectors:	ds 4
 .mb:		dw 0

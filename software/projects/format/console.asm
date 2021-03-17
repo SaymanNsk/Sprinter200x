@@ -25,6 +25,23 @@ ClearScr:	ld bc,0x0756			;c = ESTEX_clearscr
 		ENDIF
 
 
+		IFUSED winClearScr
+;Производит отчистку выбранной области текстового экрана (консоли).
+;in:
+;  HL = высота, ширина
+;  DE = Y,X
+;  BC = new cursor position (Y,X)
+winClearScr:	push bc
+		ld a,space
+		ld b,7
+		SYS ESTEX_clearscr
+		pop de
+		ld (coords),de
+		SYS ESTEX_setcursor
+		ret
+		ENDIF
+
+
 ;		IFUSED ScrBackup
 ;in:
 ;IX = buf addr
